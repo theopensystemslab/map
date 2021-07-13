@@ -12,7 +12,7 @@ const Component = ({ children = null, ...props }: Props) => (
   <ReactMapGL
     width="100%"
     height="100vh"
-    mapboxApiAccessToken={process.env.MAPBOX_ACCESS_TOKEN}
+    mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
     attributionControl={false}
     mapStyle={
       // XXX: Mapbox only shows the Ordnance Survey layer if we give it a valid mapStyle too.
@@ -26,7 +26,7 @@ const Component = ({ children = null, ...props }: Props) => (
   >
     <AttributionControl
       compact={false}
-      customAttribution={process.env.MAP_ATTRIBUTION}
+      customAttribution={process.env.REACT_APP_MAP_ATTRIBUTION}
       style={{
         bottom: 0,
         left: 0,
