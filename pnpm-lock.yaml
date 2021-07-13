@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   mapbox-gl: ^2.3.1
+  ol: ^6.6.0
   parcel: next
   react: ^17.0.2
   react-dom: ^17.0.2
@@ -10,6 +11,7 @@ specifiers:
 
 dependencies:
   mapbox-gl: 2.3.1
+  ol: 6.6.0
   react-map-gl: 6.1.16_react@17.0.2
   react-map-gl-draw: 0.22.3_5019b216175ce27daf3fbc185ddef2c0
 
@@ -285,6 +287,20 @@ packages:
   /@mapbox/jsonlint-lines-primitives/2.0.2:
     resolution: {integrity: sha1-zlblOfg1UrWNENZy6k1vya3HsjQ=}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /@mapbox/mapbox-gl-style-spec/13.20.1:
+    resolution: {integrity: sha512-xVCJ3IbKoPwcPrxxtGAxUqHEVxXi1hnJtLIFqgkuZfnzj0KeRbk3dZlDr/KNo1/doJjIoFgPFUO/HMOT+wXGPA==}
+    hasBin: true
+    dependencies:
+      '@mapbox/jsonlint-lines-primitives': 2.0.2
+      '@mapbox/point-geometry': 0.1.0
+      '@mapbox/unitbezier': 0.0.0
+      csscolorparser: 1.0.3
+      json-stringify-pretty-compact: 2.0.0
+      minimist: 1.2.5
+      rw: 1.3.3
+      sort-object: 0.3.2
     dev: false
 
   /@mapbox/mapbox-gl-supported/2.0.0:
@@ -3421,6 +3437,10 @@ packages:
     resolution: {integrity: sha512-1QoztHPsMQqhDq0hlXY5ZqcEdUzxQEIxgFkKl4WUp2pgShObl+9ovi4kRh2TfvAfxAoHOJ9vIMEqk3k4iex7tg==}
     dev: true
 
+  /json-stringify-pretty-compact/2.0.0:
+    resolution: {integrity: sha512-WRitRfs6BGq4q8gTgOy4ek7iPFXjbra0H3PmDLKm2xnZ+Gh1HUhiKGgCZkSPNULlP7mvfu6FV/mOLhCarspADQ==}
+    dev: false
+
   /json-stringify-safe/5.0.1:
     resolution: {integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=}
     dev: true
@@ -3586,6 +3606,10 @@ packages:
       supercluster: 7.1.3
       tinyqueue: 2.0.3
       vt-pbf: 3.1.3
+    dev: false
+
+  /mapbox-to-css-font/2.4.0:
+    resolution: {integrity: sha512-v674D0WtpxCXlA6E+sBlG1QJWdUkz/s9qAD91bJSXBGuBL5lL4tJXpoJEftecphCh2SVQCjWMS2vhylc3AIQTg==}
     dev: false
 
   /md5.js/1.3.5:
@@ -3869,6 +3893,25 @@ packages:
       define-properties: 1.1.3
       es-abstract: 1.18.3
     dev: true
+
+  /ol-mapbox-style/6.4.1_ol@6.6.0:
+    resolution: {integrity: sha512-qeHgB5lEaCjvpaR6oK8bPWqPTUAYzM2CTSfYJzujIU3egYLPCvJfVagIfTEMRDUG3CXTtIYHOI2Pg58ihhWJYA==}
+    peerDependencies:
+      ol: '>= 6.1.0 < 7'
+    dependencies:
+      '@mapbox/mapbox-gl-style-spec': 13.20.1
+      mapbox-to-css-font: 2.4.0
+      ol: 6.6.0
+      webfont-matcher: 1.1.0
+    dev: false
+
+  /ol/6.6.0:
+    resolution: {integrity: sha512-4kJM5JKNRlOJnF2ndIoD4qpFmnoYQ8n+Q2qj6u6q63O4yDIrGHombea2OGrrlDPn1kLlKdCPLce8Vams1VIqow==}
+    dependencies:
+      ol-mapbox-style: 6.4.1_ol@6.6.0
+      pbf: 3.2.1
+      rbush: 3.0.1
+    dev: false
 
   /on-finished/2.3.0:
     resolution: {integrity: sha1-IPEzZIGwg811M3mSoWlxqi2QaUc=}
@@ -4607,6 +4650,12 @@ packages:
       quickselect: 1.1.1
     dev: false
 
+  /rbush/3.0.1:
+    resolution: {integrity: sha512-XRaVO0YecOpEuIvbhbpTrZgoiI6xBlz6hnlr6EHhd+0x9ase6EmeN+hdwwUaJvLcsFFQ8iWVF1GAK1yB0BWi0w==}
+    dependencies:
+      quickselect: 2.0.0
+    dev: false
+
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
@@ -4989,6 +5038,24 @@ packages:
       source-map-resolve: 0.5.3
       use: 3.1.1
     dev: true
+
+  /sort-asc/0.1.0:
+    resolution: {integrity: sha1-q3md9h/HPqCVbHnEtTHtHp53J+k=}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
+  /sort-desc/0.1.1:
+    resolution: {integrity: sha1-GYuMDN6wlcRjNBhh45JdTuNZqe4=}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
+  /sort-object/0.3.2:
+    resolution: {integrity: sha1-mODRme3kDgfGGoRAPGHWw7KQ+eI=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      sort-asc: 0.1.0
+      sort-desc: 0.1.1
+    dev: false
 
   /source-map-js/0.6.2:
     resolution: {integrity: sha512-/3GptzWzu0+0MBQFrDKzw/DvvMTUORvgY6k6jd/VS6iCR4RDTKWH6v6WPwQoUO8667uQEf9Oe38DxAYWY5F/Ug==}
@@ -5511,6 +5578,10 @@ packages:
     dependencies:
       defaults: 1.0.3
     dev: true
+
+  /webfont-matcher/1.1.0:
+    resolution: {integrity: sha1-mM6VCXsp4x++czBT4Q5XFkLRxsc=}
+    dev: false
 
   /webidl-conversions/4.0.2:
     resolution: {integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==}
