@@ -4,6 +4,7 @@ import OLMap from "ol/Map";
 import "ol/ol.css";
 import { fromLonLat, transformExtent } from "ol/proj";
 import { OSM, Vector as VectorSource, XYZ } from "ol/source";
+import { ATTRIBUTION } from "ol/source/OSM";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
@@ -11,9 +12,17 @@ const baseMapLayer = new TileLayer({
   source: process.env.REACT_APP_ORDNANCE_SURVEY_KEY
     ? new XYZ({
         url: `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
+        attributions: [
+          "© Crown copyright and database rights 2021 OS (0)100019252",
+        ],
+        attributionsCollapsible: false,
       })
     : // No OrdnanceSurvey key found, sign up for free here https://osdatahub.os.uk/plans
-      new OSM(),
+      new OSM({
+        attributions: [
+          ATTRIBUTION
+        ],
+      }),
 });
 
 const drawingSource = new VectorSource();
