@@ -144,7 +144,7 @@ function getFeatures(coord) {
   `;
   // Define (WFS) parameters object
   const wfsParams = {
-    key: `${process.env.REACT_APP_OS_WFS_KEY}`,
+    key: process.env.REACT_APP_OS_WFS_KEY,
     service: "WFS",
     request: "GetFeature",
     version: "2.0.0",
