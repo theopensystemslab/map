@@ -64,6 +64,7 @@ const baseMapLayer = new TileLayer({
           "© Crown copyright and database rights 2021 OS (0)100019252",
         ],
         attributionsCollapsible: false,
+        maxZoom: 20,
       })
     : // No OrdnanceSurvey key found, sign up for free here https://osdatahub.os.uk/plans
       new OSM({
