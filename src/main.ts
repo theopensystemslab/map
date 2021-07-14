@@ -1,20 +1,23 @@
 import { Control, defaults as defaultControls } from 'ol/control';
+import { GeoJSON }from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import OLMap from "ol/Map";
 import "ol/ol.css";
-import { fromLonLat, transformExtent } from "ol/proj";
+import { fromLonLat, toLonLat, transformExtent } from "ol/proj";
 import { OSM, Vector as VectorSource, XYZ } from "ol/source";
 import { ATTRIBUTION } from "ol/source/OSM";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
+// Ordance Survey sources
+const tileServiceUrl = "https://api.os.uk/maps/raster/v1/zxy";
+const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
+
+// Custom control for draw mode interactions
 class DrawModeControl extends Control {
-  /**
-   * @param {Object} [opt_options] Control options.
-   */
-   constructor(opt_options) {
-    const options = opt_options || {};
+   constructor(control_options) {
+    const options = control_options || {};
 
     const button = document.createElement('button');
     button.innerText = '🖍';
@@ -49,14 +52,14 @@ class DrawModeControl extends Control {
   }
 
   exitDrawing() {
-    // TBD
+    // TODO
   }
 }
 
 const baseMapLayer = new TileLayer({
   source: process.env.REACT_APP_ORDNANCE_SURVEY_KEY
     ? new XYZ({
-        url: `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
+        url: `${tileServiceUrl}/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
         attributions: [
           "© Crown copyright and database rights 2021 OS (0)100019252",
         ],
@@ -91,9 +94,20 @@ const drawingLayer = new VectorLayer({
   }),
 });
 
+const featureSource = new VectorSource();
+
+const featureLayer = new VectorLayer({
+  source: featureSource,
+  style: new Style({
+    fill: new Fill({
+      color: 'rgba(51, 136, 255, 0.5)'
+    }),
+  }),
+});
+
 const map = new OLMap({
   controls: defaultControls().extend([new DrawModeControl({})]),
-  layers: [baseMapLayer, drawingLayer],
+  layers: [baseMapLayer, drawingLayer, featureLayer],
   target: "map",
   view: new View({
     projection: "EPSG:3857",
@@ -108,3 +122,76 @@ const map = new OLMap({
     zoom: 19,
   }),
 });
+
+// Select features on singleclick
+// TODO only allow if WFS key is found & disable during draw mode
+map.on('singleclick', function(e) {
+  getFeatures(e.coordinate);
+});
+
+function getFeatures(coord) {
+  // Create an OGC XML filter parameter value which will select the TopographicArea
+  // features containing the coordinates of the clicked point
+  let xml = '<ogc:Filter>';
+  xml += '<ogc:Contains>';
+  xml += '<ogc:PropertyName>SHAPE</ogc:PropertyName>';
+  xml += '<gml:Point srsName="urn:ogc:def:crs:EPSG::4326">';
+  xml += '<gml:coordinates>' + toLonLat(coord).reverse().join(',') + '</gml:coordinates>';
+  xml += '</gml:Point>';
+  xml += '</ogc:Contains>';
+  xml += '</ogc:Filter>';
+
+  // Define (WFS) parameters object
+  const wfsParams = {
+    key: `${process.env.REACT_APP_OS_WFS_KEY}`,
+    service: 'WFS',
+    request: 'GetFeature',
+    version: '2.0.0',
+    typeNames: 'Topography_TopographicArea',
+    propertyName: 'TOID,DescriptiveGroup,SHAPE',
+    outputFormat: 'GEOJSON',
+    srsName: 'urn:ogc:def:crs:EPSG::4326',
+    filter: xml,
+    count: 1
+  };
+
+  // Use fetch() method to request GeoJSON data from the OS Features API
+  // If successful, replace everything in the vector layer with the GeoJSON response
+  fetch(getUrl(wfsParams))
+    .then(response => response.json())
+    .then(data => {
+      console.log('clicked feature:', data);
+
+      featureSource.clear(true);
+
+      if(!data.features.length)
+        return;
+
+      const properties = data.features[0].properties,
+        validKeys = [ 'TOID', 'DescriptiveGroup' ];
+
+      Object.keys(properties).forEach((key) => validKeys.includes(key) || delete properties[key]);
+
+      const features = new GeoJSON().readFeatures(
+        data,
+        {
+          featureProjection: 'EPSG:3857'
+        }
+      );
+
+      featureSource.addFeatures(features);
+  })
+  .catch(error => console.log(error));
+}
+
+/**
+ * Helper function to return OS Features URL with encoded parameters
+ * @param {object} params - The parameters object to be encoded
+ */
+function getUrl(params) {
+  const encodedParameters = Object.keys(params)
+    .map(paramName => paramName + '=' + encodeURI(params[paramName]))
+    .join('&');
+
+  return `${featureServiceUrl}?${encodedParameters}`;
+}
