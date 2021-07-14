@@ -73,16 +73,18 @@ const baseMapLayer = new TileLayer({
 
 const drawingSource = new VectorSource();
 
+const redLineStroke = new Stroke({
+  color: "#ff0000",
+  width: 3,
+});
+
 const drawingLayer = new VectorLayer({
   source: drawingSource,
   style: new Style({
     fill: new Fill({
       color: "rgba(255, 255, 255, 0.2)",
     }),
-    stroke: new Stroke({
-      color: "#ff0000",
-      width: 2,
-    }),
+    stroke: redLineStroke,
     image: new CircleStyle({
       radius: 5,
       fill: new Fill({
@@ -97,9 +99,7 @@ const featureSource = new VectorSource();
 const featureLayer = new VectorLayer({
   source: featureSource,
   style: new Style({
-    fill: new Fill({
-      color: "rgba(223, 255, 0, 0.5)",
-    }),
+    stroke: redLineStroke,
   }),
 });
 
