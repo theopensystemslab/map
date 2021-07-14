@@ -1,3 +1,4 @@
+import union from "@turf/union";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
@@ -97,8 +98,9 @@ const drawingLayer = new VectorLayer({
 
 const featureSource = new VectorSource();
 
-const featureLayer = new VectorLayer({
-  source: featureSource,
+const outlineSource = new VectorSource();
+const outlineLayer = new VectorLayer({
+  source: outlineSource,
   style: new Style({
     stroke: redLineStroke,
   }),
@@ -106,7 +108,7 @@ const featureLayer = new VectorLayer({
 
 const map = new OLMap({
   controls: defaultControls().extend([new DrawModeControl({})]),
-  layers: [baseMapLayer, drawingLayer, featureLayer],
+  layers: [baseMapLayer, drawingLayer, outlineLayer],
   target: "map",
   view: new View({
     projection: "EPSG:3857",
@@ -172,7 +174,9 @@ function getFeatures(coord) {
         (key) => validKeys.includes(key) || delete properties[key]
       );
 
-      const features = new GeoJSON().readFeatures(data, {
+      const geojson = new GeoJSON();
+
+      const features = geojson.readFeatures(data, {
         featureProjection: "EPSG:3857",
       });
 
@@ -187,6 +191,17 @@ function getFeatures(coord) {
           featureSource.addFeature(feature);
         }
       });
+
+      outlineSource.clear(true);
+      outlineSource.addFeature(
+        // merge all of the features into a single feature
+        geojson.readFeature(
+          featureSource.getFeatures().reduce((acc: any, curr) => {
+            const toMerge = geojson.writeFeatureObject(curr).geometry;
+            return acc ? union(acc, toMerge) : toMerge;
+          }, null)
+        )
+      );
     })
     .catch((error) => console.log(error));
 }

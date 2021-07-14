@@ -6,6 +6,7 @@
   },
   "browserslist": "> 0.2%",
   "dependencies": {
+    "@turf/union": "^6.5.0",
     "ol": "^6.6.0"
   },
   "devDependencies": {
