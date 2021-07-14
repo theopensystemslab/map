@@ -130,18 +130,18 @@ map.on("singleclick", function (e) {
 function getFeatures(coord) {
   // Create an OGC XML filter parameter value which will select the TopographicArea
   // features containing the coordinates of the clicked point
-  let xml = "<ogc:Filter>";
-  xml += "<ogc:Contains>";
-  xml += "<ogc:PropertyName>SHAPE</ogc:PropertyName>";
-  xml += '<gml:Point srsName="urn:ogc:def:crs:EPSG::4326">';
-  xml +=
-    "<gml:coordinates>" +
-    toLonLat(coord).reverse().join(",") +
-    "</gml:coordinates>";
-  xml += "</gml:Point>";
-  xml += "</ogc:Contains>";
-  xml += "</ogc:Filter>";
-
+  const xml = `
+    <ogc:Filter>
+      <ogc:Contains>
+      <ogc:PropertyName>SHAPE</ogc:PropertyName>
+        <gml:Point srsName="urn:ogc:def:crs:EPSG::4326">
+          <gml:coordinates>${toLonLat(coord)
+            .reverse()
+            .join(",")}</gml:coordinates>
+        </gml:Point>
+      </ogc:Contains>
+    </ogc:Filter>
+  `;
   // Define (WFS) parameters object
   const wfsParams = {
     key: `${process.env.REACT_APP_OS_WFS_KEY}`,
