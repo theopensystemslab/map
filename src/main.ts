@@ -115,7 +115,7 @@ const map = new OLMap({
       "EPSG:3857"
     ),
     minZoom: 7,
-    maxZoom: 20,
+    maxZoom: 22,
     center: fromLonLat([-0.126, 51.502]),
     zoom: 19,
   }),
