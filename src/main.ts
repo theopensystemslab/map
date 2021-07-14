@@ -120,7 +120,6 @@ const map = new OLMap({
     zoom: 19,
   }),
 });
-
 // Select features on singleclick
 // TODO only allow if WFS key is found & disable during draw mode
 map.on("singleclick", function (e) {
@@ -163,8 +162,6 @@ function getFeatures(coord) {
     .then((data) => {
       console.log("clicked feature:", data);
 
-      featureSource.clear(true);
-
       if (!data.features.length) return;
 
       const properties = data.features[0].properties,
@@ -178,7 +175,17 @@ function getFeatures(coord) {
         featureProjection: "EPSG:3857",
       });
 
-      featureSource.addFeatures(features);
+      features.forEach((feature) => {
+        const id = feature.getProperties().TOID;
+        const existingFeature = featureSource.getFeatureById(id);
+
+        if (existingFeature) {
+          featureSource.removeFeature(existingFeature);
+        } else {
+          feature.setId(id);
+          featureSource.addFeature(feature);
+        }
+      });
     })
     .catch((error) => console.log(error));
 }
