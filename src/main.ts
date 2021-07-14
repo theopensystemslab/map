@@ -1,3 +1,4 @@
+import { Control, defaults as defaultControls } from 'ol/control';
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import OLMap from "ol/Map";
@@ -7,6 +8,50 @@ import { OSM, Vector as VectorSource, XYZ } from "ol/source";
 import { ATTRIBUTION } from "ol/source/OSM";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
+
+class DrawModeControl extends Control {
+  /**
+   * @param {Object} [opt_options] Control options.
+   */
+   constructor(opt_options) {
+    const options = opt_options || {};
+
+    const button = document.createElement('button');
+    button.innerText = '🖍';
+
+    const element = document.createElement('div');
+    element.className = 'draw-mode ol-unselectable ol-control';
+    element.appendChild(button);
+
+    super({
+      element: element,
+      target: options.target,
+    });
+
+    button.addEventListener('click', this.startDrawing.bind(this), false);
+  }
+
+  startDrawing() {
+    const modify = new Modify({ source: drawingSource });
+    map.addInteraction(modify);
+    
+    function addInteractions() {
+      const draw = new Draw({
+        source: drawingSource,
+        type: "Polygon",
+      });
+      map.addInteraction(draw);
+      const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
+      map.addInteraction(snap);
+    }
+    
+    addInteractions();
+  }
+
+  exitDrawing() {
+    // TBD
+  }
+}
 
 const baseMapLayer = new TileLayer({
   source: process.env.REACT_APP_ORDNANCE_SURVEY_KEY
@@ -47,6 +92,7 @@ const drawingLayer = new VectorLayer({
 });
 
 const map = new OLMap({
+  controls: defaultControls().extend([new DrawModeControl({})]),
   layers: [baseMapLayer, drawingLayer],
   target: "map",
   view: new View({
@@ -62,18 +108,3 @@ const map = new OLMap({
     zoom: 19,
   }),
 });
-
-const modify = new Modify({ source: drawingSource });
-map.addInteraction(modify);
-
-function addInteractions() {
-  const draw = new Draw({
-    source: drawingSource,
-    type: "Polygon",
-  });
-  map.addInteraction(draw);
-  const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
-  map.addInteraction(snap);
-}
-
-addInteractions();
