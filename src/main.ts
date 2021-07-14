@@ -7,16 +7,14 @@ import { Vector as VectorSource, XYZ } from "ol/source";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
-// const raster = new TileLayer({
-//   source: new OSM(),
-// });
-const raster = new TileLayer({
+const baseMap = new TileLayer({
   source: new XYZ({
     url: `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
   }),
 });
 
 const source = new VectorSource();
+
 const vector = new VectorLayer({
   source: source,
   style: new Style({
@@ -28,7 +26,7 @@ const vector = new VectorLayer({
       width: 2,
     }),
     image: new CircleStyle({
-      radius: 7,
+      radius: 5,
       fill: new Fill({
         color: "#ffcc33",
       }),
@@ -37,7 +35,7 @@ const vector = new VectorLayer({
 });
 
 const map = new Map({
-  layers: [raster, vector],
+  layers: [baseMap, vector],
   target: "map",
   view: new View({
     projection: "EPSG:3857",

@@ -6,10 +6,7 @@
   },
   "browserslist": "> 0.2%",
   "dependencies": {
-    "mapbox-gl": "^2.3.1",
-    "ol": "^6.6.0",
-    "react-map-gl": "^6.1.16",
-    "react-map-gl-draw": "^0.22.3"
+    "ol": "^6.6.0"
   },
   "devDependencies": {
     "parcel": "next",
