@@ -1,5 +1,5 @@
-import { Control, defaults as defaultControls } from 'ol/control';
-import { GeoJSON }from "ol/format";
+import { Control, defaults as defaultControls } from "ol/control";
+import { GeoJSON } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import OLMap from "ol/Map";
@@ -16,14 +16,14 @@ const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
 // Custom control for draw mode interactions
 class DrawModeControl extends Control {
-   constructor(control_options) {
+  constructor(control_options) {
     const options = control_options || {};
 
-    const button = document.createElement('button');
-    button.innerText = '🖍';
+    const button = document.createElement("button");
+    button.innerText = "🖍";
 
-    const element = document.createElement('div');
-    element.className = 'draw-mode ol-unselectable ol-control';
+    const element = document.createElement("div");
+    element.className = "draw-mode ol-unselectable ol-control";
     element.appendChild(button);
 
     super({
@@ -31,13 +31,13 @@ class DrawModeControl extends Control {
       target: options.target,
     });
 
-    button.addEventListener('click', this.startDrawing.bind(this), false);
+    button.addEventListener("click", this.startDrawing.bind(this), false);
   }
 
   startDrawing() {
     const modify = new Modify({ source: drawingSource });
     map.addInteraction(modify);
-    
+
     function addInteractions() {
       const draw = new Draw({
         source: drawingSource,
@@ -47,7 +47,7 @@ class DrawModeControl extends Control {
       const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
       map.addInteraction(snap);
     }
-    
+
     addInteractions();
   }
 
@@ -67,9 +67,7 @@ const baseMapLayer = new TileLayer({
       })
     : // No OrdnanceSurvey key found, sign up for free here https://osdatahub.os.uk/plans
       new OSM({
-        attributions: [
-          ATTRIBUTION
-        ],
+        attributions: [ATTRIBUTION],
       }),
 });
 
@@ -100,7 +98,7 @@ const featureLayer = new VectorLayer({
   source: featureSource,
   style: new Style({
     fill: new Fill({
-      color: 'rgba(223, 255, 0, 0.5)'
+      color: "rgba(223, 255, 0, 0.5)",
     }),
   }),
 });
@@ -125,63 +123,64 @@ const map = new OLMap({
 
 // Select features on singleclick
 // TODO only allow if WFS key is found & disable during draw mode
-map.on('singleclick', function(e) {
+map.on("singleclick", function (e) {
   getFeatures(e.coordinate);
 });
 
 function getFeatures(coord) {
   // Create an OGC XML filter parameter value which will select the TopographicArea
   // features containing the coordinates of the clicked point
-  let xml = '<ogc:Filter>';
-  xml += '<ogc:Contains>';
-  xml += '<ogc:PropertyName>SHAPE</ogc:PropertyName>';
+  let xml = "<ogc:Filter>";
+  xml += "<ogc:Contains>";
+  xml += "<ogc:PropertyName>SHAPE</ogc:PropertyName>";
   xml += '<gml:Point srsName="urn:ogc:def:crs:EPSG::4326">';
-  xml += '<gml:coordinates>' + toLonLat(coord).reverse().join(',') + '</gml:coordinates>';
-  xml += '</gml:Point>';
-  xml += '</ogc:Contains>';
-  xml += '</ogc:Filter>';
+  xml +=
+    "<gml:coordinates>" +
+    toLonLat(coord).reverse().join(",") +
+    "</gml:coordinates>";
+  xml += "</gml:Point>";
+  xml += "</ogc:Contains>";
+  xml += "</ogc:Filter>";
 
   // Define (WFS) parameters object
   const wfsParams = {
     key: `${process.env.REACT_APP_OS_WFS_KEY}`,
-    service: 'WFS',
-    request: 'GetFeature',
-    version: '2.0.0',
-    typeNames: 'Topography_TopographicArea',
-    propertyName: 'TOID,DescriptiveGroup,SHAPE',
-    outputFormat: 'GEOJSON',
-    srsName: 'urn:ogc:def:crs:EPSG::4326',
+    service: "WFS",
+    request: "GetFeature",
+    version: "2.0.0",
+    typeNames: "Topography_TopographicArea",
+    propertyName: "TOID,DescriptiveGroup,SHAPE",
+    outputFormat: "GEOJSON",
+    srsName: "urn:ogc:def:crs:EPSG::4326",
     filter: xml,
-    count: 1
+    count: 1,
   };
 
   // Use fetch() method to request GeoJSON data from the OS Features API
   // If successful, replace everything in the vector layer with the GeoJSON response
   fetch(getUrl(wfsParams))
-    .then(response => response.json())
-    .then(data => {
-      console.log('clicked feature:', data);
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("clicked feature:", data);
 
       featureSource.clear(true);
 
-      if(!data.features.length)
-        return;
+      if (!data.features.length) return;
 
       const properties = data.features[0].properties,
-        validKeys = [ 'TOID', 'DescriptiveGroup' ];
+        validKeys = ["TOID", "DescriptiveGroup"];
 
-      Object.keys(properties).forEach((key) => validKeys.includes(key) || delete properties[key]);
-
-      const features = new GeoJSON().readFeatures(
-        data,
-        {
-          featureProjection: 'EPSG:3857'
-        }
+      Object.keys(properties).forEach(
+        (key) => validKeys.includes(key) || delete properties[key]
       );
 
+      const features = new GeoJSON().readFeatures(data, {
+        featureProjection: "EPSG:3857",
+      });
+
       featureSource.addFeatures(features);
-  })
-  .catch(error => console.log(error));
+    })
+    .catch((error) => console.log(error));
 }
 
 /**
@@ -190,8 +189,8 @@ function getFeatures(coord) {
  */
 function getUrl(params) {
   const encodedParameters = Object.keys(params)
-    .map(paramName => paramName + '=' + encodeURI(params[paramName]))
-    .join('&');
+    .map((paramName) => paramName + "=" + encodeURI(params[paramName]))
+    .join("&");
 
   return `${featureServiceUrl}?${encodedParameters}`;
 }
