@@ -100,7 +100,7 @@ const featureLayer = new VectorLayer({
   source: featureSource,
   style: new Style({
     fill: new Fill({
-      color: 'rgba(51, 136, 255, 0.5)'
+      color: 'rgba(223, 255, 0, 0.5)'
     }),
   }),
 });
