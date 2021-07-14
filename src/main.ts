@@ -1,6 +1,6 @@
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import Map from "ol/Map";
+import OLMap from "ol/Map";
 import "ol/ol.css";
 import { fromLonLat, transformExtent } from "ol/proj";
 import { Vector as VectorSource, XYZ } from "ol/source";
@@ -34,7 +34,7 @@ const vector = new VectorLayer({
   }),
 });
 
-const map = new Map({
+const map = new OLMap({
   layers: [baseMap, vector],
   target: "map",
   view: new View({
