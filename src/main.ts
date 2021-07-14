@@ -3,20 +3,23 @@ import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import OLMap from "ol/Map";
 import "ol/ol.css";
 import { fromLonLat, transformExtent } from "ol/proj";
-import { Vector as VectorSource, XYZ } from "ol/source";
+import { OSM, Vector as VectorSource, XYZ } from "ol/source";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
-const baseMap = new TileLayer({
-  source: new XYZ({
-    url: `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
-  }),
+const baseMapLayer = new TileLayer({
+  source: process.env.REACT_APP_ORDNANCE_SURVEY_KEY
+    ? new XYZ({
+        url: `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
+      })
+    : // No OrdnanceSurvey key found, sign up for free here https://osdatahub.os.uk/plans
+      new OSM(),
 });
 
-const source = new VectorSource();
+const drawingSource = new VectorSource();
 
-const vector = new VectorLayer({
-  source: source,
+const drawingLayer = new VectorLayer({
+  source: drawingSource,
   style: new Style({
     fill: new Fill({
       color: "rgba(255, 255, 255, 0.2)",
@@ -35,7 +38,7 @@ const vector = new VectorLayer({
 });
 
 const map = new OLMap({
-  layers: [baseMap, vector],
+  layers: [baseMapLayer, drawingLayer],
   target: "map",
   view: new View({
     projection: "EPSG:3857",
@@ -51,16 +54,16 @@ const map = new OLMap({
   }),
 });
 
-const modify = new Modify({ source: source });
+const modify = new Modify({ source: drawingSource });
 map.addInteraction(modify);
 
 function addInteractions() {
   const draw = new Draw({
-    source: source,
+    source: drawingSource,
     type: "Polygon",
   });
   map.addInteraction(draw);
-  const snap = new Snap({ source: source, pixelTolerance: 5 });
+  const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
   map.addInteraction(snap);
 }
 
