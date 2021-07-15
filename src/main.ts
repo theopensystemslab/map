@@ -1,3 +1,4 @@
+import union from "@turf/union";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
@@ -64,6 +65,7 @@ const baseMapLayer = new TileLayer({
           "© Crown copyright and database rights 2021 OS (0)100019252",
         ],
         attributionsCollapsible: false,
+        maxZoom: 20,
       })
     : // No OrdnanceSurvey key found, sign up for free here https://osdatahub.os.uk/plans
       new OSM({
@@ -73,16 +75,18 @@ const baseMapLayer = new TileLayer({
 
 const drawingSource = new VectorSource();
 
+const redLineStroke = new Stroke({
+  color: "#ff0000",
+  width: 3,
+});
+
 const drawingLayer = new VectorLayer({
   source: drawingSource,
   style: new Style({
     fill: new Fill({
       color: "rgba(255, 255, 255, 0.2)",
     }),
-    stroke: new Stroke({
-      color: "#ff0000",
-      width: 2,
-    }),
+    stroke: redLineStroke,
     image: new CircleStyle({
       radius: 5,
       fill: new Fill({
@@ -94,18 +98,17 @@ const drawingLayer = new VectorLayer({
 
 const featureSource = new VectorSource();
 
-const featureLayer = new VectorLayer({
-  source: featureSource,
+const outlineSource = new VectorSource();
+const outlineLayer = new VectorLayer({
+  source: outlineSource,
   style: new Style({
-    fill: new Fill({
-      color: "rgba(223, 255, 0, 0.5)",
-    }),
+    stroke: redLineStroke,
   }),
 });
 
 const map = new OLMap({
   controls: defaultControls().extend([new DrawModeControl({})]),
-  layers: [baseMapLayer, drawingLayer, featureLayer],
+  layers: [baseMapLayer, drawingLayer, outlineLayer],
   target: "map",
   view: new View({
     projection: "EPSG:3857",
@@ -115,12 +118,11 @@ const map = new OLMap({
       "EPSG:3857"
     ),
     minZoom: 7,
-    maxZoom: 20,
+    maxZoom: 22,
     center: fromLonLat([-0.126, 51.502]),
     zoom: 19,
   }),
 });
-
 // Select features on singleclick
 // TODO only allow if WFS key is found & disable during draw mode
 map.on("singleclick", function (e) {
@@ -130,21 +132,21 @@ map.on("singleclick", function (e) {
 function getFeatures(coord) {
   // Create an OGC XML filter parameter value which will select the TopographicArea
   // features containing the coordinates of the clicked point
-  let xml = "<ogc:Filter>";
-  xml += "<ogc:Contains>";
-  xml += "<ogc:PropertyName>SHAPE</ogc:PropertyName>";
-  xml += '<gml:Point srsName="urn:ogc:def:crs:EPSG::4326">';
-  xml +=
-    "<gml:coordinates>" +
-    toLonLat(coord).reverse().join(",") +
-    "</gml:coordinates>";
-  xml += "</gml:Point>";
-  xml += "</ogc:Contains>";
-  xml += "</ogc:Filter>";
-
+  const xml = `
+    <ogc:Filter>
+      <ogc:Contains>
+      <ogc:PropertyName>SHAPE</ogc:PropertyName>
+        <gml:Point srsName="urn:ogc:def:crs:EPSG::4326">
+          <gml:coordinates>${toLonLat(coord)
+            .reverse()
+            .join(",")}</gml:coordinates>
+        </gml:Point>
+      </ogc:Contains>
+    </ogc:Filter>
+  `;
   // Define (WFS) parameters object
   const wfsParams = {
-    key: `${process.env.REACT_APP_OS_WFS_KEY}`,
+    key: process.env.REACT_APP_OS_WFS_KEY,
     service: "WFS",
     request: "GetFeature",
     version: "2.0.0",
@@ -163,8 +165,6 @@ function getFeatures(coord) {
     .then((data) => {
       console.log("clicked feature:", data);
 
-      featureSource.clear(true);
-
       if (!data.features.length) return;
 
       const properties = data.features[0].properties,
@@ -174,11 +174,34 @@ function getFeatures(coord) {
         (key) => validKeys.includes(key) || delete properties[key]
       );
 
-      const features = new GeoJSON().readFeatures(data, {
+      const geojson = new GeoJSON();
+
+      const features = geojson.readFeatures(data, {
         featureProjection: "EPSG:3857",
       });
 
-      featureSource.addFeatures(features);
+      features.forEach((feature) => {
+        const id = feature.getProperties().TOID;
+        const existingFeature = featureSource.getFeatureById(id);
+
+        if (existingFeature) {
+          featureSource.removeFeature(existingFeature);
+        } else {
+          feature.setId(id);
+          featureSource.addFeature(feature);
+        }
+      });
+
+      outlineSource.clear(true);
+      outlineSource.addFeature(
+        // merge all of the features into a single feature
+        geojson.readFeature(
+          featureSource.getFeatures().reduce((acc: any, curr) => {
+            const toMerge = geojson.writeFeatureObject(curr).geometry;
+            return acc ? union(acc, toMerge) : toMerge;
+          }, null)
+        )
+      );
     })
     .catch((error) => console.log(error));
 }
