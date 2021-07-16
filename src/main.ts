@@ -1,15 +1,16 @@
 import union from "@turf/union";
+import stylefunction from "ol-mapbox-style/dist/stylefunction";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON, MVT } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import VectorTileLayer from 'ol/layer/VectorTile';
+import VectorTileLayer from "ol/layer/VectorTile";
 import OLMap from "ol/Map";
 import "ol/ol.css";
 import { fromLonLat, toLonLat, transformExtent } from "ol/proj";
 import { OSM, Vector as VectorSource, XYZ } from "ol/source";
 import { ATTRIBUTION } from "ol/source/OSM";
-import VectorTileSource from 'ol/source/VectorTile';
+import VectorTileSource from "ol/source/VectorTile";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
@@ -80,15 +81,19 @@ const osVectorTileLayer = new VectorTileLayer({
   source: new VectorTileSource({
     format: new MVT(),
     url: `https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
-    attributions:[
+    attributions: [
       "© Crown copyright and database rights 2021 OS (0)100019252",
     ],
     attributionsCollapsible: false,
   }),
 });
 
-const osVectorTileStyleUrl = `https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
-// TODO figure out how to apply this??
+// ref https://github.com/openlayers/ol-mapbox-style#usage-example
+const osVectorTileStyle = `https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
+fetch(osVectorTileStyle)
+  .then((response) => response.json())
+  .then((glStyle) => stylefunction(osVectorTileLayer, glStyle, "esri"))
+  .catch((error) => console.log(error));
 
 const drawingSource = new VectorSource();
 
