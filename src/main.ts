@@ -1,13 +1,15 @@
 import union from "@turf/union";
 import { Control, defaults as defaultControls } from "ol/control";
-import { GeoJSON } from "ol/format";
+import { GeoJSON, MVT } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import VectorTileLayer from 'ol/layer/VectorTile';
 import OLMap from "ol/Map";
 import "ol/ol.css";
 import { fromLonLat, toLonLat, transformExtent } from "ol/proj";
 import { OSM, Vector as VectorSource, XYZ } from "ol/source";
 import { ATTRIBUTION } from "ol/source/OSM";
+import VectorTileSource from 'ol/source/VectorTile';
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
@@ -73,6 +75,21 @@ const baseMapLayer = new TileLayer({
       }),
 });
 
+const osVectorTileLayer = new VectorTileLayer({
+  declutter: true,
+  source: new VectorTileSource({
+    format: new MVT(),
+    url: `https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
+    attributions:[
+      "© Crown copyright and database rights 2021 OS (0)100019252",
+    ],
+    attributionsCollapsible: false,
+  }),
+});
+
+const osVectorTileStyleUrl = `https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
+// TODO figure out how to apply this??
+
 const drawingSource = new VectorSource();
 
 const redLineStroke = new Stroke({
@@ -108,7 +125,7 @@ const outlineLayer = new VectorLayer({
 
 const map = new OLMap({
   controls: defaultControls().extend([new DrawModeControl({})]),
-  layers: [baseMapLayer, drawingLayer, outlineLayer],
+  layers: [osVectorTileLayer, drawingLayer, outlineLayer],
   target: "map",
   view: new View({
     projection: "EPSG:3857",
@@ -123,6 +140,7 @@ const map = new OLMap({
     zoom: 19,
   }),
 });
+
 // Select features on singleclick
 // TODO only allow if WFS key is found & disable during draw mode
 map.on("singleclick", function (e) {
