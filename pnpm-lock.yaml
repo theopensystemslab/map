@@ -5,12 +5,14 @@ specifiers:
   husky: ^7.0.1
   lint-staged: ^11.0.1
   ol: ^6.6.0
+  ol-mapbox-style: ^6.4.1
   parcel: next
   prettier: ^2.3.2
 
 dependencies:
   '@turf/union': 6.5.0
   ol: 6.6.0
+  ol-mapbox-style: 6.4.1_ol@6.6.0
 
 devDependencies:
   husky: 7.0.1
