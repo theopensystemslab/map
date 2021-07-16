@@ -14,8 +14,10 @@ import VectorTileSource from "ol/source/VectorTile";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
-// Ordance Survey sources
-const tileServiceUrl = "https://api.os.uk/maps/raster/v1/zxy";
+// Ordnance Survey sources
+const vectorTileServiceUrl = `https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
+const vectorTileStyleUrl = `https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
+const tileServiceUrl = `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
 const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
 // Custom control for draw mode interactions
@@ -63,7 +65,7 @@ class DrawModeControl extends Control {
 const baseMapLayer = new TileLayer({
   source: process.env.REACT_APP_ORDNANCE_SURVEY_KEY
     ? new XYZ({
-        url: `${tileServiceUrl}/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
+        url: tileServiceUrl,
         attributions: [
           "© Crown copyright and database rights 2021 OS (0)100019252",
         ],
@@ -80,7 +82,7 @@ const osVectorTileLayer = new VectorTileLayer({
   declutter: true,
   source: new VectorTileSource({
     format: new MVT(),
-    url: `https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
+    url: vectorTileServiceUrl,
     attributions: [
       "© Crown copyright and database rights 2021 OS (0)100019252",
     ],
@@ -89,8 +91,7 @@ const osVectorTileLayer = new VectorTileLayer({
 });
 
 // ref https://github.com/openlayers/ol-mapbox-style#usage-example
-const osVectorTileStyle = `https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
-fetch(osVectorTileStyle)
+fetch(vectorTileStyleUrl)
   .then((response) => response.json())
   .then((glStyle) => stylefunction(osVectorTileLayer, glStyle, "esri"))
   .catch((error) => console.log(error));
@@ -130,7 +131,13 @@ const outlineLayer = new VectorLayer({
 
 const map = new OLMap({
   controls: defaultControls().extend([new DrawModeControl({})]),
-  layers: [osVectorTileLayer, drawingLayer, outlineLayer],
+  layers: [
+    process.env.REACT_APP_ORDNANCE_SURVEY_KEY
+      ? osVectorTileLayer
+      : baseMapLayer,
+    drawingLayer,
+    outlineLayer,
+  ],
   target: "map",
   view: new View({
     projection: "EPSG:3857",
