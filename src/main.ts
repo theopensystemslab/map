@@ -9,7 +9,7 @@ import "ol/ol.css";
 import { fromLonLat, toLonLat, transformExtent } from "ol/proj";
 import { OSM, Vector as VectorSource, XYZ } from "ol/source";
 import { ATTRIBUTION } from "ol/source/OSM";
-import { getArea, getLength } from "ol/sphere";
+import { getArea } from "ol/sphere";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
@@ -38,7 +38,7 @@ class DrawModeControl extends Control {
   }
 
   startDrawing() {
-    // Don't show feature outlines when drawing, underlying feature is still logged to console
+    // Don't show feature outlines when drawing, underlying features still logged to console
     map.removeLayer(outlineLayer);
 
     const modify = new Modify({ source: drawingSource });
@@ -49,22 +49,22 @@ class DrawModeControl extends Control {
         source: drawingSource,
         type: "Polygon",
       });
-
       map.addInteraction(draw);
 
       const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
       map.addInteraction(snap);
-
-      drawingSource.on("addfeature", function () {
-        let sketches = drawingSource.getFeatures();
-        let last_sketch_geom =
-          sketches[sketches.length - 1]["values_"].geometry;
-
-        console.log("drawn area", formatArea(last_sketch_geom));
-      });
     }
 
     addInteractions();
+
+    // 'addFeature' ensures getFeatures() isn't empty, which 'drawend' does not
+    // TODO recalculate when an existing feature is modified
+    drawingSource.on("addfeature", function () {
+      let sketches = drawingSource.getFeatures();
+      let last_sketch_geom = sketches[sketches.length - 1]["values_"].geometry;
+
+      console.log("drawn area", formatArea(last_sketch_geom));
+    });
   }
 
   exitDrawing() {
@@ -178,7 +178,16 @@ function getFeatures(coord) {
   fetch(getUrl(wfsParams))
     .then((response) => response.json())
     .then((data) => {
-      console.log("clicked feature:", data);
+      console.log(
+        "clicked feature:",
+        data,
+        formatArea(
+          new Polygon(data.features[0].geometry.coordinates).transform(
+            "EPSG:4326",
+            "EPSG:3857"
+          )
+        )
+      );
 
       if (!data.features.length) return;
 
