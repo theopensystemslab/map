@@ -230,6 +230,11 @@ function getFeatures(coord) {
     .catch((error) => console.log(error));
 }
 
+outlineSource.on("addfeature", function () {
+  let unioned_features = outlineSource.getFeatures();
+  console.log("total area", formatArea(unioned_features[0]["values_"].geometry));
+});
+
 /**
  * Helper function to return OS Features URL with encoded parameters
  * @param {object} params - The parameters object to be encoded
