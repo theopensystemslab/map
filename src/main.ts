@@ -1,5 +1,6 @@
 import union from "@turf/union";
 import { Control, defaults as defaultControls } from "ol/control";
+import { Polygon } from "ol/geom";
 import { GeoJSON } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
@@ -8,6 +9,7 @@ import "ol/ol.css";
 import { fromLonLat, toLonLat, transformExtent } from "ol/proj";
 import { OSM, Vector as VectorSource, XYZ } from "ol/source";
 import { ATTRIBUTION } from "ol/source/OSM";
+import { getArea, getLength } from "ol/sphere";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
@@ -36,6 +38,9 @@ class DrawModeControl extends Control {
   }
 
   startDrawing() {
+    // Don't show feature outlines when drawing, underlying feature is still logged to console
+    map.removeLayer(outlineLayer);
+
     const modify = new Modify({ source: drawingSource });
     map.addInteraction(modify);
 
@@ -44,9 +49,19 @@ class DrawModeControl extends Control {
         source: drawingSource,
         type: "Polygon",
       });
+
       map.addInteraction(draw);
+
       const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
       map.addInteraction(snap);
+
+      drawingSource.on("addfeature", function () {
+        let sketches = drawingSource.getFeatures();
+        let last_sketch_geom =
+          sketches[sketches.length - 1]["values_"].geometry;
+
+        console.log("drawn area", formatArea(last_sketch_geom));
+      });
     }
 
     addInteractions();
@@ -216,4 +231,18 @@ function getUrl(params) {
     .join("&");
 
   return `${featureServiceUrl}?${encodedParameters}`;
+}
+
+/**
+ * Format area output of a polygon
+ */
+function formatArea(polygon) {
+  const area = getArea(polygon);
+  let output;
+  if (area > 10000) {
+    output = Math.round((area / 1000000) * 100) / 100 + " " + "km<sup>2</sup>";
+  } else {
+    output = Math.round(area * 100) / 100 + " " + "m<sup>2</sup>";
+  }
+  return output;
 }
