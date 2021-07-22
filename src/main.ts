@@ -38,7 +38,7 @@ class DrawModeControl extends Control {
   }
 
   startDrawing() {
-    // Don't show feature outlines when drawing, underlying features still logged to console
+    // Don't show feature outlines when drawing, underlying features still listening for clicks and logged to console
     map.removeLayer(outlineLayer);
 
     const modify = new Modify({ source: drawingSource });
@@ -57,9 +57,8 @@ class DrawModeControl extends Control {
 
     addInteractions();
 
-    // 'addFeature' ensures getFeatures() isn't empty, which 'drawend' does not
-    // TODO recalculate when an existing feature is modified
-    drawingSource.on("addfeature", function () {
+    // 'change' ensures getFeatures() isn't empty and listens for modifications; 'drawend' does not
+    drawingSource.on("change", function () {
       let sketches = drawingSource.getFeatures();
       let last_sketch_geom = sketches[sketches.length - 1]["values_"].geometry;
 
@@ -186,7 +185,7 @@ function getFeatures(coord) {
             "EPSG:4326",
             "EPSG:3857"
           )
-        )
+        ) // for debugging only so we can check 'total area' log is summing correctly
       );
 
       if (!data.features.length) return;
@@ -232,7 +231,9 @@ function getFeatures(coord) {
 
 outlineSource.on("addfeature", function () {
   let unioned_features = outlineSource.getFeatures();
-  console.log("total area", formatArea(unioned_features[0]["values_"].geometry));
+  let unioned_geom = unioned_features[0]["values_"].geometry;
+
+  console.log("total area", formatArea(unioned_geom));
 });
 
 /**
