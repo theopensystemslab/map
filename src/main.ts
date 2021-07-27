@@ -1,6 +1,7 @@
 import union from "@turf/union";
 import stylefunction from "ol-mapbox-style/dist/stylefunction";
 import { Control, defaults as defaultControls } from "ol/control";
+import { Polygon } from "ol/geom";
 import { GeoJSON, MVT } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
@@ -11,6 +12,7 @@ import { fromLonLat, toLonLat, transformExtent } from "ol/proj";
 import { OSM, Vector as VectorSource, XYZ } from "ol/source";
 import { ATTRIBUTION } from "ol/source/OSM";
 import VectorTileSource from "ol/source/VectorTile";
+import { getArea } from "ol/sphere";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
@@ -41,6 +43,9 @@ class DrawModeControl extends Control {
   }
 
   startDrawing() {
+    // Don't show feature outlines when drawing, underlying features still listening for clicks and logged to console
+    map.removeLayer(outlineLayer);
+
     const modify = new Modify({ source: drawingSource });
     map.addInteraction(modify);
 
@@ -50,11 +55,20 @@ class DrawModeControl extends Control {
         type: "Polygon",
       });
       map.addInteraction(draw);
+
       const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
       map.addInteraction(snap);
     }
 
     addInteractions();
+
+    // 'change' ensures getFeatures() isn't empty and listens for modifications; 'drawend' does not
+    drawingSource.on("change", function () {
+      let sketches = drawingSource.getFeatures();
+      let last_sketch_geom = sketches[sketches.length - 1]["values_"].geometry;
+
+      console.log("drawn area", formatArea(last_sketch_geom));
+    });
   }
 
   exitDrawing() {
@@ -193,7 +207,16 @@ function getFeatures(coord) {
   fetch(getUrl(wfsParams))
     .then((response) => response.json())
     .then((data) => {
-      console.log("clicked feature:", data);
+      console.log(
+        "clicked feature:",
+        data,
+        formatArea(
+          new Polygon(data.features[0].geometry.coordinates).transform(
+            "EPSG:4326",
+            "EPSG:3857"
+          )
+        ) // for debugging only so we can check 'total area' log is summing correctly
+      );
 
       if (!data.features.length) return;
 
@@ -236,6 +259,13 @@ function getFeatures(coord) {
     .catch((error) => console.log(error));
 }
 
+outlineSource.on("addfeature", function () {
+  let unioned_features = outlineSource.getFeatures();
+  let unioned_geom = unioned_features[0]["values_"].geometry;
+
+  console.log("total area", formatArea(unioned_geom));
+});
+
 /**
  * Helper function to return OS Features URL with encoded parameters
  * @param {object} params - The parameters object to be encoded
@@ -246,4 +276,18 @@ function getUrl(params) {
     .join("&");
 
   return `${featureServiceUrl}?${encodedParameters}`;
+}
+
+/**
+ * Format area output of a polygon
+ */
+function formatArea(polygon) {
+  const area = getArea(polygon);
+  let output;
+  if (area > 10000) {
+    output = Math.round((area / 1000000) * 100) / 100 + " " + "km<sup>2</sup>";
+  } else {
+    output = Math.round(area * 100) / 100 + " " + "m<sup>2</sup>";
+  }
+  return output;
 }
