@@ -1,18 +1,23 @@
 import union from "@turf/union";
+import stylefunction from "ol-mapbox-style/dist/stylefunction";
 import { Control, defaults as defaultControls } from "ol/control";
-import { GeoJSON } from "ol/format";
+import { GeoJSON, MVT } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import VectorTileLayer from "ol/layer/VectorTile";
 import OLMap from "ol/Map";
 import "ol/ol.css";
 import { fromLonLat, toLonLat, transformExtent } from "ol/proj";
 import { OSM, Vector as VectorSource, XYZ } from "ol/source";
 import { ATTRIBUTION } from "ol/source/OSM";
+import VectorTileSource from "ol/source/VectorTile";
 import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 
-// Ordance Survey sources
-const tileServiceUrl = "https://api.os.uk/maps/raster/v1/zxy";
+// Ordnance Survey sources
+const vectorTileServiceUrl = `https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
+const vectorTileStyleUrl = `https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
+const tileServiceUrl = `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`;
 const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
 // Custom control for draw mode interactions
@@ -60,7 +65,7 @@ class DrawModeControl extends Control {
 const baseMapLayer = new TileLayer({
   source: process.env.REACT_APP_ORDNANCE_SURVEY_KEY
     ? new XYZ({
-        url: `${tileServiceUrl}/Light_3857/{z}/{x}/{y}.png?key=${process.env.REACT_APP_ORDNANCE_SURVEY_KEY}`,
+        url: tileServiceUrl,
         attributions: [
           "© Crown copyright and database rights 2021 OS (0)100019252",
         ],
@@ -72,6 +77,24 @@ const baseMapLayer = new TileLayer({
         attributions: [ATTRIBUTION],
       }),
 });
+
+const osVectorTileLayer = new VectorTileLayer({
+  declutter: true,
+  source: new VectorTileSource({
+    format: new MVT(),
+    url: vectorTileServiceUrl,
+    attributions: [
+      "© Crown copyright and database rights 2021 OS (0)100019252",
+    ],
+    attributionsCollapsible: false,
+  }),
+});
+
+// ref https://github.com/openlayers/ol-mapbox-style#usage-example
+fetch(vectorTileStyleUrl)
+  .then((response) => response.json())
+  .then((glStyle) => stylefunction(osVectorTileLayer, glStyle, "esri"))
+  .catch((error) => console.log(error));
 
 const drawingSource = new VectorSource();
 
@@ -108,7 +131,13 @@ const outlineLayer = new VectorLayer({
 
 const map = new OLMap({
   controls: defaultControls().extend([new DrawModeControl({})]),
-  layers: [baseMapLayer, drawingLayer, outlineLayer],
+  layers: [
+    process.env.REACT_APP_ORDNANCE_SURVEY_KEY
+      ? osVectorTileLayer
+      : baseMapLayer,
+    drawingLayer,
+    outlineLayer,
+  ],
   target: "map",
   view: new View({
     projection: "EPSG:3857",
@@ -123,6 +152,7 @@ const map = new OLMap({
     zoom: 19,
   }),
 });
+
 // Select features on singleclick
 // TODO only allow if WFS key is found & disable during draw mode
 map.on("singleclick", function (e) {
