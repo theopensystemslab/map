@@ -8,9 +8,13 @@
   "dependencies": {
     "@turf/union": "^6.5.0",
     "ol": "^6.6.0",
-    "ol-mapbox-style": "^6.4.1"
+    "ol-mapbox-style": "^6.4.1",
+    "preact": "^10.5.14",
+    "preact-custom-element": "^4.2.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.0",
+    "@babel/plugin-transform-react-jsx": "^7.14.5",
     "husky": "^7.0.1",
     "lint-staged": "^11.0.1",
     "parcel": "next",
