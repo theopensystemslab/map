@@ -5,7 +5,7 @@ import StaticMap from "./static-map";
 
 // Web Component that will wrap & return our map component
 const MapContainer = ({ geojson = [] }) => (
-  <StaticMap geojson={geojson} />
+  <StaticMap props={geojson} />
 );
 
 register(MapContainer, "map-container", ['geojson']);

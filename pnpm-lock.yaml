@@ -12,6 +12,7 @@ specifiers:
   preact: ^10.5.14
   preact-custom-element: ^4.2.1
   prettier: ^2.3.2
+  typescript: ^4.3.5
 
 dependencies:
   '@turf/union': 6.5.0
@@ -27,6 +28,7 @@ devDependencies:
   lint-staged: 11.0.1
   parcel: 2.0.0-beta.3.1
   prettier: 2.3.2
+  typescript: 4.3.5
 
 packages:
 
@@ -5183,6 +5185,12 @@ packages:
   /type-fest/0.21.3:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
+    dev: true
+
+  /typescript/4.3.5:
+    resolution: {integrity: sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
     dev: true
 
   /unbox-primitive/1.0.1:

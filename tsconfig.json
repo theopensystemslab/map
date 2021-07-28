@@ -1,14 +1,9 @@
 {
     "skipLibCheck": true,
     "compilerOptions": {
-        "outDir": "./dist",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "es6",
-        "moduleResolution": "node",
-        "target": "es6",
-        "jsx": "react",
+        "jsx": "preserve",
         "jsxFactory": "h",
+        "jsxFragmentFactory": "Fragment",
         "experimentalDecorators": true
     },
     "include": [
