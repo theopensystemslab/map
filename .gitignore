@@ -1,4 +1,6 @@
-.parcel-cache/
-node_modules/
-dist/
-.env.local
+node_modules
+.DS_Store
+dist
+types
+*.local
+*.log
