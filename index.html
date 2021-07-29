@@ -22,8 +22,8 @@
       map.addEventListener("ready", (event) => {
         console.log("map ready");
       });
-      map.addEventListener("areaChange", (event) => {
-        console.log({ area: event.detail });
+      map.addEventListener("areaChange", ({ detail: area }) => {
+        console.debug({ area });
       });
     </script>
   </body>
