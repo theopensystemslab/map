@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html"
+    "build": "tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html"
   },
   "dependencies": {
     "@turf/union": "^6.5.0",
