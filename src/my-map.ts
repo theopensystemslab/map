@@ -4,7 +4,6 @@ import { Draw, Modify, Snap } from "ol/interaction";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
 import View from "ol/View";
-
 import { drawingLayer, drawingSource, formatArea } from "./draw";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
 
@@ -16,12 +15,20 @@ export class MyMap extends LitElement {
       display: block;
       width: 800px;
       height: 800px;
+      position: relative;
     }
     #map {
       height: 100%;
       opacity: 0;
       transition: opacity 0.25s;
       overflow: hidden;
+    }
+    #area {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      background: white;
     }
   `;
 
@@ -43,9 +50,6 @@ export class MyMap extends LitElement {
 
   @property({ type: Boolean })
   drawMode = true;
-
-  @property({ type: String })
-  totalArea = "";
 
   private useVectorTiles =
     Boolean(import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY) &&
@@ -111,7 +115,7 @@ export class MyMap extends LitElement {
         let last_sketch_geom =
           sketches[sketches.length - 1]["values_"].geometry;
 
-        this.totalArea = formatArea(last_sketch_geom);
+        this.dispatch("areaChange", formatArea(last_sketch_geom));
       });
     }
 
@@ -119,6 +123,7 @@ export class MyMap extends LitElement {
     setTimeout(() => {
       window.dispatchEvent(new Event("resize"));
       target.style.opacity = "1";
+      this.dispatch("ready");
     }, 500);
   }
 
@@ -126,11 +131,20 @@ export class MyMap extends LitElement {
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
-      <div id="map" />
-      ${this.drawMode
-        ? html`<span id="area">${this.totalArea}</span>`
-        : null} `;
+      <div id="map" />`;
   }
+
+  /**
+   * dispatches an event for clients to subscribe to
+   * @param eventName
+   * @param payload
+   */
+  private dispatch = (eventName: string, payload = undefined) =>
+    this.dispatchEvent(
+      new CustomEvent(eventName, {
+        detail: payload,
+      })
+    );
 }
 
 declare global {
