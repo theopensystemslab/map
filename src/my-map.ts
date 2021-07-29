@@ -139,7 +139,7 @@ export class MyMap extends LitElement {
    * @param eventName
    * @param payload
    */
-  private dispatch = (eventName: string, payload = undefined) =>
+  private dispatch = (eventName: string, payload?: any) =>
     this.dispatchEvent(
       new CustomEvent(eventName, {
         detail: payload,
