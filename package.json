@@ -17,7 +17,6 @@
     "build": "tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html"
   },
   "dependencies": {
-    "@turf/union": "^6.5.0",
     "lit-element": "^2.5.1",
     "ol": "^6.6.1",
     "ol-mapbox-style": "^6.4.1"
