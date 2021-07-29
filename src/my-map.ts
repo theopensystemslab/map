@@ -1,9 +1,11 @@
 import { css, customElement, html, LitElement, property } from "lit-element";
 import stylefunction from "ol-mapbox-style/dist/stylefunction";
+import { GeoJSON } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
 import View from "ol/View";
+import { last } from "rambda";
 import { drawingLayer, drawingSource, formatArea } from "./draw";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
 
@@ -111,11 +113,17 @@ export class MyMap extends LitElement {
 
       // 'change' ensures getFeatures() isn't empty and listens for modifications; 'drawend' does not
       drawingSource.on("change", () => {
-        let sketches = drawingSource.getFeatures();
-        let last_sketch_geom =
-          sketches[sketches.length - 1]["values_"].geometry;
+        const sketches = drawingSource.getFeatures();
+        const lastSketchGeom = last(sketches).getGeometry();
 
-        this.dispatch("areaChange", formatArea(last_sketch_geom));
+        this.dispatch(
+          "geojsonChange",
+          new GeoJSON().writeFeaturesObject(sketches, {
+            featureProjection: "EPSG:3857",
+          })
+        );
+
+        this.dispatch("areaChange", formatArea(lastSketchGeom));
       });
     }
 

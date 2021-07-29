@@ -25,6 +25,9 @@
       map.addEventListener("areaChange", ({ detail: area }) => {
         console.debug({ area });
       });
+      map.addEventListener("geojsonChange", ({ detail: geojson }) => {
+        console.debug({ geojson });
+      });
     </script>
   </body>
 </html>
