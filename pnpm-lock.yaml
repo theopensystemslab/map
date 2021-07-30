@@ -8,6 +8,7 @@ specifiers:
   ol: ^6.6.1
   ol-mapbox-style: ^6.4.1
   prettier: ^2.3.2
+  rambda: ^6.8.3
   typescript: ^4.3.5
   vite: ^2.4.4
 
@@ -15,6 +16,7 @@ dependencies:
   lit-element: 2.5.1
   ol: 6.6.1
   ol-mapbox-style: 6.4.1_ol@6.6.1
+  rambda: 6.8.3
 
 devDependencies:
   '@types/node': 16.4.7
@@ -638,6 +640,10 @@ packages:
 
   /quickselect/2.0.0:
     resolution: {integrity: sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==}
+    dev: false
+
+  /rambda/6.8.3:
+    resolution: {integrity: sha512-vWeeKEuFyCLC0P7lPmnW9WOTK2Dpk5wFfrFdsmVaqyYEyrkGGx9zknySkYR52oRLLArhO+xIq8rl42OrIYlWtg==}
     dev: false
 
   /rbush/3.0.1:

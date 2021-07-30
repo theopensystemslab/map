@@ -17,13 +17,14 @@ const vectorTileStyleUrl = `https://api.os.uk/maps/vector/v1/vts/resources/style
   import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY
 }`;
 
+// currently based on Southwark's OS license
+const COPYRIGHT = "© Crown copyright and database rights 2021 OS (0)100019252";
+
 export const rasterBaseMap = new TileLayer({
   source: import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY
     ? new XYZ({
         url: tileServiceUrl,
-        attributions: [
-          "© Crown copyright and database rights 2021 OS (0)100019252",
-        ],
+        attributions: [COPYRIGHT],
         attributionsCollapsible: false,
         maxZoom: 20,
       })
@@ -38,15 +39,13 @@ export const osVectorTileBaseMap = new VectorTileLayer({
   source: new VectorTileSource({
     format: new MVT(),
     url: vectorTileServiceUrl,
-    attributions: [
-      "© Crown copyright and database rights 2021 OS (0)100019252",
-    ],
+    attributions: [COPYRIGHT],
     attributionsCollapsible: false,
   }),
 });
 
 // ref https://github.com/openlayers/ol-mapbox-style#usage-example
-async function applyStyle() {
+async function applyVectorTileStyle() {
   try {
     const response = await fetch(vectorTileStyleUrl);
     const glStyle = await response.json();
@@ -54,6 +53,6 @@ async function applyStyle() {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-applyStyle();
+applyVectorTileStyle();
