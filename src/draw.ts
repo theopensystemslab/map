@@ -1,4 +1,5 @@
 import Geometry from "ol/geom/Geometry";
+import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import { getArea } from "ol/sphere";
@@ -26,6 +27,12 @@ export const drawingLayer = new VectorLayer({
     }),
   }),
 });
+
+export const draw = new Draw({ source: drawingSource, type: "Polygon" });
+
+export const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
+
+export const modify = new Modify({ source: drawingSource });
 
 // calculate and format the area of a polygon
 export function formatArea(polygon: Geometry) {

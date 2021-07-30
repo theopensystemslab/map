@@ -1,13 +1,12 @@
 import { css, customElement, html, LitElement, property } from "lit-element";
 import { Control } from "ol/control";
 import { GeoJSON } from "ol/format";
-import { Draw, Modify, Snap } from "ol/interaction";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
 import View from "ol/View";
 import { last } from "rambda";
 
-import { drawingLayer, drawingSource, formatArea } from "./draw";
+import { draw, drawingLayer, drawingSource, formatArea, modify, snap } from "./draw";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
 
 @customElement("my-map")
@@ -96,6 +95,8 @@ export class MyMap extends LitElement {
 
       if (drawingSource) {
         drawingSource.clear();
+        map.addInteraction(draw);
+        map.addInteraction(snap);
       }
     };
 
@@ -111,35 +112,31 @@ export class MyMap extends LitElement {
     if (this.drawMode) {
       map.addLayer(drawingLayer);
 
-      const modify = new Modify({ source: drawingSource });
       map.addInteraction(modify);
+      map.addInteraction(draw);
+      map.addInteraction(snap);
 
-      function addInteractions() {
-        const draw = new Draw({
-          source: drawingSource,
-          type: "Polygon",
-        });
-        map.addInteraction(draw);
-
-        const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
-        map.addInteraction(snap);
-      }
-
-      addInteractions();
-
-      // 'change' ensures getFeatures() isn't empty and listens for modifications; 'drawend' does not
+      // 'change' listens for 'drawend' and modifications
       drawingSource.on("change", () => {
         const sketches = drawingSource.getFeatures();
-        const lastSketchGeom = last(sketches).getGeometry();
 
-        this.dispatch(
-          "geojsonChange",
-          new GeoJSON().writeFeaturesObject(sketches, {
-            featureProjection: "EPSG:3857",
-          })
-        );
+        // account for dataSource.clear() on "reset" control
+        if (sketches.length > 0) {
+          const lastSketchGeom = last(sketches).getGeometry();
 
-        this.dispatch("areaChange", formatArea(lastSketchGeom));
+          this.dispatch(
+            "geojsonChange",
+            new GeoJSON().writeFeaturesObject(sketches, {
+              featureProjection: "EPSG:3857",
+            })
+          );
+  
+          this.dispatch("areaChange", formatArea(lastSketchGeom));
+
+          // limit to drawing a single polygon
+          map.removeInteraction(draw);
+          map.removeInteraction(snap);
+        }
       });
     }
 
