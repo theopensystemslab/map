@@ -1,5 +1,4 @@
 import { css, customElement, html, LitElement, property } from "lit-element";
-import stylefunction from "ol-mapbox-style/dist/stylefunction";
 import { Draw, Modify, Snap } from "ol/interaction";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
@@ -54,19 +53,6 @@ export class MyMap extends LitElement {
   // runs after the initial render
   firstUpdated() {
     const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
-
-    // apply style to OS vector tile layer if applicable
-    // ref https://github.com/openlayers/ol-mapbox-style#usage-example
-    if (this.useVectorTiles) {
-      const vectorTileStyleUrl = `https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${
-        import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY
-      }`;
-
-      fetch(vectorTileStyleUrl)
-        .then((response) => response.json())
-        .then((glStyle) => stylefunction(osVectorTileBaseMap, glStyle, "esri"))
-        .catch(console.error);
-    }
 
     const map = new Map({
       target,
