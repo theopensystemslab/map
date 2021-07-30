@@ -1,11 +1,12 @@
 import { css, customElement, html, LitElement, property } from "lit-element";
-import stylefunction from "ol-mapbox-style/dist/stylefunction";
+import { Control } from "ol/control";
 import { GeoJSON } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
 import View from "ol/View";
 import { last } from "rambda";
+
 import { drawingLayer, drawingSource, formatArea } from "./draw";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
 
@@ -24,6 +25,10 @@ export class MyMap extends LitElement {
       opacity: 0;
       transition: opacity 0.25s;
       overflow: hidden;
+    }
+    .reset-control {
+      top: 70px;
+      left: .5em;
     }
     #area {
       position: absolute;
@@ -61,19 +66,6 @@ export class MyMap extends LitElement {
   firstUpdated() {
     const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
 
-    // apply style to OS vector tile layer if applicable
-    // ref https://github.com/openlayers/ol-mapbox-style#usage-example
-    if (this.useVectorTiles) {
-      const vectorTileStyleUrl = `https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=${
-        import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY
-      }`;
-
-      fetch(vectorTileStyleUrl)
-        .then((response) => response.json())
-        .then((glStyle) => stylefunction(osVectorTileBaseMap, glStyle, "esri"))
-        .catch(console.error);
-    }
-
     const map = new Map({
       target,
       layers: [this.useVectorTiles ? osVectorTileBaseMap : rasterBaseMap],
@@ -89,8 +81,32 @@ export class MyMap extends LitElement {
         maxZoom: this.maxZoom,
         center: fromLonLat([this.longitude, this.latitude]),
         zoom: this.zoom,
+        enableRotation: false,
       }),
     });
+
+    // add a custom control below default zoom
+    const button = document.createElement('button');
+    button.innerHTML = '↻';
+    button.title = "Reset view & erase any drawings";
+
+    const handleReset = () => {
+      map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
+      map.getView().setZoom(this.zoom);
+
+      if (drawingSource) {
+        drawingSource.clear();
+      }
+    };
+
+    button.addEventListener('click', handleReset, false);
+
+    const element = document.createElement('div');
+    element.className = 'reset-control ol-unselectable ol-control';
+    element.appendChild(button);
+
+    var ResetControl = new Control({ element: element });
+    map.addControl(ResetControl);
 
     if (this.drawMode) {
       map.addLayer(drawingLayer);
