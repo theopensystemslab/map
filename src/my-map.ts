@@ -92,18 +92,11 @@ export class MyMap extends LitElement {
       const modify = new Modify({ source: drawingSource });
       map.addInteraction(modify);
 
-      function addInteractions() {
-        const draw = new Draw({
-          source: drawingSource,
-          type: "Polygon",
-        });
-        map.addInteraction(draw);
+      const draw = new Draw({ source: drawingSource, type: "Polygon" });
+      map.addInteraction(draw);
 
-        const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
-        map.addInteraction(snap);
-      }
-
-      addInteractions();
+      const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
+      map.addInteraction(snap);
 
       // 'change' ensures getFeatures() isn't empty and listens for modifications; 'drawend' does not
       drawingSource.on("change", () => {
@@ -112,6 +105,12 @@ export class MyMap extends LitElement {
           sketches[sketches.length - 1]["values_"].geometry;
 
         this.totalArea = formatArea(last_sketch_geom);
+
+        // limit user to drawing a single polygon
+        if (drawingSource.getFeatures().length === 1) {
+          map.removeInteraction(draw);
+          map.removeInteraction(snap);
+        }
       });
     }
 
