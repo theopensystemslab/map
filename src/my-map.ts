@@ -1,4 +1,5 @@
 import { css, customElement, html, LitElement, property } from "lit-element";
+import { Control } from "ol/control";
 import { GeoJSON } from "ol/format";
 import { Draw, Modify, Snap } from "ol/interaction";
 import Map from "ol/Map";
@@ -24,6 +25,10 @@ export class MyMap extends LitElement {
       opacity: 0;
       transition: opacity 0.25s;
       overflow: hidden;
+    }
+    .reset-control {
+      top: 70px;
+      left: .5em;
     }
     #area {
       position: absolute;
@@ -76,8 +81,32 @@ export class MyMap extends LitElement {
         maxZoom: this.maxZoom,
         center: fromLonLat([this.longitude, this.latitude]),
         zoom: this.zoom,
+        enableRotation: false,
       }),
     });
+
+    // add a custom control below default zoom
+    const button = document.createElement('button');
+    button.innerHTML = '↻';
+    button.title = "Reset view & erase any drawings";
+
+    const handleReset = () => {
+      map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
+      map.getView().setZoom(this.zoom);
+
+      if (drawingSource) {
+        drawingSource.clear();
+      }
+    };
+
+    button.addEventListener('click', handleReset, false);
+
+    const element = document.createElement('div');
+    element.className = 'reset-control ol-unselectable ol-control';
+    element.appendChild(button);
+
+    var ResetControl = new Control({ element: element });
+    map.addControl(ResetControl);
 
     if (this.drawMode) {
       map.addLayer(drawingLayer);
