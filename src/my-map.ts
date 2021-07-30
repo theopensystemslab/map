@@ -87,13 +87,13 @@ export class MyMap extends LitElement {
     // add a custom control below default zoom
     const button = document.createElement('button');
     button.innerHTML = '↻';
-    button.title = "Reset view & erase any drawings";
+    button.title = "Reset view";
 
     const handleReset = () => {
       map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
       map.getView().setZoom(this.zoom);
 
-      if (drawingSource) {
+      if (this.drawMode && drawingSource) {
         drawingSource.clear();
         map.addInteraction(draw);
         map.addInteraction(snap);
@@ -109,6 +109,15 @@ export class MyMap extends LitElement {
     var ResetControl = new Control({ element: element });
     map.addControl(ResetControl);
 
+    // define cursors for dragging/panning and moving
+    map.on("pointerdrag", () => {
+      map.getViewport().style.cursor = "-webkit-grabbing";
+    });
+
+    map.on("pointermove", () => {
+      map.getViewport().style.cursor = "-webkit-grab";
+    });
+
     if (this.drawMode) {
       map.addLayer(drawingLayer);
 
@@ -120,7 +129,7 @@ export class MyMap extends LitElement {
       drawingSource.on("change", () => {
         const sketches = drawingSource.getFeatures();
 
-        // account for dataSource.clear() on "reset" control
+        // account for drawingSource.clear() in handleReset
         if (sketches.length > 0) {
           const lastSketchGeom = last(sketches).getGeometry();
 
