@@ -19,7 +19,8 @@
   "dependencies": {
     "lit-element": "^2.5.1",
     "ol": "^6.6.1",
-    "ol-mapbox-style": "^6.4.1"
+    "ol-mapbox-style": "^6.4.1",
+    "rambda": "^6.8.3"
   },
   "devDependencies": {
     "@types/node": "^16.4.7",
