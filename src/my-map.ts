@@ -88,11 +88,14 @@ export class MyMap extends LitElement {
         maxZoom: this.maxZoom,
         center: fromLonLat([this.longitude, this.latitude]),
         zoom: this.zoom,
+        enableRotation: false,
       }),
     });
 
+    // add a custom control below default zoom
     const button = document.createElement('button');
     button.innerHTML = '↻';
+    button.title = "Reset view & erase any drawings";
 
     const handleReset = () => {
       map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
@@ -109,9 +112,7 @@ export class MyMap extends LitElement {
     element.className = 'reset-control ol-unselectable ol-control';
     element.appendChild(button);
 
-    var ResetControl = new Control({
-      element: element
-    });
+    var ResetControl = new Control({ element: element });
     map.addControl(ResetControl);
 
     if (this.drawMode) {
