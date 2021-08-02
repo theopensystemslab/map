@@ -6,7 +6,14 @@ import { fromLonLat, transformExtent } from "ol/proj";
 import View from "ol/View";
 import { last } from "rambda";
 
-import { draw, drawingLayer, drawingSource, formatArea, modify, snap } from "./draw";
+import {
+  draw,
+  drawingLayer,
+  drawingSource,
+  formatArea,
+  modify,
+  snap,
+} from "./draw";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
 
 @customElement("my-map")
@@ -27,7 +34,7 @@ export class MyMap extends LitElement {
     }
     .reset-control {
       top: 70px;
-      left: .5em;
+      left: 0.5em;
     }
     #area {
       position: absolute;
@@ -84,26 +91,26 @@ export class MyMap extends LitElement {
       }),
     });
 
-    // add a custom control below default zoom
-    const button = document.createElement('button');
-    button.innerHTML = '↻';
+    // add a custom 'reset' control below zoom
+    const button = document.createElement("button");
+    button.innerHTML = "↻";
     button.title = "Reset view";
 
     const handleReset = () => {
       map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
       map.getView().setZoom(this.zoom);
 
-      if (this.drawMode && drawingSource) {
+      if (this.drawMode) {
         drawingSource.clear();
         map.addInteraction(draw);
         map.addInteraction(snap);
       }
     };
 
-    button.addEventListener('click', handleReset, false);
+    button.addEventListener("click", handleReset, false);
 
-    const element = document.createElement('div');
-    element.className = 'reset-control ol-unselectable ol-control';
+    const element = document.createElement("div");
+    element.className = "reset-control ol-unselectable ol-control";
     element.appendChild(button);
 
     var ResetControl = new Control({ element: element });
@@ -111,11 +118,11 @@ export class MyMap extends LitElement {
 
     // define cursors for dragging/panning and moving
     map.on("pointerdrag", () => {
-      map.getViewport().style.cursor = "-webkit-grabbing";
+      map.getViewport().style.cursor = "grabbing";
     });
 
     map.on("pointermove", () => {
-      map.getViewport().style.cursor = "-webkit-grab";
+      map.getViewport().style.cursor = "grab";
     });
 
     if (this.drawMode) {
@@ -129,7 +136,6 @@ export class MyMap extends LitElement {
       drawingSource.on("change", () => {
         const sketches = drawingSource.getFeatures();
 
-        // account for drawingSource.clear() in handleReset
         if (sketches.length > 0) {
           const lastSketchGeom = last(sketches).getGeometry();
 
@@ -139,7 +145,7 @@ export class MyMap extends LitElement {
               featureProjection: "EPSG:3857",
             })
           );
-  
+
           this.dispatch("areaChange", formatArea(lastSketchGeom));
 
           // limit to drawing a single polygon
