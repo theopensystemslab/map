@@ -1,6 +1,6 @@
 import { css, customElement, html, LitElement, property } from "lit-element";
 import { Control } from "ol/control";
-import {buffer} from 'ol/extent';
+import { buffer } from 'ol/extent';
 import { GeoJSON } from "ol/format";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
@@ -119,6 +119,30 @@ export class MyMap extends LitElement {
     var ResetControl = new Control({ element: element });
     map.addControl(ResetControl);
 
+    // add a vector layer to display static geojson if features are provided
+    const outlineSource = new VectorSource({
+      features: new GeoJSON().readFeatures(this.geojsonData, {
+        featureProjection: "EPSG:3857",
+      }),
+    });
+
+    const outlineLayer = new VectorLayer({
+      source: outlineSource,
+      style: new Style({
+        stroke: new Stroke({
+          color: "#0000ff", // maybe should be configurable in future?
+          width: 3,
+        }),
+      }),
+    });
+
+    map.addLayer(outlineLayer);
+
+    if (this.geojsonData.features.length > 0) {
+      const extent = outlineSource.getExtent();
+      map.getView().fit(buffer(extent, 15)); // overrides default zoom & center
+    }
+
     if (this.drawMode) {
       map.addLayer(drawingLayer);
 
@@ -148,31 +172,6 @@ export class MyMap extends LitElement {
           map.removeInteraction(snap);
         }
       });
-    }
-
-    if (this.geojsonData) {
-      const outlineSource = new VectorSource({
-        features: new GeoJSON().readFeatures(this.geojsonData, {
-          featureProjection: "EPSG:3857",
-        }),
-      });
-
-      const outlineLayer = new VectorLayer({
-        source: outlineSource,
-        style: new Style({
-          stroke: new Stroke({
-            color: "#0000ff", // maybe should be configurable in future?
-            width: 3,
-          }),
-        }),
-      });
-
-      map.addLayer(outlineLayer);
-
-      if (this.geojsonData.features.length > 0) {
-        const extent = outlineSource.getExtent();
-        map.getView().fit(buffer(extent, 15)); // overrides default zoom & center
-      }
     }
 
     // XXX: force re-render for safari due to it thinking map is 0 height on load
