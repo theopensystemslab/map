@@ -36,7 +36,7 @@ export const draw = new Draw({
     stroke: new Stroke({
       color: "#ff0000",
       width: 3,
-      lineDash: [4, 8],
+      lineDash: [2, 8],
     }),
     fill: new Fill({
       color: "rgba(255, 255, 255, 0.2)",
