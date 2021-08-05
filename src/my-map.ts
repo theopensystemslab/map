@@ -6,8 +6,9 @@ import { fromLonLat, transformExtent } from "ol/proj";
 import View from "ol/View";
 import { last } from "rambda";
 
-import { draw, drawingLayer, drawingSource, formatArea, modify, snap } from "./draw";
+import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
+import { formatArea } from "./utils";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
