@@ -1,6 +1,6 @@
 # Map
 
-![npm](https://img.shields.io/npm/v/@opensystemslab/map?style=flat-square)
+[![npm @opensystemslab/map](https://img.shields.io/npm/v/@opensystemslab/map?style=flat-square)](http://npm.im/@opensystemslab/map)
 
 An OpenLayers-powered Web Component map for tasks related to planning permission in the UK.
 
