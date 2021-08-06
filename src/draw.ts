@@ -10,29 +10,52 @@ const redLineStroke = new Stroke({
   width: 3,
 });
 
+const drawingPointer = new CircleStyle({
+  radius: 6,
+  fill: new Fill({
+    color: "#ff0000",
+  }),
+});
+
 export const drawingSource = new VectorSource();
 
 export const drawingLayer = new VectorLayer({
   source: drawingSource,
   style: new Style({
     fill: new Fill({
-      color: "rgba(255, 255, 255, 0.2)",
+      color: "rgba(255, 255, 255, 0.4)",
     }),
     stroke: redLineStroke,
-    image: new CircleStyle({
-      radius: 5,
-      fill: new Fill({
-        color: "#c7ea46",
-      }),
-    }),
   }),
 });
 
-export const draw = new Draw({ source: drawingSource, type: "Polygon" });
+export const draw = new Draw({
+  source: drawingSource,
+  type: "Polygon",
+  style: new Style({
+    stroke: new Stroke({
+      color: "#ff0000",
+      width: 3,
+      lineDash: [2, 8],
+    }),
+    fill: new Fill({
+      color: "rgba(255, 255, 255, 0.2)",
+    }),
+    image: drawingPointer,
+  }),
+});
 
-export const snap = new Snap({ source: drawingSource, pixelTolerance: 5 });
+export const snap = new Snap({
+  source: drawingSource,
+  pixelTolerance: 5,
+});
 
-export const modify = new Modify({ source: drawingSource });
+export const modify = new Modify({
+  source: drawingSource,
+  style: new Style({
+    image: drawingPointer,
+  }),
+});
 
 // calculate and format the area of a polygon
 export function formatArea(polygon: Geometry) {

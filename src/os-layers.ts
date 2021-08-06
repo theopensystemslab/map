@@ -53,6 +53,6 @@ async function applyVectorTileStyle() {
   } catch (error) {
     console.log(error);
   }
-};
+}
 
 applyVectorTileStyle();
