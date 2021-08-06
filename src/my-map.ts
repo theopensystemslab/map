@@ -10,8 +10,9 @@ import { Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
 
-import { draw, drawingLayer, drawingSource, formatArea, modify, snap } from "./draw";
+import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
+import { formatArea } from "./utils";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
@@ -31,7 +32,7 @@ export class MyMap extends LitElement {
     }
     .reset-control {
       top: 70px;
-      left: .5em;
+      left: 0.5em;
     }
     #area {
       position: absolute;
@@ -94,30 +95,39 @@ export class MyMap extends LitElement {
       }),
     });
 
-    // add a custom control below default zoom
-    const button = document.createElement('button');
-    button.innerHTML = '↻';
-    button.title = "Reset view & erase any drawings";
+    // add a custom 'reset' control below zoom
+    const button = document.createElement("button");
+    button.innerHTML = "↻";
+    button.title = "Reset view";
 
     const handleReset = () => {
       map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
       map.getView().setZoom(this.zoom);
 
-      if (drawingSource) {
+      if (this.drawMode) {
         drawingSource.clear();
         map.addInteraction(draw);
         map.addInteraction(snap);
       }
     };
 
-    button.addEventListener('click', handleReset, false);
+    button.addEventListener("click", handleReset, false);
 
-    const element = document.createElement('div');
-    element.className = 'reset-control ol-unselectable ol-control';
+    const element = document.createElement("div");
+    element.className = "reset-control ol-unselectable ol-control";
     element.appendChild(button);
 
     var ResetControl = new Control({ element: element });
     map.addControl(ResetControl);
+
+    // define cursors for dragging/panning and moving
+    map.on("pointerdrag", () => {
+      map.getViewport().style.cursor = "grabbing";
+    });
+
+    map.on("pointermove", () => {
+      map.getViewport().style.cursor = "grab";
+    });
 
     // add a vector layer to display static geojson if features are provided
     const outlineSource = new VectorSource({
@@ -154,7 +164,6 @@ export class MyMap extends LitElement {
       drawingSource.on("change", () => {
         const sketches = drawingSource.getFeatures();
 
-        // account for dataSource.clear() on "reset" control
         if (sketches.length > 0) {
           const lastSketchGeom = last(sketches).getGeometry();
 
@@ -164,7 +173,7 @@ export class MyMap extends LitElement {
               featureProjection: "EPSG:3857",
             })
           );
-  
+
           this.dispatch("areaChange", formatArea(lastSketchGeom));
 
           // limit to drawing a single polygon
