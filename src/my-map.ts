@@ -7,6 +7,7 @@ import View from "ol/View";
 import { last } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
+import { featureLayer, featureSource, getFeatures } from "./os-features";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
 import { formatArea } from "./utils";
 
@@ -57,6 +58,12 @@ export class MyMap extends LitElement {
 
   @property({ type: Boolean })
   drawMode = true;
+
+  @property({ type: Boolean })
+  showFeaturesAtPoint = true;
+
+  @property({ type: String })
+  featureColor = "#0000ff";
 
   private useVectorTiles =
     Boolean(import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY) &&
@@ -147,6 +154,15 @@ export class MyMap extends LitElement {
           map.removeInteraction(snap);
         }
       });
+    }
+
+    if (this.showFeaturesAtPoint) {
+      getFeatures(fromLonLat([this.longitude, this.latitude]));
+      
+      map.addLayer(featureLayer);
+
+      const featureExtent = featureSource.getExtent();
+      console.log(featureExtent);
     }
 
     // XXX: force re-render for safari due to it thinking map is 0 height on load
