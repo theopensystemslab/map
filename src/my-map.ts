@@ -68,6 +68,9 @@ export class MyMap extends LitElement {
     features: [],
   };
 
+  @property({ type: String })
+  geojsonColor = "#ff0000";
+
   private useVectorTiles =
     Boolean(import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY) &&
     osVectorTileBaseMap;
@@ -101,8 +104,13 @@ export class MyMap extends LitElement {
     button.title = "Reset view";
 
     const handleReset = () => {
-      map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
-      map.getView().setZoom(this.zoom);
+      if (this.geojsonData.features.length > 0) {
+        const extent = outlineSource.getExtent();
+        map.getView().fit(buffer(extent, 12)); // overrides default zoom & center
+      } else {
+        map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
+        map.getView().setZoom(this.zoom);
+      }
 
       if (this.drawMode) {
         drawingSource.clear();
@@ -140,7 +148,7 @@ export class MyMap extends LitElement {
       source: outlineSource,
       style: new Style({
         stroke: new Stroke({
-          color: "#0000ff", // maybe should be configurable in future?
+          color: this.geojsonColor,
           width: 3,
         }),
       }),
@@ -149,8 +157,13 @@ export class MyMap extends LitElement {
     map.addLayer(outlineLayer);
 
     if (this.geojsonData.features.length > 0) {
+      // fit map to extent of features
       const extent = outlineSource.getExtent();
-      map.getView().fit(buffer(extent, 15)); // overrides default zoom & center
+      map.getView().fit(buffer(extent, 12)); // overrides default zoom & center
+
+      // log total area of feature (assumes geojson is a single polygon)
+      const data = outlineSource.getFeatures()[0].getGeometry();
+      console.log('geojsonData total area:', formatArea(data));
     }
 
     if (this.drawMode) {
