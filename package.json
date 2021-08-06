@@ -1,11 +1,11 @@
 {
   "name": "@opensystemslab/map",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "OGL-UK-3.0",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/theopensystemslab/.git"
+    "url": "https://github.com/theopensystemslab/map.git"
   },
   "browser": "./dist/map.umd.js",
   "module": "./dist/map.es.js",
@@ -18,8 +18,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html",
-    "prepublishOnly": "rm -rf dist types && npm run build",
-    "publish": "npm publish"
+    "prepublishOnly": "rm -rf dist types && npm run build"
   },
   "dependencies": {
     "lit-element": "^2.5.1",
