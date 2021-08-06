@@ -1,12 +1,15 @@
 {
-  "name": "map",
-  "version": "0.0.1",
-  "module": "dist/map.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/map.es.js"
-    }
+  "name": "@opensystemslab/map",
+  "version": "0.0.6",
+  "license": "OGL-UK-3.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theopensystemslab/map.git"
   },
+  "browser": "./dist/map.umd.js",
+  "module": "./dist/map.es.js",
+  "exports": "./dist/map.es.js",
   "types": "types/map.d.ts",
   "files": [
     "dist",
@@ -14,18 +17,19 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html"
+    "build": "tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html",
+    "prepublishOnly": "rm -rf dist types && npm run build"
   },
   "dependencies": {
     "lit-element": "^2.5.1",
     "ol": "^6.6.1",
     "ol-mapbox-style": "^6.4.1",
-    "rambda": "^6.8.3"
+    "rambda": "^6.9.0"
   },
   "devDependencies": {
-    "@types/node": "^16.4.7",
+    "@types/node": "^16.4.13",
     "husky": "^7.0.1",
-    "lint-staged": "^11.1.1",
+    "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
     "typescript": "^4.3.5",
     "vite": "^2.4.4"
