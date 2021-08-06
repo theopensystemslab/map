@@ -1,6 +1,6 @@
 import { css, customElement, html, LitElement, property } from "lit-element";
 import { Control } from "ol/control";
-import { buffer } from 'ol/extent';
+import { buffer } from "ol/extent";
 import { GeoJSON } from "ol/format";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
