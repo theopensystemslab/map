@@ -8,15 +8,17 @@ const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
 export const featureSource = new VectorSource();
 
-export const featureLayer = new VectorLayer({
-  source: featureSource,
-  style: new Style({
-    stroke: new Stroke({
-      width: 3,
-      color: "#0000ff",
+export function createFeatureLayer(color: string) {
+  return new VectorLayer({
+    source: featureSource,
+    style: new Style({
+      stroke: new Stroke({
+        width: 3,
+        color: color,
+      }),
     }),
-  }),
-});
+  });
+}
 
 /**
  * Create an OGC XML filter parameter value which will select the TopographicArea
@@ -55,7 +57,7 @@ export function getFeatures(coord: Array<number>) {
   fetch(getUrl(wfsParams))
     .then((response) => response.json())
     .then((data) => {
-      console.log("features:", data);
+      console.log("features at this point:", data);
 
       if (!data.features.length) return;
 

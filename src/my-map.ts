@@ -1,5 +1,6 @@
 import { css, customElement, html, LitElement, property } from "lit-element";
 import { Control } from "ol/control";
+import { buffer } from "ol/extent";
 import { GeoJSON } from "ol/format";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
@@ -7,7 +8,7 @@ import View from "ol/View";
 import { last } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
-import { featureLayer, featureSource, getFeatures } from "./os-features";
+import { createFeatureLayer, featureSource, getFeatures } from "./os-features";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
 import { formatArea } from "./utils";
 
@@ -57,10 +58,10 @@ export class MyMap extends LitElement {
   maxZoom = 22;
 
   @property({ type: Boolean })
-  drawMode = true;
+  drawMode = false;
 
   @property({ type: Boolean })
-  showFeaturesAtPoint = true;
+  showFeaturesAtPoint = false;
 
   @property({ type: String })
   featureColor = "#0000ff";
@@ -158,11 +159,25 @@ export class MyMap extends LitElement {
 
     if (this.showFeaturesAtPoint) {
       getFeatures(fromLonLat([this.longitude, this.latitude]));
-      
+
+      const featureLayer = createFeatureLayer(this.featureColor);
       map.addLayer(featureLayer);
 
-      const featureExtent = featureSource.getExtent();
-      console.log(featureExtent);
+      // ensure getFeatures has fetched successfully
+      featureSource.on("change", () => {
+        if (
+          featureSource.getState() === "ready" &&
+          featureSource.getFeatures().length > 0
+        ) {
+          // fit map to extent of features
+          const extent = featureSource.getExtent();
+          map.getView().fit(buffer(extent, 40)); // XXX: tricky to set buffer number here since outlined feature may be one bldg on whole site
+
+          // log total area of feature
+          const data = featureSource.getFeatures()[0].getGeometry();
+          console.log("feature total area:", formatArea(data));
+        }
+      });
     }
 
     // XXX: force re-render for safari due to it thinking map is 0 height on load
