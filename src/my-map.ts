@@ -1,11 +1,11 @@
-import { css, customElement, html, LitElement, property } from "lit-element";
+import { css, html, LitElement } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import { Control } from "ol/control";
 import { GeoJSON } from "ol/format";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
 import View from "ol/View";
 import { last } from "rambda";
-
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
 import { formatArea } from "./utils";
