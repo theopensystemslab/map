@@ -18,7 +18,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html",
-    "prepublishOnly": "rm -rf dist types && npm run build"
+    "prepublishOnly": "rm -rf dist types && npm run build",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "lit-element": "^2.5.1",
@@ -27,10 +29,20 @@
     "rambda": "^6.9.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@storybook/addon-actions": "^6.3.7",
+    "@storybook/addon-essentials": "^6.3.7",
+    "@storybook/addon-links": "^6.3.7",
+    "@storybook/builder-webpack5": "^6.3.7",
+    "@storybook/manager-webpack5": "^6.3.7",
+    "@storybook/web-components": "^6.3.7",
     "@types/node": "^16.4.13",
+    "babel-loader": "^8.2.2",
     "husky": "^7.0.1",
     "lint-staged": "^11.1.2",
+    "lit-html": "^1.4.1",
     "prettier": "^2.3.2",
+    "sb": "^6.3.7",
     "typescript": "^4.3.5",
     "vite": "^2.4.4"
   },
