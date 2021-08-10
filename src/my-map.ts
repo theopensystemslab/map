@@ -66,6 +66,9 @@ export class MyMap extends LitElement {
   @property({ type: String })
   featureColor = "#0000ff";
 
+  @property({ type: Number })
+  featureBuffer = 40;
+
   private useVectorTiles =
     Boolean(import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY) &&
     osVectorTileBaseMap;
@@ -99,8 +102,13 @@ export class MyMap extends LitElement {
     button.title = "Reset view";
 
     const handleReset = () => {
-      map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
-      map.getView().setZoom(this.zoom);
+      if (this.showFeaturesAtPoint) {
+        const extent = featureSource.getExtent();
+        map.getView().fit(buffer(extent, this.featureBuffer));
+      } else {
+        map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
+        map.getView().setZoom(this.zoom);
+      }
 
       if (this.drawMode) {
         drawingSource.clear();
@@ -171,7 +179,7 @@ export class MyMap extends LitElement {
         ) {
           // fit map to extent of features
           const extent = featureSource.getExtent();
-          map.getView().fit(buffer(extent, 40)); // XXX: tricky to set buffer number here since outlined feature may be one bldg on whole site
+          map.getView().fit(buffer(extent, this.featureBuffer));
 
           // log total area of feature
           const data = featureSource.getFeatures()[0].getGeometry();
