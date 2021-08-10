@@ -8,9 +8,30 @@ An OpenLayers-powered Web Component map for tasks related to planning permission
 
 [CodeSandbox](https://codesandbox.io/s/confident-benz-rr0s9?file=/index.html)
 
-### Example: load static geojson
+#### Example: render the Ordnance Survey vector tile basemap
 
-Relevant configurable properties & their default values: 
+```html
+<my-map osVectorTilesApiKey="secret" />
+```
+
+Requires access to the Ordnance Survey Vector Tiles API. Sign up for a key here https://osdatahub.os.uk/plans.
+
+Available properties & their default values:
+```js
+@property({ type: Boolean })
+renderVectorTiles = true;
+
+@property({ type: String })
+osVectorTilesApiKey = import.meta.env.VITE_APP_OS_VECTOR_TILES_API_KEY;
+```
+
+We want to use the most detailed base map possible, so `renderVectorTiles` is true by default. If it's true and you've provided an API key, we'll render the Ordnance Survey vector tiles. If you configure it to false, but still provide an API key, we'll render the OS raster base map. If there is no API key, regardless of the value of `renderVectorTiles`, we'll fallback to the OpenStreetMap tile server.
+
+If you're developing locally, you can set your API key as an environment variable, otherwise pass it directly as an html property.
+
+#### Example: load static geojson
+
+Available properties & their default values:
 ```js
 @property({ type: Object })
 geojsonData = {
@@ -29,20 +50,27 @@ geojsonBuffer = 15;
 
 `geojsonColor` & `geojsonBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the geojson features. `geojsonBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html).
 
-### Example: highlight features that intersect with a given coordinate
+#### Example: highlight features that intersect with a given coordinate
 
-Requires access to the Ordnance Survey Features API. Sign up for a key here: https://osdatahub.os.uk/plans. 
+```html
+<my-map showFeaturesAtPoint osFeaturesApiKey="secret" latitude="51.4858363" longitude="-0.0761246" featureColor="#8a2be2" />
+```
 
-Relevant configurable properties & their default values: 
+Requires access to the Ordnance Survey Features API. Sign up for a key here https://osdatahub.os.uk/plans. 
+
+Available properties & their default values:
 ```js
+@property({ type: Boolean })
+showFeaturesAtPoint = false;
+
+@property({ type: String })
+osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY;
+
 @property({ type: Number })
 latitude = 51.507351;
 
 @property({ type: Number })
 longitude = -0.127758;
-
-@property({ type: Boolean })
-showFeaturesAtPoint = false;
 
 @property({ type: String })
 featureColor = "#0000ff";
@@ -51,13 +79,9 @@ featureColor = "#0000ff";
 featureBuffer = 40;
 ```
 
-Set `showFeaturesAtPoint` to true. `latitude` and `longitude` are required and used to query the OS Features API for features that contain this point.
+Set `showFeaturesAtPoint` to true. `osFeaturesApiKey`, `latitude`, and `longitude` are each required to query the OS Features API for features that contain this point. If you're developing locally, you can set your API key as an environment variable, otherwise pass it directly as an html property.
 
 `featureColor` & `featureBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the features. `featureBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html).
-
-```html
-<my-map latitude="51.4858363" longitude="-0.0761246" showFeaturesAtPoint featureColor="#8a2be2" />
-```
 
 ## Running Locally
 

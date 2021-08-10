@@ -94,20 +94,18 @@ export class MyMap extends LitElement {
   @property({ type: String })
   osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY;
 
-  // internal component properties
-  @state()
-  useVectorTiles = this.renderVectorTiles && Boolean(this.osVectorTilesApiKey);
-
   // runs after the initial render
   firstUpdated() {
     const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
+
+    const useVectorTiles = this.renderVectorTiles && Boolean(this.osVectorTilesApiKey);
 
     const rasterBaseMap = makeRasterBaseMap(this.osVectorTilesApiKey);
     const osVectorTileBaseMap = makeOsVectorTileBaseMap(this.osVectorTilesApiKey);
 
     const map = new Map({
       target,
-      layers: [this.useVectorTiles ? osVectorTileBaseMap : rasterBaseMap],
+      layers: [useVectorTiles ? osVectorTileBaseMap : rasterBaseMap],
       view: new View({
         projection: "EPSG:3857",
         extent: transformExtent(
