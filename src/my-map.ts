@@ -11,6 +11,7 @@ import View from "ol/View";
 import { last } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
+import { createFeatureLayer, featureSource, getFeatures } from "./os-features";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
 import { formatArea } from "./utils";
 
@@ -60,7 +61,16 @@ export class MyMap extends LitElement {
   maxZoom = 22;
 
   @property({ type: Boolean })
-  drawMode = true;
+  drawMode = false;
+
+  @property({ type: Boolean })
+  showFeaturesAtPoint = false;
+
+  @property({ type: String })
+  featureColor = "#0000ff";
+
+  @property({ type: Number })
+  featureBuffer = 40;
 
   @property({ type: Object })
   geojsonData = {
@@ -107,9 +117,12 @@ export class MyMap extends LitElement {
     button.title = "Reset view";
 
     const handleReset = () => {
-      if (this.geojsonData.features.length > 0) {
+      if (this.showFeaturesAtPoint) {
+        const extent = featureSource.getExtent();
+        map.getView().fit(buffer(extent, this.featureBuffer));
+      } else if (this.geojsonData.features.length > 0) {
         const extent = outlineSource.getExtent();
-        map.getView().fit(buffer(extent, this.geojsonBuffer)); // overrides default zoom & center
+        map.getView().fit(buffer(extent, this.geojsonBuffer));
       } else {
         map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
         map.getView().setZoom(this.zoom);
@@ -160,9 +173,9 @@ export class MyMap extends LitElement {
     map.addLayer(outlineLayer);
 
     if (this.geojsonData.features.length > 0) {
-      // fit map to extent of features
+      // fit map to extent of features, overriding default zoom & center
       const extent = outlineSource.getExtent();
-      map.getView().fit(buffer(extent, this.geojsonBuffer)); // overrides default zoom & center
+      map.getView().fit(buffer(extent, this.geojsonBuffer));
 
       // log total area of feature (assumes geojson is a single polygon)
       const data = outlineSource.getFeatures()[0].getGeometry();
@@ -195,6 +208,29 @@ export class MyMap extends LitElement {
           // limit to drawing a single polygon
           map.removeInteraction(draw);
           map.removeInteraction(snap);
+        }
+      });
+    }
+
+    if (this.showFeaturesAtPoint) {
+      getFeatures(fromLonLat([this.longitude, this.latitude]));
+
+      const featureLayer = createFeatureLayer(this.featureColor);
+      map.addLayer(featureLayer);
+
+      // ensure getFeatures has fetched successfully
+      featureSource.on("change", () => {
+        if (
+          featureSource.getState() === "ready" &&
+          featureSource.getFeatures().length > 0
+        ) {
+          // fit map to extent of features
+          const extent = featureSource.getExtent();
+          map.getView().fit(buffer(extent, this.featureBuffer));
+
+          // log total area of feature
+          const data = featureSource.getFeatures()[0].getGeometry();
+          console.log("feature total area:", formatArea(data));
         }
       });
     }
