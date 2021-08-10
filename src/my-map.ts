@@ -1,8 +1,12 @@
 import { css, customElement, html, LitElement, property } from "lit-element";
 import { Control } from "ol/control";
+import { buffer } from "ol/extent";
 import { GeoJSON } from "ol/format";
+import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
+import { Vector as VectorSource } from "ol/source";
+import { Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
 
@@ -58,6 +62,18 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   drawMode = true;
 
+  @property({ type: Object })
+  geojsonData = {
+    type: "FeatureCollection",
+    features: [],
+  };
+
+  @property({ type: String })
+  geojsonColor = "#ff0000";
+
+  @property({ type: Number })
+  geojsonBuffer = 12;
+
   private useVectorTiles =
     Boolean(import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY) &&
     osVectorTileBaseMap;
@@ -91,8 +107,13 @@ export class MyMap extends LitElement {
     button.title = "Reset view";
 
     const handleReset = () => {
-      map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
-      map.getView().setZoom(this.zoom);
+      if (this.geojsonData.features.length > 0) {
+        const extent = outlineSource.getExtent();
+        map.getView().fit(buffer(extent, this.geojsonBuffer)); // overrides default zoom & center
+      } else {
+        map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
+        map.getView().setZoom(this.zoom);
+      }
 
       if (this.drawMode) {
         drawingSource.clear();
@@ -118,6 +139,35 @@ export class MyMap extends LitElement {
     map.on("pointermove", () => {
       map.getViewport().style.cursor = "grab";
     });
+
+    // add a vector layer to display static geojson if features are provided
+    const outlineSource = new VectorSource({
+      features: new GeoJSON().readFeatures(this.geojsonData, {
+        featureProjection: "EPSG:3857",
+      }),
+    });
+
+    const outlineLayer = new VectorLayer({
+      source: outlineSource,
+      style: new Style({
+        stroke: new Stroke({
+          color: this.geojsonColor,
+          width: 3,
+        }),
+      }),
+    });
+
+    map.addLayer(outlineLayer);
+
+    if (this.geojsonData.features.length > 0) {
+      // fit map to extent of features
+      const extent = outlineSource.getExtent();
+      map.getView().fit(buffer(extent, this.geojsonBuffer)); // overrides default zoom & center
+
+      // log total area of feature (assumes geojson is a single polygon)
+      const data = outlineSource.getFeatures()[0].getGeometry();
+      console.log('geojsonData total area:', formatArea(data));
+    }
 
     if (this.drawMode) {
       map.addLayer(drawingLayer);
