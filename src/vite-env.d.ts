@@ -1,8 +1,8 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  VITE_APP_ORDNANCE_SURVEY_KEY: string;
-  VITE_APP_OS_WFS_KEY: string;
+  VITE_APP_OS_VECTOR_TILES_API_KEY: string;
+  VITE_APP_OS_FEATURES_API_KEY: string;
 }
 
 declare module "ol-mapbox-style/dist/stylefunction";

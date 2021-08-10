@@ -8,7 +8,7 @@ const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
 export const featureSource = new VectorSource();
 
-export function createFeatureLayer(color: string) {
+export function makeFeatureLayer(color: string) {
   return new VectorLayer({
     source: featureSource,
     style: new Style({

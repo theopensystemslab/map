@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { Control } from "ol/control";
 import { buffer } from "ol/extent";
 import { GeoJSON } from "ol/format";
@@ -10,9 +10,10 @@ import { Vector as VectorSource } from "ol/source";
 import { Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
+
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
-import { createFeatureLayer, featureSource, getFeaturesAtPoint } from "./os-features";
-import { osVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
+import { makeFeatureLayer, featureSource, getFeaturesAtPoint } from "./os-features";
+import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { formatArea } from "./utils";
 
 @customElement("my-map")
@@ -84,20 +85,25 @@ export class MyMap extends LitElement {
   @property({ type: Number })
   geojsonBuffer = 12;
 
+  @property({ type: Boolean })
+  renderVectorTiles = true;
+
   @property({ type: String })
   osVectorTilesApiKey = import.meta.env.VITE_APP_OS_VECTOR_TILES_API_KEY;
 
   @property({ type: String })
   osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY;
 
-  private useVectorTiles =
-    Boolean(this.osVectorTilesApiKey) && osVectorTileBaseMap;
+  // internal component properties
+  @state()
+  useVectorTiles = this.renderVectorTiles && Boolean(this.osVectorTilesApiKey);
 
   // runs after the initial render
   firstUpdated() {
     const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
 
     const rasterBaseMap = makeRasterBaseMap(this.osVectorTilesApiKey);
+    const osVectorTileBaseMap = makeOsVectorTileBaseMap(this.osVectorTilesApiKey);
 
     const map = new Map({
       target,
@@ -225,7 +231,7 @@ export class MyMap extends LitElement {
         this.osFeaturesApiKey
       );
 
-      const featureLayer = createFeatureLayer(this.featureColor);
+      const featureLayer = makeFeatureLayer(this.featureColor);
       map.addLayer(featureLayer);
 
       // ensure getFeatures has fetched successfully
