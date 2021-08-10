@@ -1,4 +1,5 @@
-import { css, customElement, html, LitElement, property } from "lit-element";
+import { css, html, LitElement } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import { Control } from "ol/control";
 import { buffer } from "ol/extent";
 import { GeoJSON } from "ol/format";
@@ -9,7 +10,6 @@ import { Vector as VectorSource } from "ol/source";
 import { Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
-
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
 import { createFeatureLayer, featureSource, getFeatures } from "./os-features";
 import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
