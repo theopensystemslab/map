@@ -1,6 +1,6 @@
 {
   "name": "@opensystemslab/map",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "license": "OGL-UK-3.0",
   "private": false,
   "repository": {
@@ -21,7 +21,7 @@
     "prepublishOnly": "rm -rf dist types && npm run build"
   },
   "dependencies": {
-    "lit-element": "^2.5.1",
+    "lit": "^2.0.0-rc.2",
     "ol": "^6.6.1",
     "ol-mapbox-style": "^6.4.1",
     "rambda": "^6.9.0"
