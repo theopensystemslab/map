@@ -11,8 +11,8 @@ import View from "ol/View";
 import { last } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
-import { createFeatureLayer, featureSource, getFeatures } from "./os-features";
-import { osVectorTileBaseMap, rasterBaseMap } from "./os-layers";
+import { createFeatureLayer, featureSource, getFeaturesAtPoint } from "./os-features";
+import { osVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { formatArea } from "./utils";
 
 @customElement("my-map")
@@ -84,13 +84,20 @@ export class MyMap extends LitElement {
   @property({ type: Number })
   geojsonBuffer = 12;
 
+  @property({ type: String })
+  osVectorTilesApiKey = import.meta.env.VITE_APP_OS_VECTOR_TILES_API_KEY;
+
+  @property({ type: String })
+  osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY;
+
   private useVectorTiles =
-    Boolean(import.meta.env.VITE_APP_ORDNANCE_SURVEY_KEY) &&
-    osVectorTileBaseMap;
+    Boolean(this.osVectorTilesApiKey) && osVectorTileBaseMap;
 
   // runs after the initial render
   firstUpdated() {
     const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
+
+    const rasterBaseMap = makeRasterBaseMap(this.osVectorTilesApiKey);
 
     const map = new Map({
       target,
@@ -179,7 +186,7 @@ export class MyMap extends LitElement {
 
       // log total area of feature (assumes geojson is a single polygon)
       const data = outlineSource.getFeatures()[0].getGeometry();
-      console.log('geojsonData total area:', formatArea(data));
+      console.log("geojsonData total area:", formatArea(data));
     }
 
     if (this.drawMode) {
@@ -213,7 +220,10 @@ export class MyMap extends LitElement {
     }
 
     if (this.showFeaturesAtPoint) {
-      getFeatures(fromLonLat([this.longitude, this.latitude]));
+      getFeaturesAtPoint(
+        fromLonLat([this.longitude, this.latitude]),
+        this.osFeaturesApiKey
+      );
 
       const featureLayer = createFeatureLayer(this.featureColor);
       map.addLayer(featureLayer);
