@@ -2,7 +2,9 @@
 
 [![npm @opensystemslab/map](https://img.shields.io/npm/v/@opensystemslab/map?style=flat-square)](http://npm.im/@opensystemslab/map)
 
-An OpenLayers-powered Web Component map for tasks related to planning permission in the UK.
+An [OpenLayers](https://openlayers.org/)-powered [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) map for tasks related to planning permission in the UK.
+
+![anim](https://user-images.githubusercontent.com/601961/128994212-11ffa793-5db4-4cac-a616-a2f949fe9360.gif)
 
 ## Demo
 
@@ -65,3 +67,7 @@ Set `showFeaturesAtPoint` to true. `latitude` and `longitude` are required and u
 - Install dependencies `pnpm i`
 - Start dev server `pnpm dev`
 - Open http://localhost:3000
+
+## License
+
+This repository is licensed under the [Open Government License v3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
