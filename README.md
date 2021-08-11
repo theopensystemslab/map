@@ -22,14 +22,22 @@ Available properties & their default values:
 renderVectorTiles = true;
 
 @property({ type: String })
-osVectorTilesApiKey = import.meta.env.VITE_APP_OS_VECTOR_TILES_API_KEY;
+osVectorTilesApiKey = "";
 ```
 
 We want to use the most detailed base map possible, so `renderVectorTiles` is true by default. If it's true and you've provided an API key, we'll render the Ordnance Survey vector tiles. If you configure it to false, but still provide an API key, we'll render the OS raster base map. If there is no API key, regardless of the value of `renderVectorTiles`, we'll fallback to the OpenStreetMap tile server.
 
-If you're developing locally, you can set your API key as an environment variable, otherwise pass it directly as an html property.
-
 #### Example: load static geojson
+
+```html
+<body>
+  <my-map geojsonBuffer="10" />
+  <script>
+    const map = document.querySelector("my-map");
+    map.geojsonData = { ... }
+  </script>
+</body>
+```
 
 Available properties & their default values:
 ```js
@@ -64,7 +72,7 @@ Available properties & their default values:
 showFeaturesAtPoint = false;
 
 @property({ type: String })
-osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY;
+osFeaturesApiKey = "";
 
 @property({ type: Number })
 latitude = 51.507351;
@@ -79,13 +87,13 @@ featureColor = "#0000ff";
 featureBuffer = 40;
 ```
 
-Set `showFeaturesAtPoint` to true. `osFeaturesApiKey`, `latitude`, and `longitude` are each required to query the OS Features API for features that contain this point. If you're developing locally, you can set your API key as an environment variable, otherwise pass it directly as an html property.
+Set `showFeaturesAtPoint` to true. `osFeaturesApiKey`, `latitude`, and `longitude` are each required to query the OS Features API for features that contain this point.
 
 `featureColor` & `featureBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the features. `featureBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html).
 
 ## Running Locally
 
-- Rename `.env.example` to `.env.local` and replace the values
+- Rename `.env.example` to `.env.development.local` and replace the values - or simply provide your API keys as props
 - Install dependencies `pnpm i`
 - Start dev server `pnpm dev`
 - Open http://localhost:3000

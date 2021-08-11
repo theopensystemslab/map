@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { Control } from "ol/control";
 import { buffer } from "ol/extent";
 import { GeoJSON } from "ol/format";
@@ -89,10 +89,10 @@ export class MyMap extends LitElement {
   renderVectorTiles = true;
 
   @property({ type: String })
-  osVectorTilesApiKey = import.meta.env.VITE_APP_OS_VECTOR_TILES_API_KEY;
+  osVectorTilesApiKey = import.meta.env.VITE_APP_OS_VECTOR_TILES_API_KEY || "";
 
   @property({ type: String })
-  osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY;
+  osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY || "";
 
   // runs after the initial render
   firstUpdated() {
