@@ -8,7 +8,7 @@ const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
 export const featureSource = new VectorSource();
 
-export function createFeatureLayer(color: string) {
+export function makeFeatureLayer(color: string) {
   return new VectorLayer({
     source: featureSource,
     style: new Style({
@@ -24,8 +24,9 @@ export function createFeatureLayer(color: string) {
  * Create an OGC XML filter parameter value which will select the TopographicArea
  *   features containing the coordinates of the provided point
  * @param coord - xy coordinate
+ * @param apiKey - Ordnance Survey Features API key, sign up here: https://osdatahub.os.uk/plans
  */
-export function getFeatures(coord: Array<number>) {
+export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
   const xml = `
     <ogc:Filter>
       <ogc:Contains>
@@ -38,9 +39,10 @@ export function getFeatures(coord: Array<number>) {
       </ogc:Contains>
     </ogc:Filter>
   `;
+
   // Define (WFS) parameters object
   const wfsParams = {
-    key: import.meta.env.VITE_APP_OS_WFS_KEY,
+    key: apiKey,
     service: "WFS",
     request: "GetFeature",
     version: "2.0.0",
