@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.2.0] - 2021-08-12
+
+### Changed
+- **BREAKING**: Ordnance Survey API keys are now provided client-side as optional properties `osVectorTilesApiKey`, `osFeatuesApiKey` ([#29](https://github.com/theopensystemslab/map/pull/29)
+- fix: `geojsonData` now handles individual "Feature" types in addition to "FeatureCollection" ([#34](https://github.com/theopensystemslab/map/pull/34))
+
+### Added 
+- docs: basic examples in README ([#33](https://github.com/theopensystemslab/map/pull/33), [#35](https://github.com/theopensystemslab/map/pull/35))
+- feat: github workflow for publishing to npm ([#30](https://github.com/theopensystemslab/map/pull/30))
+
 ## [0.1.0] - 2021-08-10
 
 ### Changed
