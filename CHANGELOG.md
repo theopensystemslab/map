@@ -17,7 +17,6 @@ incremented for features.
 
 ### Added 
 - docs: basic examples + gif ([#33](https://github.com/theopensystemslab/map/pull/33), [#35](https://github.com/theopensystemslab/map/pull/35))
-- feat: github workflow for publishing to npm ([#30](https://github.com/theopensystemslab/map/pull/30))
 
 ## [0.1.0] - 2021-08-10
 
