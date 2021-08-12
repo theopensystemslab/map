@@ -60,6 +60,39 @@ geojsonBuffer = 15;
 
 `geojsonColor` & `geojsonBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the geojson features. `geojsonBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html).
 
+#### Example: draw a custom polygon & calculate its' area
+
+```html
+<body>
+  <my-map drawMode zoom="18" />
+  <script>
+    const map = document.querySelector("my-map");
+    map.addEventListener("areaChange", ({ detail: area }) => {
+      console.debug({ area });
+    });
+  </script>
+</body>
+```
+
+Available properties & their default values:
+```js
+@property({ type: Boolean })
+drawMode = false;
+
+@property({ type: Number })
+latitude = 51.507351;
+
+@property({ type: Number })
+longitude = -0.127758;
+
+@property({ type: Number })
+zoom = 10;
+```
+
+Set `drawMode` to true. `latitude`, `longitude`, and `zoom` are used to set the initial map view. Drawing style is red by default, consistent with site plan standards in the UK.
+
+We currently limit drawing to a single polygon. After you close your polygon, you can modify it by clicking on an edge and dragging. The `↻` button will clear your drawing and recenter the map. Add an optional event listener to log the total area in square metres.
+
 #### Example: highlight features that intersect with a given coordinate
 
 ```html
