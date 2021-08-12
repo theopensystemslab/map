@@ -56,7 +56,7 @@ geojsonColor = "#ff0000";
 geojsonBuffer = 15;
 ```
 
-`geojsonData` is required. The default is an empty geojson object so that we can initialize a VectorLayer & VectorSource regardless. This is currently optimized for geojson containing a single polygon feature.
+`geojsonData` is required, and should be of type "FeatureCollection" or "Feature". The default is an empty geojson object so that we can initialize a VectorLayer & VectorSource regardless. This is currently optimized for geojson containing a single polygon feature.
 
 `geojsonColor` & `geojsonBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the geojson features. `geojsonBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html).
 

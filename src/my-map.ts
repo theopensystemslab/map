@@ -12,7 +12,11 @@ import View from "ol/View";
 import { last } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
-import { makeFeatureLayer, featureSource, getFeaturesAtPoint } from "./os-features";
+import {
+  makeFeatureLayer,
+  featureSource,
+  getFeaturesAtPoint,
+} from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { formatArea } from "./utils";
 
@@ -98,10 +102,13 @@ export class MyMap extends LitElement {
   firstUpdated() {
     const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
 
-    const useVectorTiles = this.renderVectorTiles && Boolean(this.osVectorTilesApiKey);
+    const useVectorTiles =
+      this.renderVectorTiles && Boolean(this.osVectorTilesApiKey);
 
     const rasterBaseMap = makeRasterBaseMap(this.osVectorTilesApiKey);
-    const osVectorTileBaseMap = makeOsVectorTileBaseMap(this.osVectorTilesApiKey);
+    const osVectorTileBaseMap = makeOsVectorTileBaseMap(
+      this.osVectorTilesApiKey
+    );
 
     const map = new Map({
       target,
@@ -165,11 +172,19 @@ export class MyMap extends LitElement {
     });
 
     // add a vector layer to display static geojson if features are provided
-    const outlineSource = new VectorSource({
-      features: new GeoJSON().readFeatures(this.geojsonData, {
+    const outlineSource = new VectorSource();
+
+    if (this.geojsonData.type === "FeatureCollection") {
+      let features = new GeoJSON().readFeatures(this.geojsonData, {
         featureProjection: "EPSG:3857",
-      }),
-    });
+      });
+      outlineSource.addFeatures(features);
+    } else if (this.geojsonData.type === "Feature") {
+      let feature = new GeoJSON().readFeature(this.geojsonData, {
+        featureProjection: "EPSG:3857",
+      });
+      outlineSource.addFeature(feature);
+    }
 
     const outlineLayer = new VectorLayer({
       source: outlineSource,
@@ -183,12 +198,12 @@ export class MyMap extends LitElement {
 
     map.addLayer(outlineLayer);
 
-    if (this.geojsonData.features.length > 0) {
-      // fit map to extent of features, overriding default zoom & center
+    if (outlineSource.getFeatures().length > 0) {
+      // fit map to extent of geojson features, overriding default zoom & center
       const extent = outlineSource.getExtent();
       map.getView().fit(buffer(extent, this.geojsonBuffer));
 
-      // log total area of feature (assumes geojson is a single polygon)
+      // log total area of first feature (assumes geojson is a single polygon for now)
       const data = outlineSource.getFeatures()[0].getGeometry();
       console.log("geojsonData total area:", formatArea(data));
     }
