@@ -90,7 +90,7 @@ export class MyMap extends LitElement {
   geojsonBuffer = 12;
 
   @property({ type: Boolean })
-  renderVectorTiles = true;
+  disableVectorTiles = false;
 
   @property({ type: String })
   osVectorTilesApiKey = import.meta.env.VITE_APP_OS_VECTOR_TILES_API_KEY || "";
@@ -103,7 +103,7 @@ export class MyMap extends LitElement {
     const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
 
     const useVectorTiles =
-      this.renderVectorTiles && Boolean(this.osVectorTilesApiKey);
+      !this.disableVectorTiles && Boolean(this.osVectorTilesApiKey);
 
     const rasterBaseMap = makeRasterBaseMap(this.osVectorTilesApiKey);
     const osVectorTileBaseMap = makeOsVectorTileBaseMap(

@@ -21,13 +21,13 @@ Requires access to the Ordnance Survey Vector Tiles API. Sign up for a key here 
 Available properties & their default values:
 ```js
 @property({ type: Boolean })
-renderVectorTiles = true;
+disableVectorTiles = false;
 
 @property({ type: String })
 osVectorTilesApiKey = "";
 ```
 
-We want to use the most detailed base map possible, so `renderVectorTiles` is true by default. If it's true and you've provided an API key, we'll render the Ordnance Survey vector tiles. If you configure it to false, but still provide an API key, we'll render the OS raster base map. If there is no API key, regardless of the value of `renderVectorTiles`, we'll fallback to the OpenStreetMap tile server.
+We want to use the most detailed base map possible, so `disableVectorTiles` is false by default. If you configure it to true & you provide an API key, we'll render the OS raster base map. If there is no API key, regardless of the value of `disableVectorTiles`, we'll fallback to the OpenStreetMap tile server.
 
 #### Example: load static geojson
 
