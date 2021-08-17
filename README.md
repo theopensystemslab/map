@@ -29,11 +29,11 @@ osVectorTilesApiKey = "";
 
 We want to use the most detailed base map possible, so `disableVectorTiles` is false by default. If you configure it to true & you provide an API key, we'll render the OS raster base map. If there is no API key, regardless of the value of `disableVectorTiles`, we'll fallback to the OpenStreetMap tile server.
 
-#### Example: load static geojson
+#### Example: load geojson on a static map
 
 ```html
 <body>
-  <my-map geojsonBuffer="10" />
+  <my-map geojsonBuffer="10" hideResetControl staticMode />
   <script>
     const map = document.querySelector("my-map");
     map.geojsonData = { ... }
@@ -54,11 +54,19 @@ geojsonColor = "#ff0000";
 
 @property({ type: Number })
 geojsonBuffer = 15;
+
+@property({ type: Boolean })
+hideResetControl = false;
+
+@property({ type: Boolean })
+staticMode = false;
 ```
 
 `geojsonData` is required, and should be of type "FeatureCollection" or "Feature". The default is an empty geojson object so that we can initialize a VectorLayer & VectorSource regardless. This is currently optimized for geojson containing a single polygon feature.
 
 `geojsonColor` & `geojsonBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the geojson features. `geojsonBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html).
+
+`hideResetControl` hides the `↻` button, which when clicked would re-center your map if you've zoomed or panned away from the default view. `staticMode` additionally hides the `+/-` buttons, and disables mouse and keyboard zoom and pan/drag interactions.
 
 #### Example: draw a custom polygon & calculate its' area
 

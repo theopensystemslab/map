@@ -1,8 +1,9 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Control } from "ol/control";
+import { Control, defaults as defaultControls } from "ol/control";
 import { buffer } from "ol/extent";
 import { GeoJSON } from "ol/format";
+import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
@@ -98,6 +99,12 @@ export class MyMap extends LitElement {
   @property({ type: String })
   osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY || "";
 
+  @property({ type: Boolean })
+  hideResetControl = false;
+
+  @property({ type: Boolean })
+  staticMode = false;
+
   // runs after the initial render
   firstUpdated() {
     const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
@@ -126,6 +133,15 @@ export class MyMap extends LitElement {
         center: fromLonLat([this.longitude, this.latitude]),
         zoom: this.zoom,
         enableRotation: false,
+      }),
+      controls: defaultControls({
+        attribution: true,
+        zoom: !this.staticMode,
+      }),
+      interactions: defaultInteractions({
+        doubleClickZoom: !this.staticMode,
+        dragPan: !this.staticMode,
+        mouseWheelZoom: !this.staticMode,
       }),
     });
 
@@ -160,7 +176,10 @@ export class MyMap extends LitElement {
     element.appendChild(button);
 
     var ResetControl = new Control({ element: element });
-    map.addControl(ResetControl);
+
+    if (!this.hideResetControl) {
+      map.addControl(ResetControl);
+    }
 
     // define cursors for dragging/panning and moving
     map.on("pointerdrag", () => {
