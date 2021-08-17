@@ -154,7 +154,7 @@ export class MyMap extends LitElement {
       if (this.showFeaturesAtPoint) {
         const extent = featureSource.getExtent();
         map.getView().fit(buffer(extent, this.featureBuffer));
-      } else if (this.geojsonData.features.length > 0) {
+      } else if (outlineSource.getFeatures().length > 0) {
         const extent = outlineSource.getExtent();
         map.getView().fit(buffer(extent, this.geojsonBuffer));
       } else {
