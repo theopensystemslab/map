@@ -21,6 +21,7 @@
     "prepublishOnly": "rm -rf dist types && npm run build"
   },
   "dependencies": {
+    "@turf/union": "^6.5.0",
     "lit": "^2.0.0-rc.2",
     "ol": "^6.6.1",
     "ol-mapbox-style": "^6.4.1",
