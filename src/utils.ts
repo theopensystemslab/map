@@ -1,13 +1,15 @@
 import Geometry from "ol/geom/Geometry";
 import { getArea } from "ol/sphere";
 
+export type AreaUnitsEnum =  "m2" | "ha";
+
 /**
  * Calculate & format the area of a polygon
  * @param polygon
  * @param units - defaults to square metres ("m2"), or supports "ha" for hectares
- * @returns - a string
+ * @returns - the total area formatted with units as a string
  */
-export function formatArea(polygon: Geometry, units: String = "m2") {
+export function formatArea(polygon: Geometry, units: AreaUnitsEnum) {
   const area = getArea(polygon);
 
   const squareMetres = Math.round(area * 100) / 100;
