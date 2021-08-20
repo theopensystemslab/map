@@ -228,6 +228,7 @@ export class MyMap extends LitElement {
     }
 
     if (this.drawMode) {
+      drawingSource.clear();
       map.addLayer(drawingLayer);
 
       map.addInteraction(modify);
