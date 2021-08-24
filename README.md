@@ -64,7 +64,7 @@ staticMode = false;
 
 `geojsonData` is required, and should be of type "FeatureCollection" or "Feature". The default is an empty geojson object so that we can initialize a VectorLayer & VectorSource regardless. This is currently optimized for geojson containing a single polygon feature.
 
-`geojsonColor` & `geojsonBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the geojson features. `geojsonBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html).
+`geojsonColor` & `geojsonBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the geojson features. `geojsonBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html#.buffer).
 
 `hideResetControl` hides the `↻` button, which when clicked would re-center your map if you've zoomed or panned away from the default view. `staticMode` additionally hides the `+/-` buttons, and disables mouse and keyboard zoom and pan/drag interactions.
 
@@ -132,7 +132,17 @@ featureBuffer = 40;
 
 Set `showFeaturesAtPoint` to true. `osFeaturesApiKey`, `latitude`, and `longitude` are each required to query the OS Features API for features that contain this point.
 
-`featureColor` & `featureBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the features. `featureBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html).
+`featureColor` & `featureBuffer` are optional style properties. Color sets the stroke of the displayed data and buffer is used to fit the map view to the extent of the features. `featureBuffer` corresponds to "value" param in OL documentation [here](https://openlayers.org/en/latest/apidoc/module-ol_extent.html#.buffer).
+
+#### Example: click to expand or deselect the highlighted feature
+
+Extends prior example by making the map interactive and listening for single click events. Currently only possible when `showFeaturesAtPoint` is also enabled.
+
+```html
+<my-map showFeaturesAtPoint clickFeatures ... />
+```
+
+Set `clickFeatures` to true, this will begin listening for single click events. New features will be highlighted or de-selected as you click. If the selected features share borders, the highlight border will appear as a merged single feature.
 
 ## Running Locally
 

@@ -1,7 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Control, defaults as defaultControls } from "ol/control";
-import { buffer } from "ol/extent";
 import { GeoJSON } from "ol/format";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
@@ -13,9 +12,13 @@ import View from "ol/View";
 import { last } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
-import { makeFeatureLayer, outlineSource, getFeaturesAtPoint } from "./os-features";
+import {
+  makeFeatureLayer,
+  outlineSource,
+  getFeaturesAtPoint,
+} from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
-import { formatArea } from "./utils";
+import { fitToData, formatArea } from "./utils";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
@@ -151,11 +154,9 @@ export class MyMap extends LitElement {
 
     const handleReset = () => {
       if (this.showFeaturesAtPoint) {
-        const extent = outlineSource.getExtent();
-        map.getView().fit(buffer(extent, this.featureBuffer));
+        fitToData(map, outlineSource, this.featureBuffer);
       } else if (geojsonSource.getFeatures().length > 0) {
-        const extent = geojsonSource.getExtent();
-        map.getView().fit(buffer(extent, this.geojsonBuffer));
+        fitToData(map, geojsonSource, this.geojsonBuffer);
       } else {
         map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
         map.getView().setZoom(this.zoom);
@@ -218,8 +219,7 @@ export class MyMap extends LitElement {
 
     if (geojsonSource.getFeatures().length > 0) {
       // fit map to extent of geojson features, overriding default zoom & center
-      const extent = geojsonSource.getExtent();
-      map.getView().fit(buffer(extent, this.geojsonBuffer));
+      fitToData(map, geojsonSource, this.geojsonBuffer);
 
       // log total area of first feature (assumes geojson is a single polygon for now)
       const data = geojsonSource.getFeatures()[0].getGeometry();
@@ -278,8 +278,7 @@ export class MyMap extends LitElement {
           outlineSource.getFeatures().length > 0
         ) {
           // fit map to extent of features
-          const extent = outlineSource.getExtent();
-          map.getView().fit(buffer(extent, this.featureBuffer));
+          fitToData(map, outlineSource, this.featureBuffer);
 
           // log total area of feature or merged features
           const data = outlineSource.getFeatures()[0].getGeometry();
