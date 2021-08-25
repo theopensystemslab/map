@@ -19,7 +19,7 @@ import {
   getFeaturesAtPoint,
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
-import { AreaUnitsEnum, formatArea } from "./utils";
+import { AreaUnitEnum, formatArea } from "./utils";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
@@ -106,7 +106,7 @@ export class MyMap extends LitElement {
   staticMode = false;
 
   @property({ type: String })
-  areaUnits: AreaUnitsEnum = "m2"
+  areaUnit: AreaUnitEnum = "m2"
 
   // runs after the initial render
   firstUpdated() {
@@ -227,7 +227,7 @@ export class MyMap extends LitElement {
 
       // log total area of first feature (assumes geojson is a single polygon for now)
       const data = outlineSource.getFeatures()[0].getGeometry();
-      console.log("geojsonData total area:", formatArea(data, this.areaUnits));
+      console.log("geojsonData total area:", formatArea(data, this.areaUnit));
     }
 
     if (this.drawMode) {
@@ -251,7 +251,7 @@ export class MyMap extends LitElement {
             })
           );
 
-          this.dispatch("areaChange", formatArea(lastSketchGeom, this.areaUnits));
+          this.dispatch("areaChange", formatArea(lastSketchGeom, this.areaUnit));
 
           // limit to drawing a single polygon
           map.removeInteraction(draw);
@@ -281,7 +281,7 @@ export class MyMap extends LitElement {
 
           // log total area of feature
           const data = featureSource.getFeatures()[0].getGeometry();
-          console.log("feature total area:", formatArea(data, this.areaUnits));
+          console.log("feature total area:", formatArea(data, this.areaUnit));
         }
       });
     }
