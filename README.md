@@ -72,7 +72,7 @@ staticMode = false;
 
 ```html
 <body>
-  <my-map drawMode zoom="18" />
+  <my-map drawMode zoom="18" areaUnit="ha" />
   <script>
     const map = document.querySelector("my-map");
     map.addEventListener("areaChange", ({ detail: area }) => {
@@ -95,11 +95,14 @@ longitude = -0.127758;
 
 @property({ type: Number })
 zoom = 10;
+
+@property({ type: String })
+areaUnit = "m2"
 ```
 
 Set `drawMode` to true. `latitude`, `longitude`, and `zoom` are used to set the initial map view. Drawing style is red by default, consistent with site plan standards in the UK.
 
-We currently limit drawing to a single polygon. After you close your polygon, you can modify it by clicking on an edge and dragging. The `↻` button will clear your drawing and recenter the map. Add an optional event listener to log the total area in square metres.
+We currently limit drawing to a single polygon. After you close your polygon, you can modify it by clicking on an edge and dragging. The `↻` button will clear your drawing and recenter the map. Add an optional event listener to calculate the total area of the drawing. `areaUnit` defaults to "m2" for square metres, but can also be configured to "ha" for hectares.
 
 #### Example: highlight features that intersect with a given coordinate
 

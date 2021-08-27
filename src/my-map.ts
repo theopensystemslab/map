@@ -18,7 +18,7 @@ import {
   getFeaturesAtPoint,
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
-import { fitToData, formatArea } from "./utils";
+import { AreaUnitEnum, fitToData, formatArea } from "./utils";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
@@ -106,6 +106,9 @@ export class MyMap extends LitElement {
 
   @property({ type: Boolean })
   staticMode = false;
+
+  @property({ type: String })
+  areaUnit: AreaUnitEnum = "m2"
 
   // runs after the initial render
   firstUpdated() {
@@ -223,15 +226,17 @@ export class MyMap extends LitElement {
 
       // log total area of first feature (assumes geojson is a single polygon for now)
       const data = geojsonSource.getFeatures()[0].getGeometry();
-      console.log("geojsonData total area:", formatArea(data));
+      console.log("geojsonData total area:", formatArea(data, this.areaUnit));
     }
 
     if (this.drawMode) {
+      // ensure we start from an empty array of features
+      drawingSource.clear();
       map.addLayer(drawingLayer);
 
-      map.addInteraction(modify);
       map.addInteraction(draw);
       map.addInteraction(snap);
+      map.addInteraction(modify);
 
       // 'change' listens for 'drawend' and modifications
       drawingSource.on("change", () => {
@@ -247,9 +252,9 @@ export class MyMap extends LitElement {
             })
           );
 
-          this.dispatch("areaChange", formatArea(lastSketchGeom));
+          this.dispatch("areaChange", formatArea(lastSketchGeom, this.areaUnit));
 
-          // limit to drawing a single polygon
+          // limit to drawing a single polygon, only allow modifications to existing shape
           map.removeInteraction(draw);
           map.removeInteraction(snap);
         }
@@ -282,7 +287,7 @@ export class MyMap extends LitElement {
 
           // log total area of feature or merged features
           const data = outlineSource.getFeatures()[0].getGeometry();
-          console.log("feature(s) total area:", formatArea(data));
+          console.log("feature(s) total area:", formatArea(data, this.areaUnit));
         }
       });
     }
