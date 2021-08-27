@@ -231,11 +231,13 @@ export class MyMap extends LitElement {
     }
 
     if (this.drawMode) {
+      // ensure we start from an empty array of features
+      drawingSource.clear();
       map.addLayer(drawingLayer);
 
-      map.addInteraction(modify);
       map.addInteraction(draw);
       map.addInteraction(snap);
+      map.addInteraction(modify);
 
       // 'change' listens for 'drawend' and modifications
       drawingSource.on("change", () => {
@@ -253,7 +255,7 @@ export class MyMap extends LitElement {
 
           this.dispatch("areaChange", formatArea(lastSketchGeom, this.areaUnit));
 
-          // limit to drawing a single polygon
+          // limit to drawing a single polygon, only allow modifications to existing shape
           map.removeInteraction(draw);
           map.removeInteraction(snap);
         }
