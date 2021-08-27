@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.3.1] - 2021-08-27
+
+### Changed
+- fix: any prior drawings are cleared upon enabling `drawMode`, resolving an edge case that could occur in PlanX 'back' button behavior ([#50](https://github.com/theopensystemslab/map/pull/50))
+
+### Added
+- feat: string property `areaUnit` to specify "m2" for metres squared (default) or "ha" for hectares when returning the total area of a feature ([#51](https://github.com/theopensystemslab/map/pull/51))
+- feat: boolean property `clickFeatures` to extend the `showFeaturesAtPoint` mode, by allowing a user to click to select or de-select features ([#48](https://github.com/theopensystemslab/map/pull/48))
+
 ## [0.3.0] - 2021-08-17
 
 ### Changed
