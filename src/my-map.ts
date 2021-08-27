@@ -1,7 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Control, defaults as defaultControls } from "ol/control";
-import { buffer } from "ol/extent";
 import { GeoJSON } from "ol/format";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
@@ -15,11 +14,11 @@ import { last } from "rambda";
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
 import {
   makeFeatureLayer,
-  featureSource,
+  outlineSource,
   getFeaturesAtPoint,
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
-import { formatArea } from "./utils";
+import { AreaUnitEnum, fitToData, formatArea } from "./utils";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
@@ -72,6 +71,9 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   showFeaturesAtPoint = false;
 
+  @property({ type: Boolean })
+  clickFeatures = false;
+
   @property({ type: String })
   featureColor = "#0000ff";
 
@@ -104,6 +106,9 @@ export class MyMap extends LitElement {
 
   @property({ type: Boolean })
   staticMode = false;
+
+  @property({ type: String })
+  areaUnit: AreaUnitEnum = "m2"
 
   // runs after the initial render
   firstUpdated() {
@@ -152,11 +157,9 @@ export class MyMap extends LitElement {
 
     const handleReset = () => {
       if (this.showFeaturesAtPoint) {
-        const extent = featureSource.getExtent();
-        map.getView().fit(buffer(extent, this.featureBuffer));
-      } else if (outlineSource.getFeatures().length > 0) {
-        const extent = outlineSource.getExtent();
-        map.getView().fit(buffer(extent, this.geojsonBuffer));
+        fitToData(map, outlineSource, this.featureBuffer);
+      } else if (geojsonSource.getFeatures().length > 0) {
+        fitToData(map, geojsonSource, this.geojsonBuffer);
       } else {
         map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
         map.getView().setZoom(this.zoom);
@@ -191,22 +194,22 @@ export class MyMap extends LitElement {
     });
 
     // add a vector layer to display static geojson if features are provided
-    const outlineSource = new VectorSource();
+    const geojsonSource = new VectorSource();
 
     if (this.geojsonData.type === "FeatureCollection") {
       let features = new GeoJSON().readFeatures(this.geojsonData, {
         featureProjection: "EPSG:3857",
       });
-      outlineSource.addFeatures(features);
+      geojsonSource.addFeatures(features);
     } else if (this.geojsonData.type === "Feature") {
       let feature = new GeoJSON().readFeature(this.geojsonData, {
         featureProjection: "EPSG:3857",
       });
-      outlineSource.addFeature(feature);
+      geojsonSource.addFeature(feature);
     }
 
-    const outlineLayer = new VectorLayer({
-      source: outlineSource,
+    const geojsonLayer = new VectorLayer({
+      source: geojsonSource,
       style: new Style({
         stroke: new Stroke({
           color: this.geojsonColor,
@@ -215,24 +218,25 @@ export class MyMap extends LitElement {
       }),
     });
 
-    map.addLayer(outlineLayer);
+    map.addLayer(geojsonLayer);
 
-    if (outlineSource.getFeatures().length > 0) {
+    if (geojsonSource.getFeatures().length > 0) {
       // fit map to extent of geojson features, overriding default zoom & center
-      const extent = outlineSource.getExtent();
-      map.getView().fit(buffer(extent, this.geojsonBuffer));
+      fitToData(map, geojsonSource, this.geojsonBuffer);
 
       // log total area of first feature (assumes geojson is a single polygon for now)
-      const data = outlineSource.getFeatures()[0].getGeometry();
-      console.log("geojsonData total area:", formatArea(data));
+      const data = geojsonSource.getFeatures()[0].getGeometry();
+      console.log("geojsonData total area:", formatArea(data, this.areaUnit));
     }
 
     if (this.drawMode) {
+      // ensure we start from an empty array of features
+      drawingSource.clear();
       map.addLayer(drawingLayer);
 
-      map.addInteraction(modify);
       map.addInteraction(draw);
       map.addInteraction(snap);
+      map.addInteraction(modify);
 
       // 'change' listens for 'drawend' and modifications
       drawingSource.on("change", () => {
@@ -248,37 +252,42 @@ export class MyMap extends LitElement {
             })
           );
 
-          this.dispatch("areaChange", formatArea(lastSketchGeom));
+          this.dispatch("areaChange", formatArea(lastSketchGeom, this.areaUnit));
 
-          // limit to drawing a single polygon
+          // limit to drawing a single polygon, only allow modifications to existing shape
           map.removeInteraction(draw);
           map.removeInteraction(snap);
         }
       });
     }
 
-    if (this.showFeaturesAtPoint) {
+    if (this.showFeaturesAtPoint && Boolean(this.osFeaturesApiKey)) {
       getFeaturesAtPoint(
         fromLonLat([this.longitude, this.latitude]),
         this.osFeaturesApiKey
       );
 
-      const featureLayer = makeFeatureLayer(this.featureColor);
-      map.addLayer(featureLayer);
+      if (this.clickFeatures) {
+        map.on("singleclick", (e) => {
+          getFeaturesAtPoint(e.coordinate, this.osFeaturesApiKey);
+        });
+      }
 
-      // ensure getFeatures has fetched successfully
-      featureSource.on("change", () => {
+      const outlineLayer = makeFeatureLayer(this.featureColor);
+      map.addLayer(outlineLayer);
+
+      // ensure getFeaturesAtPoint has fetched successfully
+      outlineSource.on("change", () => {
         if (
-          featureSource.getState() === "ready" &&
-          featureSource.getFeatures().length > 0
+          outlineSource.getState() === "ready" &&
+          outlineSource.getFeatures().length > 0
         ) {
           // fit map to extent of features
-          const extent = featureSource.getExtent();
-          map.getView().fit(buffer(extent, this.featureBuffer));
+          fitToData(map, outlineSource, this.featureBuffer);
 
-          // log total area of feature
-          const data = featureSource.getFeatures()[0].getGeometry();
-          console.log("feature total area:", formatArea(data));
+          // log total area of feature or merged features
+          const data = outlineSource.getFeatures()[0].getGeometry();
+          console.log("feature(s) total area:", formatArea(data, this.areaUnit));
         }
       });
     }
