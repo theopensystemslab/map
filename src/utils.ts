@@ -1,4 +1,7 @@
+import { buffer } from "ol/extent";
 import Geometry from "ol/geom/Geometry";
+import Map from "ol/Map";
+import { Vector } from "ol/source";
 import { getArea } from "ol/sphere";
 
 export type AreaUnitEnum =  "m2" | "ha";
@@ -23,4 +26,20 @@ export function formatArea(polygon: Geometry, unit: AreaUnitEnum) {
   }
 
   return output;
+}
+
+/**
+ * Fit map view to extent of data features, overriding default zoom & center
+ * @param olMap - an OpenLayers map
+ * @param olSource - an OpenLayers vector source
+ * @param bufferValue - amount to buffer extent by, refer to https://openlayers.org/en/latest/apidoc/module-ol_extent.html#.buffer
+ * @returns - a map view
+ */
+export function fitToData(
+  olMap: Map,
+  olSource: Vector<Geometry>,
+  bufferValue: number
+) {
+  const extent = olSource.getExtent();
+  return olMap.getView().fit(buffer(extent, bufferValue));
 }

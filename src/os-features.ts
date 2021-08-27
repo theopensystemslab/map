@@ -1,3 +1,4 @@
+import union from "@turf/union";
 import { GeoJSON } from "ol/format";
 import { Vector as VectorLayer } from "ol/layer";
 import { toLonLat } from "ol/proj";
@@ -6,11 +7,13 @@ import { Stroke, Style } from "ol/style";
 
 const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
-export const featureSource = new VectorSource();
+const featureSource = new VectorSource();
+
+export const outlineSource = new VectorSource();
 
 export function makeFeatureLayer(color: string) {
   return new VectorLayer({
-    source: featureSource,
+    source: outlineSource,
     style: new Style({
       stroke: new Stroke({
         width: 3,
@@ -59,8 +62,6 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
   fetch(getUrl(wfsParams))
     .then((response) => response.json())
     .then((data) => {
-      console.log("features at this point:", data);
-
       if (!data.features.length) return;
 
       const properties = data.features[0].properties,
@@ -76,8 +77,28 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
         featureProjection: "EPSG:3857",
       });
 
-      featureSource.clear();
-      featureSource.addFeatures(features);
+      features.forEach((feature) => {
+        const id = feature.getProperties().TOID;
+        const existingFeature = featureSource.getFeatureById(id);
+
+        if (existingFeature) {
+          featureSource.removeFeature(existingFeature);
+        } else {
+          feature.setId(id);
+          featureSource.addFeature(feature);
+        }
+      });
+
+      outlineSource.clear();
+      outlineSource.addFeature(
+        // Merge all of the features into a single feature
+        geojson.readFeature(
+          featureSource.getFeatures().reduce((acc: any, curr) => {
+            const toMerge = geojson.writeFeatureObject(curr).geometry;
+            return acc ? union(acc, toMerge) : toMerge;
+          }, null)
+        )
+      );
     })
     .catch((error) => console.log(error));
 }
