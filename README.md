@@ -150,6 +150,7 @@ Set `clickFeatures` to true, this will begin listening for single click events. 
 ## Running Locally
 
 - Rename `.env.example` to `.env.development.local` and replace the values - or simply provide your API keys as props
+- Install [pnpm](https://pnpm.io) `npm i pnpm -g`
 - Install dependencies `pnpm i`
 - Start dev server `pnpm dev`
 - Open http://localhost:3000
