@@ -1,7 +1,8 @@
+import MultiPoint from 'ol/geom/MultiPoint';
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
-import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
+import { Circle as CircleStyle, Fill, RegularShape, Stroke, Style } from "ol/style";
 
 const redLineStroke = new Stroke({
   color: "#ff0000",
@@ -15,16 +16,39 @@ const drawingPointer = new CircleStyle({
   }),
 });
 
+const drawingVertices = new Style({
+  image: new RegularShape({
+    fill: new Fill({
+      color: "#fff"
+    }),
+    stroke: new Stroke({
+      color: "#ff0000",
+      width: 2,
+    }),
+    points: 4,
+    radius: 5,
+    angle: Math.PI / 4,
+  }),
+  geometry: function (feature) {
+    // return the coordinates of the drawn polygon
+    const coordinates = feature.getGeometry().getCoordinates()[0];
+    return new MultiPoint(coordinates);
+  },
+});
+
 export const drawingSource = new VectorSource();
 
 export const drawingLayer = new VectorLayer({
   source: drawingSource,
-  style: new Style({
-    fill: new Fill({
-      color: "rgba(255, 255, 255, 0.4)",
+  style: [
+    new Style({
+      fill: new Fill({
+        color: "rgba(255, 0, 0, 0.1)",
+      }),
+      stroke: redLineStroke,
     }),
-    stroke: redLineStroke,
-  }),
+    drawingVertices,
+  ]
 });
 
 export const draw = new Draw({
@@ -45,7 +69,7 @@ export const draw = new Draw({
 
 export const snap = new Snap({
   source: drawingSource,
-  pixelTolerance: 5,
+  pixelTolerance: 15,
 });
 
 export const modify = new Modify({
