@@ -4,9 +4,20 @@ import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import { Circle as CircleStyle, Fill, RegularShape, Stroke, Style } from "ol/style";
 
-const redLineStroke = new Stroke({
-  color: "#ff0000",
+const redLineBase = {
+  color: '#ff0000',
   width: 3,
+};
+
+const redLineStroke = new Stroke(redLineBase);
+
+const redDashedStroke = new Stroke({
+  ...redLineBase,
+  lineDash: [2, 8],
+});
+
+const redLineFill = new Fill({
+  color: "rgba(255, 0, 0, 0.1)",
 });
 
 const drawingPointer = new CircleStyle({
@@ -25,7 +36,7 @@ const drawingVertices = new Style({
       color: "#ff0000",
       width: 2,
     }),
-    points: 4,
+    points: 4, // squares
     radius: 5,
     angle: Math.PI / 4,
   }),
@@ -42,9 +53,7 @@ export const drawingLayer = new VectorLayer({
   source: drawingSource,
   style: [
     new Style({
-      fill: new Fill({
-        color: "rgba(255, 0, 0, 0.1)",
-      }),
+      fill: redLineFill,
       stroke: redLineStroke,
     }),
     drawingVertices,
@@ -55,14 +64,8 @@ export const draw = new Draw({
   source: drawingSource,
   type: "Polygon",
   style: new Style({
-    stroke: new Stroke({
-      color: "#ff0000",
-      width: 3,
-      lineDash: [2, 8],
-    }),
-    fill: new Fill({
-      color: "rgba(255, 255, 255, 0.2)",
-    }),
+    stroke: redDashedStroke,
+    fill: redLineFill,
     image: drawingPointer,
   }),
 });
