@@ -1,4 +1,5 @@
 import union from "@turf/union";
+import Geometry from "ol/geom/Geometry";
 import { GeoJSON } from "ol/format";
 import { Vector as VectorLayer } from "ol/layer";
 import { toLonLat } from "ol/proj";
@@ -11,9 +12,11 @@ const featureSource = new VectorSource();
 
 export const outlineSource = new VectorSource();
 
-export function makeFeatureLayer(color: string) {
+export const highlightSource = new VectorSource();
+
+export function makeFeatureLayer(source: VectorSource<Geometry>, color: string) {
   return new VectorLayer({
-    source: outlineSource,
+    source: source,
     style: new Style({
       stroke: new Stroke({
         width: 3,
@@ -29,7 +32,7 @@ export function makeFeatureLayer(color: string) {
  * @param coord - xy coordinate
  * @param apiKey - Ordnance Survey Features API key, sign up here: https://osdatahub.os.uk/plans
  */
-export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
+export function getFeaturesAtPoint(coord: Array<number>, source: VectorSource<Geometry>, apiKey: any) {
   const xml = `
     <ogc:Filter>
       <ogc:Contains>
@@ -63,6 +66,7 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
     .then((response) => response.json())
     .then((data) => {
       if (!data.features.length) return;
+      console.log(data);
 
       const properties = data.features[0].properties,
         validKeys = ["TOID", "DescriptiveGroup"];
@@ -89,8 +93,8 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
         }
       });
 
-      outlineSource.clear();
-      outlineSource.addFeature(
+      source.clear();
+      source.addFeature(
         // Merge all of the features into a single feature
         geojson.readFeature(
           featureSource.getFeatures().reduce((acc: any, curr) => {

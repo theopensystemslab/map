@@ -1,11 +1,13 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Control, defaults as defaultControls } from "ol/control";
+import Feature from "ol/Feature";
 import { GeoJSON } from "ol/format";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
+import RenderFeature from "ol/render/Feature";
 import { Vector as VectorSource } from "ol/source";
 import { Stroke, Style } from "ol/style";
 import View from "ol/View";
@@ -13,9 +15,11 @@ import { last } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
 import {
+  highlightSource,
   makeFeatureLayer,
   outlineSource,
   getFeaturesAtPoint,
+  highlightSource,
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { AreaUnitEnum, fitToData, formatArea } from "./utils";
@@ -262,18 +266,41 @@ export class MyMap extends LitElement {
     }
 
     if (this.showFeaturesAtPoint && Boolean(this.osFeaturesApiKey)) {
+      // load an initial intersecting feature on the map
       getFeaturesAtPoint(
         fromLonLat([this.longitude, this.latitude]),
+        outlineSource,
         this.osFeaturesApiKey
       );
 
       if (this.clickFeatures) {
+        // map.on("pointermove", (e) => {
+        //   getFeaturesAtPoint(e.coordinate, highlightSource, this.osFeaturesApiKey);
+        // });
+        map.on('pointermove', function (e) {
+          const hoveredFeature = map.forEachFeatureAtPixel(
+            e.pixel,
+            function (feature) {
+              return feature;
+            },
+            {
+              layerFilter: function (layer) {
+                return layer === outlineLayer;
+              },
+            }
+          );
+          console.log(hoveredFeature);
+        });
+
         map.on("singleclick", (e) => {
-          getFeaturesAtPoint(e.coordinate, this.osFeaturesApiKey);
+          getFeaturesAtPoint(e.coordinate, outlineSource, this.osFeaturesApiKey);
         });
       }
 
-      const outlineLayer = makeFeatureLayer(this.featureColor);
+      const highlightLayer = makeFeatureLayer(highlightSource, "yellow");
+      map.addLayer(highlightLayer);
+
+      const outlineLayer = makeFeatureLayer(outlineSource, this.featureColor);
       map.addLayer(outlineLayer);
 
       // ensure getFeaturesAtPoint has fetched successfully
