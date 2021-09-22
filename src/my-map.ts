@@ -12,6 +12,7 @@ import View from "ol/View";
 import { last } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
+import { scaleControl } from "./scale-line"
 import {
   makeFeatureLayer,
   outlineSource,
@@ -115,6 +116,12 @@ export class MyMap extends LitElement {
 
   @property({ type: String })
   ariaLabel = "Interactive map";
+  
+  @property({ type: Boolean })
+  showScale = false;
+
+  @property({ type: Boolean })
+  useScaleBarStyle = false;
 
   // runs after the initial render
   firstUpdated() {
@@ -148,7 +155,7 @@ export class MyMap extends LitElement {
       controls: defaultControls({
         attribution: true,
         zoom: !this.staticMode,
-      }),
+      }).extend(this.showScale ? [scaleControl(this.useScaleBarStyle)] : []),
       interactions: defaultInteractions({
         doubleClickZoom: !this.staticMode,
         dragPan: !this.staticMode,
