@@ -12,6 +12,7 @@ import View from "ol/View";
 import { last } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
+import { scaleControl } from "./scale-line"
 import {
   makeFeatureLayer,
   outlineSource,
@@ -35,6 +36,9 @@ export class MyMap extends LitElement {
       opacity: 0;
       transition: opacity 0.25s;
       overflow: hidden;
+    }
+    #map:focus {
+      outline: #424242 solid 0.15em;
     }
     .reset-control {
       top: 70px;
@@ -110,6 +114,15 @@ export class MyMap extends LitElement {
   @property({ type: String })
   areaUnit: AreaUnitEnum = "m2"
 
+  @property({ type: String })
+  ariaLabel = "Interactive map";
+  
+  @property({ type: Boolean })
+  showScale = false;
+
+  @property({ type: Boolean })
+  useScaleBarStyle = false;
+
   // runs after the initial render
   firstUpdated() {
     const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
@@ -142,7 +155,7 @@ export class MyMap extends LitElement {
       controls: defaultControls({
         attribution: true,
         zoom: !this.staticMode,
-      }),
+      }).extend(this.showScale ? [scaleControl(this.useScaleBarStyle)] : []),
       interactions: defaultInteractions({
         doubleClickZoom: !this.staticMode,
         dragPan: !this.staticMode,
@@ -153,7 +166,7 @@ export class MyMap extends LitElement {
     // add a custom 'reset' control below zoom
     const button = document.createElement("button");
     button.innerHTML = "↻";
-    button.title = "Reset view";
+    button.title = "Reset map view";
 
     const handleReset = () => {
       if (this.showFeaturesAtPoint) {
@@ -304,7 +317,10 @@ export class MyMap extends LitElement {
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
-      <div id="map" />`;
+      <div 
+        id="map" 
+        tabindex="0"
+        aria-label=${this.ariaLabel} />`;
   }
 
   /**
