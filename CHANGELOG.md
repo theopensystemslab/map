@@ -9,11 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
-## [0.3.2] - 2021-09-21
+## [0.3.2] - 2021-09-22
 
 ### Added
 - feat: show vertices of the drawn polygon, similar in design to MapInfo Professional which will hopefully help guide users in modifying existing vertices or adding new ones when drawing a site boundary ([#57](https://github.com/theopensystemslab/map/pull/57))
-- feat: accessibilty, including string property `ariaLabel` to add custom text to describe the component and the ability to access the main map div and control buttons by tabbing ([#58](https://github.com/theopensystemslab/map/pull/58))
+- feat: accessibilty improvements, including string property `ariaLabel` to add custom text to describe the component and the ability to access the main map div and control buttons by tabbing ([#58](https://github.com/theopensystemslab/map/pull/58))
+- feat: boolean property `showScale` to display a scale bar on the map ([#60](https://github.com/theopensystemslab/map/pull/60))
 
 ## [0.3.1] - 2021-08-27
 
