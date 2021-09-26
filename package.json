@@ -18,7 +18,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html",
-    "prepublishOnly": "rm -rf dist types && npm run build"
+    "prepublishOnly": "rm -rf dist types && npm run build",
+    "pitsbyDev": "pitsby build --watch",
+    "pitsbyPublish": "pitsby build && vite ./pitsby"
   },
   "dependencies": {
     "@turf/union": "^6.5.0",
