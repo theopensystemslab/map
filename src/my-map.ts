@@ -21,12 +21,8 @@ import {
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { scaleControl } from "./scale-line";
+import { pointsSource } from "./snapping";
 import { AreaUnitEnum, fitToData, formatArea } from "./utils";
-
-export const pointsSource = new VectorSource({
-  features: [],
-  wrapX: false,
-});
 @customElement("my-map")
 export class MyMap extends LitElement {
   // default map size, can be overridden with CSS
@@ -226,7 +222,7 @@ export class MyMap extends LitElement {
     map.addLayer(pointsLayer);
 
     map.on("moveend", () => {
-      if (map.getView().getZoom() < 20) return;
+      if (map.getView().getZoom() < 18) return;
 
       const extent = map.getView().calculateExtent(map.getSize());
       const points = osVectorTileBaseMap

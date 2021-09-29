@@ -9,7 +9,7 @@ import {
   Stroke,
   Style,
 } from "ol/style";
-import { pointsSource } from "./my-map";
+import { pointsSource } from "./snapping";
 
 const redLineBase = {
   color: "#ff0000",
