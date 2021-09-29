@@ -214,7 +214,7 @@ export class MyMap extends LitElement {
 
     const pointsLayer = new VectorLayer({
       source: pointsSource,
-      style: function (feature) {
+      style: function () {
         return new Style({
           image: new CircleStyle({
             radius: 4,
