@@ -222,7 +222,7 @@ export class MyMap extends LitElement {
     map.addLayer(pointsLayer);
 
     map.on("moveend", () => {
-      if (map.getView().getZoom() < 18) return;
+      if (map.getView().getZoom() < 19) return;
 
       const extent = map.getView().calculateExtent(map.getSize());
       const points = osVectorTileBaseMap
