@@ -222,7 +222,9 @@ export class MyMap extends LitElement {
     map.addLayer(pointsLayer);
 
     map.on("moveend", () => {
-      if (map.getView().getZoom() < 19) return;
+      pointsSource.clear();
+
+      if (map.getView().getZoom() < 20) return;
 
       const extent = map.getView().calculateExtent(map.getSize());
       const points = osVectorTileBaseMap
@@ -230,8 +232,6 @@ export class MyMap extends LitElement {
         .getFeaturesInExtent(extent)
         .filter((x) => x.getGeometry().getType() === "Polygon")
         .flatMap((x: any) => x.flatCoordinates_);
-
-      pointsSource.clear();
 
       (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
         pointsSource.addFeature(
