@@ -1,26 +1,32 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { Feature } from "ol";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
+import Point from "ol/geom/Point";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
-import { Stroke, Style } from "ol/style";
+import { Fill, Stroke, Style } from "ol/style";
+import CircleStyle from "ol/style/Circle";
 import View from "ol/View";
-import { last } from "rambda";
-
+import { last, splitEvery } from "rambda";
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
-import { scaleControl } from "./scale-line"
 import {
+  getFeaturesAtPoint,
   makeFeatureLayer,
   outlineSource,
-  getFeaturesAtPoint,
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
+import { scaleControl } from "./scale-line";
 import { AreaUnitEnum, fitToData, formatArea } from "./utils";
 
+export const pointsSource = new VectorSource({
+  features: [],
+  wrapX: false,
+});
 @customElement("my-map")
 export class MyMap extends LitElement {
   // default map size, can be overridden with CSS
@@ -112,11 +118,11 @@ export class MyMap extends LitElement {
   staticMode = false;
 
   @property({ type: String })
-  areaUnit: AreaUnitEnum = "m2"
+  areaUnit: AreaUnitEnum = "m2";
 
   @property({ type: String })
   ariaLabel = "Interactive map";
-  
+
   @property({ type: Boolean })
   showScale = false;
 
@@ -206,6 +212,41 @@ export class MyMap extends LitElement {
       map.getViewport().style.cursor = "grab";
     });
 
+    const pointsLayer = new VectorLayer({
+      source: pointsSource,
+      style: function (feature) {
+        return new Style({
+          image: new CircleStyle({
+            radius: 4,
+            fill: new Fill({ color: "green" }),
+          }),
+        });
+      },
+    });
+    map.addLayer(pointsLayer);
+
+    map.on("moveend", () => {
+      if (map.getView().getZoom() < 20) return;
+
+      const extent = map.getView().calculateExtent(map.getSize());
+      const points = osVectorTileBaseMap
+        .getSource()
+        .getFeaturesInExtent(extent)
+        .filter((x) => x.getGeometry().getType() === "Polygon")
+        .flatMap((x: any) => x.flatCoordinates_);
+
+      pointsSource.clear();
+
+      (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
+        pointsSource.addFeature(
+          new Feature({
+            geometry: new Point(pair),
+            i,
+          })
+        );
+      });
+    });
+
     // add a vector layer to display static geojson if features are provided
     const geojsonSource = new VectorSource();
 
@@ -265,7 +306,10 @@ export class MyMap extends LitElement {
             })
           );
 
-          this.dispatch("areaChange", formatArea(lastSketchGeom, this.areaUnit));
+          this.dispatch(
+            "areaChange",
+            formatArea(lastSketchGeom, this.areaUnit)
+          );
 
           // limit to drawing a single polygon, only allow modifications to existing shape
           map.removeInteraction(draw);
@@ -300,7 +344,10 @@ export class MyMap extends LitElement {
 
           // log total area of feature or merged features
           const data = outlineSource.getFeatures()[0].getGeometry();
-          console.log("feature(s) total area:", formatArea(data, this.areaUnit));
+          console.log(
+            "feature(s) total area:",
+            formatArea(data, this.areaUnit)
+          );
         }
       });
     }
@@ -317,10 +364,7 @@ export class MyMap extends LitElement {
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
-      <div 
-        id="map" 
-        tabindex="0"
-        aria-label=${this.ariaLabel} />`;
+      <div id="map" tabindex="0" aria-label=${this.ariaLabel} />`;
   }
 
   /**
