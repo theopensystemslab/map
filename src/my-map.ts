@@ -222,7 +222,7 @@ export class MyMap extends LitElement {
     map.addLayer(pointsLayer);
 
     map.on("moveend", () => {
-      if (map.getView().getZoom() < 21) {
+      if (map.getView().getZoom() < 20) {
         pointsSource.clear();
         return;
       }
