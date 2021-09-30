@@ -222,25 +222,31 @@ export class MyMap extends LitElement {
     map.addLayer(pointsLayer);
 
     map.on("moveend", () => {
-      pointsSource.clear();
+      if (map.getView().getZoom() < 21) {
+        pointsSource.clear();
+        return;
+      }
 
-      if (map.getView().getZoom() < 20) return;
+      setTimeout(() => {
+        pointsSource.clear();
 
-      const extent = map.getView().calculateExtent(map.getSize());
-      const points = osVectorTileBaseMap
-        .getSource()
-        .getFeaturesInExtent(extent)
-        .filter((x) => x.getGeometry().getType() === "Polygon")
-        .flatMap((x: any) => x.flatCoordinates_);
+        const extent = map.getView().calculateExtent(map.getSize());
+        console.log(extent);
+        const points = osVectorTileBaseMap
+          .getSource()
+          .getFeaturesInExtent(extent)
+          .filter((feature) => feature.getGeometry().getType() !== "Point")
+          .flatMap((feature: any) => feature.flatCoordinates_);
 
-      (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
-        pointsSource.addFeature(
-          new Feature({
-            geometry: new Point(pair),
-            i,
-          })
-        );
-      });
+        (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
+          pointsSource.addFeature(
+            new Feature({
+              geometry: new Point(pair),
+              i,
+            })
+          );
+        });
+      }, 200);
     });
 
     // add a vector layer to display static geojson if features are provided

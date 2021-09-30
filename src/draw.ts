@@ -80,7 +80,7 @@ export const draw = new Draw({
 export const snap = new Snap({
   // source: drawingSource,
   source: pointsSource,
-  pixelTolerance: 15,
+  pixelTolerance: 7,
 });
 
 export const modify = new Modify({
