@@ -81,6 +81,9 @@ export class MyMap extends LitElement {
   @property({ type: String })
   featureColor = "#0000ff";
 
+  @property({ type: Boolean })
+  featureFill = false;
+
   @property({ type: Number })
   featureBuffer = 40;
 
@@ -297,7 +300,10 @@ export class MyMap extends LitElement {
         });
       }
 
-      const outlineLayer = makeFeatureLayer(this.featureColor);
+      const outlineLayer = makeFeatureLayer(
+        this.featureColor,
+        this.featureFill
+      );
       map.addLayer(outlineLayer);
 
       // ensure getFeaturesAtPoint has fetched successfully
