@@ -72,6 +72,15 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   drawMode = false;
 
+  @property({ type: Object })
+  drawGeojsonData = {
+    type: "Feature",
+    geometry: {},
+  };
+
+  @property({ type: Number })
+  drawGeojsonDataBuffer = 100;
+
   @property({ type: Boolean })
   showFeaturesAtPoint = false;
 
@@ -248,17 +257,33 @@ export class MyMap extends LitElement {
       // fit map to extent of geojson features, overriding default zoom & center
       fitToData(map, geojsonSource, this.geojsonBuffer);
 
-      // log total area of first feature (assumes geojson is a single polygon for now)
+      // log total area of static geojson data (assumes single polygon for now)
       const data = geojsonSource.getFeatures()[0].getGeometry();
-      console.log("geojsonData total area:", formatArea(data, this.areaUnit));
+      this.dispatch(
+        "geojsonDataArea",
+        formatArea(data, this.areaUnit)
+      );
     }
 
     if (this.drawMode) {
-      // ensure we start from an empty array of features
-      drawingSource.clear();
+      // check if single polygon feature was provided to load as the initial drawing
+      const loadInitialDrawing = Object.keys(this.drawGeojsonData.geometry).length > 0;
+      if (loadInitialDrawing) {
+        let feature = new GeoJSON().readFeature(this.drawGeojsonData, {
+          featureProjection: "EPSG:3857",
+        });
+        drawingSource.addFeature(feature);
+        // fit map to extent of intial feature, overriding zoom & lat/lng center
+        fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
+      } else {
+        drawingSource.clear();
+      }
+
       map.addLayer(drawingLayer);
 
-      map.addInteraction(draw);
+      if (!loadInitialDrawing) {
+        map.addInteraction(draw);
+      }
       map.addInteraction(snap);
       map.addInteraction(modify);
 
@@ -314,11 +339,19 @@ export class MyMap extends LitElement {
         ) {
           // fit map to extent of features
           fitToData(map, outlineSource, this.featureBuffer);
+          
+          // write the geojson representation of the feature or merged features
+          this.dispatch(
+            "featuresGeojsonChange",
+            new GeoJSON().writeFeaturesObject(outlineSource.getFeatures(), {
+              featureProjection: "EPSG:3857",
+            })
+          );
 
-          // log total area of feature or merged features
+          // calculate the total area of the feature or merged features
           const data = outlineSource.getFeatures()[0].getGeometry();
-          console.log(
-            "feature(s) total area:",
+          this.dispatch(
+            "featuresAreaChange",
             formatArea(data, this.areaUnit)
           );
         }

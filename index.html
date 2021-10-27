@@ -22,11 +22,26 @@
       map.addEventListener("ready", (event) => {
         console.log("map ready");
       });
+
+      // applicable when drawMode is enabled
       map.addEventListener("areaChange", ({ detail: area }) => {
         console.debug({ area });
       });
       map.addEventListener("geojsonChange", ({ detail: geojson }) => {
         console.debug({ geojson });
+      });
+
+      // applicable when showFeaturesAtPoint is enabled
+      map.addEventListener("featuresAreaChange", ({ detail: featuresArea }) => {
+        console.debug({ featuresArea });
+      });
+      map.addEventListener("featuresGeojsonChange", ({ detail: featuresGeojson }) => {
+        console.debug({ featuresGeojson });
+      });
+
+      // applicable when geojsonData is provided
+      map.addEventListener("geojsonDataArea", ({ detail: geojsonDataArea }) => {
+        console.debug({ geojsonDataArea });
       });
     </script>
   </body>
