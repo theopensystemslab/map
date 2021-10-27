@@ -257,9 +257,12 @@ export class MyMap extends LitElement {
       // fit map to extent of geojson features, overriding default zoom & center
       fitToData(map, geojsonSource, this.geojsonBuffer);
 
-      // log total area of first feature (assumes geojson is a single polygon for now)
+      // log total area of static geojson data (assumes single polygon for now)
       const data = geojsonSource.getFeatures()[0].getGeometry();
-      console.log("geojsonData total area:", formatArea(data, this.areaUnit));
+      this.dispatch(
+        "geojsonDataArea",
+        formatArea(data, this.areaUnit)
+      );
     }
 
     if (this.drawMode) {
@@ -336,11 +339,19 @@ export class MyMap extends LitElement {
         ) {
           // fit map to extent of features
           fitToData(map, outlineSource, this.featureBuffer);
+          
+          // write the geojson representation of the feature or merged features
+          this.dispatch(
+            "featuresGeojsonChange",
+            new GeoJSON().writeFeaturesObject(outlineSource.getFeatures(), {
+              featureProjection: "EPSG:3857",
+            })
+          );
 
-          // log total area of feature or merged features
+          // calculate the total area of the feature or merged features
           const data = outlineSource.getFeatures()[0].getGeometry();
-          console.log(
-            "feature(s) total area:",
+          this.dispatch(
+            "featuresAreaChange",
             formatArea(data, this.areaUnit)
           );
         }
