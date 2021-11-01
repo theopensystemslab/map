@@ -68,7 +68,7 @@ staticMode = false;
 
 `hideResetControl` hides the `↻` button, which when clicked would re-center your map if you've zoomed or panned away from the default view. `staticMode` additionally hides the `+/-` buttons, and disables mouse and keyboard zoom and pan/drag interactions.
 
-#### Example: draw a custom polygon & calculate its' area
+#### Example: draw a custom polygon & calculate its area
 
 ```html
 <body>
