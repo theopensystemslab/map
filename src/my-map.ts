@@ -319,8 +319,12 @@ export class MyMap extends LitElement {
       });
     }
 
-    // show snapping points when in drawMode, with vector tiles enabled, and at zoom > 20
-    if (this.drawMode && !this.disableVectorTiles) {
+    // show snapping points when in drawMode, with vector tile basemap enabled, and at zoom > 20
+    if (
+      this.drawMode &&
+      Boolean(this.osVectorTilesApiKey) &&
+      !this.disableVectorTiles
+    ) {
       map.addLayer(pointsLayer);
 
       map.on("moveend", () => {
