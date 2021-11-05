@@ -1,7 +1,9 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { Feature } from "ol";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
+import Point from "ol/geom/Point";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
@@ -9,16 +11,21 @@ import { fromLonLat, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
 import { Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
-import { last } from "rambda";
+import { last, splitEvery } from "rambda";
 
 import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
-import { scaleControl } from "./scale-line";
 import {
+  getFeaturesAtPoint,
   makeFeatureLayer,
   outlineSource,
-  getFeaturesAtPoint,
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
+import { scaleControl } from "./scale-line";
+import {
+  getPointsFromVectorTiles,
+  pointsLayer,
+  pointsSource,
+} from "./snapping";
 import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
 
 @customElement("my-map")
@@ -221,7 +228,7 @@ export class MyMap extends LitElement {
       map.getViewport().style.cursor = "grab";
     });
 
-    // add a vector layer to display static geojson if features are provided
+    // display static geojson if features are provided
     const geojsonSource = new VectorSource();
 
     if (this.geojsonData.type === "FeatureCollection") {
@@ -259,15 +266,14 @@ export class MyMap extends LitElement {
 
       // log total area of static geojson data (assumes single polygon for now)
       const data = geojsonSource.getFeatures()[0].getGeometry();
-      this.dispatch(
-        "geojsonDataArea",
-        formatArea(data, this.areaUnit)
-      );
+      this.dispatch("geojsonDataArea", formatArea(data, this.areaUnit));
     }
 
+    // draw interactions
     if (this.drawMode) {
       // check if single polygon feature was provided to load as the initial drawing
-      const loadInitialDrawing = Object.keys(this.drawGeojsonData.geometry).length > 0;
+      const loadInitialDrawing =
+        Object.keys(this.drawGeojsonData.geometry).length > 0;
       if (loadInitialDrawing) {
         let feature = new GeoJSON().readFeature(this.drawGeojsonData, {
           featureProjection: "EPSG:3857",
@@ -313,6 +319,35 @@ export class MyMap extends LitElement {
       });
     }
 
+    // show snapping points when in drawMode, with vector tiles enabled, and at zoom > 20
+    if (this.drawMode && !this.disableVectorTiles) {
+      map.addLayer(pointsLayer);
+
+      map.on("moveend", () => {
+        if (map.getView().getZoom() < 20) {
+          pointsSource.clear();
+          return;
+        }
+
+        setTimeout(() => {
+          pointsSource.clear();
+          const extent = map.getView().calculateExtent(map.getSize());
+
+          // extract points form the basemap, and display them as a layer of coordinate pairs on the map
+          const points = getPointsFromVectorTiles(osVectorTileBaseMap, extent);
+          (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
+            pointsSource.addFeature(
+              new Feature({
+                geometry: new Point(pair),
+                i,
+              })
+            );
+          });
+        }, 200);
+      });
+    }
+
+    // OS Features API & click-to-select interactions
     if (this.showFeaturesAtPoint && Boolean(this.osFeaturesApiKey)) {
       getFeaturesAtPoint(
         fromLonLat([this.longitude, this.latitude]),
@@ -339,7 +374,7 @@ export class MyMap extends LitElement {
         ) {
           // fit map to extent of features
           fitToData(map, outlineSource, this.featureBuffer);
-          
+
           // write the geojson representation of the feature or merged features
           this.dispatch(
             "featuresGeojsonChange",
@@ -350,10 +385,7 @@ export class MyMap extends LitElement {
 
           // calculate the total area of the feature or merged features
           const data = outlineSource.getFeatures()[0].getGeometry();
-          this.dispatch(
-            "featuresAreaChange",
-            formatArea(data, this.areaUnit)
-          );
+          this.dispatch("featuresAreaChange", formatArea(data, this.areaUnit));
         }
       });
     }

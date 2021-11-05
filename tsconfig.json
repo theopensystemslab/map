@@ -6,7 +6,7 @@
     "emitDeclarationOnly": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2017", "dom", "dom.iterable"],
+    "lib": ["es2019", "dom", "dom.iterable"],
     "module": "es2020",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
