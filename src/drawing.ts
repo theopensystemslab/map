@@ -78,7 +78,7 @@ export const draw = new Draw({
 });
 
 export const snap = new Snap({
-  source: pointsSource,
+  source: pointsSource, // empty if OS VectorTile basemap is disabled & zoom > 20
   pixelTolerance: 15,
 });
 
