@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.3.5] - 2021-10-27
+
+### Added
+- feat: ability to display a geojson polygon in the initial drawing layer when in `drawMode`, using new object property `drawGeojsonData` and number property `drawGeojsonBuffer` ([#70](https://github.com/theopensystemslab/map/pull/70))
+- feat: dispatch events `featuresAreaChange`, `featuresGeojsonChange` and `geojsonDataArea`, so that show/click features mode and loading static data has parity with existing event dispatching used in draw mode ([#69](https://github.com/theopensystemslab/map/pull/69))
+
+## [0.3.4] - 2021-10-01
+
+### Added
+- feat: boolean property `featureFill` to style the fill color of OS Features polygon as the specified stroke color with 20% opacity, disabled/false by default. Same idea as below, my oversight for not combining them into the same release! ([#66](https://github.com/theopensystemslab/map/pull/66))
+
+## [0.3.3] - 2021-10-01
+
+### Added
+- feat: boolean property `geojsonFill` to style the fill color of a static geojson polygon as the specified stroke color with 20% opacity, disabled/false by default ([#64](https://github.com/theopensystemslab/map/pull/64))
+
 ## [0.3.2] - 2021-09-22
 
 ### Added

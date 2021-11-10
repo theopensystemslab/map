@@ -3,7 +3,9 @@ import { GeoJSON } from "ol/format";
 import { Vector as VectorLayer } from "ol/layer";
 import { toLonLat } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
-import { Stroke, Style } from "ol/style";
+import { Fill, Stroke, Style } from "ol/style";
+
+import { hexToRgba } from "./utils";
 
 const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
@@ -11,13 +13,16 @@ const featureSource = new VectorSource();
 
 export const outlineSource = new VectorSource();
 
-export function makeFeatureLayer(color: string) {
+export function makeFeatureLayer(color: string, featureFill: boolean) {
   return new VectorLayer({
     source: outlineSource,
     style: new Style({
       stroke: new Stroke({
         width: 3,
         color: color,
+      }),
+      fill: new Fill({
+        color: featureFill ? hexToRgba(color, 0.2) : hexToRgba(color, 0),
       }),
     }),
   });

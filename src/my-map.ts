@@ -1,19 +1,17 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Feature } from "ol";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
-import Point from "ol/geom/Point";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
 import { Fill, Stroke, Style } from "ol/style";
-import CircleStyle from "ol/style/Circle";
 import View from "ol/View";
-import { last, splitEvery } from "rambda";
-import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
+import { last } from "rambda";
+
+import { draw, drawingLayer, drawingSource, modify, snap } from "./drawing";
 import {
   getFeaturesAtPoint,
   makeFeatureLayer,
@@ -21,8 +19,13 @@ import {
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { scaleControl } from "./scale-line";
-import { pointsSource } from "./snapping";
-import { AreaUnitEnum, fitToData, formatArea } from "./utils";
+import {
+  getSnapPointsFromVectorTiles,
+  pointsLayer,
+  pointsSource,
+} from "./snapping";
+import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
+
 @customElement("my-map")
 export class MyMap extends LitElement {
   // default map size, can be overridden with CSS
@@ -74,6 +77,15 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   drawMode = false;
 
+  @property({ type: Object })
+  drawGeojsonData = {
+    type: "Feature",
+    geometry: {},
+  };
+
+  @property({ type: Number })
+  drawGeojsonDataBuffer = 100;
+
   @property({ type: Boolean })
   showFeaturesAtPoint = false;
 
@@ -82,6 +94,9 @@ export class MyMap extends LitElement {
 
   @property({ type: String })
   featureColor = "#0000ff";
+
+  @property({ type: Boolean })
+  featureFill = false;
 
   @property({ type: Number })
   featureBuffer = 40;
@@ -94,6 +109,9 @@ export class MyMap extends LitElement {
 
   @property({ type: String })
   geojsonColor = "#ff0000";
+
+  @property({ type: Boolean })
+  geojsonFill = false;
 
   @property({ type: Number })
   geojsonBuffer = 12;
@@ -208,48 +226,7 @@ export class MyMap extends LitElement {
       map.getViewport().style.cursor = "grab";
     });
 
-    const pointsLayer = new VectorLayer({
-      source: pointsSource,
-      style: function () {
-        return new Style({
-          image: new CircleStyle({
-            radius: 4,
-            fill: new Fill({ color: "green" }),
-          }),
-        });
-      },
-    });
-    map.addLayer(pointsLayer);
-
-    map.on("moveend", () => {
-      if (map.getView().getZoom() < 20) {
-        pointsSource.clear();
-        return;
-      }
-
-      setTimeout(() => {
-        pointsSource.clear();
-
-        const extent = map.getView().calculateExtent(map.getSize());
-        console.log(extent);
-        const points = osVectorTileBaseMap
-          .getSource()
-          .getFeaturesInExtent(extent)
-          .filter((feature) => feature.getGeometry().getType() !== "Point")
-          .flatMap((feature: any) => feature.flatCoordinates_);
-
-        (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
-          pointsSource.addFeature(
-            new Feature({
-              geometry: new Point(pair),
-              i,
-            })
-          );
-        });
-      }, 200);
-    });
-
-    // add a vector layer to display static geojson if features are provided
+    // display static geojson if features are provided
     const geojsonSource = new VectorSource();
 
     if (this.geojsonData.type === "FeatureCollection") {
@@ -271,6 +248,11 @@ export class MyMap extends LitElement {
           color: this.geojsonColor,
           width: 3,
         }),
+        fill: new Fill({
+          color: this.geojsonFill
+            ? hexToRgba(this.geojsonColor, 0.2)
+            : hexToRgba(this.geojsonColor, 0),
+        }),
       }),
     });
 
@@ -280,17 +262,32 @@ export class MyMap extends LitElement {
       // fit map to extent of geojson features, overriding default zoom & center
       fitToData(map, geojsonSource, this.geojsonBuffer);
 
-      // log total area of first feature (assumes geojson is a single polygon for now)
+      // log total area of static geojson data (assumes single polygon for now)
       const data = geojsonSource.getFeatures()[0].getGeometry();
-      console.log("geojsonData total area:", formatArea(data, this.areaUnit));
+      this.dispatch("geojsonDataArea", formatArea(data, this.areaUnit));
     }
 
+    // draw interactions
     if (this.drawMode) {
-      // ensure we start from an empty array of features
-      drawingSource.clear();
+      // check if single polygon feature was provided to load as the initial drawing
+      const loadInitialDrawing =
+        Object.keys(this.drawGeojsonData.geometry).length > 0;
+      if (loadInitialDrawing) {
+        let feature = new GeoJSON().readFeature(this.drawGeojsonData, {
+          featureProjection: "EPSG:3857",
+        });
+        drawingSource.addFeature(feature);
+        // fit map to extent of intial feature, overriding zoom & lat/lng center
+        fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
+      } else {
+        drawingSource.clear();
+      }
+
       map.addLayer(drawingLayer);
 
-      map.addInteraction(draw);
+      if (!loadInitialDrawing) {
+        map.addInteraction(draw);
+      }
       map.addInteraction(snap);
       map.addInteraction(modify);
 
@@ -320,6 +317,31 @@ export class MyMap extends LitElement {
       });
     }
 
+    // show snapping points when in drawMode, with vector tile basemap enabled, and at zoom > 20
+    if (
+      this.drawMode &&
+      Boolean(this.osVectorTilesApiKey) &&
+      !this.disableVectorTiles
+    ) {
+      map.addLayer(pointsLayer);
+      drawingLayer.setZIndex(1001); // display draw vertices on top of snap points
+
+      map.on("moveend", () => {
+        if (map.getView().getZoom() < 20) {
+          pointsSource.clear();
+          return;
+        }
+
+        // extract snap-able points from the basemap, and display them as points on the map
+        setTimeout(() => {
+          pointsSource.clear();
+          const extent = map.getView().calculateExtent(map.getSize());
+          getSnapPointsFromVectorTiles(osVectorTileBaseMap, extent);
+        }, 200);
+      });
+    }
+
+    // OS Features API & click-to-select interactions
     if (this.showFeaturesAtPoint && Boolean(this.osFeaturesApiKey)) {
       getFeaturesAtPoint(
         fromLonLat([this.longitude, this.latitude]),
@@ -332,7 +354,10 @@ export class MyMap extends LitElement {
         });
       }
 
-      const outlineLayer = makeFeatureLayer(this.featureColor);
+      const outlineLayer = makeFeatureLayer(
+        this.featureColor,
+        this.featureFill
+      );
       map.addLayer(outlineLayer);
 
       // ensure getFeaturesAtPoint has fetched successfully
@@ -344,12 +369,17 @@ export class MyMap extends LitElement {
           // fit map to extent of features
           fitToData(map, outlineSource, this.featureBuffer);
 
-          // log total area of feature or merged features
-          const data = outlineSource.getFeatures()[0].getGeometry();
-          console.log(
-            "feature(s) total area:",
-            formatArea(data, this.areaUnit)
+          // write the geojson representation of the feature or merged features
+          this.dispatch(
+            "featuresGeojsonChange",
+            new GeoJSON().writeFeaturesObject(outlineSource.getFeatures(), {
+              featureProjection: "EPSG:3857",
+            })
           );
+
+          // calculate the total area of the feature or merged features
+          const data = outlineSource.getFeatures()[0].getGeometry();
+          this.dispatch("featuresAreaChange", formatArea(data, this.areaUnit));
         }
       });
     }
