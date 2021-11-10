@@ -27,11 +27,13 @@ const redLineFill = new Fill({
   color: "rgba(255, 0, 0, 0.1)",
 });
 
-const drawingPointer = new CircleStyle({
-  radius: 6,
+const drawingPointer = new RegularShape({
   fill: new Fill({
-    color: "#ff0000",
+    color: 'red'
   }),
+  points: 4, // crosshair aka star
+  radius1: 15, // outer radius
+  radius2: 3, // inner radius
 });
 
 const drawingVertices = new Style({
