@@ -3,7 +3,6 @@ import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import {
-  Circle as CircleStyle,
   Fill,
   RegularShape,
   Stroke,
