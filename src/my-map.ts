@@ -377,6 +377,14 @@ export class MyMap extends LitElement {
             })
           );
 
+          // write the geojson representation of the feature or merged features
+          this.dispatch(
+            "featuresGeojsonChange",
+            new GeoJSON().writeFeaturesObject(outlineSource.getFeatures(), {
+              featureProjection: "EPSG:3857",
+            })
+          );
+
           // calculate the total area of the feature or merged features
           const data = outlineSource.getFeatures()[0].getGeometry();
           this.dispatch("featuresAreaChange", formatArea(data, this.areaUnit));
