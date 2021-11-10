@@ -1,9 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Feature } from "ol";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
-import Point from "ol/geom/Point";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
@@ -11,9 +9,9 @@ import { fromLonLat, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
 import { Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
-import { last, splitEvery } from "rambda";
+import { last } from "rambda";
 
-import { draw, drawingLayer, drawingSource, modify, snap } from "./draw";
+import { draw, drawingLayer, drawingSource, modify, snap } from "./drawing";
 import {
   getFeaturesAtPoint,
   makeFeatureLayer,
@@ -22,7 +20,7 @@ import {
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { scaleControl } from "./scale-line";
 import {
-  getPointsFromVectorTiles,
+  getSnapPointsFromVectorTiles,
   pointsLayer,
   pointsSource,
 } from "./snapping";
@@ -326,6 +324,7 @@ export class MyMap extends LitElement {
       !this.disableVectorTiles
     ) {
       map.addLayer(pointsLayer);
+      drawingLayer.setZIndex(1001); // display draw vertices on top of snap points
 
       map.on("moveend", () => {
         if (map.getView().getZoom() < 20) {
@@ -333,20 +332,11 @@ export class MyMap extends LitElement {
           return;
         }
 
+        // extract snap-able points from the basemap, and display them as points on the map
         setTimeout(() => {
           pointsSource.clear();
           const extent = map.getView().calculateExtent(map.getSize());
-
-          // extract points form the basemap, and display them as a layer of coordinate pairs on the map
-          const points = getPointsFromVectorTiles(osVectorTileBaseMap, extent);
-          (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
-            pointsSource.addFeature(
-              new Feature({
-                geometry: new Point(pair),
-                i,
-              })
-            );
-          });
+          getSnapPointsFromVectorTiles(osVectorTileBaseMap, extent);
         }, 200);
       });
     }
