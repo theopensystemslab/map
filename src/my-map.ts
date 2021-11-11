@@ -38,7 +38,14 @@ export class MyMap extends LitElement {
       overflow: hidden;
     }
     #map:focus {
-      outline: #424242 solid 0.15em;
+      outline: #D3D3D3 solid 0.15em;
+    }
+    .ol-control button {
+      border-radius: 0 !important;
+      background-color: #2C2C2C !important;
+    }
+    .ol-control button:hover {
+      background-color: rgba(44, 44, 44, 0.85) !important;
     }
     .reset-control {
       top: 70px;
