@@ -27,12 +27,13 @@ const redLineFill = new Fill({
 });
 
 const drawingPointer = new RegularShape({
-  fill: new Fill({
-    color: 'red'
+  stroke: new Stroke({
+    color: 'red',
+    width: 2,
   }),
   points: 4, // crosshair aka star
   radius1: 15, // outer radius
-  radius2: 3, // inner radius
+  radius2: 1, // inner radius
 });
 
 const drawingVertices = new Style({
