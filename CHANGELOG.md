@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.3.6] - 2021-11-12
+
+### Added
+- feat: `drawMode` now derives snap-able points from the OS Vector Tiles basemap and displays them by default when the zoom level > 20. The drawing pointer also changed from a red dot to a simple crosshair. ([#75](https://github.com/theopensystemslab/map/pull/75))
+
+### Changed
+- fix: updated control button color for more accessible level of contrast ([#77](https://github.com/theopensystemslab/map/pull/77))
+- fix: ensure prettier is run on precommit hook ([#78](https://github.com/theopensystemslab/map/pull/78))
+- fix: typo in Readme ([#73](https://github.com/theopensystemslab/map/pull/73))
+
 ## [0.3.5] - 2021-10-27
 
 ### Added
