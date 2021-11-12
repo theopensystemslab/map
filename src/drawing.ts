@@ -1,11 +1,17 @@
-import MultiPoint from 'ol/geom/MultiPoint';
+import MultiPoint from "ol/geom/MultiPoint";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
-import { Circle as CircleStyle, Fill, RegularShape, Stroke, Style } from "ol/style";
+import {
+  Fill,
+  RegularShape,
+  Stroke,
+  Style,
+} from "ol/style";
+import { pointsSource } from "./snapping";
 
 const redLineBase = {
-  color: '#ff0000',
+  color: "#ff0000",
   width: 3,
 };
 
@@ -20,17 +26,20 @@ const redLineFill = new Fill({
   color: "rgba(255, 0, 0, 0.1)",
 });
 
-const drawingPointer = new CircleStyle({
-  radius: 6,
-  fill: new Fill({
-    color: "#ff0000",
+const drawingPointer = new RegularShape({
+  stroke: new Stroke({
+    color: 'red',
+    width: 2,
   }),
+  points: 4, // crosshair aka star
+  radius1: 15, // outer radius
+  radius2: 1, // inner radius
 });
 
 const drawingVertices = new Style({
   image: new RegularShape({
     fill: new Fill({
-      color: "#fff"
+      color: "#fff",
     }),
     stroke: new Stroke({
       color: "#ff0000",
@@ -57,7 +66,7 @@ export const drawingLayer = new VectorLayer({
       stroke: redLineStroke,
     }),
     drawingVertices,
-  ]
+  ],
 });
 
 export const draw = new Draw({
@@ -71,7 +80,7 @@ export const draw = new Draw({
 });
 
 export const snap = new Snap({
-  source: drawingSource,
+  source: pointsSource, // empty if OS VectorTile basemap is disabled & zoom > 20
   pixelTolerance: 15,
 });
 
