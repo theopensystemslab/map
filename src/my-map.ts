@@ -309,8 +309,10 @@ export class MyMap extends LitElement {
       if (!loadInitialDrawing) {
         map.addInteraction(draw);
       }
-      map.addInteraction(snap);
       map.addInteraction(modify);
+
+      // XXX: snap must be added after draw and modify
+      map.addInteraction(snap);
 
       // 'change' listens for 'drawend' and modifications
       drawingSource.on("change", () => {
@@ -333,7 +335,6 @@ export class MyMap extends LitElement {
 
           // limit to drawing a single polygon, only allow modifications to existing shape
           map.removeInteraction(draw);
-          map.removeInteraction(snap);
         }
       });
     }
