@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.3.7] - 2021-11-19
+
+### Added
+- feat: string property `drawPointer` to set the drawing cursor style, defaults to "crosshair" or can be set to "dot" ([#84](https://github.com/theopensystemslab/map/pull/84))
+
+### Changed
+- fix: keep snapping behavior while modifying drawn polygon ([#83](https://github.com/theopensystemslab/map/pull/83))
+
 ## [0.3.6] - 2021-11-12
 
 ### Added
