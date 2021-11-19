@@ -11,7 +11,14 @@ import { Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
 
-import { draw, drawingLayer, drawingSource, modify, snap } from "./drawing";
+import {
+  configureDraw,
+  configureModify,
+  drawingLayer,
+  drawingSource,
+  DrawPointerEnum,
+  snap,
+} from "./drawing";
 import {
   getFeaturesAtPoint,
   makeFeatureLayer,
@@ -43,11 +50,11 @@ export class MyMap extends LitElement {
       overflow: hidden;
     }
     #map:focus {
-      outline: #D3D3D3 solid 0.15em;
+      outline: #d3d3d3 solid 0.15em;
     }
     .ol-control button {
       border-radius: 0 !important;
-      background-color: #2C2C2C !important;
+      background-color: #2c2c2c !important;
     }
     .ol-control button:hover {
       background-color: rgba(44, 44, 44, 0.85) !important;
@@ -92,6 +99,9 @@ export class MyMap extends LitElement {
 
   @property({ type: Number })
   drawGeojsonDataBuffer = 100;
+
+  @property({ type: String })
+  drawPointer: DrawPointerEnum = "crosshair";
 
   @property({ type: Boolean })
   showFeaturesAtPoint = false;
@@ -189,6 +199,10 @@ export class MyMap extends LitElement {
         mouseWheelZoom: !this.staticMode,
       }),
     });
+
+    // make configurable interactions available
+    const draw = configureDraw(this.drawPointer);
+    const modify = configureModify(this.drawPointer);
 
     // add a custom 'reset' control below zoom
     const button = document.createElement("button");

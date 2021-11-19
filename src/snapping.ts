@@ -18,7 +18,7 @@ export const pointsLayer = new VectorLayer({
     image: new CircleStyle({
       radius: 3,
       fill: new Fill({
-        color: "black",
+        color: "grey",
       }),
     }),
   }),
