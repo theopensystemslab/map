@@ -10,7 +10,6 @@ import { Vector as VectorSource } from "ol/source";
 import { Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
-
 import { draw, drawingLayer, drawingSource, modify, snap } from "./drawing";
 import {
   getFeaturesAtPoint,
@@ -43,11 +42,11 @@ export class MyMap extends LitElement {
       overflow: hidden;
     }
     #map:focus {
-      outline: #D3D3D3 solid 0.15em;
+      outline: #d3d3d3 solid 0.15em;
     }
     .ol-control button {
       border-radius: 0 !important;
-      background-color: #2C2C2C !important;
+      background-color: #2c2c2c !important;
     }
     .ol-control button:hover {
       background-color: rgba(44, 44, 44, 0.85) !important;
@@ -295,8 +294,10 @@ export class MyMap extends LitElement {
       if (!loadInitialDrawing) {
         map.addInteraction(draw);
       }
-      map.addInteraction(snap);
       map.addInteraction(modify);
+
+      // XXX: snap must be added after draw and modify
+      map.addInteraction(snap);
 
       // 'change' listens for 'drawend' and modifications
       drawingSource.on("change", () => {
@@ -319,7 +320,6 @@ export class MyMap extends LitElement {
 
           // limit to drawing a single polygon, only allow modifications to existing shape
           map.removeInteraction(draw);
-          map.removeInteraction(snap);
         }
       });
     }
