@@ -10,7 +10,15 @@ import { Vector as VectorSource } from "ol/source";
 import { Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
-import { draw, drawingLayer, drawingSource, modify, snap } from "./drawing";
+
+import {
+  configureDraw,
+  configureModify,
+  drawingLayer,
+  drawingSource,
+  DrawPointerEnum,
+  snap,
+} from "./drawing";
 import {
   getFeaturesAtPoint,
   makeFeatureLayer,
@@ -91,6 +99,9 @@ export class MyMap extends LitElement {
 
   @property({ type: Number })
   drawGeojsonDataBuffer = 100;
+
+  @property({ type: String })
+  drawPointer: DrawPointerEnum = "crosshair";
 
   @property({ type: Boolean })
   showFeaturesAtPoint = false;
@@ -188,6 +199,10 @@ export class MyMap extends LitElement {
         mouseWheelZoom: !this.staticMode,
       }),
     });
+
+    // make configurable interactions available
+    const draw = configureDraw(this.drawPointer);
+    const modify = configureModify(this.drawPointer);
 
     // add a custom 'reset' control below zoom
     const button = document.createElement("button");
