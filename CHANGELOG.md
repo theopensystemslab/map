@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.0] - 2021-11-24
+
+### Changed
+- **BREAKING**: removed `ariaLabel` property based on accessibility audit recommendation, as aria-label attributes shouldn't be used on div elements ([#86](https://github.com/theopensystemslab/map/pull/86))
+
 ## [0.3.7] - 2021-11-19
 
 ### Added
