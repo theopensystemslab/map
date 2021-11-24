@@ -151,9 +151,6 @@ export class MyMap extends LitElement {
   @property({ type: String })
   areaUnit: AreaUnitEnum = "m2";
 
-  @property({ type: String })
-  ariaLabel = "Interactive map";
-
   @property({ type: Boolean })
   showScale = false;
 
@@ -418,7 +415,7 @@ export class MyMap extends LitElement {
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
-      <div id="map" tabindex="0" aria-label=${this.ariaLabel} />`;
+      <div id="map" tabindex="0" />`;
   }
 
   /**
