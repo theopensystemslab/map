@@ -24,7 +24,7 @@
   "dependencies": {
     "@turf/union": "^6.5.0",
     "lit": "^2.0.0-rc.2",
-    "ol": "^6.6.1",
+    "ol": "^6.9.0",
     "ol-mapbox-style": "^6.4.1",
     "rambda": "^6.9.0"
   },
