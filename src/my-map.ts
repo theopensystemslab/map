@@ -289,7 +289,9 @@ export class MyMap extends LitElement {
 
       // log total area of static geojson data (assumes single polygon for now)
       const data = geojsonSource.getFeatures()[0].getGeometry();
-      this.dispatch("geojsonDataArea", formatArea(data, this.areaUnit));
+      if (data) {
+        this.dispatch("geojsonDataArea", formatArea(data, this.areaUnit));
+      }
     }
 
     // draw interactions
@@ -332,10 +334,12 @@ export class MyMap extends LitElement {
             })
           );
 
-          this.dispatch(
-            "areaChange",
-            formatArea(lastSketchGeom, this.areaUnit)
-          );
+          if (lastSketchGeom) {
+            this.dispatch(
+              "areaChange",
+              formatArea(lastSketchGeom, this.areaUnit)
+            );
+          }
 
           // limit to drawing a single polygon, only allow modifications to existing shape
           map.removeInteraction(draw);
@@ -353,7 +357,8 @@ export class MyMap extends LitElement {
       drawingLayer.setZIndex(1001); // display draw vertices on top of snap points
 
       map.on("moveend", () => {
-        if (map.getView().getZoom() < 20) {
+        const currentZoom: number | undefined = map.getView().getZoom();
+        if (currentZoom && currentZoom < 20) {
           pointsSource.clear();
           return;
         }
@@ -405,7 +410,12 @@ export class MyMap extends LitElement {
 
           // calculate the total area of the feature or merged features
           const data = outlineSource.getFeatures()[0].getGeometry();
-          this.dispatch("featuresAreaChange", formatArea(data, this.areaUnit));
+          if (data) {
+            this.dispatch(
+              "featuresAreaChange",
+              formatArea(data, this.areaUnit)
+            );
+          }
         }
       });
     }
