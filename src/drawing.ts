@@ -61,7 +61,7 @@ const drawingVertices = new Style({
       const coordinates: number[][] = geom.getCoordinates()[0];
       return new MultiPoint(coordinates);
     } else {
-      return geom;
+      return;
     }
   },
 });
