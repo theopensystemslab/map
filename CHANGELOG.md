@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.1] - 2021-11-25
+
+### Changed
+- feat: string property `osCopyright` now allows users to set the map attribution for OS layers based on their own API keys. The default copyright text is updated to reflect our new data agreement with DHLUC ([#88](https://github.com/theopensystemslab/map/pull/88))
+
 ## [0.4.0] - 2021-11-24
 
 ### Changed
