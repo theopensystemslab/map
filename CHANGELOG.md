@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.2] - 2021-11-26
+
+### Changed
+- upgrade openlayers ([#89](https://github.com/theopensystemslab/map/pull/89))
+
 ## [0.4.1] - 2021-11-25
 
 ### Changed
