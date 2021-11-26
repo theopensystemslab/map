@@ -1,4 +1,4 @@
-import MultiPoint from "ol/geom/MultiPoint";
+import { MultiPoint, Polygon } from "ol/geom";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
@@ -55,9 +55,14 @@ const drawingVertices = new Style({
     angle: Math.PI / 4,
   }),
   geometry: function (feature) {
-    // return the coordinates of the drawn polygon
-    const coordinates = feature.getGeometry().getCoordinates()[0];
-    return new MultiPoint(coordinates);
+    const geom = feature.getGeometry();
+    if (geom instanceof Polygon) {
+      // return the coordinates of the drawn polygon
+      const coordinates: number[][] = geom.getCoordinates()[0];
+      return new MultiPoint(coordinates);
+    } else {
+      return;
+    }
   },
 });
 
