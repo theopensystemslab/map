@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@turf/union": "^6.5.0",
+    "accessible-autocomplete": "^2.0.3",
     "lit": "^2.0.0-rc.2",
     "ol": "^6.9.0",
     "ol-mapbox-style": "^6.4.1",

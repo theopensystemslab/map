@@ -6,3 +6,4 @@ interface ImportMetaEnv {
 }
 
 declare module "ol-mapbox-style/dist/stylefunction";
+declare module "accessible-autocomplete";
