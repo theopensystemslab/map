@@ -1,36 +1,45 @@
 import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import accessibleAutocomplete from "accessible-autocomplete";
+import { parse, toNormalised } from "postcode";
 
 @customElement("postcode-search")
 export class PostcodeSearch extends LitElement {
   @property({ type: String })
-  localAuthority = "Southwark";
+  postcode = "";
 
-  firstUpdated() {
-    // later fetch all addresses in Southwark, make list of their uniq postcodes
-    const samples = ["SE5 0HU", "SE1 2QH", "HP9 2HA", "SW2 1EG"];
+  @property({ type: Boolean })
+  isValid = false;
 
-    // ref https://lit.dev/docs/components/shadow-dom/#accessing-nodes-in-the-shadow-dom
-    accessibleAutocomplete({
-      element: this.renderRoot.querySelector("#my-autocomplete-container"),
-      id: "my-autocomplete", // match to <label>
-      source: samples,
-      autoselect: true,
-      placeholder: "SE5 0HU",
-    });
+  _onInputChange(e: any) {
+    const input = e.target.value;
+
+    if (parse(input.trim()).valid) {
+      this.postcode = toNormalised(input.trim()) || input;
+      this.isValid = true;
+    } else if (!parse(input.trim()).valid) {
+      this.postcode = input;
+      this.isValid = false;
+    }
   }
 
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.3/dist/accessible-autocomplete.min.css"
-      />
-      <label for="my-autocomplete"
-        >Enter a postcode in ${this.localAuthority}</label
-      >
-      <div id="my-autocomplete-container"></div>`;
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="postcode"> Postcode </label>
+        <!-- <span id="event-name-error" class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span> Enter a valid UK postcode
+        </span> -->
+        <input
+          class="govuk-input govuk-input--width-10"
+          id="postcode"
+          name="postcode"
+          type="text"
+          autocomplete="postal-code"
+          spellcheck="false"
+          .value=${this.postcode}
+          @input=${this._onInputChange}
+        />
+      </div>`;
   }
 }
 

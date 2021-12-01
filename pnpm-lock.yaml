@@ -9,6 +9,7 @@ specifiers:
   lit: ^2.0.0-rc.2
   ol: ^6.9.0
   ol-mapbox-style: ^6.4.1
+  postcode: ^5.1.0
   prettier: ^2.3.2
   rambda: ^6.9.0
   typescript: ^4.3.5
@@ -20,6 +21,7 @@ dependencies:
   lit: 2.0.0-rc.2
   ol: 6.9.0
   ol-mapbox-style: 6.4.1_ol@6.9.0
+  postcode: 5.1.0
   rambda: 6.9.0
 
 devDependencies:
@@ -628,6 +630,11 @@ packages:
     resolution: {integrity: sha512-ho0Xx5DLkgxRx/+n4O74XyJ67DcyN3Tu9bGYKsnTukGAW6ssnuak6Mwcyb1wHy9MZc9xsUWqIoiazkZB5weECg==}
     dependencies:
       splaytree: 3.1.0
+    dev: false
+
+  /postcode/5.1.0:
+    resolution: {integrity: sha512-rjwIdlQ8UvdOnUVZRCZQA54PmQJeoMBDQb4RsW5z3MVp/u7Gcet1vsjVy/p0+YX+R7cmgU9DEJf0zSx5mWqxAA==}
+    engines: {node: '>= 10.0.0'}
     dev: false
 
   /postcss/8.3.6:
