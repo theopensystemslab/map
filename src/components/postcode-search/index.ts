@@ -1,9 +1,14 @@
-import { html, LitElement } from "lit";
+import { html, LitElement, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { parse, toNormalised } from "postcode";
 
+import styles from "./styles.scss";
+
 @customElement("postcode-search")
 export class PostcodeSearch extends LitElement {
+  // ref https://github.com/e111077/vite-lit-element-ts-sass/issues/3
+  static styles = unsafeCSS(styles);
+
   // configurable component properties
   @property({ type: String })
   label = "Postcode";

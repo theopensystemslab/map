@@ -1,4 +1,4 @@
-import { css, html, LitElement } from "lit";
+import { html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
@@ -32,45 +32,12 @@ import {
   pointsSource,
 } from "./snapping";
 import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
+import styles from "./my-map.scss";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
-  // default map size, can be overridden with CSS
-  static styles = css`
-    :host {
-      display: block;
-      width: 800px;
-      height: 800px;
-      position: relative;
-    }
-    #map {
-      height: 100%;
-      opacity: 0;
-      transition: opacity 0.25s;
-      overflow: hidden;
-    }
-    #map:focus {
-      outline: #d3d3d3 solid 0.15em;
-    }
-    .ol-control button {
-      border-radius: 0 !important;
-      background-color: #2c2c2c !important;
-    }
-    .ol-control button:hover {
-      background-color: rgba(44, 44, 44, 0.85) !important;
-    }
-    .reset-control {
-      top: 70px;
-      left: 0.5em;
-    }
-    #area {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      z-index: 100;
-      background: white;
-    }
-  `;
+  // ref https://github.com/e111077/vite-lit-element-ts-sass/issues/3
+  static styles = unsafeCSS(styles);
 
   // configurable component properties
   @property({ type: Number })

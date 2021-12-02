@@ -24,6 +24,7 @@
   "dependencies": {
     "@turf/union": "^6.5.0",
     "accessible-autocomplete": "^2.0.3",
+    "govuk-frontend": "^3.14.0",
     "lit": "^2.0.0-rc.2",
     "ol": "^6.9.0",
     "ol-mapbox-style": "^6.4.1",
@@ -35,6 +36,8 @@
     "husky": "^7.0.1",
     "lint-staged": "^12.0.3",
     "prettier": "^2.3.2",
+    "rollup-plugin-postcss-lit": "^2.0.0",
+    "sass": "^1.44.0",
     "typescript": "^4.3.5",
     "vite": "^2.4.4"
   },

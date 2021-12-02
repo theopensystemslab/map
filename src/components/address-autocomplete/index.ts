@@ -2,17 +2,17 @@ import { html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import accessibleAutocomplete from "accessible-autocomplete";
 
-@customElement("address-search")
-export class AddressSearch extends LitElement {
+@customElement("address-autocomplete")
+export class AddressAutocomplete extends LitElement {
   @property({ type: String })
-  localAuthority = "Southwark";
+  postcode = "";
 
   @property({ type: String })
   osPlacesApiKey = import.meta.env.VITE_APP_OS_PLACES_API_KEY || "";
 
   firstUpdated() {
-    // later fetch all addresses in Southwark, make list of their uniq postcodes
-    const samples = ["SE5 0HU", "SE1 2QH", "HP9 2HA", "SW2 1EG"];
+    // todo fetch all addresses in some postcode from OS Places /postcode endpoint (or /polygon if you pass a prop other than postcode??)
+    const samples = ["47 Cobourg Road", "49 Cobourg Road"];
 
     // ref https://lit.dev/docs/components/shadow-dom/#accessing-nodes-in-the-shadow-dom
     accessibleAutocomplete({
@@ -37,6 +37,6 @@ export class AddressSearch extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "address-search": AddressSearch;
+    "address-autocomplete": AddressAutocomplete;
   }
 }
