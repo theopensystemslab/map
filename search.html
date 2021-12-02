@@ -13,5 +13,13 @@
       <a href="search.html">postcode-search</a>
     </nav>
     <postcode-search />
+
+    <script>
+      const search = document.querySelector("postcode-search");
+
+      search.addEventListener("postcodeChange", ({ detail }) => {
+        console.debug({ detail });
+      });
+    </script>
   </body>
 </html>

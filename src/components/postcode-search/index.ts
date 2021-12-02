@@ -1,34 +1,57 @@
 import { html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { parse, toNormalised } from "postcode";
 
 @customElement("postcode-search")
 export class PostcodeSearch extends LitElement {
+  // configurable component properties
   @property({ type: String })
-  postcode = "";
+  label = "Postcode";
 
-  @property({ type: Boolean })
-  isValid = false;
+  @property({ type: String })
+  errorMessage = "Enter a valid UK postcode";
+
+  // internal reactive state
+  @state()
+  private _postcode: string = "";
 
   _onInputChange(e: any) {
-    const input = e.target.value;
+    const input: string = e.target.value;
+    const isValid: boolean = parse(input.trim()).valid;
 
-    if (parse(input.trim()).valid) {
-      this.postcode = toNormalised(input.trim()) || input;
-      this.isValid = true;
-    } else if (!parse(input.trim()).valid) {
-      this.postcode = input;
-      this.isValid = false;
+    const errorEl: HTMLElement | null | undefined =
+      this.shadowRoot?.querySelector("#event-name-error");
+    if (errorEl) errorEl.style.display = "none";
+
+    if (isValid) {
+      // format the user's input when validated
+      this._postcode = toNormalised(input.trim()) || input;
+    } else if (!isValid) {
+      this._postcode = input;
+
+      // display an error once invalid input reaches standard postcode length
+      if (this._postcode.length >= 6 && errorEl) {
+        errorEl.style.display = "";
+      }
     }
+
+    this.dispatch("postcodeChange", {
+      userInput: this._postcode,
+      valid: isValid,
+    });
   }
 
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <div class="govuk-form-group">
-        <label class="govuk-label" for="postcode"> Postcode </label>
-        <!-- <span id="event-name-error" class="govuk-error-message">
-          <span class="govuk-visually-hidden">Error:</span> Enter a valid UK postcode
-        </span> -->
+        <label class="govuk-label" for="postcode">${this.label}</label>
+        <span
+          id="event-name-error"
+          class="govuk-error-message"
+          style="display:none"
+        >
+          <span class="govuk-visually-hidden">Error:</span>${this.errorMessage}
+        </span>
         <input
           class="govuk-input govuk-input--width-10"
           id="postcode"
@@ -36,11 +59,23 @@ export class PostcodeSearch extends LitElement {
           type="text"
           autocomplete="postal-code"
           spellcheck="false"
-          .value=${this.postcode}
+          .value=${this._postcode}
           @input=${this._onInputChange}
         />
       </div>`;
   }
+
+  /**
+   * dispatches an event for clients to subscribe to
+   * @param eventName
+   * @param payload
+   */
+  private dispatch = (eventName: string, payload?: any) =>
+    this.dispatchEvent(
+      new CustomEvent(eventName, {
+        detail: payload,
+      })
+    );
 }
 
 declare global {
