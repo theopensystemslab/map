@@ -14,7 +14,13 @@ export class PostcodeSearch extends LitElement {
   label = "Postcode";
 
   @property({ type: String })
+  hintText = "";
+
+  @property({ type: String })
   errorMessage = "Enter a valid UK postcode";
+
+  @property({ type: Boolean })
+  onlyQuestionOnPage = false;
 
   // internal reactive state
   @state()
@@ -35,6 +41,7 @@ export class PostcodeSearch extends LitElement {
       this._postcode = input;
 
       // display an error once invalid input reaches standard postcode length
+      // TODO: set error classes on outer div & input to match full style?
       if (this._postcode.length >= 6 && errorEl) {
         errorEl.style.display = "";
       }
@@ -46,10 +53,23 @@ export class PostcodeSearch extends LitElement {
     });
   }
 
+  // wrap the label in an h1 if it's the only question on the page
+  // ref https://design-system.service.gov.uk/components/text-input/
+  _makeLabel() {
+    return this.onlyQuestionOnPage
+      ? html`<h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="postcode"
+            >${this.label}</label
+          >
+        </h1>`
+      : html`<label class="govuk-label" for="postcode">${this.label}</label>`;
+  }
+
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <div class="govuk-form-group">
-        <label class="govuk-label" for="postcode">${this.label}</label>
+        ${this._makeLabel()}
+        <div id="event-name-hint" class="govuk-hint">${this.hintText}</div>
         <span
           id="event-name-error"
           class="govuk-error-message"
@@ -64,6 +84,7 @@ export class PostcodeSearch extends LitElement {
           type="text"
           autocomplete="postal-code"
           spellcheck="false"
+          aria-describedby="event-name-hint event-name-error"
           .value=${this._postcode}
           @input=${this._onInputChange}
         />
