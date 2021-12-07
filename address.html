@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search</title>
-    <script type="module" src="./src/components/postcode-search/index.ts"></script>
+    <script type="module" src="./src/components/address-autocomplete/index.ts"></script>
   </head>
   <body>
     <nav style="margin-bottom: 15px;">
@@ -13,13 +13,13 @@
       <a href="search.html">postcode-search</a>
       <a href="address.html">address-autocomplete</a>
     </nav>
-    <postcode-search hintText="Optional hint text shows up here" onlyQuestionOnPage />
-
+    <address-autocomplete postcode="SE5 0HU" />
+    
     <script>
-      const search = document.querySelector("postcode-search");
+      const autocomplete = document.querySelector("address-autocomplete");
 
-      search.addEventListener("postcodeChange", ({ detail }) => {
-        console.debug({ detail });
+      autocomplete.addEventListener("addressSelection", ({ detail: address }) => {
+        console.debug({ detail: address });
       });
     </script>
   </body>
