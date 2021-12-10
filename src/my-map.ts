@@ -58,7 +58,7 @@ export class MyMap extends LitElement {
       cursor: pointer;
       min-width: 44px;
       min-height: 44px;
-      font-size: 1.5rem;
+      font-size: 1.75rem;
     }
     .ol-control button:hover {
       background-color: rgba(44, 44, 44, 0.85) !important;
@@ -248,7 +248,7 @@ export class MyMap extends LitElement {
 
     // Apply aria-labels to OL Controls for accessibility
     const olControls: NodeListOf<HTMLButtonElement> | undefined =
-      this.shadowRoot?.querySelectorAll(".ol-control button");
+      this.renderRoot?.querySelectorAll(".ol-control button");
     olControls?.forEach((node) =>
       node.setAttribute("aria-label", node.getAttribute("title") || "")
     );
