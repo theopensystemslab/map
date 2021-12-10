@@ -224,7 +224,8 @@ export class MyMap extends LitElement {
     // add a custom 'reset' control below zoom
     const button = document.createElement("button");
     button.innerHTML = "↻";
-    button.title = button.ariaLabel = "Reset map view";
+    button.title = "Reset map view";
+    button.setAttribute("aria-label", "Reset map view");
 
     const handleReset = () => {
       if (this.showFeaturesAtPoint) {
