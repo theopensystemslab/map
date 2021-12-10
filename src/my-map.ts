@@ -217,7 +217,9 @@ export class MyMap extends LitElement {
       this.shadowRoot?.querySelectorAll(
         ".ol-zoom button, .ol-attribution button"
       );
-    olControls?.forEach((node) => (node.ariaLabel = node.title));
+    olControls?.forEach((node) =>
+      node.setAttribute("aria-label", node.getAttribute("title") || "")
+    );
 
     // add a custom 'reset' control below zoom
     const button = document.createElement("button");
