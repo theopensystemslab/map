@@ -55,12 +55,16 @@ export class MyMap extends LitElement {
     .ol-control button {
       border-radius: 0 !important;
       background-color: #2c2c2c !important;
+      cursor: pointer;
+      min-width: 44px;
+      min-height: 44px;
+      font-size: 1.5rem;
     }
     .ol-control button:hover {
       background-color: rgba(44, 44, 44, 0.85) !important;
     }
     .reset-control {
-      top: 70px;
+      top: 114px;
       left: 0.5em;
     }
     #area {
@@ -241,6 +245,13 @@ export class MyMap extends LitElement {
     if (!this.hideResetControl) {
       map.addControl(ResetControl);
     }
+
+    // Apply aria-labels to OL Controls for accessibility
+    const olControls: NodeListOf<HTMLButtonElement> | undefined =
+      this.shadowRoot?.querySelectorAll(".ol-control button");
+    olControls?.forEach((node) =>
+      node.setAttribute("aria-label", node.getAttribute("title") || "")
+    );
 
     // define cursors for dragging/panning and moving
     map.on("pointerdrag", () => {
