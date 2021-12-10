@@ -55,12 +55,16 @@ export class MyMap extends LitElement {
     .ol-control button {
       border-radius: 0 !important;
       background-color: #2c2c2c !important;
+      cursor: pointer;
+      min-width: 44px;
+      min-height: 44px;
+      font-size: 1.5rem;
     }
     .ol-control button:hover {
       background-color: rgba(44, 44, 44, 0.85) !important;
     }
     .reset-control {
-      top: 70px;
+      top: 114px;
       left: 0.5em;
     }
     #area {
@@ -208,10 +212,20 @@ export class MyMap extends LitElement {
     const draw = configureDraw(this.drawPointer);
     const modify = configureModify(this.drawPointer);
 
+    // Apply aria-labels to OL Controls for accessibility
+    const olControls: NodeListOf<HTMLButtonElement> | undefined =
+      this.shadowRoot?.querySelectorAll(
+        ".ol-zoom button, .ol-attribution button"
+      );
+    olControls?.forEach((node) =>
+      node.setAttribute("aria-label", node.getAttribute("title") || "")
+    );
+
     // add a custom 'reset' control below zoom
     const button = document.createElement("button");
     button.innerHTML = "↻";
     button.title = "Reset map view";
+    button.setAttribute("aria-label", "Reset map view");
 
     const handleReset = () => {
       if (this.showFeaturesAtPoint) {
