@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
 import { defaults as defaultInteractions } from "ol/interaction";
@@ -160,9 +160,13 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   useScaleBarStyle = false;
 
+  // internal reactive state
+  @state()
+  map?: Map;
+
   // runs after the initial render
   firstUpdated() {
-    const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
+    const target = this.renderRoot.querySelector("#map") as HTMLElement;
 
     const useVectorTiles =
       !this.disableVectorTiles && Boolean(this.osVectorTilesApiKey);
@@ -204,6 +208,9 @@ export class MyMap extends LitElement {
       }),
     });
 
+    this.map = map;
+    this.performUpdate();
+
     // make configurable interactions available
     const draw = configureDraw(this.drawPointer);
     const modify = configureModify(this.drawPointer);
@@ -230,6 +237,8 @@ export class MyMap extends LitElement {
       }
     };
 
+    // this is an internal event listener, so doesn't need to be removed later
+    // ref https://lit.dev/docs/components/lifecycle/#disconnectedcallback
     button.addEventListener("click", handleReset, false);
 
     const element = document.createElement("div");
@@ -433,6 +442,11 @@ export class MyMap extends LitElement {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
       <div id="map" tabindex="0" />`;
+  }
+
+  // unmount the map
+  disconnectedCallback() {
+    this.map?.dispose();
   }
 
   /**
