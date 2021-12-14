@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { Control, defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
 import { defaults as defaultInteractions } from "ol/interaction";
@@ -160,8 +160,7 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   useScaleBarStyle = false;
 
-  // internal reactive state
-  @state()
+  // set class property (map doesn't require any reactivity using @state)
   map?: Map;
 
   // called when element is created
@@ -214,7 +213,6 @@ export class MyMap extends LitElement {
     });
 
     this.map = map;
-    super.performUpdate();
 
     // make configurable interactions available
     const draw = configureDraw(this.drawPointer);
