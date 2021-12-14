@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.3] - 2021-12-14
+
+### Changed
+- fix: control buttons are an accessible size ([#95](https://github.com/theopensystemslab/map/pull/95))
+- fix: add Lit lifecycle method to unmount map ([#97](https://github.com/theopensystemslab/map/pull/97))
+
 ## [0.4.2] - 2021-11-26
 
 ### Changed
