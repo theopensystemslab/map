@@ -164,9 +164,17 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   useScaleBarStyle = false;
 
+  // set class property (map doesn't require any reactivity using @state)
+  map?: Map;
+
+  // called when element is created
+  constructor() {
+    super();
+  }
+
   // runs after the initial render
   firstUpdated() {
-    const target = this.shadowRoot?.querySelector("#map") as HTMLElement;
+    const target = this.renderRoot.querySelector("#map") as HTMLElement;
 
     const useVectorTiles =
       !this.disableVectorTiles && Boolean(this.osVectorTilesApiKey);
@@ -208,6 +216,8 @@ export class MyMap extends LitElement {
       }),
     });
 
+    this.map = map;
+
     // make configurable interactions available
     const draw = configureDraw(this.drawPointer);
     const modify = configureModify(this.drawPointer);
@@ -234,6 +244,8 @@ export class MyMap extends LitElement {
       }
     };
 
+    // this is an internal event listener, so doesn't need to be removed later
+    // ref https://lit.dev/docs/components/lifecycle/#disconnectedcallback
     button.addEventListener("click", handleReset, false);
 
     const element = document.createElement("div");
@@ -444,6 +456,12 @@ export class MyMap extends LitElement {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
       <div id="map" tabindex="0" />`;
+  }
+
+  // unmount the map
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.map?.dispose();
   }
 
   /**
