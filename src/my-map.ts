@@ -164,6 +164,11 @@ export class MyMap extends LitElement {
   @state()
   map?: Map;
 
+  // called when element is created
+  constructor() {
+    super();
+  }
+
   // runs after the initial render
   firstUpdated() {
     const target = this.renderRoot.querySelector("#map") as HTMLElement;
@@ -209,7 +214,7 @@ export class MyMap extends LitElement {
     });
 
     this.map = map;
-    this.performUpdate();
+    super.performUpdate();
 
     // make configurable interactions available
     const draw = configureDraw(this.drawPointer);
@@ -446,6 +451,7 @@ export class MyMap extends LitElement {
 
   // unmount the map
   disconnectedCallback() {
+    super.disconnectedCallback();
     this.map?.dispose();
   }
 
