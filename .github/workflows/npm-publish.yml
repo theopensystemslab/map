@@ -3,9 +3,13 @@ on:
   push:
     branches:
       - main
+    paths: 
+      - 'package.json'
+      - 'CHANGELOG.md'
 
 jobs:
   publish:
+    name: Publish to NPM
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,4 +21,21 @@ jobs:
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          dry-run: true
+
+  release:
+    name: Create Github Release
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/create-release@v1
+        env: 
+          GITHUB_TOKEN: ${{ secrets. GITHUB_TOKEN }}
+        with: 
+          tag_name: v${{ github.ref }}
+          release_name: v${{ github.ref }}
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
           dry-run: true
