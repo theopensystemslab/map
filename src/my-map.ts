@@ -239,6 +239,13 @@ export class MyMap extends LitElement {
 
       if (this.drawMode) {
         drawingSource.clear();
+
+        this.dispatch("geojsonChange", {});
+        this.dispatch(
+          "areaChange",
+          `0 ${this.areaUnit === "m2" ? "m²" : this.areaUnit}`
+        );
+
         map.addInteraction(draw);
         map.addInteraction(snap);
       }
