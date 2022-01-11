@@ -355,7 +355,7 @@ export class MyMap extends LitElement {
         const sketches = drawingSource.getFeatures();
 
         if (sketches.length > 0) {
-          const lastSketchGeom = last(sketches).getGeometry();
+          const lastSketchGeom = last(sketches)?.getGeometry();
 
           this.dispatch(
             "geojsonChange",
