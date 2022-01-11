@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.4] - 2022-01-11
+
+### Changed
+- fix: when in `drawMode`, "reset" control button now dispatches two events to reset area to 0 and empty geojson. Previously, the area and geojson continued to reflect the last drawn polygon ([#102](https://github.com/theopensystemslab/map/pull/102))
+- bump rambda and @types/node dependencies ([#107](https://github.com/theopensystemslab/map/pull/107) & [#108](https://github.com/theopensystemslab/map/pull/108))
+
 ## [0.4.3] - 2021-12-14
 
 ### Changed
