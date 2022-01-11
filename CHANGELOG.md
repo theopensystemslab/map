@@ -13,6 +13,7 @@ incremented for features.
 
 ### Changed
 - fix: when in `drawMode`, "reset" control button now dispatches two events to reset area to 0 and empty geojson. Previously, the area and geojson continued to reflect the last drawn polygon ([#102](https://github.com/theopensystemslab/map/pull/102))
+- bump rambda and @types/node dependencies ([#107](https://github.com/theopensystemslab/map/pull/107) & [#108](https://github.com/theopensystemslab/map/pull/108))
 
 ## [0.4.3] - 2021-12-14
 
