@@ -14,16 +14,9 @@
     />
   </head>
   <body>
-    <div style="display: flex; flex-direction: column;">
-      <div style="margin: 1em">
-        <my-map showFeaturesAtPoint latitude="51.507351" longitude="-0.127758" id="map-1" />
-      </div>
-      <div style="margin: 1em">
-        <my-map showFeaturesAtPoint featureColor="#ff00ff" drawMode drawPointer="dot" latitude="51.506351" longitude="-0.124758" id="map-2" />
-      </div>
-    </div>
+    <my-map zoom="18" maxZoom="23" drawMode drawPointer="dot" id="example-map" />
 
-    <!-- <script>
+    <script>
       const map = document.querySelector("my-map");
 
       map.addEventListener("ready", (event) => {
@@ -50,6 +43,6 @@
       map.addEventListener("geojsonDataArea", ({ detail: geojsonDataArea }) => {
         console.debug({ geojsonDataArea });
       });
-    </script> -->
+    </script>
   </body>
 </html>

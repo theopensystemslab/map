@@ -39,8 +39,8 @@ export class MyMap extends LitElement {
   static styles = css`
     :host {
       display: block;
-      width: 500px;
-      height: 500px;
+      width: 800px;
+      height: 800px;
       position: relative;
     }
     .map {
@@ -410,12 +410,12 @@ export class MyMap extends LitElement {
       getFeaturesAtPoint(
         fromLonLat([this.longitude, this.latitude]),
         this.osFeaturesApiKey,
-        this.id
+        false
       );
 
       if (this.clickFeatures) {
         map.on("singleclick", (e) => {
-          getFeaturesAtPoint(e.coordinate, this.osFeaturesApiKey);
+          getFeaturesAtPoint(e.coordinate, this.osFeaturesApiKey, true);
         });
       }
 

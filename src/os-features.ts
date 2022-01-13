@@ -33,11 +33,12 @@ export function makeFeatureLayer(color: string, featureFill: boolean) {
  *   features containing the coordinates of the provided point
  * @param coord - xy coordinate
  * @param apiKey - Ordnance Survey Features API key, sign up here: https://osdatahub.os.uk/plans
+ * @param supportClickFeatures - whether the featureSource should support `clickFeatures` mode or be cleared upfront
  */
 export function getFeaturesAtPoint(
   coord: Array<number>,
   apiKey: any,
-  mapId?: string
+  supportClickFeatures: boolean
 ) {
   const xml = `
     <ogc:Filter>
@@ -72,7 +73,6 @@ export function getFeaturesAtPoint(
     .then((response) => response.json())
     .then((data) => {
       if (!data.features.length) return;
-      console.log(`fetched features ${mapId}`, data);
 
       const properties = data.features[0].properties,
         validKeys = ["TOID", "DescriptiveGroup"];
@@ -87,22 +87,28 @@ export function getFeaturesAtPoint(
         featureProjection: "EPSG:3857",
       });
 
-      console.log(`processed features ${mapId}`, features);
+      if (supportClickFeatures) {
+        // Allows for many features to be selected/deselected when `showFeaturesAtPoint` && `clickFeatures` are enabled
+        features.forEach((feature) => {
+          const id = feature.getProperties().TOID;
+          const existingFeature = featureSource.getFeatureById(id);
 
-      // featureSource.clear();
-      features.forEach((feature) => {
-        const id = feature.getProperties().TOID;
-        const existingFeature = featureSource.getFeatureById(id);
-
-        if (existingFeature) {
-          featureSource.removeFeature(existingFeature);
-        } else {
+          if (existingFeature) {
+            featureSource.removeFeature(existingFeature);
+          } else {
+            feature.setId(id);
+            featureSource.addFeature(feature);
+          }
+        });
+      } else {
+        // Clears the source upfront to prevent previously fetched results from persisting when only `showFeaturesAtPoint` is enabled
+        featureSource.clear();
+        features.forEach((feature) => {
+          const id = feature.getProperties().TOID;
           feature.setId(id);
           featureSource.addFeature(feature);
-        }
-
-        console.log(`featureSource ${mapId}`, featureSource.getFeatures());
-      });
+        });
+      }
 
       outlineSource.clear();
       outlineSource.addFeature(
@@ -114,8 +120,6 @@ export function getFeaturesAtPoint(
           }, null)
         )
       );
-
-      console.log(`outlineSource ${mapId}`, outlineSource.getFeatures());
     })
     .catch((error) => console.log(error));
 }
