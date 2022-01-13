@@ -39,17 +39,17 @@ export class MyMap extends LitElement {
   static styles = css`
     :host {
       display: block;
-      width: 800px;
-      height: 800px;
+      width: 500px;
+      height: 500px;
       position: relative;
     }
-    #map {
+    .map {
       height: 100%;
       opacity: 0;
       transition: opacity 0.25s;
       overflow: hidden;
     }
-    #map:focus {
+    .map:focus {
       outline: #d3d3d3 solid 0.15em;
     }
     .ol-control button {
@@ -77,6 +77,9 @@ export class MyMap extends LitElement {
   `;
 
   // configurable component properties
+  @property({ type: String })
+  id = "map";
+
   @property({ type: Number })
   latitude = 51.507351;
 
@@ -174,7 +177,7 @@ export class MyMap extends LitElement {
 
   // runs after the initial render
   firstUpdated() {
-    const target = this.renderRoot.querySelector("#map") as HTMLElement;
+    const target = this.renderRoot.querySelector(`#${this.id}`) as HTMLElement;
 
     const useVectorTiles =
       !this.disableVectorTiles && Boolean(this.osVectorTilesApiKey);
@@ -462,7 +465,7 @@ export class MyMap extends LitElement {
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
-      <div id="map" tabindex="0" />`;
+      <div id="${this.id}" class="map" tabindex="0" />`;
   }
 
   // unmount the map
