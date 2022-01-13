@@ -409,7 +409,8 @@ export class MyMap extends LitElement {
     if (this.showFeaturesAtPoint && Boolean(this.osFeaturesApiKey)) {
       getFeaturesAtPoint(
         fromLonLat([this.longitude, this.latitude]),
-        this.osFeaturesApiKey
+        this.osFeaturesApiKey,
+        this.id
       );
 
       if (this.clickFeatures) {

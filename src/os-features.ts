@@ -34,7 +34,11 @@ export function makeFeatureLayer(color: string, featureFill: boolean) {
  * @param coord - xy coordinate
  * @param apiKey - Ordnance Survey Features API key, sign up here: https://osdatahub.os.uk/plans
  */
-export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
+export function getFeaturesAtPoint(
+  coord: Array<number>,
+  apiKey: any,
+  mapId?: string
+) {
   const xml = `
     <ogc:Filter>
       <ogc:Contains>
@@ -68,6 +72,7 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
     .then((response) => response.json())
     .then((data) => {
       if (!data.features.length) return;
+      console.log(`fetched features ${mapId}`, data);
 
       const properties = data.features[0].properties,
         validKeys = ["TOID", "DescriptiveGroup"];
@@ -82,6 +87,9 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
         featureProjection: "EPSG:3857",
       });
 
+      console.log(`processed features ${mapId}`, features);
+
+      // featureSource.clear();
       features.forEach((feature) => {
         const id = feature.getProperties().TOID;
         const existingFeature = featureSource.getFeatureById(id);
@@ -92,6 +100,8 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
           feature.setId(id);
           featureSource.addFeature(feature);
         }
+
+        console.log(`featureSource ${mapId}`, featureSource.getFeatures());
       });
 
       outlineSource.clear();
@@ -104,6 +114,8 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
           }, null)
         )
       );
+
+      console.log(`outlineSource ${mapId}`, outlineSource.getFeatures());
     })
     .catch((error) => console.log(error));
 }
