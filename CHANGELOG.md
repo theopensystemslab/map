@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.5] - 2022-01-14
+
+### Added
+- feat: string property `id` now allows users to set a custom id on the custom element `<my-map />`. it still defaults to `id="map"` as before ([#110](https://github.com/theopensystemslab/map/pull/110))
+
+### Changed
+- fix: `featureSource` and `drawingSource` are now cleared upfront when their respective interaction modes (eg `showFeaturesAtPoint`, `drawMode`) are enabled. This doesn't change anything on the first map render, but should help clear up scenarios where the map has been redrawn with new props but the layer still holds prior data features ([#110](https://github.com/theopensystemslab/map/pull/110))
+
 ## [0.4.4] - 2022-01-11
 
 ### Changed
