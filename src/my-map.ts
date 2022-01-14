@@ -43,13 +43,13 @@ export class MyMap extends LitElement {
       height: 800px;
       position: relative;
     }
-    #map {
+    .map {
       height: 100%;
       opacity: 0;
       transition: opacity 0.25s;
       overflow: hidden;
     }
-    #map:focus {
+    .map:focus {
       outline: #d3d3d3 solid 0.15em;
     }
     .ol-control button {
@@ -77,6 +77,9 @@ export class MyMap extends LitElement {
   `;
 
   // configurable component properties
+  @property({ type: String })
+  id = "map";
+
   @property({ type: Number })
   latitude = 51.507351;
 
@@ -174,7 +177,7 @@ export class MyMap extends LitElement {
 
   // runs after the initial render
   firstUpdated() {
-    const target = this.renderRoot.querySelector("#map") as HTMLElement;
+    const target = this.renderRoot.querySelector(`#${this.id}`) as HTMLElement;
 
     const useVectorTiles =
       !this.disableVectorTiles && Boolean(this.osVectorTilesApiKey);
@@ -326,18 +329,19 @@ export class MyMap extends LitElement {
 
     // draw interactions
     if (this.drawMode) {
-      // check if single polygon feature was provided to load as the initial drawing
+      // make sure drawingSource is cleared upfront, even if drawGeojsonData is provided
+      drawingSource.clear();
+
+      // load an initial polygon into the drawing source if provided, or start from an empty drawing source
       const loadInitialDrawing =
         Object.keys(this.drawGeojsonData.geometry).length > 0;
+
       if (loadInitialDrawing) {
         let feature = new GeoJSON().readFeature(this.drawGeojsonData, {
           featureProjection: "EPSG:3857",
         });
         drawingSource.addFeature(feature);
-        // fit map to extent of intial feature, overriding zoom & lat/lng center
         fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
-      } else {
-        drawingSource.clear();
       }
 
       map.addLayer(drawingLayer);
@@ -406,12 +410,13 @@ export class MyMap extends LitElement {
     if (this.showFeaturesAtPoint && Boolean(this.osFeaturesApiKey)) {
       getFeaturesAtPoint(
         fromLonLat([this.longitude, this.latitude]),
-        this.osFeaturesApiKey
+        this.osFeaturesApiKey,
+        false
       );
 
       if (this.clickFeatures) {
         map.on("singleclick", (e) => {
-          getFeaturesAtPoint(e.coordinate, this.osFeaturesApiKey);
+          getFeaturesAtPoint(e.coordinate, this.osFeaturesApiKey, true);
         });
       }
 
@@ -462,7 +467,7 @@ export class MyMap extends LitElement {
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
-      <div id="map" tabindex="0" />`;
+      <div id="${this.id}" class="map" tabindex="0" />`;
   }
 
   // unmount the map
