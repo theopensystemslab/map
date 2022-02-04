@@ -381,23 +381,35 @@ export class MyMap extends LitElement {
       });
     }
 
-    // show snapping points when in drawMode, with vector tile basemap enabled, and at zoom > 20
+    // show snapping points when in drawMode, with vector tile basemap enabled, and at qualifying zoom
     if (
       this.drawMode &&
       Boolean(this.osVectorTilesApiKey) &&
       !this.disableVectorTiles
     ) {
-      map.addLayer(pointsLayer);
-      drawingLayer.setZIndex(1001); // display draw vertices on top of snap points
+      // define zoom threshold for showing snaps (not @property yet because computationally expensive!)
+      const snapsZoom: number = 20;
 
+      // display draw vertices on top of snap points
+      map.addLayer(pointsLayer);
+      drawingLayer.setZIndex(1001);
+
+      // extract snap-able points from the basemap, and display them as points on the map if initial render within zoom
+      if (this.zoom < snapsZoom) {
+        pointsSource.clear();
+        const extent = map.getView().calculateExtent(map.getSize());
+        getSnapPointsFromVectorTiles(osVectorTileBaseMap, extent);
+      }
+
+      // continue to fetch & update snaps as map moves
       map.on("moveend", () => {
         const currentZoom: number | undefined = map.getView().getZoom();
-        if (currentZoom && currentZoom < 20) {
+        if (currentZoom && currentZoom < snapsZoom) {
           pointsSource.clear();
           return;
         }
 
-        // extract snap-able points from the basemap, and display them as points on the map
+        // timeout minimizes snap updates mid-pan/drag
         setTimeout(() => {
           pointsSource.clear();
           const extent = map.getView().calculateExtent(map.getSize());
