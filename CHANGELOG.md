@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.6] - 2022-02-04
+
+### Changed
+- fix: make snap points visible on the first render before any interactions if other conditions are met (`drawMode` is enabled, `zoom` is greater than or equal to 20). Previosly, we'd only render snaps after a map move ([#112](https://github.com/theopensystemslab/map/pull/112))
+
 ## [0.4.5] - 2022-01-14
 
 ### Added
