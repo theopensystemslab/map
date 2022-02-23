@@ -33,8 +33,13 @@ export function makeFeatureLayer(color: string, featureFill: boolean) {
  *   features containing the coordinates of the provided point
  * @param coord - xy coordinate
  * @param apiKey - Ordnance Survey Features API key, sign up here: https://osdatahub.os.uk/plans
+ * @param supportClickFeatures - whether the featureSource should support `clickFeatures` mode or be cleared upfront
  */
-export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
+export function getFeaturesAtPoint(
+  coord: Array<number>,
+  apiKey: any,
+  supportClickFeatures: boolean
+) {
   const xml = `
     <ogc:Filter>
       <ogc:Contains>
@@ -82,17 +87,28 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
         featureProjection: "EPSG:3857",
       });
 
-      features.forEach((feature) => {
-        const id = feature.getProperties().TOID;
-        const existingFeature = featureSource.getFeatureById(id);
+      if (supportClickFeatures) {
+        // Allows for many features to be selected/deselected when `showFeaturesAtPoint` && `clickFeatures` are enabled
+        features.forEach((feature) => {
+          const id = feature.getProperties().TOID;
+          const existingFeature = featureSource.getFeatureById(id);
 
-        if (existingFeature) {
-          featureSource.removeFeature(existingFeature);
-        } else {
+          if (existingFeature) {
+            featureSource.removeFeature(existingFeature);
+          } else {
+            feature.setId(id);
+            featureSource.addFeature(feature);
+          }
+        });
+      } else {
+        // Clears the source upfront to prevent previously fetched results from persisting when only `showFeaturesAtPoint` is enabled
+        featureSource.clear();
+        features.forEach((feature) => {
+          const id = feature.getProperties().TOID;
           feature.setId(id);
           featureSource.addFeature(feature);
-        }
-      });
+        });
+      }
 
       outlineSource.clear();
       outlineSource.addFeature(

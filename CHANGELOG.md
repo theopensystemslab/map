@@ -9,6 +9,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.6] - 2022-02-04
+
+### Changed
+- fix: make snap points visible on the first render before any interactions if other conditions are met (`drawMode` is enabled, `zoom` is greater than or equal to 20). Previosly, we'd only render snaps after a map move ([#112](https://github.com/theopensystemslab/map/pull/112))
+
+## [0.4.5] - 2022-01-14
+
+### Added
+- feat: string property `id` now allows users to set a custom id on the custom element `<my-map />`. it still defaults to `id="map"` as before ([#110](https://github.com/theopensystemslab/map/pull/110))
+
+### Changed
+- fix: `featureSource` and `drawingSource` are now cleared upfront when their respective interaction modes (eg `showFeaturesAtPoint`, `drawMode`) are enabled. This doesn't change anything on the first map render, but should help clear up scenarios where the map has been redrawn with new props but the layer still holds prior data features ([#110](https://github.com/theopensystemslab/map/pull/110))
+
+## [0.4.4] - 2022-01-11
+
+### Changed
+- fix: when in `drawMode`, "reset" control button now dispatches two events to reset area to 0 and empty geojson. Previously, the area and geojson continued to reflect the last drawn polygon ([#102](https://github.com/theopensystemslab/map/pull/102))
+- bump rambda and @types/node dependencies ([#107](https://github.com/theopensystemslab/map/pull/107) & [#108](https://github.com/theopensystemslab/map/pull/108))
+
+## [0.4.3] - 2021-12-14
+
+### Changed
+- fix: control buttons are an accessible size ([#95](https://github.com/theopensystemslab/map/pull/95))
+- fix: add Lit lifecycle method to unmount map ([#97](https://github.com/theopensystemslab/map/pull/97))
+
 ## [0.4.2] - 2021-11-26
 
 ### Changed
