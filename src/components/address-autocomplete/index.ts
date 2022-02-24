@@ -4,9 +4,9 @@ import accessibleAutocomplete from "accessible-autocomplete";
 
 import styles from "./styles.scss";
 
+// https://apidocs.os.uk/docs/os-places-lpi-output
 type Address = {
-  uprn: string;
-  single_line_address: string;
+  LPI: any;
 };
 
 @customElement("address-autocomplete")
@@ -15,26 +15,29 @@ export class AddressAutocomplete extends LitElement {
 
   // configurable component properties
   @property({ type: String })
-  postcode = "SE5 0HU"; // HP11 1BB is valid example w/ 0 results
+  postcode = "SE5 0HU";
 
   @property({ type: String })
   label = "Select an address";
-
-  @property({ type: String })
-  placeholder = "";
 
   @property({ type: String })
   osPlacesApiKey = import.meta.env.VITE_APP_OS_PLACES_API_KEY || "";
 
   // internal reactive state
   @state()
+  private _totalAddresses: number | undefined = undefined;
+
+  @state()
+  private _addressesInPostcode: Address[] = [];
+
+  @state()
   private _options: string[] = [];
 
   @state()
-  private _noAddressesInPostcode: boolean = false;
+  private _selectedAddress: Address | null = null;
 
   @state()
-  private _selectedAddress: Address | null = null;
+  private _osError: string | undefined = undefined;
 
   // called when DOM node is connected to the document, before render
   connectedCallback() {
@@ -45,53 +48,109 @@ export class AddressAutocomplete extends LitElement {
   // called when the component is removed from the document's DOM
   disconnectedCallback() {
     super.disconnectedCallback();
-    this._options = [];
-    this._noAddressesInPostcode = false;
-    this._selectedAddress = null;
   }
 
   // called after the initial render
   firstUpdated() {
+    // https://github.com/alphagov/accessible-autocomplete
     accessibleAutocomplete({
       element: this.renderRoot.querySelector("#my-autocomplete-container"),
       id: "my-autocomplete", // must match <label>
+      required: true,
       source: this._options,
       showAllValues: true,
-      placeholder: this.placeholder,
+      tNoResults: () => "No addresses found",
       onConfirm: (option: any) => {
-        this._selectedAddress = option;
-        this.dispatch("addressSelection", { address: this._selectedAddress });
+        this._selectedAddress = this._addressesInPostcode.filter(
+          (address) =>
+            address.LPI.ADDRESS.split(
+              `, ${address.LPI.ADMINISTRATIVE_AREA}`
+            )[0] === option
+        )[0];
+        if (this._selectedAddress)
+          this.dispatch("addressSelection", { address: this._selectedAddress });
       },
     });
   }
 
-  async _fetchData() {
-    const url = `https://api.os.uk/search/places/v1/postcode?postcode=${this.postcode}&key=${this.osPlacesApiKey}&dataset=DPA&output_srs=EPSG:4326&lr=EN`;
+  async _fetchData(offset: number = 0, prevResults: any[] = []) {
+    // https://apidocs.os.uk/docs/os-places-service-metadata
+    const params: Record<string, string> = {
+      postcode: this.postcode,
+      dataset: "LPI", // or "DPA" for only mailable addresses
+      maxResults: "100",
+      output_srs: "EPSG:4326",
+      lr: "EN",
+      key: this.osPlacesApiKey,
+    };
+    const url = `https://api.os.uk/search/places/v1/postcode?${new URLSearchParams(
+      params
+    ).toString()}`;
 
-    await fetch(url)
+    await fetch(url + `&offset=${offset}`)
       .then((resp) => resp.json())
       .then((data) => {
-        if (data.header.totalresults === 0) {
-          this._noAddressesInPostcode = true;
-        } else if (data.results.length > 0) {
-          data.results.forEach((address: any) => {
-            this._options.push(address["DPA"]["ADDRESS"]);
-          });
+        if (data.error) {
+          this._osError = data.error.message;
+        }
+
+        this._totalAddresses = data.header?.totalresults;
+
+        // concatenate full results
+        const concatenated = prevResults.concat(data.results || []);
+        this._addressesInPostcode = concatenated;
+        console.log(
+          "Fetched",
+          this._addressesInPostcode.length,
+          "/",
+          this._totalAddresses
+        );
+
+        // format & sort list of address "titles" that will be visible in dropdown
+        if (data.results) {
+          data.results
+            .filter(
+              (address: Address) =>
+                address.LPI.LPI_LOGICAL_STATUS_CODE_DESCRIPTION === "APPROVED"
+            )
+            .map((address: Address) => {
+              // omit the council and postcode from the display name
+              this._options.push(
+                address.LPI.ADDRESS.split(
+                  `, ${address.LPI.ADMINISTRATIVE_AREA}`
+                )[0]
+              );
+            });
+
+          this._options.sort((a, b) => a.localeCompare(b));
+        }
+
+        // fetch next set of results if they exist
+        if (
+          this._totalAddresses &&
+          this._totalAddresses > this._addressesInPostcode.length
+        ) {
+          this._fetchData(
+            this._addressesInPostcode.length,
+            this._addressesInPostcode
+          );
         }
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      .catch((error) => console.log(error));
   }
 
   render() {
-    return this._noAddressesInPostcode
+    let message = this._osError
+      ? this._osError
+      : `No addresses found in postcode ${this.postcode}`;
+
+    return this._osError || this._totalAddresses === 0
       ? html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
           <div class="govuk-warning-text">
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
             <strong class="govuk-warning-text__text">
               <span class="govuk-warning-text__assistive">Warning</span>
-              No addresses found in postcode ${this.postcode}
+              ${message}
             </strong>
           </div>`
       : html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>

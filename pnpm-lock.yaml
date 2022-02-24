@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@turf/union': ^6.5.0
-  '@types/node': ^16.4.13
+  '@types/node': ^17.0.7
   accessible-autocomplete: ^2.0.3
   govuk-frontend: ^3.14.0
   husky: ^7.0.1
@@ -12,7 +12,7 @@ specifiers:
   ol-mapbox-style: ^6.4.1
   postcode: ^5.1.0
   prettier: ^2.3.2
-  rambda: ^6.9.0
+  rambda: ^7.0.1
   rollup-plugin-postcss-lit: ^2.0.0
   sass: ^1.44.0
   typescript: ^4.3.5
@@ -26,10 +26,10 @@ dependencies:
   ol: 6.9.0
   ol-mapbox-style: 6.4.1_ol@6.9.0
   postcode: 5.1.0
-  rambda: 6.9.0
+  rambda: 7.0.3
 
 devDependencies:
-  '@types/node': 16.4.13
+  '@types/node': 17.0.20
   husky: 7.0.1
   lint-staged: 12.1.2
   prettier: 2.3.2
@@ -115,8 +115,8 @@ packages:
       polygon-clipping: 0.15.3
     dev: false
 
-  /@types/node/16.4.13:
-    resolution: {integrity: sha512-bLL69sKtd25w7p1nvg9pigE4gtKVpGTPojBFLMkGHXuUgap2sLqQt2qUnqmVCDfzGUL0DRNZP+1prIZJbMeAXg==}
+  /@types/node/17.0.20:
+    resolution: {integrity: sha512-Q15Clj3lZSLnhVA6yKw1G7SQz46DeL9gO1TEgfK1OQGvMdQ6TUWmCeWf1QBUNkw2BDfV52i2YuYd9OF3ZwGhjw==}
     dev: true
 
   /@types/trusted-types/1.0.6:
@@ -854,8 +854,8 @@ packages:
     resolution: {integrity: sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==}
     dev: false
 
-  /rambda/6.9.0:
-    resolution: {integrity: sha512-yosVdGg1hNGkXPzqGiOYNEpXKjEOxzUCg2rB0l+NKdyCaSf4z+i5ojbN0IqDSezMMf71YEglI+ZUTgTffn5afw==}
+  /rambda/7.0.3:
+    resolution: {integrity: sha512-vRkFoukpx9PTmYyOjMZ6+anbDI9BrjaAepigsSOVQcgy7dZKMHM26m1/r8BvegeBCM8qBwr1m/+rufgNKRrofw==}
     dev: false
 
   /rbush/3.0.1:

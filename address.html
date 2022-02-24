@@ -13,6 +13,12 @@
       <a href="search.html">postcode-search</a>
       <a href="address.html">address-autocomplete</a>
     </nav>
+    <!-- 
+      Examples (as of Feb 2022):
+      SE19 1NT (Lambeth): 56 DPA addresses -> 128 LPI addresses (87 "approved"), now requires paginated fetch
+      HP11 1BR (Bucks): 0 addresses, shows "No addresses found in postcode" error message
+      HP11 1BC (Bucks): valid postcode according to npm package but not OS, shows OS error message
+     -->
     <address-autocomplete postcode="SE5 0HU" />
     
     <script>

@@ -5,13 +5,13 @@
   height: 800px;
   position: relative;
 }
-#map {
+.map {
   height: 100%;
   opacity: 0;
   transition: opacity 0.25s;
   overflow: hidden;
 }
-#map:focus {
+.map:focus {
   outline: #d3d3d3 solid 0.15em;
 }
 .ol-control button {
