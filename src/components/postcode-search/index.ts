@@ -26,31 +26,50 @@ export class PostcodeSearch extends LitElement {
   @state()
   private _postcode: string = "";
 
+  @state()
+  private _sanitizedPostcode: string | null = null;
+
+  @state()
+  private _showPostcodeError: boolean = false;
+
   _onInputChange(e: any) {
+    // Validate and set Postcode
     const input: string = e.target.value;
     const isValid: boolean = parse(input.trim()).valid;
+    if (isValid) {
+      this._sanitizedPostcode = toNormalised(input.trim());
+      this._postcode = toNormalised(input.trim()) || input;
+    } else {
+      this._sanitizedPostcode = null;
+      this._postcode = input.toUpperCase();
+    }
+
+    if (this._sanitizedPostcode) {
+      this.dispatch("postcodeValidated", {
+        postcode: this._sanitizedPostcode,
+      });
+    }
+  }
+
+  _onBlur() {
+    if (!this._sanitizedPostcode) this._showPostcodeError = true;
+
+    // TODO: figure out where to put this querySelector so it's not repeated
+    // TODO: set error style on outer div to match govuk style
+    const errorEl: HTMLElement | null | undefined =
+      this.shadowRoot?.querySelector("#event-name-error");
+    if (errorEl) errorEl.style.display = "none";
+    if (errorEl && this._showPostcodeError) errorEl.style.display = "";
+  }
+
+  _onKeyUp(e: KeyboardEvent) {
+    if (e.key === "Enter" && !this._sanitizedPostcode)
+      this._showPostcodeError = true;
 
     const errorEl: HTMLElement | null | undefined =
       this.shadowRoot?.querySelector("#event-name-error");
     if (errorEl) errorEl.style.display = "none";
-
-    if (isValid) {
-      // format the user's input when validated
-      this._postcode = toNormalised(input.trim()) || input;
-    } else if (!isValid) {
-      this._postcode = input;
-
-      // display an error once invalid input reaches standard postcode length
-      // TODO: set error classes on outer div & input to match full style?
-      if (this._postcode.length >= 6 && errorEl) {
-        errorEl.style.display = "";
-      }
-    }
-
-    this.dispatch("postcodeChange", {
-      userInput: this._postcode,
-      valid: isValid,
-    });
+    if (errorEl && this._showPostcodeError) errorEl.style.display = "";
   }
 
   // wrap the label in an h1 if it's the only question on the page
@@ -87,6 +106,8 @@ export class PostcodeSearch extends LitElement {
           aria-describedby="event-name-hint event-name-error"
           .value=${this._postcode}
           @input=${this._onInputChange}
+          @blur=${this._onBlur}
+          @keyup=${this._onKeyUp}
         />
       </div>`;
   }
