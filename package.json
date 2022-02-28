@@ -17,8 +17,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html",
-    "prepublishOnly": "rm -rf dist types && npm run build",
+    "build": "rm -rf dist types && tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html",
+    "prepublishOnly": "npm run build",
     "prepare": "husky install"
   },
   "dependencies": {
