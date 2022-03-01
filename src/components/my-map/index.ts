@@ -32,7 +32,7 @@ import {
   pointsSource,
 } from "./snapping";
 import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
-import styles from "./my-map.scss";
+import styles from "./styles.scss";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
