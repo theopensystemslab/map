@@ -158,7 +158,9 @@ export class AddressAutocomplete extends LitElement {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.3/dist/accessible-autocomplete.min.css"
           />
-          <label class="govuk-label" for="my-autocomplete">${this.label}</label>
+          <label class="govuk-label" htmlFor="my-autocomplete"
+            >${this.label}</label
+          >
           <div id="my-autocomplete-container"></div>`;
   }
 
