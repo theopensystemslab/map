@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Map</title>
+    <title>OS Web Components Sandbox</title>
     <script type="module" src="./src/index.ts"></script>
     <!-- OS vector tile source specifies fonts in .pbf format, which OpenLayers can't load, so make them available directly  -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,15 +14,26 @@
     />
   </head>
   <body>
-    <nav style="margin-bottom: 15px;">
-      Preview
-      <a href="/index.html">map</a>
-      <a href="/src/components/postcode-search/example.html">postcode-search</a>
-      <a href="/src/components/address-autocomplete/example.html">address-autocomplete</a>
-    </nav>
-    <my-map zoom="20" maxZoom="23" drawMode drawPointer="dot" id="example-map" />
-
+    <div style="display:flex;flex-direction:column;">
+      <p style="color:red;font-family:Inter,Helvetica,sans-serif">*** This is a testing sandbox - these components are unaware of each other! ***</p>
+      <div style="margin-bottom:1em">
+        <my-map zoom="20" maxZoom="23" drawMode drawPointer="dot" id="example-map" />
+      </div>
+      <div stye="margin-bottom:1em">
+        <postcode-search hintText="Optional hint text shows up here" />
+      </div>
+      <div style="margin-bottom:1em;">
+        <!-- 
+          Examples (as of Feb 2022):
+          SE19 1NT (Lambeth): 56 DPA addresses -> 128 LPI addresses (87 "approved"), now requires paginated fetch
+          HP11 1BR (Bucks): 0 addresses, shows "No addresses found in postcode" error message
+          HP11 1BC (Bucks): valid postcode according to npm package but not OS, shows OS error message
+        -->
+        <address-autocomplete postcode="SE5 0HU" />
+      </div>
+    </div>
     <script>
+      // --- MAP --- //
       const map = document.querySelector("my-map");
 
       map.addEventListener("ready", (event) => {
@@ -49,6 +60,23 @@
       map.addEventListener("geojsonDataArea", ({ detail: geojsonDataArea }) => {
         console.debug({ geojsonDataArea });
       });
+
+      // --- POSTCODE SEARCH --- //
+      const search = document.querySelector("postcode-search");
+
+      search.addEventListener("postcodeValidated", ({ detail }) => {
+        console.debug({ detail });
+      });
+
+      // --- ADDRESS AUTOCOMPLETE --- //
+      const autocomplete = document.querySelector("address-autocomplete");
+
+      autocomplete.addEventListener(
+        "addressSelection",
+        ({ detail: address }) => {
+          console.debug({ detail: address });
+        }
+      );
     </script>
   </body>
 </html>
