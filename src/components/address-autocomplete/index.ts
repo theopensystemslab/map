@@ -125,7 +125,7 @@ export class AddressAutocomplete extends LitElement {
           this._options.sort((a, b) => a.localeCompare(b));
         }
 
-        // fetch next set of results if they exist
+        // fetch next page of results if they exist
         if (
           this._totalAddresses &&
           this._totalAddresses > this._addressesInPostcode.length
@@ -140,17 +140,21 @@ export class AddressAutocomplete extends LitElement {
   }
 
   render() {
-    let message = this._osError
-      ? this._osError
-      : `No addresses found in postcode ${this.postcode}`;
+    // handle various error states
+    let errorMessage;
+    if (!this.osPlacesApiKey) errorMessage = "Missing OS Places API key";
+    else if (this._osError) errorMessage = this._osError;
+    else if (this._totalAddresses === 0)
+      errorMessage = `No addresses found in postcode ${this.postcode}`;
+    else errorMessage = "Something went wrong";
 
-    return this._osError || this._totalAddresses === 0
+    return !this.osPlacesApiKey || this._osError || this._totalAddresses === 0
       ? html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
           <div class="govuk-warning-text">
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
             <strong class="govuk-warning-text__text">
               <span class="govuk-warning-text__assistive">Warning</span>
-              ${message}
+              ${errorMessage}
             </strong>
           </div>`
       : html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
