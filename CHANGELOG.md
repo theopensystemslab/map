@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.7] - 2022-03-22
+
+### Added
+- feat: two new components ([#93](https://github.com/theopensystemslab/map/pull/93))! file structure & build config are adjusted to reflect a library of components, but no breaking changes to the original map. New components:
+1. `<postcode-search />` is a GOV.UK-styled input that validates UK postcodes using [these utility methods](https://www.npmjs.com/package/postcode). When a postcode is validated, an event is dispatched containing the sanitized string.
+2. `<address-autocomplete />` fetches addresses in a given UK postcode using the [OS Places API](https://developer.ordnancesurvey.co.uk/os-places-api) and displays them using GOV.UK's [accessible-autocomplete](https://github.com/alphagov/accessible-autocomplete) component. When you select an address, an event is dispatched with the full OS record for that address. Set the `osPlacesApiKey` property to start using this component.
+
 ## [0.4.6] - 2022-02-04
 
 ### Changed

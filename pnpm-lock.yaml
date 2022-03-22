@@ -9,7 +9,7 @@ specifiers:
   lint-staged: ^12.0.3
   lit: ^2.0.0-rc.2
   ol: ^6.9.0
-  ol-mapbox-style: ^6.4.1
+  ol-mapbox-style: ^7.1.1
   postcode: ^5.1.0
   prettier: ^2.3.2
   rambda: ^7.0.1
@@ -24,7 +24,7 @@ dependencies:
   govuk-frontend: 3.14.0
   lit: 2.0.0-rc.2
   ol: 6.9.0
-  ol-mapbox-style: 6.4.1_ol@6.9.0
+  ol-mapbox-style: 7.1.1
   postcode: 5.1.0
   rambda: 7.0.3
 
@@ -47,20 +47,6 @@ packages:
   /@mapbox/jsonlint-lines-primitives/2.0.2:
     resolution: {integrity: sha1-zlblOfg1UrWNENZy6k1vya3HsjQ=}
     engines: {node: '>= 0.6'}
-    dev: false
-
-  /@mapbox/mapbox-gl-style-spec/13.21.0:
-    resolution: {integrity: sha512-qGRAZEHQfhjknjd9eCsNmKclXG5zK62DRdbgUiqAnrdkjjXrFNbs0KFaeyY8RzbdXzKRkwge6nqeKJfjYoD3vw==}
-    hasBin: true
-    dependencies:
-      '@mapbox/jsonlint-lines-primitives': 2.0.2
-      '@mapbox/point-geometry': 0.1.0
-      '@mapbox/unitbezier': 0.0.0
-      csscolorparser: 1.0.3
-      json-stringify-pretty-compact: 2.0.0
-      minimist: 1.2.5
-      rw: 1.3.3
-      sort-object: 0.3.2
     dev: false
 
   /@mapbox/mapbox-gl-style-spec/13.23.0:
@@ -661,6 +647,10 @@ packages:
     resolution: {integrity: sha512-v674D0WtpxCXlA6E+sBlG1QJWdUkz/s9qAD91bJSXBGuBL5lL4tJXpoJEftecphCh2SVQCjWMS2vhylc3AIQTg==}
     dev: false
 
+  /mapbox-to-css-font/2.4.1:
+    resolution: {integrity: sha512-QQ/iKiM43DM9+aujTL45Iz5o7gDeSFmy4LPl3HZmNcwCE++NxGazf+yFpY+wCb+YS23sDa1ghpo3zrNFOcHlow==}
+    dev: false
+
   /merge-source-map/1.0.4:
     resolution: {integrity: sha1-pd5GU42uhNQRTMXqArR3KmNGcB8=}
     dependencies:
@@ -733,22 +723,19 @@ packages:
     resolution: {integrity: sha512-9gRK4+sRWzeN6AOewNBTLXir7Zl/i3GB6Yl26gK4flxz8BXVpD3kt8amREmWNb0mxYOGDotvE5a4N+PtGGKdkg==}
     dev: false
 
-  /ol-mapbox-style/6.4.1_ol@6.9.0:
-    resolution: {integrity: sha512-qeHgB5lEaCjvpaR6oK8bPWqPTUAYzM2CTSfYJzujIU3egYLPCvJfVagIfTEMRDUG3CXTtIYHOI2Pg58ihhWJYA==}
-    peerDependencies:
-      ol: '>= 6.1.0 < 7'
-    dependencies:
-      '@mapbox/mapbox-gl-style-spec': 13.21.0
-      mapbox-to-css-font: 2.4.0
-      ol: 6.9.0
-      webfont-matcher: 1.1.0
-    dev: false
-
   /ol-mapbox-style/6.5.3:
     resolution: {integrity: sha512-2SNJQ/7acgACC4nnuKCm9qeMXK2LEeUQWZWRKlXNCstjRf7SDcQvSFXrNSlDLvzhtQ0Gv3QTX5L7plE2wm7Z3Q==}
     dependencies:
       '@mapbox/mapbox-gl-style-spec': 13.23.0
       mapbox-to-css-font: 2.4.0
+      webfont-matcher: 1.1.0
+    dev: false
+
+  /ol-mapbox-style/7.1.1:
+    resolution: {integrity: sha512-GLTEYiH/Ec9Zn1eS4S/zXyR2sierVrUc+OLVP8Ra0FRyqRhoYbXdko0b7OIeSHWdtJfHssWYefDOGxfTRUUZ/A==}
+    dependencies:
+      '@mapbox/mapbox-gl-style-spec': 13.23.0
+      mapbox-to-css-font: 2.4.1
       webfont-matcher: 1.1.0
     dev: false
 
