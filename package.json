@@ -27,7 +27,7 @@
     "govuk-frontend": "^3.14.0",
     "lit": "^2.0.0-rc.2",
     "ol": "^6.9.0",
-    "ol-mapbox-style": "^6.4.1",
+    "ol-mapbox-style": "^7.1.1",
     "postcode": "^5.1.0",
     "rambda": "^7.0.1"
   },
