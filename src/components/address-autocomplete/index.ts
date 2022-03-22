@@ -25,6 +25,9 @@ export class AddressAutocomplete extends LitElement {
   label = "Select an address";
 
   @property({ type: String })
+  initialAddress = "";
+
+  @property({ type: String })
   osPlacesApiKey = import.meta.env.VITE_APP_OS_PLACES_API_KEY || "";
 
   // internal reactive state
@@ -62,6 +65,7 @@ export class AddressAutocomplete extends LitElement {
       id: this.id,
       required: true,
       source: this._options,
+      defaultValue: this.initialAddress,
       showAllValues: true,
       tNoResults: () => "No addresses found",
       onConfirm: (option: any) => {
@@ -124,7 +128,8 @@ export class AddressAutocomplete extends LitElement {
               );
             });
 
-          this._options.sort((a, b) => a.localeCompare(b));
+          const collator = new Intl.Collator([], { numeric: true });
+          this._options.sort((a, b) => collator.compare(a, b));
         }
 
         // fetch next page of results if they exist

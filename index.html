@@ -25,10 +25,13 @@
       <div style="margin-bottom:1em;">
         <!-- 
           Examples (as of March 2022):
-          SE5 OHU (Southwark): default/"normal" postcode example, fetches 65 LPI addresses
+          SE5 OHU (Southwark): default/"standard" postcode example, fetches 65 LPI addresses
           SE19 1NT (Lambeth): 56 DPA addresses -> 128 LPI addresses (87 "approved"), now requires paginated fetch
           HP11 1BR (Bucks): 0 addresses, shows "No addresses found in postcode" error message
           HP11 1BC (Bucks): valid postcode according to npm package but not OS, shows OS error message
+
+          Example with default value (used for planx "change" & "back" button behavior):
+          <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" initialAddress="75, COBOURG ROAD, LONDON" />
         -->
         <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" />
       </div>
