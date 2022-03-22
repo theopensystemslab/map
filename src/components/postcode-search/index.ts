@@ -43,6 +43,7 @@ export class PostcodeSearch extends LitElement {
     //   <input /> uses Lit ".value" syntax to set property, whereas "value" would set attribute
     const input: string = e.target.value;
     const isValid: boolean = parse(input.trim()).valid;
+
     if (isValid) {
       this._sanitizedPostcode = toNormalised(input.trim());
       this._postcode = toNormalised(input.trim()) || input;
@@ -71,13 +72,19 @@ export class PostcodeSearch extends LitElement {
   }
 
   // show an error message if applicable
-  // TODO: set error style on outer div to match govuk style
   _showError() {
     const errorEl: HTMLElement | null | undefined =
       this.shadowRoot?.querySelector(`#${this.errorId}`);
-
     if (errorEl) errorEl.style.display = "none";
     if (errorEl && this._showPostcodeError) errorEl.style.display = "";
+
+    // additionally set error style on outer div to match govuk style
+    const errorWrapperEl: HTMLElement | null | undefined =
+      this.shadowRoot?.querySelector(`.govuk-form-group`);
+    if (errorWrapperEl && this._showPostcodeError)
+      errorWrapperEl.classList.add("govuk-form-group--error");
+    if (errorWrapperEl && !this._showPostcodeError)
+      errorWrapperEl.classList.remove("govuk-form-group--error");
   }
 
   // wrap the label in an h1 if it's the only question on the page

@@ -11,6 +11,7 @@ type Address = {
 
 @customElement("address-autocomplete")
 export class AddressAutocomplete extends LitElement {
+  // ref https://github.com/e111077/vite-lit-element-ts-sass/issues/3
   static styles = unsafeCSS(styles);
 
   // configurable component properties
@@ -161,7 +162,7 @@ export class AddressAutocomplete extends LitElement {
       : html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
           <link
             rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.3/dist/accessible-autocomplete.min.css"
+            href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
           />
           <label class="govuk-label" htmlFor=${this.id}> ${this.label} </label>
           <div id="${this.id}-container" role="status"></div>`;

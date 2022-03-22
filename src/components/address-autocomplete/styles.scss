@@ -1,2 +1,8 @@
 @import "node_modules/govuk-frontend/govuk/all";
 // @import "accessible-autocomplete";
+
+// makes listbox items consistent with label font, etc
+ul,
+li {
+  font-family: Inter, Helvetica, sans-serif;
+}
