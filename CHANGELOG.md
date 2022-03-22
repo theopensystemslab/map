@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.8] - 2022-03-22
+
+### Added
+- feat: address-autocomplete supports a default value using the `initialAddress` property ([#120](https://github.com/theopensystemslab/map/pull/120))
+
 ## [0.4.7] - 2022-03-22
 
 ### Added
