@@ -11,6 +11,12 @@ export class PostcodeSearch extends LitElement {
 
   // configurable component properties
   @property({ type: String })
+  id = "postcode";
+
+  @property({ type: String })
+  errorId = "postcode-error";
+
+  @property({ type: String })
   label = "Postcode";
 
   @property({ type: String })
@@ -33,7 +39,8 @@ export class PostcodeSearch extends LitElement {
   private _showPostcodeError: boolean = false;
 
   _onInputChange(e: any) {
-    // Validate and set Postcode
+    // validate and set postcode
+    //   <input /> uses Lit ".value" syntax to set property, whereas "value" would set attribute
     const input: string = e.target.value;
     const isValid: boolean = parse(input.trim()).valid;
     if (isValid) {
@@ -45,6 +52,7 @@ export class PostcodeSearch extends LitElement {
     }
 
     if (this._sanitizedPostcode) {
+      this._showPostcodeError = false;
       this.dispatch("postcodeValidated", {
         postcode: this._sanitizedPostcode,
       });
@@ -53,21 +61,21 @@ export class PostcodeSearch extends LitElement {
 
   _onBlur() {
     if (!this._sanitizedPostcode) this._showPostcodeError = true;
-
-    // TODO: figure out where to put this querySelector so it's not repeated
-    // TODO: set error style on outer div to match govuk style
-    const errorEl: HTMLElement | null | undefined =
-      this.shadowRoot?.querySelector("#event-name-error");
-    if (errorEl) errorEl.style.display = "none";
-    if (errorEl && this._showPostcodeError) errorEl.style.display = "";
+    this._showError();
   }
 
   _onKeyUp(e: KeyboardEvent) {
     if (e.key === "Enter" && !this._sanitizedPostcode)
       this._showPostcodeError = true;
+    this._showError();
+  }
 
+  // show an error message if applicable
+  // TODO: set error style on outer div to match govuk style
+  _showError() {
     const errorEl: HTMLElement | null | undefined =
-      this.shadowRoot?.querySelector("#event-name-error");
+      this.shadowRoot?.querySelector(`#${this.errorId}`);
+
     if (errorEl) errorEl.style.display = "none";
     if (errorEl && this._showPostcodeError) errorEl.style.display = "";
   }
@@ -77,11 +85,11 @@ export class PostcodeSearch extends LitElement {
   _makeLabel() {
     return this.onlyQuestionOnPage
       ? html`<h1 class="govuk-label-wrapper">
-          <label class="govuk-label govuk-label--l" htmlFor="postcode"
-            >${this.label}</label
-          >
+          <label class="govuk-label govuk-label--l" htmlFor=${this.id}>
+            ${this.label}
+          </label>
         </h1>`
-      : html`<label class="govuk-label" htmlFor="postcode"
+      : html`<label class="govuk-label" htmlFor=${this.id}
           >${this.label}</label
         >`;
   }
@@ -90,22 +98,23 @@ export class PostcodeSearch extends LitElement {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <div class="govuk-form-group">
         ${this._makeLabel()}
-        <div id="event-name-hint" class="govuk-hint">${this.hintText}</div>
+        <div id="postcode-hint" class="govuk-hint">${this.hintText}</div>
         <span
-          id="event-name-error"
+          id=${this.errorId}
           class="govuk-error-message"
           style="display:none"
+          role="status"
         >
           <span class="govuk-visually-hidden">Error:</span>${this.errorMessage}
         </span>
         <input
           class="govuk-input govuk-input--width-10"
-          id="postcode"
+          id=${this.id}
           name="postcode"
           type="text"
           autocomplete="postal-code"
           spellcheck="false"
-          aria-describedby="event-name-hint event-name-error"
+          aria-describedby="postcode-hint ${this.errorId}"
           .value=${this._postcode}
           @input=${this._onInputChange}
           @blur=${this._onBlur}

@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@turf/union': ^6.5.0
   '@types/node': ^17.0.7
-  accessible-autocomplete: ^2.0.3
+  accessible-autocomplete: ^2.0.4
   govuk-frontend: ^3.14.0
   husky: ^7.0.1
   lint-staged: ^12.0.3
@@ -20,7 +20,7 @@ specifiers:
 
 dependencies:
   '@turf/union': 6.5.0
-  accessible-autocomplete: 2.0.3
+  accessible-autocomplete: 2.0.4
   govuk-frontend: 3.14.0
   lit: 2.0.0-rc.2
   ol: 6.9.0
@@ -123,8 +123,8 @@ packages:
     resolution: {integrity: sha512-230RC8sFeHoT6sSUlRO6a8cAnclO06eeiq1QDfiv2FGCLWFvvERWgwIQD4FWqD9A69BN7Lzee4OXwoMVnnsWDw==}
     dev: false
 
-  /accessible-autocomplete/2.0.3:
-    resolution: {integrity: sha512-bUswBs/mDH17dUFRAJMTtcGafJ++w1YLPPFjdfJj3lnuBsLpByAw2gmr8qxXX8oc7tzoKS3Ay5FKOPM+WMBxIw==}
+  /accessible-autocomplete/2.0.4:
+    resolution: {integrity: sha512-2p0txrSpvs5wXFUeQJHMheDPTZVSEmiUHWlEPb7vJnv2Dd1xPfoLnBQQMfNbTSit2pL/9sSQYESuD2Yyohd4Yw==}
     dependencies:
       preact: 8.5.3
     dev: false

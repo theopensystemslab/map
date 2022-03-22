@@ -15,6 +15,9 @@ export class AddressAutocomplete extends LitElement {
 
   // configurable component properties
   @property({ type: String })
+  id = "autocomplete";
+
+  @property({ type: String })
   postcode = "SE5 0HU";
 
   @property({ type: String })
@@ -54,8 +57,8 @@ export class AddressAutocomplete extends LitElement {
   firstUpdated() {
     // https://github.com/alphagov/accessible-autocomplete
     accessibleAutocomplete({
-      element: this.renderRoot.querySelector("#my-autocomplete-container"),
-      id: "my-autocomplete", // must match <label>
+      element: this.renderRoot.querySelector(`#${this.id}-container`),
+      id: this.id,
       required: true,
       source: this._options,
       showAllValues: true,
@@ -99,12 +102,10 @@ export class AddressAutocomplete extends LitElement {
         // concatenate full results
         const concatenated = prevResults.concat(data.results || []);
         this._addressesInPostcode = concatenated;
-        console.log(
-          "Fetched",
-          this._addressesInPostcode.length,
-          "/",
-          this._totalAddresses
-        );
+        this.dispatch("ready", {
+          postcode: this.postcode,
+          addresses: `fetched ${this._addressesInPostcode.length}/${this._totalAddresses}`,
+        });
 
         // format & sort list of address "titles" that will be visible in dropdown
         if (data.results) {
@@ -150,7 +151,7 @@ export class AddressAutocomplete extends LitElement {
 
     return !this.osPlacesApiKey || this._osError || this._totalAddresses === 0
       ? html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-          <div class="govuk-warning-text">
+          <div class="govuk-warning-text" role="status">
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
             <strong class="govuk-warning-text__text">
               <span class="govuk-warning-text__assistive">Warning</span>
@@ -162,10 +163,8 @@ export class AddressAutocomplete extends LitElement {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.3/dist/accessible-autocomplete.min.css"
           />
-          <label class="govuk-label" htmlFor="my-autocomplete"
-            >${this.label}</label
-          >
-          <div id="my-autocomplete-container"></div>`;
+          <label class="govuk-label" htmlFor=${this.id}> ${this.label} </label>
+          <div id="${this.id}-container" role="status"></div>`;
   }
 
   /**
