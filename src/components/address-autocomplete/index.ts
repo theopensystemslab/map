@@ -69,7 +69,7 @@ export class AddressAutocomplete extends LitElement {
       showAllValues: true,
       displayMenu: "overlay",
       tNoResults: () => "No addresses found",
-      onConfirm: (option: any) => {
+      onConfirm: (option: string) => {
         this._selectedAddress = this._addressesInPostcode.filter(
           (address) =>
             address.LPI.ADDRESS.split(
@@ -82,7 +82,7 @@ export class AddressAutocomplete extends LitElement {
     });
   }
 
-  async _fetchData(offset: number = 0, prevResults: any[] = []) {
+  async _fetchData(offset: number = 0, prevResults: Address[] = []) {
     // https://apidocs.os.uk/docs/os-places-service-metadata
     const params: Record<string, string> = {
       postcode: this.postcode,
@@ -94,13 +94,17 @@ export class AddressAutocomplete extends LitElement {
     };
     const url = `https://api.os.uk/search/places/v1/postcode?${new URLSearchParams(
       params
-    ).toString()}`;
+    )}`;
 
     await fetch(url + `&offset=${offset}`)
       .then((resp) => resp.json())
       .then((data) => {
-        if (data.error) {
-          this._osError = data.error.message;
+        // handle error formats returned by OS
+        if (data.error || data.fault) {
+          this._osError =
+            data.error?.message ||
+            data.fault?.faultstring ||
+            "Something went wrong";
         }
 
         this._totalAddresses = data.header?.totalresults;
@@ -108,9 +112,10 @@ export class AddressAutocomplete extends LitElement {
         // concatenate full results
         const concatenated = prevResults.concat(data.results || []);
         this._addressesInPostcode = concatenated;
+
         this.dispatch("ready", {
           postcode: this.postcode,
-          addresses: `fetched ${this._addressesInPostcode.length}/${this._totalAddresses}`,
+          status: `fetched ${this._addressesInPostcode.length}/${this._totalAddresses} addresses`,
         });
 
         // format & sort list of address "titles" that will be visible in dropdown
@@ -118,10 +123,11 @@ export class AddressAutocomplete extends LitElement {
           data.results
             .filter(
               (address: Address) =>
+                // filter out "ALTERNATIVE", "HISTORIC", and "PROVISIONAL" records
                 address.LPI.LPI_LOGICAL_STATUS_CODE_DESCRIPTION === "APPROVED"
             )
             .map((address: Address) => {
-              // omit the council and postcode from the display name
+              // omit the council name and postcode from the display name
               this._options.push(
                 address.LPI.ADDRESS.split(
                   `, ${address.LPI.ADMINISTRATIVE_AREA}`
@@ -154,9 +160,8 @@ export class AddressAutocomplete extends LitElement {
     else if (this._osError) errorMessage = this._osError;
     else if (this._totalAddresses === 0)
       errorMessage = `No addresses found in postcode ${this.postcode}`;
-    else errorMessage = "Something went wrong";
 
-    return !this.osPlacesApiKey || this._osError || this._totalAddresses === 0
+    return errorMessage
       ? html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
           <div class="govuk-warning-text" role="status">
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -170,10 +175,11 @@ export class AddressAutocomplete extends LitElement {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
           />
-          <label class="govuk-label" htmlFor=${this.id}> ${this.label} </label>
+          <label class="govuk-label" htmlFor=${this.id}>${this.label}</label>
           <div
             id="${this.id}-container"
             role="status"
+            tabindex="0"
             spellcheck="false"
           ></div>`;
   }
