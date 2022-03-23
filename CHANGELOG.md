@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.5.0] - 2022-03-23
+
+### Changed
+- fix: autocomplete shouldn't have a tabindex on its' container, only the input ([#126](https://github.com/theopensystemslab/map/pull/126))
+
 ## [0.4.9] - 2022-03-23
 
 ### Added
