@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.4.9] - 2022-03-23
+
+### Added
+- feat: allow autocomplete to be styled from the parent ([#124](https://github.com/theopensystemslab/map/pull/124))
+
+### Changed
+- fix: autocomplete & search should set `tabindex="0"` to ensure they're keyboard accessible ([#122](https://github.com/theopensystemslab/map/pull/122))
+
 ## [0.4.8] - 2022-03-22
 
 ### Added
