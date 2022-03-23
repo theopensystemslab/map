@@ -179,7 +179,6 @@ export class AddressAutocomplete extends LitElement {
           <div
             id="${this.id}-container"
             role="status"
-            tabindex="0"
             spellcheck="false"
           ></div>`;
   }
