@@ -126,6 +126,7 @@ export class PostcodeSearch extends LitElement {
           @input=${this._onInputChange}
           @blur=${this._onBlur}
           @keyup=${this._onKeyUp}
+          tabindex="0"
         />
       </div>`;
   }
