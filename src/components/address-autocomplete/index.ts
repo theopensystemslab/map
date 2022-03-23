@@ -67,6 +67,7 @@ export class AddressAutocomplete extends LitElement {
       source: this._options,
       defaultValue: this.initialAddress,
       showAllValues: true,
+      displayMenu: "overlay",
       tNoResults: () => "No addresses found",
       onConfirm: (option: any) => {
         this._selectedAddress = this._addressesInPostcode.filter(
@@ -170,7 +171,11 @@ export class AddressAutocomplete extends LitElement {
             href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
           />
           <label class="govuk-label" htmlFor=${this.id}> ${this.label} </label>
-          <div id="${this.id}-container" role="status"></div>`;
+          <div
+            id="${this.id}-container"
+            role="status"
+            spellcheck="false"
+          ></div>`;
   }
 
   /**
