@@ -1,8 +1,53 @@
 @import "node_modules/govuk-frontend/govuk/all";
 // @import "accessible-autocomplete";
 
-// makes listbox items consistent with label font, etc
-ul,
-li {
-  font-family: Inter, Helvetica, sans-serif;
+:host {
+  $font-family: var(
+    --autocomplete__font-family,
+    "GDS Transport",
+    arial,
+    sans-serif
+  );
+  $font-size: var(--autocomplete__input__font-size, 19px);
+  $input-height: var(--autocomplete__input__height, 35px);
+
+  .govuk-label {
+    font-family: $font-family;
+  }
+
+  .autocomplete__input {
+    font-family: $font-family;
+    font-size: $font-size;
+    height: $input-height;
+    padding: var(--autocomplete__input__padding, 5px 34px 5px 5px);
+  }
+
+  .autocomplete__dropdown-arrow-down {
+    z-index: var(--autocomplete__dropdown-arrow-down__z-index, -1);
+    // Ensure the down arrow is vertically centred
+    $arrow-down-height: 17px;
+    top: calc(($input-height - $arrow-down-height) / 2);
+  }
+
+  .autocomplete__option {
+    font-family: $font-family;
+    font-size: $font-size;
+    padding: var(--autocomplete__option__padding, 5px);
+    border-bottom: var(
+      --autocomplete__option__border-bottom,
+      solid 1px #b1b4b6
+    );
+    &:hover,
+    &:focus {
+      border-color: var(--autocomplete__option__hover-border-color, #1d70b8);
+      background-color: var(
+        --autocomplete__option__hover-background-color,
+        #1d70b8
+      );
+    }
+  }
+
+  .autocomplete__menu {
+    max-height: var(--autocomplete__menu__max-height, 342px);
+  }
 }
