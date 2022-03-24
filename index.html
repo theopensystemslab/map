@@ -15,7 +15,7 @@
     <!-- Examples of available style options for address-autocomplete -->
     <!-- <style>
       address-autocomplete {
-        --autocomplete__input__padding: 6px 12px 7px 12px;
+        --autocomplete__input__padding: 6px 40px 7px 12px;
         --autocomplete__input__font-size: 15px;
         --autocomplete__input__height: 50px;
         --autocomplete__dropdown-arrow-down__top: 16px;
@@ -39,7 +39,7 @@
       <div style="margin-bottom:1em">
         <postcode-search hintText="Optional hint text shows up here" id="example-postcode" />
       </div>
-      <div style="margin-bottom:1em;">
+      <div style="margin-bottom:1em; background-color: white;">
         <!-- 
           Examples (as of March 2022):
           SE5 OHU (Southwark): default/"standard" postcode example, fetches 65 LPI addresses
@@ -50,7 +50,7 @@
           Example with default value (used for planx "change" & "back" button behavior):
           <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" initialAddress="75, COBOURG ROAD, LONDON" />
         -->
-        <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" />
+        <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" arrowStyle="light"/>
       </div>
     </div>
     <script>
