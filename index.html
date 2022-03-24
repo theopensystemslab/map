@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Map</title>
-    <script type="module" src="./src/my-map.ts"></script>
+    <title>OS Web Components Sandbox</title>
+    <script type="module" src="./src/index.ts"></script>
     <!-- OS vector tile source specifies fonts in .pbf format, which OpenLayers can't load, so make them available directly  -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,22 +12,96 @@
       href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <!-- Examples of available style options for address-autocomplete -->
+    <!-- <style>
+      address-autocomplete {
+        --autocomplete__input__padding: 6px 12px 7px 12px;
+        --autocomplete__input__font-size: 15px;
+        --autocomplete__input__height: 50px;
+        --autocomplete__dropdown-arrow-down__top: 16px;
+        --autocomplete__dropdown-arrow-down__z-index: 2;
+        --autocomplete__option__font-size: 15px;
+        --autocomplete__option__padding: 6px 12px 7px 12px;
+        --autocomplete__menu__max-height: 336px;
+        --autocomplete__option__border-bottom: solid 1px grey;
+        --autocomplete__option__hover-border-color: rgb(0, 99, 96);
+        --autocomplete__option__hover-background-color: rgb(0, 99, 96);
+        --autocomplete__font-family: "Courier New";
+      }
+    </style> -->
   </head>
   <body>
-    <my-map zoom="18" maxZoom="20" drawMode />
+    <div style="display:flex;flex-direction:column;">
+      <h1 style="color:red;font-family:Inter,Helvetica,sans-serif;font-size:16px;">*** This is a testing sandbox - these components are unaware of each other! ***</h1>
+      <div style="margin-bottom:1em">
+        <my-map zoom="20" maxZoom="23" drawMode drawPointer="dot" id="example-map" />
+      </div>
+      <div style="margin-bottom:1em">
+        <postcode-search hintText="Optional hint text shows up here" id="example-postcode" />
+      </div>
+      <div style="margin-bottom:1em;">
+        <!-- 
+          Examples (as of March 2022):
+          SE5 OHU (Southwark): default/"standard" postcode example, fetches 65 LPI addresses
+          SE19 1NT (Lambeth): 56 DPA addresses -> 128 LPI addresses (87 "approved"), now requires paginated fetch
+          HP11 1BR (Bucks): 0 addresses, shows "No addresses found in postcode" error message
+          HP11 1BC (Bucks): valid postcode according to npm package but not OS, shows OS error message
 
+          Example with default value (used for planx "change" & "back" button behavior):
+          <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" initialAddress="75, COBOURG ROAD, LONDON" />
+        -->
+        <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" />
+      </div>
+    </div>
     <script>
+      // --- MAP --- //
       const map = document.querySelector("my-map");
 
       map.addEventListener("ready", (event) => {
         console.log("map ready");
       });
+
+      // applicable when drawMode is enabled
       map.addEventListener("areaChange", ({ detail: area }) => {
         console.debug({ area });
       });
       map.addEventListener("geojsonChange", ({ detail: geojson }) => {
         console.debug({ geojson });
       });
+
+      // applicable when showFeaturesAtPoint is enabled
+      map.addEventListener("featuresAreaChange", ({ detail: featuresArea }) => {
+        console.debug({ featuresArea });
+      });
+      map.addEventListener("featuresGeojsonChange", ({ detail: featuresGeojson }) => {
+        console.debug({ featuresGeojson });
+      });
+
+      // applicable when geojsonData is provided
+      map.addEventListener("geojsonDataArea", ({ detail: geojsonDataArea }) => {
+        console.debug({ geojsonDataArea });
+      });
+
+      // --- POSTCODE SEARCH --- //
+      const search = document.querySelector("postcode-search");
+
+      search.addEventListener("postcodeValidated", ({ detail }) => {
+        console.debug({ detail });
+      });
+
+      // --- ADDRESS AUTOCOMPLETE --- //
+      const autocomplete = document.querySelector("address-autocomplete");
+
+      autocomplete.addEventListener("ready", ({ detail: data }) => {
+        console.log("autocomplete ready", { data });
+      });
+
+      autocomplete.addEventListener(
+        "addressSelection",
+        ({ detail: address }) => {
+          console.debug({ detail: address });
+        }
+      );
     </script>
   </body>
 </html>

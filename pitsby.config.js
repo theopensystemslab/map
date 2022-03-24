@@ -2,9 +2,9 @@ module.exports = {
   projects: [
     {
       engine: "vanilla",
-      collectDocsFrom: "./src/",
+      collectDocsFrom: "./src/components/",
     },
   ],
   styles: ["./dist/style.css"],
-  scripts: ["./dist/map.es.js", "./dist/map.umd.js"],
+  scripts: ["./dist/component-lib.es.js", "./dist/component-lib.umd.js"],
 };

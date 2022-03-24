@@ -3,7 +3,9 @@ import { GeoJSON } from "ol/format";
 import { Vector as VectorLayer } from "ol/layer";
 import { toLonLat } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
-import { Stroke, Style } from "ol/style";
+import { Fill, Stroke, Style } from "ol/style";
+
+import { hexToRgba } from "./utils";
 
 const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
@@ -11,13 +13,16 @@ const featureSource = new VectorSource();
 
 export const outlineSource = new VectorSource();
 
-export function makeFeatureLayer(color: string) {
+export function makeFeatureLayer(color: string, featureFill: boolean) {
   return new VectorLayer({
     source: outlineSource,
     style: new Style({
       stroke: new Stroke({
         width: 3,
         color: color,
+      }),
+      fill: new Fill({
+        color: featureFill ? hexToRgba(color, 0.2) : hexToRgba(color, 0),
       }),
     }),
   });
@@ -28,8 +33,13 @@ export function makeFeatureLayer(color: string) {
  *   features containing the coordinates of the provided point
  * @param coord - xy coordinate
  * @param apiKey - Ordnance Survey Features API key, sign up here: https://osdatahub.os.uk/plans
+ * @param supportClickFeatures - whether the featureSource should support `clickFeatures` mode or be cleared upfront
  */
-export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
+export function getFeaturesAtPoint(
+  coord: Array<number>,
+  apiKey: any,
+  supportClickFeatures: boolean
+) {
   const xml = `
     <ogc:Filter>
       <ogc:Contains>
@@ -77,17 +87,28 @@ export function getFeaturesAtPoint(coord: Array<number>, apiKey: any) {
         featureProjection: "EPSG:3857",
       });
 
-      features.forEach((feature) => {
-        const id = feature.getProperties().TOID;
-        const existingFeature = featureSource.getFeatureById(id);
+      if (supportClickFeatures) {
+        // Allows for many features to be selected/deselected when `showFeaturesAtPoint` && `clickFeatures` are enabled
+        features.forEach((feature) => {
+          const id = feature.getProperties().TOID;
+          const existingFeature = featureSource.getFeatureById(id);
 
-        if (existingFeature) {
-          featureSource.removeFeature(existingFeature);
-        } else {
+          if (existingFeature) {
+            featureSource.removeFeature(existingFeature);
+          } else {
+            feature.setId(id);
+            featureSource.addFeature(feature);
+          }
+        });
+      } else {
+        // Clears the source upfront to prevent previously fetched results from persisting when only `showFeaturesAtPoint` is enabled
+        featureSource.clear();
+        features.forEach((feature) => {
+          const id = feature.getProperties().TOID;
           feature.setId(id);
           featureSource.addFeature(feature);
-        }
-      });
+        });
+      }
 
       outlineSource.clear();
       outlineSource.addFeature(

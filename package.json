@@ -1,39 +1,46 @@
 {
   "name": "@opensystemslab/map",
-  "version": "0.3.2",
+  "version": "0.5.0",
   "license": "OGL-UK-3.0",
   "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/theopensystemslab/map.git"
   },
-  "browser": "./dist/map.umd.js",
-  "module": "./dist/map.es.js",
-  "exports": "./dist/map.es.js",
-  "types": "types/map.d.ts",
+  "browser": "./dist/component-lib.umd.js",
+  "module": "./dist/component-lib.es.js",
+  "exports": "./dist/component-lib.es.js",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "dist",
     "types"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && sed 's/src=\".*\"/src=\"map.es.js\"/' index.html > dist/index.html",
-    "prepublishOnly": "rm -rf dist types && npm run build",
-    "pitsbyDev": "pitsby build --watch",
+    "build": "rm -rf dist types && tsc && vite build && sed 's/src=\".*\"/src=\"component-lib.es.js\"/' index.html > dist/index.html",
+    "prepublishOnly": "npm run build",
+    "prepare": "husky install",
+    "pitsbyDev": "NODE_ENV=development pitsby build --watch",
     "pitsbyPublish": "pitsby build && vite ./pitsby"
   },
   "dependencies": {
     "@turf/union": "^6.5.0",
+    "accessible-autocomplete": "^2.0.4",
+    "govuk-frontend": "^3.14.0",
     "lit": "^2.0.0-rc.2",
-    "ol": "^6.6.1",
-    "ol-mapbox-style": "^6.4.1",
-    "rambda": "^6.9.0"
+    "ol": "^6.9.0",
+    "ol-mapbox-style": "^7.1.1",
+    "postcode": "^5.1.0",
+    "rambda": "^7.0.1"
   },
   "devDependencies": {
-    "@types/node": "^16.4.13",
+    "@glorious/pitsby": "^1.30.11",
+    "@types/node": "^17.0.7",
     "husky": "^7.0.1",
-    "lint-staged": "^11.1.2",
+    "lint-staged": "^12.0.3",
     "prettier": "^2.3.2",
+    "rollup-plugin-postcss-lit": "^2.0.0",
+    "sass": "^1.44.0",
     "typescript": "^4.3.5",
     "vite": "^2.4.4"
   },

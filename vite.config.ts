@@ -1,12 +1,15 @@
 import { defineConfig } from "vite";
+import path from "path";
+import litcss from 'rollup-plugin-postcss-lit';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
     lib: {
-      entry: "src/my-map.ts",
+      entry: path.resolve(__dirname, "src/index.ts"),
+      name: "ComponentLib",
       formats: ["es", "umd"],
-      name: "map",
+      fileName: (format) => `component-lib.${format}.js`,
     },
     rollupOptions: {
       // external: /^lit-element/,
@@ -15,4 +18,11 @@ export default defineConfig({
       // },
     },
   },
+  plugins: [
+    // @ts-ignore
+    {
+      ...litcss(),
+      enforce: 'post'
+    }
+  ],
 });

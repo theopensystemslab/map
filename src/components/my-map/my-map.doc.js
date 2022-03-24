@@ -1,7 +1,7 @@
 module.exports = {
-  name: "My map",
+  name: "MyMap",
   description:
-    "An OpenLayers-powered Lit Web Component map for tasks related to planning permission in the UK.",
+    "An OpenLayers-powered Lit web component map for tasks related to planning permission in the UK.",
   properties: [
     {
       name: "latitude",
