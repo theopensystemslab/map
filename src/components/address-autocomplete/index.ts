@@ -9,6 +9,8 @@ type Address = {
   LPI: any;
 };
 
+type ArrowStyleEnum = "default" | "light";
+
 @customElement("address-autocomplete")
 export class AddressAutocomplete extends LitElement {
   // ref https://github.com/e111077/vite-lit-element-ts-sass/issues/3
@@ -31,7 +33,7 @@ export class AddressAutocomplete extends LitElement {
   osPlacesApiKey = import.meta.env.VITE_APP_OS_PLACES_API_KEY || "";
 
   @property({ type: String })
-  arrowStyle = "default";
+  arrowStyle: ArrowStyleEnum = "default";
 
   // internal reactive state
   @state()
