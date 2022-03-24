@@ -1,7 +1,7 @@
 module.exports = {
   name: "AddressAutocomplete",
   description:
-    "A Lit wrapper for the Gov.UK accessible-autocomplete component that fetches & displays addresses in a given postcode from the Ordnance Survey Places API.",
+    "AddressAutocomplete is a Lit wrapper for the Gov.UK accessible-autocomplete component that fetches & displays addresses in a given postcode using the Ordnance Survey Places API.",
   properties: [
     {
       name: "postcode",

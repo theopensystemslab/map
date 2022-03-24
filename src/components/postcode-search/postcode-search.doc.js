@@ -1,7 +1,7 @@
 module.exports = {
   name: "PostcodeSearch",
   description:
-    "A Lit-wrapped, Gov.UK-styled text input which validates UK postcodes using the npm package 'postcode'.",
+    "PostcodeSearch is a Lit-wrapped, Gov.UK-styled text input which formats and validates UK postcodes using the npm package 'postcode'.",
   properties: [
     {
       name: "label",
