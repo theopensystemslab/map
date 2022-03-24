@@ -9,6 +9,8 @@ type Address = {
   LPI: any;
 };
 
+type ArrowStyleEnum = "default" | "light";
+
 @customElement("address-autocomplete")
 export class AddressAutocomplete extends LitElement {
   // ref https://github.com/e111077/vite-lit-element-ts-sass/issues/3
@@ -29,6 +31,9 @@ export class AddressAutocomplete extends LitElement {
 
   @property({ type: String })
   osPlacesApiKey = import.meta.env.VITE_APP_OS_PLACES_API_KEY || "";
+
+  @property({ type: String })
+  arrowStyle: ArrowStyleEnum = "default";
 
   // internal reactive state
   @state()
@@ -57,6 +62,10 @@ export class AddressAutocomplete extends LitElement {
     super.disconnectedCallback();
   }
 
+  getLightDropdownArrow() {
+    return '<svg class="autocomplete__dropdown-arrow-down" style="height: 17px;" viewBox="0 0 512 512" ><path d="M256,298.3L256,298.3L256,298.3l174.2-167.2c4.3-4.2,11.4-4.1,15.8,0.2l30.6,29.9c4.4,4.3,4.5,11.3,0.2,15.5L264.1,380.9  c-2.2,2.2-5.2,3.2-8.1,3c-3,0.1-5.9-0.9-8.1-3L35.2,176.7c-4.3-4.2-4.2-11.2,0.2-15.5L66,131.3c4.4-4.3,11.5-4.4,15.8-0.2L256,298.3  z"/></svg>';
+  }
+
   // called after the initial render
   firstUpdated() {
     // https://github.com/alphagov/accessible-autocomplete
@@ -68,6 +77,8 @@ export class AddressAutocomplete extends LitElement {
       defaultValue: this.initialAddress,
       showAllValues: true,
       displayMenu: "overlay",
+      dropdownArrow:
+        this.arrowStyle === "light" ? this.getLightDropdownArrow : undefined,
       tNoResults: () => "No addresses found",
       onConfirm: (option: string) => {
         this._selectedAddress = this._addressesInPostcode.filter(

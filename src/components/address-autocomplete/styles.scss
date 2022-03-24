@@ -10,6 +10,7 @@
   );
   $font-size: var(--autocomplete__input__font-size, 19px);
   $input-height: var(--autocomplete__input__height, 35px);
+  $arrow-down-z-index: var(--autocomplete__dropdown-arrow-down__z-index, 1);
 
   .govuk-label {
     font-family: $font-family;
@@ -20,10 +21,13 @@
     font-size: $font-size;
     height: $input-height;
     padding: var(--autocomplete__input__padding, 5px 34px 5px 5px);
+    // Ensure arrow is visible on white background, but behind the input so the click interaction works
+    // https://github.com/alphagov/accessible-autocomplete/issues/351
+    z-index: calc($arrow-down-z-index + 1);
   }
 
   .autocomplete__dropdown-arrow-down {
-    z-index: var(--autocomplete__dropdown-arrow-down__z-index, -1);
+    z-index: $arrow-down-z-index;
     // Ensure the down arrow is vertically centred
     $arrow-down-height: 17px;
     top: calc(($input-height - $arrow-down-height) / 2);
@@ -37,14 +41,16 @@
       --autocomplete__option__border-bottom,
       solid 1px #b1b4b6
     );
-    &:hover,
-    &:focus {
-      border-color: var(--autocomplete__option__hover-border-color, #1d70b8);
-      background-color: var(
-        --autocomplete__option__hover-background-color,
-        #1d70b8
-      );
-    }
+  }
+
+  .autocomplete__option--focused,
+  .autocomplete__option:hover,
+  .autocomplete__option--focused & .autocomplete__option:hover {
+    border-color: var(--autocomplete__option__hover-border-color, #1d70b8);
+    background-color: var(
+      --autocomplete__option__hover-background-color,
+      #1d70b8
+    );
   }
 
   .autocomplete__menu {
