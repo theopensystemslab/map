@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.5.2] - 2022-03-28
+
+### Added
+- feat: `labelStyle` property added to autocomplete ([#130](https://github.com/theopensystemslab/map/pull/130))
+
+### Changed
+- fix: Accessibility fixes flagged by auditors ([#131](https://github.com/theopensystemslab/map/pull/131))
+
 ## [0.5.1] - 2022-03-24
 
 ### Added
