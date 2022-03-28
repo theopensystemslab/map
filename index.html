@@ -13,8 +13,9 @@
       rel="stylesheet"
     />
     <!-- Examples of available style options for address-autocomplete -->
-    <!-- <style>
+    <style>
       address-autocomplete {
+        /* --autocomplete__label__font-size: 25px; */
         --autocomplete__input__padding: 6px 40px 7px 12px;
         --autocomplete__input__font-size: 15px;
         --autocomplete__input__height: 50px;
@@ -28,7 +29,7 @@
         --autocomplete__option__hover-background-color: rgb(0, 99, 96);
         --autocomplete__font-family: "Courier New";
       }
-    </style> -->
+    </style>
   </head>
   <body>
     <div style="display:flex;flex-direction:column;">
@@ -50,7 +51,7 @@
           Example with default value (used for planx "change" & "back" button behavior):
           <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" initialAddress="75, COBOURG ROAD, LONDON" />
         -->
-        <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" arrowStyle="light"/>
+        <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" arrowStyle="light" labelStyle="static"/>
       </div>
     </div>
     <script>

@@ -10,6 +10,7 @@ type Address = {
 };
 
 type ArrowStyleEnum = "default" | "light";
+type LabelStyleEnum = "responsive" | "static";
 
 @customElement("address-autocomplete")
 export class AddressAutocomplete extends LitElement {
@@ -34,6 +35,9 @@ export class AddressAutocomplete extends LitElement {
 
   @property({ type: String })
   arrowStyle: ArrowStyleEnum = "default";
+
+  @property({ type: String })
+  labelStyle: LabelStyleEnum = "responsive";
 
   // internal reactive state
   @state()
@@ -164,6 +168,14 @@ export class AddressAutocomplete extends LitElement {
       .catch((error) => console.log(error));
   }
 
+  getLabelClasses() {
+    let styles = "govuk-label";
+    if (this.labelStyle === "static") {
+      styles += " govuk-label--static";
+    }
+    return styles;
+  }
+
   render() {
     // handle various error states
     let errorMessage;
@@ -186,7 +198,9 @@ export class AddressAutocomplete extends LitElement {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
           />
-          <label class="govuk-label" htmlFor=${this.id}>${this.label}</label>
+          <label class=${this.getLabelClasses()} htmlFor=${this.id}
+            >${this.label}</label
+          >
           <div
             id="${this.id}-container"
             role="status"
