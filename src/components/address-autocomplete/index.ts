@@ -168,7 +168,7 @@ export class AddressAutocomplete extends LitElement {
       .catch((error) => console.log(error));
   }
 
-  getLabelClasses() {
+  _getLabelClasses() {
     let styles = "govuk-label";
     if (this.labelStyle === "static") {
       styles += " govuk-label--static";
@@ -198,7 +198,7 @@ export class AddressAutocomplete extends LitElement {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
           />
-          <label class=${this.getLabelClasses()} htmlFor=${this.id}
+          <label class=${this._getLabelClasses()} htmlFor=${this.id}
             >${this.label}</label
           >
           <div
