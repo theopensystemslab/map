@@ -1,19 +1,35 @@
 name: Publish to NPM
 on:
-  push:
+  # to REMOVE before merge to main
+
+  pull_request:
+    types: [opened, synchronize]
     branches:
       - main
+
+  # to ADD before merge to main
+
+  # push:
+  #   branches:
+  #     - main
+
+env:
+  PNPM_VERSION: 6.31.0
+  NODE_VERSION: 16.14.2 # LTS
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: ${{ env.PNPM_VERSION }}
       - uses: actions/setup-node@v2
         with:
-          node-version: 14
-      - run: npm install -g pnpm
-      - run: pnpm install
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: "**/pnpm-lock.yaml"
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
