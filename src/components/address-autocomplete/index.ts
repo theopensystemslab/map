@@ -186,12 +186,8 @@ export class AddressAutocomplete extends LitElement {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
           />
-          <label class="govuk-label" htmlFor=${this.id}>${this.label}</label>
-          <div
-            id="${this.id}-container"
-            role="status"
-            spellcheck="false"
-          ></div>`;
+          <label class="govuk-label" for=${this.id}>${this.label}</label>
+          <div id="${this.id}-container" spellcheck="false"></div>`;
   }
 
   /**
