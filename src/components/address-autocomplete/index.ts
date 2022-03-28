@@ -10,6 +10,7 @@ type Address = {
 };
 
 type ArrowStyleEnum = "default" | "light";
+type LabelStyleEnum = "responsive" | "static";
 
 @customElement("address-autocomplete")
 export class AddressAutocomplete extends LitElement {
@@ -34,6 +35,9 @@ export class AddressAutocomplete extends LitElement {
 
   @property({ type: String })
   arrowStyle: ArrowStyleEnum = "default";
+
+  @property({ type: String })
+  labelStyle: LabelStyleEnum = "responsive";
 
   // internal reactive state
   @state()
@@ -162,6 +166,14 @@ export class AddressAutocomplete extends LitElement {
         }
       })
       .catch((error) => console.log(error));
+  }
+
+  _getLabelClasses() {
+    let styles = "govuk-label";
+    if (this.labelStyle === "static") {
+      styles += " govuk-label--static";
+    }
+    return styles;
   }
 
   render() {
