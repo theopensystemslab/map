@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.5.3] - 2022-03-28
+- fix: Re-enable `labelStyle` property ([#133](https://github.com/theopensystemslab/map/pull/130))
+
 ## [0.5.2] - 2022-03-28
 
 ### Added
