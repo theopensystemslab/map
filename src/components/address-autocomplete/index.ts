@@ -195,16 +195,6 @@ export class AddressAutocomplete extends LitElement {
     return html`<div class="${className}" role="status">${content}</div>`;
   }
 
-  _getHead() {
-    return html`
-      <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
-      />
-    `;
-  }
-
   /**
    * If not in state of error, return the autocomplete
    * @param errorMessage
@@ -228,7 +218,12 @@ export class AddressAutocomplete extends LitElement {
       errorMessage = `No addresses found in postcode ${this.postcode}`;
 
     return html`
-      ${this._getHead()} ${this._getErrorMessageContainer(errorMessage)}
+      <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
+      />
+      ${this._getErrorMessageContainer(errorMessage)}
       ${this._getAutocomplete(errorMessage)}
     `;
   }
