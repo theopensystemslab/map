@@ -203,10 +203,16 @@ export class AddressAutocomplete extends LitElement {
   _getAutocomplete(errorMessage: string | undefined): TemplateResult | null {
     return errorMessage
       ? null
-      : html` <label class=${this._getLabelClasses()} for=${this.id}
-            >${this.label}</label
-          >
-          <div id="${this.id}-container" spellcheck="false"></div>`;
+      : html`
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
+          />
+          <label class=${this._getLabelClasses()} for=${this.id}>
+            ${this.label}
+          </label>
+          <div id="${this.id}-container" spellcheck="false"></div>
+        `;
   }
 
   render() {
@@ -219,10 +225,6 @@ export class AddressAutocomplete extends LitElement {
 
     return html`
       <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
-      />
       ${this._getErrorMessageContainer(errorMessage)}
       ${this._getAutocomplete(errorMessage)}
     `;
