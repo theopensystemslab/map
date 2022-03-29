@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@release-it/keep-a-changelog': ^2.5.0
   '@turf/union': ^6.5.0
   '@types/node': ^17.0.7
   accessible-autocomplete: ^2.0.4
@@ -30,6 +31,7 @@ dependencies:
   rambda: 7.0.3
 
 devDependencies:
+  '@release-it/keep-a-changelog': 2.5.0_release-it@14.13.1
   '@types/node': 17.0.21
   husky: 7.0.1
   lint-staged: 12.1.2
@@ -229,6 +231,17 @@ packages:
   /@petamoriken/float16/3.5.11:
     resolution: {integrity: sha512-aKJaQhvWcP4XRo4eb34VygcqNsE1+Ej5687oexkK+qYWC7tejxaWRkAfE54Ze3xQGnvwXHZ5Ahx6CWq5sS4q7Q==}
     dev: false
+
+  /@release-it/keep-a-changelog/2.5.0_release-it@14.13.1:
+    resolution: {integrity: sha512-hsG7sq0XGL0ylqdaIEbObdArEaxOUl80jb0BwPrzp2KOyk51s07dimInBUBt7r4hDR9XUtsqF4/Rcylwg8gS6Q==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      release-it: ^14.13.1
+    dependencies:
+      detect-newline: 3.1.0
+      release-it: 14.13.1
+      string-template: 1.0.0
+    dev: true
 
   /@rollup/pluginutils/4.1.1:
     resolution: {integrity: sha512-clDjivHqWGXi7u+0d2r2sBi4Ie6VLEAzWMIkvJLnDmxoOhBYOTfzGbOQBA32THHm11/LiJbd01tJUpJsbshSWQ==}
@@ -821,6 +834,11 @@ packages:
 
   /deprecation/2.3.1:
     resolution: {integrity: sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==}
+    dev: true
+
+  /detect-newline/3.1.0:
+    resolution: {integrity: sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==}
+    engines: {node: '>=8'}
     dev: true
 
   /dir-glob/3.0.1:
@@ -2372,6 +2390,10 @@ packages:
   /string-argv/0.3.1:
     resolution: {integrity: sha512-a1uQGz7IyVy9YwhqjZIZu1c8JO8dNIe20xBmSS6qu9kv++k3JGzCVmprbNN5Kn+BgzD5E7YYwg1CcjuJMRNsvg==}
     engines: {node: '>=0.6.19'}
+    dev: true
+
+  /string-template/1.0.0:
+    resolution: {integrity: sha1-np8iM9wA8hhxjsN5oopWc+zKi5Y=}
     dev: true
 
   /string-width/4.2.3:

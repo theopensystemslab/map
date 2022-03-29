@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [Unreleased]
+
 ## [0.5.3] - 2022-03-28
 - fix: Re-enable `labelStyle` property ([#133](https://github.com/theopensystemslab/map/pull/130))
 
@@ -159,7 +161,7 @@ incremented for features.
 - **BREAKING**: Ordnance Survey API keys are now provided client-side as optional properties `osVectorTilesApiKey`, `osFeaturesApiKey` ([#29](https://github.com/theopensystemslab/map/pull/29))
 - fix: `geojsonData` now handles `{ "type": "Feature" }` in addition to "FeatureCollection" ([#34](https://github.com/theopensystemslab/map/pull/34))
 
-### Added 
+### Added
 - docs: basic examples + gif ([#33](https://github.com/theopensystemslab/map/pull/33), [#35](https://github.com/theopensystemslab/map/pull/35))
 
 ## [0.1.0] - 2021-08-10
