@@ -1,4 +1,4 @@
-import { html, LitElement, unsafeCSS } from "lit";
+import { html, LitElement, TemplateResult, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import accessibleAutocomplete from "accessible-autocomplete";
 
@@ -176,6 +176,49 @@ export class AddressAutocomplete extends LitElement {
     return styles;
   }
 
+  /**
+   * Render an errorMessage container
+   * Must always be visible to ensure that role="status" works for screenreaders
+   * @param errorMessage
+   * @returns TemplateResult
+   */
+  _getErrorMessageContainer(errorMessage: string | undefined): TemplateResult {
+    const className = errorMessage ? "govuk-warning-text" : "";
+    const content = errorMessage
+      ? html` <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong class="govuk-warning-text__text">
+            <span class="govuk-warning-text__assistive">Warning</span>
+            ${errorMessage}
+          </strong>`
+      : null;
+
+    return html`<div class="${className}" role="status">${content}</div>`;
+  }
+
+  _getHead() {
+    return html`
+      <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
+      />
+    `;
+  }
+
+  /**
+   * If not in state of error, return the autocomplete
+   * @param errorMessage
+   * @returns TemplateResult | null
+   */
+  _getAutocomplete(errorMessage: string | undefined): TemplateResult | null {
+    return errorMessage
+      ? null
+      : html` <label class=${this._getLabelClasses()} for=${this.id}
+            >${this.label}</label
+          >
+          <div id="${this.id}-container" spellcheck="false"></div>`;
+  }
+
   render() {
     // handle various error states
     let errorMessage;
@@ -184,24 +227,10 @@ export class AddressAutocomplete extends LitElement {
     else if (this._totalAddresses === 0)
       errorMessage = `No addresses found in postcode ${this.postcode}`;
 
-    return errorMessage
-      ? html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-          <div class="govuk-warning-text" role="status">
-            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-            <strong class="govuk-warning-text__text">
-              <span class="govuk-warning-text__assistive">Warning</span>
-              ${errorMessage}
-            </strong>
-          </div>`
-      : html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-          <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
-          />
-          <label class=${this._getLabelClasses()} for=${this.id}
-            >${this.label}</label
-          >
-          <div id="${this.id}-container" spellcheck="false"></div>`;
+    return html`
+      ${this._getHead()} ${this._getErrorMessageContainer(errorMessage)}
+      ${this._getAutocomplete(errorMessage)}
+    `;
   }
 
   /**
