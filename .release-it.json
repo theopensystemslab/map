@@ -1,0 +1,21 @@
+{
+  "git": {
+    "commitMessage": "chore: release v${version}"
+  },
+  "github": {
+    "release": true
+  },
+  "hooks": {
+    "before:init": "pnpm install",
+    "after:bump": "pnpm build",
+    "after:git:release": [],
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  },
+  "plugins": {
+    "@release-it/keep-a-changelog": {
+      "filename": "CHANGELOG.md",
+      "head": "main",
+      "addUnreleased": true
+    }
+  }
+}
