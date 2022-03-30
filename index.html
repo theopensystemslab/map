@@ -86,7 +86,7 @@
       // --- POSTCODE SEARCH --- //
       const search = document.querySelector("postcode-search");
 
-      search.addEventListener("postcodeValidated", ({ detail }) => {
+      search.addEventListener("postcodeChange", ({ detail }) => {
         console.debug({ detail });
       });
 
