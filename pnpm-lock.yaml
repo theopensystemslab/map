@@ -5,7 +5,7 @@ specifiers:
   '@turf/union': ^6.5.0
   '@types/node': ^17.0.7
   accessible-autocomplete: ^2.0.4
-  govuk-frontend: ^3.14.0
+  govuk-frontend: ^4.0.1
   husky: ^7.0.1
   lint-staged: ^12.0.3
   lit: ^2.0.0-rc.2
@@ -22,7 +22,7 @@ specifiers:
 dependencies:
   '@turf/union': 6.5.0
   accessible-autocomplete: 2.0.4
-  govuk-frontend: 3.14.0
+  govuk-frontend: 4.0.1
   lit: 2.0.0-rc.2
   ol: 6.9.0
   ol-mapbox-style: 7.1.1
@@ -4011,8 +4011,8 @@ packages:
       slash: 1.0.0
     dev: true
 
-  /govuk-frontend/3.14.0:
-    resolution: {integrity: sha512-y7FTuihCSA8Hty+e9h0uPhCoNanCAN+CLioNFlPmlbeHXpbi09VMyxTcH+XfnMPY4Cp++7096v0rLwwdapTXnA==}
+  /govuk-frontend/4.0.1:
+    resolution: {integrity: sha512-X+B88mqYHoxAz0ID87Uxo3oHqdKBRnNHd3Cz8+u8nvQUAsrEzROFLK+t7sAu7e+fKqCCrJyIgx6Cmr6dIGnohQ==}
     engines: {node: '>= 4.2.0'}
     dev: false
 
