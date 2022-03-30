@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+## [0.5.4] - 2022-03-29
+
+### Changed
+- fix: Ensure error container is always in DOM (autocomplete) ([#136](https://github.com/theopensystemslab/map/pull/136))
+
+## [0.5.3] - 2022-03-28
+
+### Changed
+- fix: Re-enable `labelStyle` property ([#133](https://github.com/theopensystemslab/map/pull/133))
+
+## [0.5.2] - 2022-03-28
+
+### Added
+- feat: `labelStyle` property added to autocomplete ([#130](https://github.com/theopensystemslab/map/pull/130))
+
+### Changed
+- fix: Accessibility fixes flagged by auditors ([#131](https://github.com/theopensystemslab/map/pull/131))
+
 ## [0.5.1] - 2022-03-24
 
 ### Added
