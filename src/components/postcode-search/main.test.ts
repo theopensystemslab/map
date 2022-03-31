@@ -1,5 +1,5 @@
 import type { IWindow } from "happy-dom";
-import { beforeEach, describe, it, expect } from "vitest";
+import { beforeEach, describe, it, expect, vi } from "vitest";
 
 import { getShadowRoot, getShadowRootEl } from "../../test-utils";
 
@@ -78,5 +78,20 @@ describe("PostcodeSearch on initial render with user configured props", async ()
 
 describe("PostcodeSearch with input change", async () => {
   it.todo("should show error message on 'enter' key");
-  it.todo("should dispatch event on input change");
+
+  it.skip("should dispatch event on input change", async () => {
+    const spyPostcodeChange = vi.fn();
+
+    document
+      .querySelector("postcode-search")!
+      .addEventListener("postcodeChange", spyPostcodeChange);
+
+    let inputValue = (getShadowRootEl(
+      "postcode-search",
+      "input"
+    ) as HTMLInputElement)!.value;
+    inputValue = "SE5";
+
+    expect(spyPostcodeChange).toHaveBeenCalledTimes(3);
+  });
 });
