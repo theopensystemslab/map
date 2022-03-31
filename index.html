@@ -12,7 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-    <!-- Examples of available style options for address-autocomplete -->
+    <!-- Examples of available style options for postcode-search & address-autocomplete -->
     <!-- <style>
       address-autocomplete {
         --autocomplete__label__font-size: 25px;
@@ -28,6 +28,14 @@
         --autocomplete__option__hover-border-color: rgb(0, 99, 96);
         --autocomplete__option__hover-background-color: rgb(0, 99, 96);
         --autocomplete__font-family: "Courier New";
+      }
+
+      postcode-search {
+        --postcode__font-family: "Times New Roman";
+        --postcode__font-size: 18px;
+        --postcode__input__font-size: 24px;
+        --postcode__input__padding: 30px 10px;
+        --postcode__input__height: 60px;
       }
     </style> -->
   </head>
@@ -86,7 +94,7 @@
       // --- POSTCODE SEARCH --- //
       const search = document.querySelector("postcode-search");
 
-      search.addEventListener("postcodeValidated", ({ detail }) => {
+      search.addEventListener("postcodeChange", ({ detail }) => {
         console.debug({ detail });
       });
 

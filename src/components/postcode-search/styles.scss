@@ -1,2 +1,28 @@
 @import "node_modules/govuk-frontend/govuk/all";
 // @import "node_modules/govuk-frontend/govuk/components/input/_index.scss";
+
+:host {
+  $font-family: var(
+    --postcode__font-family,
+    "GDS Transport",
+    arial,
+    sans-serif
+  );
+  $font-size: var(--postcode__font-size, 19px);
+  $input-font-size: var(--postcode__input__font-size, 19px);
+  $input-height: var(--postcode__input__height, 35px);
+
+  .govuk-label,
+  .govuk-hint,
+  .govuk-error-message {
+    font-family: $font-family;
+    font-size: $font-size;
+  }
+
+  .govuk-input {
+    font-family: $font-family;
+    font-size: $input-font-size;
+    height: $input-height;
+    padding: var(--postcode__input__padding, 5px 34px 5px 5px);
+  }
+}
