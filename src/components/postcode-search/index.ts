@@ -47,17 +47,17 @@ export class PostcodeSearch extends LitElement {
     if (isValid) {
       this._sanitizedPostcode = toNormalised(input.trim());
       this._postcode = toNormalised(input.trim()) || input;
+      this._showPostcodeError = false;
     } else {
       this._sanitizedPostcode = null;
       this._postcode = input.toUpperCase();
     }
 
-    if (this._sanitizedPostcode) {
-      this._showPostcodeError = false;
-      this.dispatch("postcodeValidated", {
-        postcode: this._sanitizedPostcode,
-      });
-    }
+    // dispatch an event on every input change
+    this.dispatch("postcodeChange", {
+      postcode: this._sanitizedPostcode || input,
+      isValid: isValid,
+    });
   }
 
   _onBlur() {
@@ -75,6 +75,8 @@ export class PostcodeSearch extends LitElement {
   _showError() {
     const errorEl: HTMLElement | null | undefined =
       this.shadowRoot?.querySelector(`#${this.errorId}`);
+
+    // display "none" ensures always present in DOM, which means role="status" will work for screenreaders
     if (errorEl) errorEl.style.display = "none";
     if (errorEl && this._showPostcodeError) errorEl.style.display = "";
 
@@ -92,13 +94,11 @@ export class PostcodeSearch extends LitElement {
   _makeLabel() {
     return this.onlyQuestionOnPage
       ? html`<h1 class="govuk-label-wrapper">
-          <label class="govuk-label govuk-label--l" htmlFor=${this.id}>
+          <label class="govuk-label govuk-label--l" for=${this.id}>
             ${this.label}
           </label>
         </h1>`
-      : html`<label class="govuk-label" htmlFor=${this.id}
-          >${this.label}</label
-        >`;
+      : html`<label class="govuk-label" for=${this.id}>${this.label}</label>`;
   }
 
   render() {
@@ -106,14 +106,14 @@ export class PostcodeSearch extends LitElement {
       <div class="govuk-form-group">
         ${this._makeLabel()}
         <div id="postcode-hint" class="govuk-hint">${this.hintText}</div>
-        <span
+        <p
           id=${this.errorId}
           class="govuk-error-message"
           style="display:none"
           role="status"
         >
           <span class="govuk-visually-hidden">Error:</span>${this.errorMessage}
-        </span>
+        </p>
         <input
           class="govuk-input govuk-input--width-10"
           id=${this.id}
