@@ -25,4 +25,8 @@ export default defineConfig({
       enforce: 'post'
     }
   ],
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+  },
 });
