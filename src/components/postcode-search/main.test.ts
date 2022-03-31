@@ -86,11 +86,8 @@ describe("PostcodeSearch with input change", async () => {
       .querySelector("postcode-search")!
       .addEventListener("postcodeChange", spyPostcodeChange);
 
-    let inputValue = (getShadowRootEl(
-      "postcode-search",
-      "input"
-    ) as HTMLInputElement)!.value;
-    inputValue = "SE5";
+    const input = getShadowRootEl("postcode-search", "input");
+    (input as HTMLInputElement)!.value = "SE5";
 
     expect(spyPostcodeChange).toHaveBeenCalledTimes(3);
   });
