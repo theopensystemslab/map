@@ -92,13 +92,11 @@ export class PostcodeSearch extends LitElement {
   _makeLabel() {
     return this.onlyQuestionOnPage
       ? html`<h1 class="govuk-label-wrapper">
-          <label class="govuk-label govuk-label--l" htmlFor=${this.id}>
+          <label class="govuk-label govuk-label--l" for=${this.id}>
             ${this.label}
           </label>
         </h1>`
-      : html`<label class="govuk-label" htmlFor=${this.id}
-          >${this.label}</label
-        >`;
+      : html`<label class="govuk-label" for=${this.id}>${this.label}</label>`;
   }
 
   render() {

@@ -20,7 +20,6 @@
     "build": "rm -rf dist types && tsc && vite build && sed 's/src=\".*\"/src=\"component-lib.es.js\"/' index.html > dist/index.html",
     "prepublishOnly": "npm run build",
     "prepare": "husky install",
-    "coverage": "vitest run --coverage",
     "test": "vitest",
     "test:ui": "vitest --ui"
   },
