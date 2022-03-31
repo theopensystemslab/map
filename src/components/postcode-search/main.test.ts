@@ -37,10 +37,12 @@ describe("PostcodeSearch on initial render with default props", async () => {
     expect(input?.id).toEqual("postcode-vitest");
   });
 
-  it("should always render an error message container for screenreaders", () => {
-    expect(getShadowRoot("postcode-search")?.innerHTML).toContain(
-      "govuk-error-message"
-    );
+  it("should render a visually hidden error message container for screenreaders", () => {
+    const error =
+      getShadowRoot("postcode-search")?.getElementById("postcode-error");
+    expect(error?.className).toContain("govuk-error-message");
+    expect(error?.getAttribute("role")).toEqual("status");
+    expect(error?.getAttribute("style")).toContain("display:none");
   });
 });
 
@@ -76,17 +78,6 @@ describe("PostcodeSearch on initial render with user configured props", async ()
 });
 
 describe("PostcodeSearch with input change", async () => {
-  beforeEach(async () => {
-    document.body.innerHTML = '<postcode-search id="postcode-vitest" />';
-
-    await window.happyDOM.whenAsyncComplete();
-    await new Promise((resolve) => setTimeout(resolve, 0));
-  });
-
   it.todo("should show error message on 'enter' key");
-  it.todo("should show error message on invalid input");
   it.todo("should dispatch event on input change");
-  it.todo(
-    "should dispatch event with validated postcode details on valid input"
-  );
 });
