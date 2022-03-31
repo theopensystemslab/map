@@ -77,7 +77,35 @@ describe("PostcodeSearch on initial render with user configured props", async ()
 });
 
 describe("PostcodeSearch with input change", async () => {
-  it.todo("should show error message on 'enter' key");
+  beforeEach(async () => {
+    document.body.innerHTML =
+      '<postcode-search id="postcode-vitest" errorId="postcode-error-vitest" />';
+
+    await window.happyDOM.whenAsyncComplete();
+  }, 1000);
+
+  it("should show error message onBlur if no valid input", async () => {
+    const input = getShadowRootEl(
+      "postcode-search",
+      "input"
+    ) as HTMLInputElement;
+    input?.focus();
+    input?.blur();
+
+    const error = getShadowRoot("postcode-search")?.getElementById(
+      "postcode-error-vitest"
+    );
+    expect(error).toBeDefined();
+    expect(error?.innerHTML).toContain("Enter a valid UK postcode");
+
+    const formGroup =
+      getShadowRoot("postcode-search")?.querySelector(".govuk-form-group");
+    expect(formGroup?.className).toContain("govuk-form-group--error");
+
+    expect(input.getAttribute("aria-describedby")).toContain(
+      "postcode-error-vitest"
+    );
+  });
 
   it.skip("should dispatch event on input change", async () => {
     const spyPostcodeChange = vi.fn();
@@ -86,9 +114,14 @@ describe("PostcodeSearch with input change", async () => {
       .querySelector("postcode-search")!
       .addEventListener("postcodeChange", spyPostcodeChange);
 
+    // input is empty on render
     const input = getShadowRootEl("postcode-search", "input");
-    (input as HTMLInputElement)!.value = "SE5";
+    let inputValue = (input as HTMLInputElement)!.value;
+    expect(inputValue).toEqual("");
 
-    expect(spyPostcodeChange).toHaveBeenCalledTimes(3);
+    // set input value, expect event to dispatch
+    inputValue = "S";
+    expect(inputValue).toEqual("S");
+    expect(spyPostcodeChange).toHaveBeenCalled();
   });
 });
