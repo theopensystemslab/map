@@ -16,8 +16,7 @@ describe("AddressAutocomplete on initial render with valid postcode", async () =
     } />`;
 
     await window.happyDOM.whenAsyncComplete();
-    await new Promise((resolve) => setTimeout(resolve, 0));
-  });
+  }, 2500);
 
   it("renders the autocomplete without a warning", () => {
     const autocomplete = getShadowRoot("address-autocomplete");
@@ -55,8 +54,7 @@ describe("AddressAutocomplete on initial render with empty postcode", async () =
     } />`;
 
     await window.happyDOM.whenAsyncComplete();
-    await new Promise((resolve) => setTimeout(resolve, 0));
-  });
+  }, 500);
 
   it.todo("renders a 'no addresses in this postcode' warning", () => {
     const autocomplete = getShadowRoot("address-autocomplete");
