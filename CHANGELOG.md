@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.5.5] - 2022-05-09
+
+### Changed
+- fix: Update map focus to Gov.UK yellow, adding a black border on map element for sufficient contrast ([#147](https://github.com/theopensystemslab/map/pull/147))
+
 ## [0.5.4] - 2022-03-29
 
 ### Changed
