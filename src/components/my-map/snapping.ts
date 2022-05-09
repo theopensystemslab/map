@@ -36,6 +36,7 @@ export function getSnapPointsFromVectorTiles(
 ) {
   const points =
     basemap &&
+    basemap.getSource() &&
     basemap
       .getSource()
       .getFeaturesInExtent(extent)
