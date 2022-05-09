@@ -39,8 +39,8 @@ export function getSnapPointsFromVectorTiles(
     basemap
       .getSource()
       ?.getFeaturesInExtent(extent)
-      .filter((feature) => feature.getGeometry()?.getType() !== "Point")
-      .flatMap((feature: any) => feature.flatCoordinates_);
+      ?.filter((feature) => feature.getGeometry()?.getType() !== "Point")
+      ?.flatMap((feature: any) => feature.flatCoordinates_);
 
   return (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
     pointsSource.addFeature(
