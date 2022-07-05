@@ -1,13 +1,15 @@
 import { html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { Control, defaults as defaultControls } from "ol/control";
+import { Point } from "ol/geom";
 import { GeoJSON } from "ol/format";
+import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
-import { Fill, Stroke, Style } from "ol/style";
+import { Circle, Fill, Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
 
@@ -85,8 +87,23 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   featureFill = false;
 
+  @property({ type: Boolean })
+  featureBorderNone = false;
+
   @property({ type: Number })
   featureBuffer = 40;
+
+  @property({ type: Boolean })
+  showMarker = false;
+
+  @property({ type: Number })
+  markerLatitude = this.latitude;
+
+  @property({ type: Number })
+  markerLongitude = this.longitude;
+
+  @property({ type: String })
+  markerColor = "#000000";
 
   @property({ type: Object })
   geojsonData = {
@@ -397,7 +414,8 @@ export class MyMap extends LitElement {
 
       const outlineLayer = makeFeatureLayer(
         this.featureColor,
-        this.featureFill
+        this.featureFill,
+        this.featureBorderNone
       );
       map.addLayer(outlineLayer);
 
@@ -428,6 +446,26 @@ export class MyMap extends LitElement {
           }
         }
       });
+    }
+
+    // show a marker at a point
+    if (this.showMarker) {
+      const markerPoint = new Point(
+        fromLonLat([this.markerLongitude, this.markerLatitude])
+      );
+      const markerLayer = new VectorLayer({
+        source: new VectorSource({
+          features: [new Feature(markerPoint)],
+        }),
+        style: new Style({
+          image: new Circle({
+            radius: 9,
+            fill: new Fill({ color: this.markerColor }),
+          }),
+        }),
+      });
+
+      map.addLayer(markerLayer);
     }
 
     // XXX: force re-render for safari due to it thinking map is 0 height on load
