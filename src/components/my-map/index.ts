@@ -37,6 +37,8 @@ import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
 import styles from "./styles.scss";
 import pinUrl from "./pin.svg";
 
+type MarkerImageEnum = "circle" | "pin";
+
 @customElement("my-map")
 export class MyMap extends LitElement {
   // ref https://github.com/e111077/vite-lit-element-ts-sass/issues/3
@@ -149,7 +151,7 @@ export class MyMap extends LitElement {
   useScaleBarStyle = false;
 
   @property({ type: String })
-  markerImage = null;
+  markerImage: MarkerImageEnum = "circle";
 
   // set class property (map doesn't require any reactivity using @state)
   map?: Map;
@@ -458,7 +460,15 @@ export class MyMap extends LitElement {
     });
 
     const markerPin = new Icon({ src: pinUrl });
-    const markerImage = this.markerImage === "pin" ? markerPin : markerCircle;
+
+    const markerImage = () => {
+      switch (this.markerImage) {
+        case "circle":
+          return markerCircle;
+        case "pin":
+          return markerPin;
+      }
+    };
 
     // show a marker at a point
     if (this.showMarker) {
@@ -469,7 +479,7 @@ export class MyMap extends LitElement {
         source: new VectorSource({
           features: [new Feature(markerPoint)],
         }),
-        style: new Style({ image: markerImage }),
+        style: new Style({ image: markerImage() }),
       });
 
       map.addLayer(markerLayer);
