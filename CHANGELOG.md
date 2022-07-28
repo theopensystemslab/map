@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.5.7] - 2022-07-28
+
+### Added
+- feat: `markerImage` property added to specify a circle (default) or pin icon ([#165](https://github.com/theopensystemslab/map/pull/165))
+
+### Changed
+- build: Upgrade development dependency Vite to v3 ([#167](https://github.com/theopensystemslab/map/pull/167))
+
 ### [0.5.6] - 2022-07-05
 
 ### Added
