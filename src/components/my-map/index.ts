@@ -7,7 +7,7 @@ import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
-import { fromLonLat, transformExtent } from "ol/proj";
+import { transform, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
 import { Circle, Fill, Stroke, Style, Icon } from "ol/style";
 import View from "ol/View";
@@ -27,6 +27,7 @@ import {
   outlineSource,
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
+import { proj27700, ProjectionEnum } from "./projections";
 import { scaleControl } from "./scale-line";
 import {
   getSnapPointsFromVectorTiles,
@@ -53,6 +54,9 @@ export class MyMap extends LitElement {
 
   @property({ type: Number })
   longitude = -0.127758;
+
+  @property({ type: String })
+  projection: ProjectionEnum = "EPSG:4326";
 
   @property({ type: Number })
   zoom = 10;
@@ -177,6 +181,14 @@ export class MyMap extends LitElement {
       this.osVectorTilesApiKey
     );
 
+    const projection =
+      this.projection === "EPSG:27700" ? proj27700 : this.projection;
+    const centerCoordinate = transform(
+      [this.longitude, this.latitude],
+      projection,
+      "EPSG:3857"
+    );
+
     const map = new Map({
       target,
       layers: [useVectorTiles ? osVectorTileBaseMap : rasterBaseMap],
@@ -190,7 +202,7 @@ export class MyMap extends LitElement {
         ),
         minZoom: this.minZoom,
         maxZoom: this.maxZoom,
-        center: fromLonLat([this.longitude, this.latitude]),
+        center: centerCoordinate,
         zoom: this.zoom,
         enableRotation: false,
       }),
@@ -222,7 +234,7 @@ export class MyMap extends LitElement {
       } else if (geojsonSource.getFeatures().length > 0) {
         fitToData(map, geojsonSource, this.geojsonBuffer);
       } else {
-        map.getView().setCenter(fromLonLat([this.longitude, this.latitude]));
+        map.getView().setCenter(centerCoordinate);
         map.getView().setZoom(this.zoom);
       }
 
@@ -406,11 +418,7 @@ export class MyMap extends LitElement {
 
     // OS Features API & click-to-select interactions
     if (this.showFeaturesAtPoint && Boolean(this.osFeaturesApiKey)) {
-      getFeaturesAtPoint(
-        fromLonLat([this.longitude, this.latitude]),
-        this.osFeaturesApiKey,
-        false
-      );
+      getFeaturesAtPoint(centerCoordinate, this.osFeaturesApiKey, false);
 
       if (this.clickFeatures) {
         map.on("singleclick", (e) => {
@@ -473,7 +481,11 @@ export class MyMap extends LitElement {
     // show a marker at a point
     if (this.showMarker) {
       const markerPoint = new Point(
-        fromLonLat([this.markerLongitude, this.markerLatitude])
+        transform(
+          [this.markerLongitude, this.markerLatitude],
+          projection,
+          "EPSG:3857"
+        )
       );
       const markerLayer = new VectorLayer({
         source: new VectorSource({

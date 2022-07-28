@@ -29,10 +29,12 @@
     "ol": "^6.9.0",
     "ol-mapbox-style": "^8.0.7",
     "postcode": "^5.1.0",
+    "proj4": "^2.8.0",
     "rambda": "^7.0.1"
   },
   "devDependencies": {
     "@types/node": "^18.0.1",
+    "@types/proj4": "^2.5.2",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.3.2",
