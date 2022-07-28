@@ -9,7 +9,7 @@ import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
 import { fromLonLat, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
-import { Circle, Fill, Stroke, Style } from "ol/style";
+import { Circle, Fill, Stroke, Style, Icon } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
 
@@ -35,6 +35,9 @@ import {
 } from "./snapping";
 import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
 import styles from "./styles.scss";
+import pinUrl from "./pin.svg";
+
+type MarkerImageEnum = "circle" | "pin";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
@@ -146,6 +149,9 @@ export class MyMap extends LitElement {
 
   @property({ type: Boolean })
   useScaleBarStyle = false;
+
+  @property({ type: String })
+  markerImage: MarkerImageEnum = "circle";
 
   // set class property (map doesn't require any reactivity using @state)
   map?: Map;
@@ -448,6 +454,22 @@ export class MyMap extends LitElement {
       });
     }
 
+    const markerCircle = new Circle({
+      radius: 9,
+      fill: new Fill({ color: this.markerColor }),
+    });
+
+    const markerPin = new Icon({ src: pinUrl });
+
+    const markerImage = () => {
+      switch (this.markerImage) {
+        case "circle":
+          return markerCircle;
+        case "pin":
+          return markerPin;
+      }
+    };
+
     // show a marker at a point
     if (this.showMarker) {
       const markerPoint = new Point(
@@ -457,12 +479,7 @@ export class MyMap extends LitElement {
         source: new VectorSource({
           features: [new Feature(markerPoint)],
         }),
-        style: new Style({
-          image: new Circle({
-            radius: 9,
-            fill: new Fill({ color: this.markerColor }),
-          }),
-        }),
+        style: new Style({ image: markerImage() }),
       });
 
       map.addLayer(markerLayer);
