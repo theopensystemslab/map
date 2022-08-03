@@ -41,9 +41,8 @@ describe("AddressAutocomplete on initial render with valid postcode", async () =
   });
 
   it("should always render the warning message container for screenreaders", () => {
-    expect(getShadowRoot("address-autocomplete")?.innerHTML).toContain(
-      "govuk-warning-text"
-    );
+    const autocomplete = getShadowRoot("address-autocomplete");
+    expect(autocomplete?.getElementById("error-message-container")).toBeDefined;
   });
 });
 

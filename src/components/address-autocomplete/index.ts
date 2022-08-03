@@ -192,7 +192,13 @@ export class AddressAutocomplete extends LitElement {
           </strong>`
       : null;
 
-    return html`<div class="${className}" role="status">${content}</div>`;
+    return html`<div
+      id="error-message-container"
+      class="${className}"
+      role="status"
+    >
+      ${content}
+    </div>`;
   }
 
   /**

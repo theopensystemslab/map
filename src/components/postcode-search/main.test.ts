@@ -14,7 +14,7 @@ describe("PostcodeSearch on initial render with default props", async () => {
     document.body.innerHTML = '<postcode-search id="postcode-vitest" />';
 
     await window.happyDOM.whenAsyncComplete();
-  }, 500);
+  }, 1000);
 
   it("should be keyboard navigable", () => {
     const input = getShadowRootEl("postcode-search", "input");

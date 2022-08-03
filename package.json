@@ -29,22 +29,22 @@
     "govuk-frontend": "^4.0.1",
     "lit": "^2.0.0-rc.2",
     "ol": "^6.9.0",
-    "ol-mapbox-style": "^7.1.1",
+    "ol-mapbox-style": "^8.2.1",
     "postcode": "^5.1.0",
     "rambda": "^7.0.1"
   },
   "devDependencies": {
-    "@types/node": "^17.0.7",
+    "@types/node": "^18.6.3",
     "@vitest/ui": "^0.8.1",
     "happy-dom": "^2.52.0",
-    "husky": "^7.0.1",
-    "lint-staged": "^12.0.3",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.3.2",
     "rollup-plugin-postcss-lit": "^2.0.0",
     "sass": "^1.44.0",
     "typescript": "^4.3.5",
-    "vite": "^2.9.0",
-    "vitest": "^0.8.1"
+    "vite": "^3.0.4",
+    "vitest": "0.20.3"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md,html}": "prettier --write"
