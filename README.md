@@ -153,7 +153,13 @@ Set `clickFeatures` to true, this will begin listening for single click events. 
 - Install [pnpm](https://pnpm.io) `npm i pnpm -g`
 - Install dependencies `pnpm i`
 - Start dev server `pnpm dev`
-- Open http://localhost:3000
+
+### Tests
+
+Unit tests are written with [Vitest](https://vitest.dev/).
+
+- `pnpm test` starts `vitest` in watch mode
+- `pnpm test:ui` opens Vitest's UI in the browser where you can interact with your tests and explore logs https://vitest.dev/guide/ui.html
 
 ## License
 
