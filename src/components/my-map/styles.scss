@@ -10,9 +10,10 @@
   opacity: 0;
   transition: opacity 0.25s;
   overflow: hidden;
+  border: #000000 solid 0.15em;
 }
 .map:focus {
-  outline: #d3d3d3 solid 0.15em;
+  outline: #ffdd00 solid 0.25em;
 }
 .ol-control button {
   border-radius: 0 !important;
