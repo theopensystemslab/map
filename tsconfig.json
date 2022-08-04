@@ -16,7 +16,8 @@
     "outDir": "./types",
     "rootDir": "./src",
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "types": ["vitest/globals"]
   },
   "include": ["src/**/*.ts", "types/*.d.ts"],
   "exclude": []
