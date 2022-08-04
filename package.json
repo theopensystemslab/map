@@ -1,6 +1,6 @@
 {
   "name": "@opensystemslab/map",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "license": "OGL-UK-3.0",
   "private": false,
   "repository": {
@@ -41,7 +41,7 @@
     "rollup-plugin-postcss-lit": "^2.0.0",
     "sass": "^1.44.0",
     "typescript": "^4.3.5",
-    "vite": "^2.4.4"
+    "vite": "^3.0.3"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md,html}": "prettier --write"
