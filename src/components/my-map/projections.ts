@@ -2,7 +2,7 @@ import { get as getProjection, Projection } from "ol/proj";
 import { register } from "ol/proj/proj4";
 import proj4 from "proj4";
 
-export type ProjectionEnum = "EPSG:4326" | "EPSG:27700";
+export type ProjectionEnum = "EPSG:4326" | "EPSG:3857" | "EPSG:27700";
 
 // https://openlayers.org/en/latest/examples/reprojection.html
 proj4.defs(
