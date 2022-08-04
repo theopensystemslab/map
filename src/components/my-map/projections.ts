@@ -1,4 +1,4 @@
-import { get as getProjection, Projection } from "ol/proj";
+import { get as getProjection } from "ol/proj";
 import { register } from "ol/proj/proj4";
 import proj4 from "proj4";
 
@@ -14,4 +14,4 @@ proj4.defs(
 );
 register(proj4);
 
-export const proj27700: Projection = getProjection("EPSG:27700");
+export const proj27700 = getProjection("EPSG:27700");
