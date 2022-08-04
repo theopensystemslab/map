@@ -15,4 +15,3 @@ proj4.defs(
 register(proj4);
 
 export const proj27700 = getProjection("EPSG:27700");
-export const proj4326 = getProjection("EPSG:4326");

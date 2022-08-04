@@ -7,7 +7,7 @@ import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
-import { transform, transformExtent } from "ol/proj";
+import { ProjectionLike, transform, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
 import { Circle, Fill, Stroke, Style, Icon } from "ol/style";
 import View from "ol/View";
@@ -27,7 +27,7 @@ import {
   outlineSource,
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
-import { proj27700, proj4326, ProjectionEnum } from "./projections";
+import { proj27700, ProjectionEnum } from "./projections";
 import { scaleControl } from "./scale-line";
 import {
   getSnapPointsFromVectorTiles,
@@ -181,7 +181,8 @@ export class MyMap extends LitElement {
       this.osVectorTilesApiKey
     );
 
-    const projection = this.projection === "EPSG:27700" ? proj27700 : proj4326;
+    const projection: ProjectionLike =
+      this.projection === "EPSG:27700" ? proj27700 : "EPSG:4326";
     const centerCoordinate = transform(
       [this.longitude, this.latitude],
       projection,
