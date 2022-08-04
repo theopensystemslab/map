@@ -13,14 +13,20 @@ const featureSource = new VectorSource();
 
 export const outlineSource = new VectorSource();
 
-export function makeFeatureLayer(color: string, featureFill: boolean) {
+export function makeFeatureLayer(
+  color: string,
+  featureFill: boolean,
+  borderNone: boolean
+) {
   return new VectorLayer({
     source: outlineSource,
     style: new Style({
-      stroke: new Stroke({
-        width: 3,
-        color: color,
-      }),
+      stroke: borderNone
+        ? undefined
+        : new Stroke({
+            width: 3,
+            color: color,
+          }),
       fill: new Fill({
         color: featureFill ? hexToRgba(color, 0.2) : hexToRgba(color, 0),
       }),

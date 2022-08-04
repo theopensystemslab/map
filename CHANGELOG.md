@@ -9,6 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.5.7] - 2022-07-28
+
+### Added
+- feat: `markerImage` property added to specify a circle (default) or pin icon ([#165](https://github.com/theopensystemslab/map/pull/165))
+
+### Changed
+- build: Upgrade development dependency Vite to v3 ([#167](https://github.com/theopensystemslab/map/pull/167))
+
+### [0.5.6] - 2022-07-05
+
+### Added
+- feat: `showMarker` property added to display a point on the map (defaults to latitude & longitude used to center the map, custom coordinates can be provided using `markerLatitude`, `markerLongitude`) ([#159](https://github.com/theopensystemslab/map/pull/159))
+
+### Changed
+- fix: Ability to remove border style using boolean property `featureBorderNone` when in `showFeaturesAtPoint` mode ([#159](https://github.com/theopensystemslab/map/pull/159))
+
+### [0.5.5] - 2022-05-09
+
+### Changed
+- fix: Update map focus to Gov.UK yellow, adding a black border on map element for sufficient contrast ([#147](https://github.com/theopensystemslab/map/pull/147))
+
 ## [0.5.4] - 2022-03-29
 
 ### Changed

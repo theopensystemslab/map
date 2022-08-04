@@ -34,18 +34,22 @@ export function getSnapPointsFromVectorTiles(
   basemap: VectorTileLayer,
   extent: number[]
 ) {
-  const points = basemap
-    ?.getSource()
-    .getFeaturesInExtent(extent)
-    .filter((feature) => feature.getGeometry()?.getType() !== "Point")
-    .flatMap((feature: any) => feature.flatCoordinates_);
+  const points =
+    basemap &&
+    basemap
+      .getSource()
+      ?.getFeaturesInExtent(extent)
+      ?.filter((feature) => feature.getGeometry()?.getType() !== "Point")
+      ?.flatMap((feature: any) => feature.flatCoordinates_);
 
-  return (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
-    pointsSource.addFeature(
-      new Feature({
-        geometry: new Point(pair),
-        i,
-      })
-    );
-  });
+  if (points) {
+    return (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
+      pointsSource.addFeature(
+        new Feature({
+          geometry: new Point(pair),
+          i,
+        })
+      );
+    });
+  }
 }
