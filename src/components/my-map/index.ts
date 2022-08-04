@@ -27,7 +27,7 @@ import {
   outlineSource,
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
-import { proj27700, proj4326, ProjectionEnum } from "./projections";
+import { proj27700, ProjectionEnum } from "./projections";
 import { scaleControl } from "./scale-line";
 import {
   getSnapPointsFromVectorTiles,
@@ -181,12 +181,10 @@ export class MyMap extends LitElement {
       this.osVectorTilesApiKey
     );
 
-    let projection: ProjectionLike;
-    if (Boolean(proj27700) && Boolean(proj4326)) {
-      projection = this.projection === "EPSG:27700" ? proj27700 : proj4326;
-    }
-    // const projection: ProjectionLike =
-    //   this.projection === "EPSG:27700" ? proj27700 : proj4326;
+    const projection: ProjectionLike =
+      this.projection === "EPSG:27700" && Boolean(proj27700)
+        ? proj27700
+        : this.projection;
     const centerCoordinate = transform(
       [this.longitude, this.latitude],
       projection,
