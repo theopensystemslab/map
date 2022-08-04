@@ -181,6 +181,7 @@ export class MyMap extends LitElement {
       this.osVectorTilesApiKey
     );
 
+    // @ts-ignore
     const projection: ProjectionLike =
       this.projection === "EPSG:27700" && Boolean(proj27700)
         ? proj27700
