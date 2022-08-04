@@ -181,8 +181,12 @@ export class MyMap extends LitElement {
       this.osVectorTilesApiKey
     );
 
-    const projection: ProjectionLike =
-      this.projection === "EPSG:27700" ? proj27700 : proj4326;
+    let projection: ProjectionLike;
+    if (Boolean(proj27700) && Boolean(proj4326)) {
+      projection = this.projection === "EPSG:27700" ? proj27700 : proj4326;
+    }
+    // const projection: ProjectionLike =
+    //   this.projection === "EPSG:27700" ? proj27700 : proj4326;
     const centerCoordinate = transform(
       [this.longitude, this.latitude],
       projection,
