@@ -34,7 +34,7 @@
     "rambda": "^7.0.1"
   },
   "devDependencies": {
-    "@glorious/pitsby": "^1.30.11",
+    "@glorious/pitsby": "^1.30.16",
     "@types/node": "^18.0.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",

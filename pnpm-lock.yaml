@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@glorious/pitsby': ^1.30.11
+  '@glorious/pitsby': ^1.30.16
   '@turf/union': ^6.5.0
   '@types/node': ^18.0.1
   accessible-autocomplete: ^2.0.4
@@ -1226,7 +1226,7 @@ packages:
       axios: 0.21.4
       babel-loader: 8.2.5_b8bce14f87162c3885dc6907ec4c380b
       brace: 0.11.1
-      chokidar: 3.5.2
+      chokidar: 3.5.3
       copy-webpack-plugin: 11.0.0_webpack@5.74.0
       css-loader: 6.7.1_webpack@5.74.0
       css-minimizer-webpack-plugin: 4.0.0_webpack@5.74.0
@@ -4663,7 +4663,7 @@ packages:
   /randombytes/2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
     dependencies:
-      safe-buffer: 5.1.2
+      safe-buffer: 5.2.1
     dev: true
 
   /range-parser/1.2.1:
