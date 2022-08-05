@@ -20,8 +20,8 @@
     "build": "rm -rf dist types && tsc && vite build && sed 's/src=\".*\"/src=\"component-lib.es.js\"/' index.html > dist/index.html",
     "prepublishOnly": "npm run build",
     "prepare": "husky install",
-    "pitsbyDev": "NODE_ENV=development pitsby build --watch",
-    "pitsbyPublish": "pitsby build && vite ./pitsby"
+    "docs": "NODE_ENV=development pitsby build --watch",
+    "docsPublish": "pitsby build"
   },
   "dependencies": {
     "@turf/union": "^6.5.0",

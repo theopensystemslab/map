@@ -19,5 +19,5 @@
     "strict": true
   },
   "include": ["src/**/*.ts", "types/*.d.ts"],
-  "exclude": ["src/components/*.doc.js", "src/components/docs/*.doc.js"]
+  "exclude": ["pitsby/*", "pitsby.config.js", "src/components/*.doc.js", "src/components/docs/*.doc.js"]
 }

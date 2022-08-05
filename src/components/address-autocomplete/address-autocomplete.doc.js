@@ -20,6 +20,16 @@ module.exports = {
       values: "Select an address (default)",
     },
     {
+      name: "arrowStyle",
+      type: "String",
+      values: `default (default), light`,
+    },
+    {
+      name: "labelStyle",
+      type: "String",
+      values: `responsive (default), static`,
+    },
+    {
       name: "id",
       type: "String",
       values: "autocomplete (default)",
@@ -31,11 +41,51 @@ module.exports = {
       required: true,
     },
   ],
+  methods: [
+    {
+      name: "ready",
+      params: [
+        {
+          name: "ready",
+          type: "Event Listener",
+          values: "detail",
+          description:
+            "Dispatches the number of addresses fetched from the OS Places API for a given `postcode` when the component is connected to the DOM, before initial render",
+        },
+      ],
+    },
+    {
+      name: "addressSelection",
+      params: [
+        {
+          name: "addressSelection",
+          type: "Event Listener",
+          values: "detail",
+          description:
+            "Dispatches the OS Places API record for an individual address when it's selected from the dropdown",
+        },
+      ],
+    },
+  ],
   examples: [
     {
-      title: "Select an address in Lambeth postcode SE19 1NT",
+      title: "Select an address in postcode SE19 1NT",
       description: "Standard case",
       template: `<address-autocomplete postcode="SE19 1NT" osPlacesApiKey=${process.env.VITE_APP_OS_PLACES_API_KEY} />`,
+      controller: function (document) {
+        const autocomplete = document.querySelector("address-autocomplete");
+
+        autocomplete.addEventListener("ready", ({ detail: data }) => {
+          console.debug("autocomplete ready", { data });
+        });
+
+        autocomplete.addEventListener(
+          "addressSelection",
+          ({ detail: address }) => {
+            console.debug({ detail: address });
+          }
+        );
+      },
     },
   ],
 };
