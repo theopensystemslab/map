@@ -20,7 +20,7 @@
     "build": "rm -rf dist types && tsc && vite build && sed 's/src=\".*\"/src=\"component-lib.es.js\"/' index.html > dist/index.html",
     "prepublishOnly": "npm run build",
     "prepare": "husky install",
-    "docs": "NODE_ENV=development pitsby build --watch",
+    "docs": "NODE_ENV=development pitsby build --watch --port=7007",
     "docsPublish": "pitsby build"
   },
   "dependencies": {
