@@ -19,7 +19,9 @@
     "dev": "vite",
     "build": "rm -rf dist types && tsc && vite build && sed 's/src=\".*\"/src=\"component-lib.es.js\"/' index.html > dist/index.html",
     "prepublishOnly": "npm run build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docs": "NODE_ENV=development pitsby build --watch --port=7007",
+    "docsPublish": "pitsby build"
   },
   "dependencies": {
     "@turf/union": "^6.5.0",
@@ -32,6 +34,7 @@
     "rambda": "^7.0.1"
   },
   "devDependencies": {
+    "@glorious/pitsby": "^1.30.16",
     "@types/node": "^18.0.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
