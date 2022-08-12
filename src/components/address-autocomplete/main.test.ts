@@ -9,6 +9,10 @@ declare global {
   interface Window extends IWindow {}
 }
 
+test.todo(
+  "Replace environment variable prop dependency with mock response. Ref https://vitest.dev/guide/mocking.html"
+);
+
 describe("AddressAutocomplete on initial render with valid postcode", async () => {
   beforeEach(async () => {
     document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey=${

@@ -89,15 +89,23 @@ describe("PostcodeSearch with input change", async () => {
       "postcode-search",
       "input"
     ) as HTMLInputElement;
-    input?.focus();
-    input?.blur();
 
+    // confirm error is not displayed yet (it should be _defined_ though for screenreaders)
     const error = getShadowRoot("postcode-search")?.getElementById(
       "postcode-error-vitest"
     );
     expect(error).toBeDefined();
+    expect(error?.getAttribute("style")).toContain("display:none");
+
+    // focus & blur
+    input?.focus();
+    input?.blur();
+
+    // confirm the error is now displayed
+    expect(error?.getAttribute("style")).toBeNull();
     expect(error?.innerHTML).toContain("Enter a valid UK postcode");
 
+    // confirm the error class is propagated to the entire form group
     const formGroup =
       getShadowRoot("postcode-search")?.querySelector(".govuk-form-group");
     expect(formGroup?.className).toContain("govuk-form-group--error");
