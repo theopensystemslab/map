@@ -1,5 +1,6 @@
 import type { IWindow } from "happy-dom";
 import { beforeEach, describe, it, expect, vi } from "vitest";
+import userEvent from "@testing-library/user-event";
 
 import { getShadowRoot, getShadowRootEl } from "../../test-utils";
 
@@ -115,7 +116,7 @@ describe("PostcodeSearch with input change", async () => {
     );
   });
 
-  it.skip("should dispatch event on input change", async () => {
+  it("should dispatch event on input change", async () => {
     const spyPostcodeChange = vi.fn();
 
     document
@@ -123,13 +124,16 @@ describe("PostcodeSearch with input change", async () => {
       .addEventListener("postcodeChange", spyPostcodeChange);
 
     // input is empty on render
-    const input = getShadowRootEl("postcode-search", "input");
-    let inputValue = (input as HTMLInputElement)!.value;
-    expect(inputValue).toEqual("");
+    const input = getShadowRootEl(
+      "postcode-search",
+      "input"
+    ) as HTMLInputElement;
+    expect(input!.value).toEqual("");
+    expect(spyPostcodeChange).not.toHaveBeenCalled();
 
-    // set input value, expect event to dispatch
-    inputValue = "S";
-    expect(inputValue).toEqual("S");
-    expect(spyPostcodeChange).toHaveBeenCalled();
+    // set input value, expect event to dispatch on each character
+    await userEvent.type(input, "SE5");
+    expect(input!.value).toEqual("SE5");
+    expect(spyPostcodeChange).toHaveBeenCalledTimes(3);
   });
 });
