@@ -21,7 +21,9 @@
     "prepublishOnly": "npm run build",
     "prepare": "husky install",
     "test": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "docs": "NODE_ENV=development pitsby build --watch --port=7007",
+    "docsPublish": "pitsby build"
   },
   "dependencies": {
     "@turf/union": "^6.5.0",
@@ -34,6 +36,7 @@
     "rambda": "^7.0.1"
   },
   "devDependencies": {
+    "@glorious/pitsby": "^1.30.16",
     "@types/node": "^18.6.3",
     "@vitest/ui": "^0.8.1",
     "happy-dom": "^2.52.0",
