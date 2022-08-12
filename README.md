@@ -11,13 +11,19 @@ An [OpenLayers](https://openlayers.org/)-powered [Web Component](https://develop
 - Interactive docs [oslmap.netlify.app](https://oslmap.netlify.app)
 - [CodeSandbox](https://codesandbox.io/s/confident-benz-rr0s9?file=/index.html) (note: update the CDN script with a version number for new features)
 
-## Running Locally
+## Running locally
 
-- Rename `.env.example` to `.env.development.local` and replace the values - or simply provide your API keys as props
-- Install [pnpm](https://pnpm.io) `npm i pnpm -g`
+- Rename `.env.example` to `.env.local` and replace the values - or simply provide your API keys as props
+- Install [pnpm](https://pnpm.io) globally if you don't have it already `npm i pnpm -g`
 - Install dependencies `pnpm i`
-- Start dev server `pnpm dev`
-- Open http://localhost:3000
+- Start development server `pnpm dev`
+
+### Tests
+
+Unit tests are written with [Vitest](https://vitest.dev/), [Happy Dom](https://www.npmjs.com/package/happy-dom), and [@testing-library/user-event](https://testing-library.com/docs/user-event/intro/). Each component has a `main.test.ts` file.
+
+- `pnpm test` starts `vitest` in watch mode
+- `pnpm test:ui` opens Vitest's UI in the browser to interactively explore logs https://vitest.dev/guide/ui.html
 
 ### Docs
 
