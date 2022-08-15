@@ -30,7 +30,7 @@
     "accessible-autocomplete": "^2.0.4",
     "govuk-frontend": "^4.0.1",
     "lit": "^2.0.0-rc.2",
-    "ol": "^6.9.0",
+    "ol": "^6.15.1",
     "ol-mapbox-style": "^8.2.1",
     "postcode": "^5.1.0",
     "rambda": "^7.0.1"
