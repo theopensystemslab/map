@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@glorious/pitsby': ^1.30.16
@@ -35,9 +35,9 @@ dependencies:
   rambda: 7.0.3
 
 devDependencies:
-  '@glorious/pitsby': 1.30.16
+  '@glorious/pitsby': 1.30.16_angular@1.8.3
   '@testing-library/dom': 8.17.1
-  '@testing-library/user-event': 14.4.3_@testing-library+dom@8.17.1
+  '@testing-library/user-event': 14.4.3_wl4iynrlixafokvgqnhzlvigei
   '@types/node': 18.6.3
   '@vitest/ui': 0.8.5
   happy-dom: 2.55.0
@@ -47,8 +47,8 @@ devDependencies:
   rollup-plugin-postcss-lit: 2.0.0
   sass: 1.44.0
   typescript: 4.3.5
-  vite: 3.0.4_sass@1.44.0
-  vitest: 0.20.3_3519a119273ba0483981f2a35b20e076
+  vite: 3.0.4_sass@1.44.0+stylus@0.58.1
+  vitest: 0.20.3_gx7qaiblkd2763nwmafl7jfmva
 
 packages:
 
@@ -1224,7 +1224,7 @@ packages:
       shortid: 2.2.16
     dev: true
 
-  /@glorious/pitsby/1.30.16:
+  /@glorious/pitsby/1.30.16_angular@1.8.3:
     resolution: {integrity: sha512-MITyBmt4v5NrlYEDnTN1lG+Wl9GX9m6YnERT80zynnXrqJ9aOvtQQLfQVTHuhKz6XAlojbQrVh3/NEcOGigvdw==}
     hasBin: true
     dependencies:
@@ -1232,9 +1232,9 @@ packages:
       '@babel/preset-env': 7.18.10_@babel+core@7.18.10
       '@babel/standalone': 7.18.10
       '@glorious/fyzer': 0.1.10
-      '@uirouter/angularjs': 1.0.30
+      '@uirouter/angularjs': 1.0.30_angular@1.8.3
       axios: 0.21.4
-      babel-loader: 8.2.5_b8bce14f87162c3885dc6907ec4c380b
+      babel-loader: 8.2.5_xc6oct4hcywdrbo4ned6ytbybm
       brace: 0.11.1
       chokidar: 3.5.3
       copy-webpack-plugin: 11.0.0_webpack@5.74.0
@@ -1252,10 +1252,10 @@ packages:
       prismjs: 1.28.0
       style-loader: 3.3.1_webpack@5.74.0
       stylus: 0.58.1
-      stylus-loader: 7.0.0_stylus@0.58.1+webpack@5.74.0
+      stylus-loader: 7.0.0_opfhcjf5g5texmct6gy27c44rm
       webpack: 5.74.0_webpack-cli@4.10.0
-      webpack-cli: 4.10.0_2ba833df06cf183801f4001aeb6546b3
-      webpack-dev-server: 4.9.3_ed7de2690da194b35567e1e94055cb2c
+      webpack-cli: 4.10.0_webpack@5.74.0
+      webpack-dev-server: 4.9.3_5v66e2inugklgvlh4huuavolfq
       webpack-merge: 5.8.0
     transitivePeerDependencies:
       - '@parcel/css'
@@ -1405,7 +1405,7 @@ packages:
       pretty-format: 27.5.1
     dev: true
 
-  /@testing-library/user-event/14.4.3_@testing-library+dom@8.17.1:
+  /@testing-library/user-event/14.4.3_wl4iynrlixafokvgqnhzlvigei:
     resolution: {integrity: sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
@@ -1595,13 +1595,14 @@ packages:
       '@types/node': 18.6.3
     dev: true
 
-  /@uirouter/angularjs/1.0.30:
+  /@uirouter/angularjs/1.0.30_angular@1.8.3:
     resolution: {integrity: sha512-qkc3RFZc91S5K0gc/QVAXc9LGDPXjR04vDgG/11j8+yyZEuQojXxKxdLhKIepiPzqLmGRVqzBmBc27gtqaEeZg==}
     engines: {node: '>=4.0.0'}
     peerDependencies:
       angular: '>=1.2.0'
     dependencies:
       '@uirouter/core': 6.0.8
+      angular: 1.8.3
     dev: true
 
   /@uirouter/core/6.0.8:
@@ -1721,14 +1722,14 @@ packages:
       '@xtuc/long': 4.2.2
     dev: true
 
-  /@webpack-cli/configtest/1.2.0_ed7de2690da194b35567e1e94055cb2c:
+  /@webpack-cli/configtest/1.2.0_5v66e2inugklgvlh4huuavolfq:
     resolution: {integrity: sha512-4FB8Tj6xyVkyqjj1OaTqCjXYULB9FMkqQ8yGrZjRDrYh0nOE+7Lhs45WioWQQMV+ceFlE368Ukhe6xdvJM9Egg==}
     peerDependencies:
       webpack: 4.x.x || 5.x.x
       webpack-cli: 4.x.x
     dependencies:
       webpack: 5.74.0_webpack-cli@4.10.0
-      webpack-cli: 4.10.0_2ba833df06cf183801f4001aeb6546b3
+      webpack-cli: 4.10.0_webpack@5.74.0
     dev: true
 
   /@webpack-cli/info/1.5.0_webpack-cli@4.10.0:
@@ -1737,10 +1738,10 @@ packages:
       webpack-cli: 4.x.x
     dependencies:
       envinfo: 7.8.1
-      webpack-cli: 4.10.0_2ba833df06cf183801f4001aeb6546b3
+      webpack-cli: 4.10.0_webpack@5.74.0
     dev: true
 
-  /@webpack-cli/serve/1.7.0_4c58ec6b3c7bd9e91c91ce21a56852c0:
+  /@webpack-cli/serve/1.7.0_webpack-cli@4.10.0:
     resolution: {integrity: sha512-oxnCNGj88fL+xzV+dacXs44HcDwf1ovs3AuEzvP7mqXw7fQntqIhQ1BRmynh4qEKQSSSRSWVyXRjmTbZIX9V2Q==}
     peerDependencies:
       webpack-cli: 4.x.x
@@ -1749,8 +1750,7 @@ packages:
       webpack-dev-server:
         optional: true
     dependencies:
-      webpack-cli: 4.10.0_2ba833df06cf183801f4001aeb6546b3
-      webpack-dev-server: 4.9.3_ed7de2690da194b35567e1e94055cb2c
+      webpack-cli: 4.10.0_webpack@5.74.0
     dev: true
 
   /@xtuc/ieee754/1.2.0:
@@ -1858,6 +1858,11 @@ packages:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
       uri-js: 4.4.1
+    dev: true
+
+  /angular/1.8.3:
+    resolution: {integrity: sha512-5qjkWIQQVsHj4Sb5TcEs4WZWpFeVFHXwxEBHUhrny41D8UrBAd6T/6nPPAsLngJCReIOqi95W3mxdveveutpZw==}
+    deprecated: For the actively supported Angular, see https://www.npmjs.com/package/@angular/core. AngularJS support has officially ended. For extended AngularJS support options, see https://goo.gle/angularjs-path-forward.
     dev: true
 
   /ansi-escapes/4.3.2:
@@ -1969,7 +1974,7 @@ packages:
       - debug
     dev: true
 
-  /babel-loader/8.2.5_b8bce14f87162c3885dc6907ec4c380b:
+  /babel-loader/8.2.5_xc6oct4hcywdrbo4ned6ytbybm:
     resolution: {integrity: sha512-OSiFfH89LrEMiWd4pLNqGz4CwJDtbs2ZVc+iGu2HrkRfPxId9F2anQj38IxWpmRfsUY0aBZYi1EFcd3mhtRMLQ==}
     engines: {node: '>= 8.9'}
     peerDependencies:
@@ -5555,7 +5560,7 @@ packages:
       postcss-selector-parser: 6.0.10
     dev: true
 
-  /stylus-loader/7.0.0_stylus@0.58.1+webpack@5.74.0:
+  /stylus-loader/7.0.0_opfhcjf5g5texmct6gy27c44rm:
     resolution: {integrity: sha512-WTbtLrNfOfLgzTaR9Lj/BPhQroKk/LC1hfTXSUbrxmxgfUo3Y3LpmKRVA2R1XbjvTAvOfaian9vOyfv1z99E+A==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
@@ -5885,7 +5890,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite/3.0.4_sass@1.44.0:
+  /vite/3.0.4_sass@1.44.0+stylus@0.58.1:
     resolution: {integrity: sha512-NU304nqnBeOx2MkQnskBQxVsa0pRAH5FphokTGmyy8M3oxbvw7qAXts2GORxs+h/2vKsD+osMhZ7An6yK6F1dA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -5909,11 +5914,12 @@ packages:
       resolve: 1.22.1
       rollup: 2.77.2
       sass: 1.44.0
+      stylus: 0.58.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.20.3_3519a119273ba0483981f2a35b20e076:
+  /vitest/0.20.3_gx7qaiblkd2763nwmafl7jfmva:
     resolution: {integrity: sha512-cXMjTbZxBBUUuIF3PUzEGPLJWtIMeURBDXVxckSHpk7xss4JxkiiWh5cnIlfGyfJne2Ii3QpbiRuFL5dMJtljw==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -5948,7 +5954,7 @@ packages:
       local-pkg: 0.4.2
       tinypool: 0.2.4
       tinyspy: 1.0.0
-      vite: 3.0.4_sass@1.44.0
+      vite: 3.0.4_sass@1.44.0+stylus@0.58.1
     transitivePeerDependencies:
       - less
       - sass
@@ -5984,7 +5990,7 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /webpack-cli/4.10.0_2ba833df06cf183801f4001aeb6546b3:
+  /webpack-cli/4.10.0_webpack@5.74.0:
     resolution: {integrity: sha512-NLhDfH/h4O6UOy+0LSso42xvYypClINuMNBVVzX4vX98TmTaTUxwRbXdhucbFMd2qLaCTcLq/PdYrvi8onw90w==}
     engines: {node: '>=10.13.0'}
     hasBin: true
@@ -6005,9 +6011,9 @@ packages:
         optional: true
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
-      '@webpack-cli/configtest': 1.2.0_ed7de2690da194b35567e1e94055cb2c
+      '@webpack-cli/configtest': 1.2.0_5v66e2inugklgvlh4huuavolfq
       '@webpack-cli/info': 1.5.0_webpack-cli@4.10.0
-      '@webpack-cli/serve': 1.7.0_4c58ec6b3c7bd9e91c91ce21a56852c0
+      '@webpack-cli/serve': 1.7.0_webpack-cli@4.10.0
       colorette: 2.0.19
       commander: 7.2.0
       cross-spawn: 7.0.3
@@ -6016,7 +6022,6 @@ packages:
       interpret: 2.2.0
       rechoir: 0.7.1
       webpack: 5.74.0_webpack-cli@4.10.0
-      webpack-dev-server: 4.9.3_ed7de2690da194b35567e1e94055cb2c
       webpack-merge: 5.8.0
     dev: true
 
@@ -6034,7 +6039,7 @@ packages:
       webpack: 5.74.0_webpack-cli@4.10.0
     dev: true
 
-  /webpack-dev-server/4.9.3_ed7de2690da194b35567e1e94055cb2c:
+  /webpack-dev-server/4.9.3_5v66e2inugklgvlh4huuavolfq:
     resolution: {integrity: sha512-3qp/eoboZG5/6QgiZ3llN8TUzkSpYg1Ko9khWX1h40MIEUNS2mDoIa8aXsPfskER+GbTvs/IJZ1QTBBhhuetSw==}
     engines: {node: '>= 12.13.0'}
     hasBin: true
@@ -6073,7 +6078,7 @@ packages:
       sockjs: 0.3.24
       spdy: 4.0.2
       webpack: 5.74.0_webpack-cli@4.10.0
-      webpack-cli: 4.10.0_2ba833df06cf183801f4001aeb6546b3
+      webpack-cli: 4.10.0_webpack@5.74.0
       webpack-dev-middleware: 5.3.3_webpack@5.74.0
       ws: 8.8.1
     transitivePeerDependencies:
@@ -6129,7 +6134,7 @@ packages:
       tapable: 2.2.1
       terser-webpack-plugin: 5.3.3_webpack@5.74.0
       watchpack: 2.4.0
-      webpack-cli: 4.10.0_2ba833df06cf183801f4001aeb6546b3
+      webpack-cli: 4.10.0_webpack@5.74.0
       webpack-sources: 3.2.3
     transitivePeerDependencies:
       - '@swc/core'
