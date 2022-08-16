@@ -1,15 +1,33 @@
-# Map
+# Place components
 
 [![npm @opensystemslab/map](https://img.shields.io/npm/v/@opensystemslab/map?style=flat-square)](http://npm.im/@opensystemslab/map)
 
-An [OpenLayers](https://openlayers.org/)-powered [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components) map for tasks related to planning permission in the UK.
+A library of [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) for tasks related to addresses and planning permission in the UK built with [Lit](https://lit.dev/), [Vite](https://vitejs.dev/), and [Ordnance Survey APIs](https://developer.ordnancesurvey.co.uk/).
 
-![anim](https://user-images.githubusercontent.com/601961/128994212-11ffa793-5db4-4cac-a616-a2f949fe9360.gif)
+***Web map***
 
-## Demo
+`<my-map />` is an [OpenLayers](https://openlayers.org/)-powered map to support drawing and modifying red-line boundaries. Other supported modes include: highlighting an OS Feature that intersects with a given address point; clicking to select and merge multiple OS Features into a single boundary; and displaying static point or polygon data. Events are dispatched with the calculated area and geojson representation when you change your drawing.
 
-- Interactive docs [oslmap.netlify.app](https://oslmap.netlify.app)
+![chrome-capture-2022-7-16-map](https://user-images.githubusercontent.com/5132349/184860750-bf7514db-7cab-4f9c-aa32-791099ecd6cc.gif)
+
+***Postcode search***
+
+`<postcode-search />` is a [GOV.UK-styled](https://frontend.design-system.service.gov.uk/) input that validates UK postcodes using these [utility methods](https://www.npmjs.com/package/postcode). When a postcode is validated, an event is dispatched containing the sanitized string.
+
+***Address autocomplete***
+
+`<address-autocomplete />` fetches addresses in a given UK postcode using the [OS Places API](https://developer.ordnancesurvey.co.uk/os-places-api) and displays them using GOV.UK's [accessible-autocomplete](https://github.com/alphagov/accessible-autocomplete) component. An event is dispatched with the OS record when you select an address.
+
+These web components can be used independently or together following GOV.UK's [Address lookup](https://design-system.service.gov.uk/patterns/addresses/) design pattern.
+
+![chrome-capture-2022-7-16 (1)](https://user-images.githubusercontent.com/5132349/184858819-133bc7fa-7f48-4a2a-a416-b612febcce58.gif)
+
+## Documentation & examples
+
+- Interactive web component docs [oslmap.netlify.app](https://oslmap.netlify.app)
 - [CodeSandbox](https://codesandbox.io/s/confident-benz-rr0s9?file=/index.html) (note: update the CDN script with a version number for new features)
+
+Find these components in the wild, including what we're learning through public beta user-testing, at [https://www.ripa.digital/](https://www.ripa.digital/).
 
 ## Running locally
 
@@ -30,7 +48,7 @@ Unit tests are written with [Vitest](https://vitest.dev/), [Happy Dom](https://w
 We use [Pitsby](https://pitsby.com/) for documenting our web components. It's simple to configure (`pitsby.config.js` plus a `*.doc.js` per component), has good support for vanilla web components, and an interactive playground.
 
 - `pnpm run docs` starts Pitsby in watch mode for local development
-- `pnpm run docsPublish` builds the site so Netlify can serve it from `./pitsby`
+- `pnpm run docsPublish` builds the site so Netlify can serve it from `pitsby/`
 
 ## License
 
