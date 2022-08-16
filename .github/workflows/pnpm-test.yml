@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  PNPM_VERSION: 6.31.0
+  PNPM_VERSION: 7.8.0
   NODE_VERSION: 16.14.2 # LTS
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
           cache-dependency-path: "**/pnpm-lock.yaml"
-      - run: pnpm install
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm test
         env:
           VITE_APP_OS_PLACES_API_KEY: ${{ secrets.OS_API_KEY }}
