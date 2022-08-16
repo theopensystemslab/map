@@ -28,5 +28,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'happy-dom',
+    transformMode: {
+      web: [/\.js/],
+    },
+    deps: {
+      inline: true
+    }
   },
 });
