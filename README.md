@@ -6,9 +6,9 @@ A library of [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_C
 
 ***Web map***
 
-`<my-map />` is an [OpenLayers](https://openlayers.org/)-powered map to support drawing and modifying red-line boundaries. Other supported modes include: highlighting an OS Feature that intersects with a given address point; clicking to select and merge multiple OS Features into a single boundary; and displaying static point or polygon data. Events are dispatched on change with the calculated area (m2 or hectares) and geojson representation of the drawn data.
+`<my-map />` is an [OpenLayers](https://openlayers.org/)-powered map to support drawing and modifying red-line boundaries. Other supported modes include: highlighting an OS Feature that intersects with a given address point; clicking to select and merge multiple OS Features into a single boundary; and displaying static point or polygon data. Events are dispatched with the calculated area and geojson representation when you change your drawing.
 
-![anim](https://user-images.githubusercontent.com/601961/128994212-11ffa793-5db4-4cac-a616-a2f949fe9360.gif)
+![chrome-capture-2022-7-16-map](https://user-images.githubusercontent.com/5132349/184860750-bf7514db-7cab-4f9c-aa32-791099ecd6cc.gif)
 
 ***Postcode search***
 
@@ -19,6 +19,8 @@ A library of [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_C
 `<address-autocomplete />` fetches addresses in a given UK postcode using the [OS Places API](https://developer.ordnancesurvey.co.uk/os-places-api) and displays them using GOV.UK's [accessible-autocomplete](https://github.com/alphagov/accessible-autocomplete) component. An event is dispatched with the OS record when you select an address.
 
 These web components can be used independently or together following GOV.UK's [Address lookup](https://design-system.service.gov.uk/patterns/addresses/) design pattern.
+
+![chrome-capture-2022-7-16 (1)](https://user-images.githubusercontent.com/5132349/184858819-133bc7fa-7f48-4a2a-a416-b612febcce58.gif)
 
 ## Documentation & examples
 
