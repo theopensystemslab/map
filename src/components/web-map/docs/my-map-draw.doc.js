@@ -1,5 +1,5 @@
 module.exports = {
-  name: "MyMap - Drawing",
+  name: "WebMap - Drawing",
   description:
     "Drawing mode enables drawing and modifying a shape on the map. Snapping points display for guidance at zoom level 20+ when the vector tile basemap is enabled. One polygon can be drawn at a time. The reset control button will erase your drawing and re-center the map view.",
   properties: [
@@ -45,7 +45,7 @@ module.exports = {
       description:
         "Draw and modify a site plan boundary with a red line. Start at zoom 20 so snaps are visible on initial load.",
       template: `
-        <my-map 
+        <web-map 
           id="draw-mode"
           zoom="20" 
           maxZoom="23" 
@@ -58,7 +58,7 @@ module.exports = {
       description:
         "Load a polygon with the ability to continue modifying it. Click 'reset' to erase and draw fresh.",
       controller: function (element) {
-        const map = element.querySelector("my-map");
+        const map = element.querySelector("web-map");
         map.drawGeojsonData = {
           type: "Feature",
           properties: {},
@@ -77,7 +77,7 @@ module.exports = {
         };
       },
       template: `
-        <my-map 
+        <web-map 
           id="draw-mode-1"
           zoom="20" 
           maxZoom="23" 
@@ -90,13 +90,13 @@ module.exports = {
       description:
         "Listen for an event when the drawn polygon is closed or modified. Specify if you want to calculate area in square metres or hectares.",
       controller: function (element) {
-        const map = element.querySelector("my-map");
+        const map = element.querySelector("web-map");
         map.addEventListener("areaChange", ({ detail: area }) => {
           console.debug({ area });
         });
       },
       template: `
-        <my-map 
+        <web-map 
           id="draw-mode-2"
           zoom="19" 
           maxZoom="23" 
@@ -109,13 +109,13 @@ module.exports = {
       description:
         "Listen for an event when the drawn polygon is closed or modified.",
       controller: function (element) {
-        const map = element.querySelector("my-map");
+        const map = element.querySelector("web-map");
         map.addEventListener("geojsonChange", ({ detail: geojson }) => {
           console.debug({ geojson });
         });
       },
       template: `
-        <my-map 
+        <web-map 
           id="draw-mode-3"
           zoom="19" 
           maxZoom="23" 

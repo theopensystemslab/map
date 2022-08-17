@@ -7,9 +7,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "ComponentLib",
+      name: "PlaceComponents",
       formats: ["es", "umd"],
-      fileName: (format) => `component-lib.${format}.js`,
+      fileName: (format) => `place-components.${format}.js`,
     },
     rollupOptions: {
       // external: /^lit-element/,

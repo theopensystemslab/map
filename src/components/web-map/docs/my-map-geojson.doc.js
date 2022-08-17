@@ -1,5 +1,5 @@
 module.exports = {
-  name: "MyMap - GeoJSON",
+  name: "WebMap - GeoJSON",
   description:
     "GeoJSON mode displays a static polygon on the map. The map view will center on the shape, overriding the latitude, longitude, and zoom properties. Use the geojsonBuffer property to control the padding between the shape and edge of the map view.",
   properties: [
@@ -36,7 +36,7 @@ module.exports = {
       description:
         "Show a custom GeoJSON polygon on an OS basemap. Hide the zoom & reset control buttons.",
       controller: function (element) {
-        const map = element.querySelector("my-map");
+        const map = element.querySelector("web-map");
         map.geojsonData = {
           type: "Feature",
           properties: {},
@@ -57,7 +57,7 @@ module.exports = {
         };
       },
       template: `
-        <my-map
+        <web-map
           geojsonColor="#ff0000"
           geojsonBuffer="10"
           hideResetControl

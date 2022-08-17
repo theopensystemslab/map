@@ -7,7 +7,7 @@ module.exports = {
     },
   ],
   styles: ["./dist/style.css"],
-  scripts: ["./dist/component-lib.es.js", "./dist/component-lib.umd.js"],
+  scripts: ["./dist/place-components.es.js", "./dist/place-components.umd.js"],
   custom: {
     windowTitle: 'Docs - Place Components',
   },

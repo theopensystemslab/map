@@ -9,12 +9,12 @@ declare global {
   interface Window extends IWindow {}
 }
 
-describe.todo("MyMap on initial render with OSM basemap", async () => {
+describe.todo("WebMap on initial render with OSM basemap", async () => {
   // https://stackoverflow.com/questions/61683583/openlayers-6-typeerror-url-createobjecturl-is-not-a-function
   global.URL.createObjectURL = vi.fn();
 
   beforeEach(async () => {
-    document.body.innerHTML = '<my-map id="map-vitest" disableVectorTiles />';
+    document.body.innerHTML = '<web-map id="map-vitest" disableVectorTiles />';
 
     await window.happyDOM.whenAsyncComplete();
   }, 1000);
@@ -24,7 +24,7 @@ describe.todo("MyMap on initial render with OSM basemap", async () => {
   });
 
   it("should be keyboard navigable", () => {
-    const input = getShadowRootEl("my-map", "div");
+    const input = getShadowRootEl("web-map", "div");
     expect(input?.getAttribute("tabindex")).toEqual("0");
   });
 });
