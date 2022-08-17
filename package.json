@@ -19,7 +19,11 @@
     "dev": "vite",
     "build": "rm -rf dist types && tsc && vite build && sed 's/src=\".*\"/src=\"component-lib.es.js\"/' index.html > dist/index.html",
     "prepublishOnly": "npm run build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "docs": "NODE_ENV=development pitsby build --watch --port=7007",
+    "docsPublish": "pitsby build"
   },
   "dependencies": {
     "@turf/union": "^6.5.0",
@@ -27,13 +31,18 @@
     "govuk-frontend": "^4.0.1",
     "lit": "^2.0.0-rc.2",
     "ol": "^6.9.0",
-    "ol-mapbox-style": "^8.0.7",
+    "ol-mapbox-style": "^8.2.1",
     "postcode": "^5.1.0",
     "proj4": "^2.8.0",
     "rambda": "^7.0.1"
   },
   "devDependencies": {
-    "@types/node": "^18.0.1",
+    "@glorious/pitsby": "^1.30.16",
+    "@testing-library/dom": "^8.17.1",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/node": "^18.6.3",
+    "@vitest/ui": "^0.8.1",
+    "happy-dom": "^2.52.0",
     "@types/proj4": "^2.5.2",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
@@ -41,9 +50,17 @@
     "rollup-plugin-postcss-lit": "^2.0.0",
     "sass": "^1.44.0",
     "typescript": "^4.3.5",
-    "vite": "^3.0.3"
+    "vite": "^3.0.4",
+    "vitest": "0.20.3"
+  },
+  "engines": {
+    "node": "^16",
+    "pnpm": "^7.8.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md,html}": "prettier --write"
+  },
+  "stackblitz": {
+    "startCommand": "npm run test:ui"
   }
 }
