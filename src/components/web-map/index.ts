@@ -39,8 +39,8 @@ import pinUrl from "./pin.svg";
 
 type MarkerImageEnum = "circle" | "pin";
 
-@customElement("my-map")
-export class MyMap extends LitElement {
+@customElement("web-map")
+export class WebMap extends LitElement {
   // ref https://github.com/e111077/vite-lit-element-ts-sass/issues/3
   static styles = unsafeCSS(styles);
 
@@ -521,6 +521,6 @@ export class MyMap extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "my-map": MyMap;
+    "web-map": WebMap;
   }
 }

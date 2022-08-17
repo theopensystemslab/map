@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OS Web Components Sandbox</title>
+    <title>OSL Web Components Sandbox</title>
     <script type="module" src="./src/index.ts"></script>
     <!-- OS vector tile source specifies fonts in .pbf format, which OpenLayers can't load, so make them available directly  -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -43,7 +43,7 @@
     <div style="display:flex;flex-direction:column;">
       <h1 style="color:red;font-family:Inter,Helvetica,sans-serif;font-size:16px;">*** This is a testing sandbox - these components are unaware of each other! ***</h1>
       <div style="margin-bottom:1em">
-        <my-map zoom="20" maxZoom="23" drawMode drawPointer="dot" id="example-map" />
+        <web-map zoom="20" maxZoom="23" drawMode drawPointer="dot" id="example-map" />
       </div>
       <div style="margin-bottom:1em">
         <postcode-search hintText="Optional hint text shows up here" id="example-postcode" />
@@ -64,7 +64,7 @@
     </div>
     <script>
       // --- MAP --- //
-      const map = document.querySelector("my-map");
+      const map = document.querySelector("web-map");
 
       map.addEventListener("ready", (event) => {
         console.log("map ready");

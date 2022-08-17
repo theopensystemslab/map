@@ -1,5 +1,5 @@
 module.exports = {
-  name: "MyMap - Features",
+  name: "WebMap - Features",
   description:
     "Features mode queries the Ordnance Survey Features API for any features that intersect the center point of the map. Should be used with the vector tiles basemap.",
   properties: [
@@ -45,7 +45,7 @@ module.exports = {
       description:
         "Show the Ordnance Survey Feature(s) that intersects with a given point.",
       template: `
-        <my-map
+        <web-map
           showFeaturesAtPoint
           latitude="51.4858363"
           longitude="-0.0761246"
@@ -58,7 +58,7 @@ module.exports = {
       description:
         "Show features at point plus ability to click to select or deselect additional features to create a more accurate full site boundary.",
       template: `
-        <my-map
+        <web-map
           showFeaturesAtPoint
           clickFeatures
           latitude="51.4854329"

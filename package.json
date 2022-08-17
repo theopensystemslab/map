@@ -7,9 +7,9 @@
     "type": "git",
     "url": "https://github.com/theopensystemslab/map.git"
   },
-  "browser": "./dist/component-lib.umd.js",
-  "module": "./dist/component-lib.es.js",
-  "exports": "./dist/component-lib.es.js",
+  "browser": "./dist/place-components.umd.js",
+  "module": "./dist/place-components.es.js",
+  "exports": "./dist/place-components.es.js",
   "types": "./dist/types/index.d.ts",
   "files": [
     "dist",
@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist types && tsc && vite build && sed 's/src=\".*\"/src=\"component-lib.es.js\"/' index.html > dist/index.html",
+    "build": "rm -rf dist types && tsc && vite build && sed 's/src=\".*\"/src=\"place-components.es.js\"/' index.html > dist/index.html",
     "prepublishOnly": "npm run build",
     "prepare": "husky install",
     "test": "vitest",

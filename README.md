@@ -6,7 +6,7 @@ A library of [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_C
 
 ***Web map***
 
-`<my-map />` is an [OpenLayers](https://openlayers.org/)-powered map to support drawing and modifying red-line boundaries. Other supported modes include: highlighting an OS Feature that intersects with a given address point; clicking to select and merge multiple OS Features into a single boundary; and displaying static point or polygon data. Events are dispatched with the calculated area and geojson representation when you change your drawing.
+`<web-map />` is an [OpenLayers](https://openlayers.org/)-powered map to support drawing and modifying red-line boundaries. Other supported modes include: highlighting an OS Feature that intersects with a given address point; clicking to select and merge multiple OS Features into a single boundary; and displaying static point or polygon data. Events are dispatched with the calculated area and geojson representation as data changes.
 
 ![chrome-capture-2022-7-16-map](https://user-images.githubusercontent.com/5132349/184860750-bf7514db-7cab-4f9c-aa32-791099ecd6cc.gif)
 
