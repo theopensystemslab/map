@@ -90,6 +90,7 @@ export function getFeaturesAtPoint(
       const geojson = new GeoJSON();
 
       const features = geojson.readFeatures(data, {
+        dataProjection: "EPSG:4326", // match srsName in wfsParams
         featureProjection: "EPSG:3857",
       });
 

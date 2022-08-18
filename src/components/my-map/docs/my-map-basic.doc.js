@@ -5,15 +5,20 @@ module.exports = {
   properties: [
     {
       name: "latitude",
-      type: "Number (EPSG:4326)",
+      type: "Number",
       values: "51.507351 (default)",
       required: true,
     },
     {
       name: "longitude",
-      type: "Number (EPSG:4326)",
+      type: "Number",
       values: "-0.127758 (default)",
       required: true,
+    },
+    {
+      name: "projection",
+      type: "String",
+      values: "EPSG:4326 (default), EPSG:27700, EPSG:3857",
     },
     {
       name: "zoom",
