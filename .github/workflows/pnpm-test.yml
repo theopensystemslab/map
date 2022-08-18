@@ -13,16 +13,22 @@ jobs:
   vitest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: actions/checkout@v3
+
+      - name: Install PNPM
+      - uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-      - uses: actions/setup-node@v2
+
+      - name: Set Node
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
-          cache-dependency-path: "**/pnpm-lock.yaml"
+
+      - name: Install project dependencies
       - run: pnpm install
-      - run: pnpm test:ci
+
+      - name: Run tests
+      - run: pnpm test
         env:
           VITE_APP_OS_PLACES_API_KEY: ${{ secrets.OS_API_KEY }}
