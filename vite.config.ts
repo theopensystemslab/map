@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
 import path from "path";
 import litcss from 'rollup-plugin-postcss-lit';
@@ -25,14 +26,16 @@ export default defineConfig({
       enforce: 'post'
     }
   ],
+  // https://vitest.dev/config/#options
   test: {
     globals: true,
     environment: 'happy-dom',
     transformMode: {
-      web: [/\.js/],
+      web: [/\.[jt]s$/],
     },
     deps: {
       inline: true
-    }
+    },
+    reporters: "verbose",
   },
 });
