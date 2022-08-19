@@ -17,6 +17,14 @@ describe("PostcodeSearch on initial render with default props", async () => {
     await window.happyDOM.whenAsyncComplete();
   }, 1000);
 
+  it("should render a custom element with a shadow root", () => {
+    const input = document.body.querySelector("postcode-search");
+    expect(input).toBeTruthy;
+
+    const inputShadowRoot = getShadowRoot("postcode-search");
+    expect(inputShadowRoot).toBeTruthy;
+  });
+
   it("should be keyboard navigable", () => {
     const input = getShadowRootEl("postcode-search", "input");
     expect(input?.getAttribute("tabindex")).toEqual("0");
@@ -24,7 +32,7 @@ describe("PostcodeSearch on initial render with default props", async () => {
 
   it("should have a label with the default text", () => {
     const label = getShadowRootEl("postcode-search", "label");
-    expect(label).toBeDefined;
+    expect(label).toBeTruthy;
     expect(label?.innerHTML).toContain("Postcode");
     expect(label?.className).toContain("govuk-label");
   });
@@ -37,9 +45,10 @@ describe("PostcodeSearch on initial render with default props", async () => {
     expect(input?.id).toEqual("postcode-vitest");
   });
 
-  it("should render a visually hidden error message container for screenreaders", () => {
+  it("should always render the error message container for screenreaders", () => {
     const error =
       getShadowRoot("postcode-search")?.getElementById("postcode-error");
+    expect(error).toBeTruthy;
     expect(error?.className).toContain("govuk-error-message");
     expect(error?.getAttribute("role")).toEqual("status");
     expect(error?.getAttribute("style")).toContain("display:none");
@@ -54,7 +63,7 @@ describe("PostcodeSearch on initial render with user configured props", async ()
     await window.happyDOM.whenAsyncComplete();
 
     const header = getShadowRootEl("postcode-search", "h1");
-    expect(header).toBeDefined;
+    expect(header).toBeTruthy;
     expect(header?.className).toContain("govuk-label-wrapper");
     expect(header?.innerHTML).toContain("label");
   });
@@ -65,12 +74,11 @@ describe("PostcodeSearch on initial render with user configured props", async ()
 
     await window.happyDOM.whenAsyncComplete();
 
-    const hintDiv =
+    const hint =
       getShadowRoot("postcode-search")?.getElementById("postcode-hint");
-    expect(hintDiv?.className).toContain("govuk-hint");
-    expect(hintDiv?.innerHTML).toContain(
-      "Enter a UK postcode, not a US zip code"
-    );
+    expect(hint).toBeTruthy;
+    expect(hint?.className).toContain("govuk-hint");
+    expect(hint?.innerHTML).toContain("Enter a UK postcode, not a US zip code");
 
     const input = getShadowRootEl("postcode-search", "input");
     expect(input?.getAttribute("aria-describedby")).toContain("postcode-hint");
@@ -95,7 +103,7 @@ describe("PostcodeSearch with input change", async () => {
     const error = getShadowRoot("postcode-search")?.getElementById(
       "postcode-error-vitest"
     );
-    expect(error).toBeDefined();
+    expect(error).toBeTruthy;
     expect(error?.getAttribute("style")).toContain("display:none");
 
     // focus & blur
