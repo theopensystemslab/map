@@ -10,7 +10,7 @@ specifiers:
   '@vitest/ui': ^0.22.1
   accessible-autocomplete: ^2.0.4
   govuk-frontend: ^4.0.1
-  happy-dom: ^2.52.0
+  happy-dom: ^6.0.4
   husky: ^8.0.1
   lint-staged: ^13.0.3
   lit: ^2.0.0-rc.2
@@ -44,7 +44,7 @@ devDependencies:
   '@types/node': 18.6.3
   '@types/proj4': 2.5.2
   '@vitest/ui': 0.22.1
-  happy-dom: 2.55.0
+  happy-dom: 6.0.4
   husky: 8.0.1
   lint-staged: 13.0.3
   prettier: 2.3.2
@@ -3416,8 +3416,8 @@ packages:
     resolution: {integrity: sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==}
     dev: true
 
-  /happy-dom/2.55.0:
-    resolution: {integrity: sha512-CHDMBRau+l/yKQL+ANmexRAC8FRCuYbXRSpu/GbLVyfqkrlBzV7OSNd5C5HZ+pVFtFv1bFJYC5r+xrqgGQuq5w==}
+  /happy-dom/6.0.4:
+    resolution: {integrity: sha512-b+ID23Ms0BY08UNLymsOMG7EI2jSlwEt4cbJs938GZfeNAg+fqgkSO3TokQMgSOFoHznpjWmpVjBUL5boJ9PWw==}
     dependencies:
       css.escape: 1.5.1
       he: 1.2.0
@@ -5920,7 +5920,7 @@ packages:
       '@vitest/ui': 0.22.1
       chai: 4.3.6
       debug: 4.3.4
-      happy-dom: 2.55.0
+      happy-dom: 6.0.4
       local-pkg: 0.4.2
       tinypool: 0.2.4
       tinyspy: 1.0.2
