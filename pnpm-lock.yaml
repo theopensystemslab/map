@@ -15,7 +15,7 @@ specifiers:
   lint-staged: ^13.0.3
   lit: ^2.0.0-rc.2
   ol: ^7.0.0
-  ol-mapbox-style: ^8.2.1
+  ol-mapbox-style: ^9.0.0
   postcode: ^5.1.0
   prettier: ^2.3.2
   proj4: ^2.8.0
@@ -32,7 +32,7 @@ dependencies:
   govuk-frontend: 4.0.1
   lit: 2.0.0-rc.2
   ol: 7.0.0
-  ol-mapbox-style: 8.2.1
+  ol-mapbox-style: 9.0.0
   postcode: 5.1.0
   proj4: 2.8.0
   rambda: 7.0.3
@@ -4265,13 +4265,6 @@ packages:
   /obuf/1.1.2:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
     dev: true
-
-  /ol-mapbox-style/8.2.1:
-    resolution: {integrity: sha512-3kBBuZC627vDL8vnUdfVbCbfkhkcZj2kXPHQcuLhC4JJEA+XkEVEtEde8x8+AZctRbHwBkSiubTPaRukgLxIRw==}
-    dependencies:
-      '@mapbox/mapbox-gl-style-spec': 13.24.0
-      mapbox-to-css-font: 2.4.1
-    dev: false
 
   /ol-mapbox-style/9.0.0:
     resolution: {integrity: sha512-smixniNq2N4nTLAYf8ouIcBI4dOd1P6p3CWd/cmuP6ai85s84vOGUVbCa1jcS40oDRlOakWRP3XqtEQhEv7Wbw==}
