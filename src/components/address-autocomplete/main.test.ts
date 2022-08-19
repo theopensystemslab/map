@@ -22,16 +22,27 @@ describe("AddressAutocomplete on initial render with valid postcode", async () =
     await window.happyDOM.whenAsyncComplete();
   }, 2500);
 
-  it("renders the autocomplete without a warning", () => {
-    const autocomplete = getShadowRoot("address-autocomplete");
-    expect(autocomplete?.getElementById("autocomplete-vitest-container"))
-      .toBeDefined;
-    expect(autocomplete?.innerHTML).toContain("combobox");
+  it("should render a custom element with a shadow root", () => {
+    const autocomplete = document.body.querySelector("address-autocomplete");
+    expect(autocomplete).toBeTruthy;
+
+    const autocompleteShadowRoot = getShadowRoot("address-autocomplete");
+    expect(autocompleteShadowRoot).toBeTruthy;
+  });
+
+  it("should have an input with autocomplete attributes", () => {
+    const input = getShadowRootEl("address-autocomplete", "input");
+    expect(input).toBeTruthy;
+    expect(input?.getAttribute("role")).toEqual("combobox");
+    expect(input?.getAttribute("type")).toEqual("text");
+    expect(input?.getAttribute("aria-autocomplete")).toEqual("list");
+    expect(input?.getAttribute("aria-expanded")).toEqual("false");
+    expect(input?.getAttribute("autocomplete")).toEqual("off");
   });
 
   it("should have a label with the default text", () => {
     const label = getShadowRootEl("address-autocomplete", "label");
-    expect(label).toBeDefined;
+    expect(label).toBeTruthy;
     expect(label?.className).toContain("govuk-label");
     expect(label?.innerHTML).toContain("Select an address");
   });
@@ -45,8 +56,10 @@ describe("AddressAutocomplete on initial render with valid postcode", async () =
   });
 
   it("should always render the warning message container for screenreaders", () => {
-    const autocomplete = getShadowRoot("address-autocomplete");
-    expect(autocomplete?.getElementById("error-message-container")).toBeDefined;
+    const error = getShadowRoot("address-autocomplete")?.getElementById(
+      "error-message-container"
+    );
+    expect(error).toBeTruthy;
   });
 });
 
