@@ -1,30 +1,32 @@
 import type { IWindow } from "happy-dom";
-import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
+import { beforeEach, describe, it, expect } from "vitest";
 
-import { getShadowRootEl } from "../../test-utils";
+import { getShadowRoot } from "../../test-utils";
 
-// import "./index";
+import "./index";
 
 declare global {
   interface Window extends IWindow {}
 }
 
-describe.todo("MyMap on initial render with OSM basemap", async () => {
-  // https://stackoverflow.com/questions/61683583/openlayers-6-typeerror-url-createobjecturl-is-not-a-function
-  global.URL.createObjectURL = vi.fn();
-
+describe("MyMap on initial render with OSM basemap", async () => {
   beforeEach(async () => {
     document.body.innerHTML = '<my-map id="map-vitest" disableVectorTiles />';
 
     await window.happyDOM.whenAsyncComplete();
-  }, 1000);
+  }, 2500);
 
-  afterEach(async () => {
-    vi.resetAllMocks();
+  it("should render a custom element with a shadow root", () => {
+    const map = document.body.querySelector("my-map");
+    expect(map).toBeTruthy;
+
+    const mapShadowRoot = getShadowRoot("my-map");
+    expect(mapShadowRoot).toBeTruthy;
   });
 
   it("should be keyboard navigable", () => {
-    const input = getShadowRootEl("my-map", "div");
-    expect(input?.getAttribute("tabindex")).toEqual("0");
+    const map = getShadowRoot("my-map")?.getElementById("map-vitest");
+    expect(map).toBeTruthy;
+    expect(map?.getAttribute("tabindex")).toEqual("0");
   });
 });

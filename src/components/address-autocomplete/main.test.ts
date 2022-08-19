@@ -22,7 +22,7 @@ describe("AddressAutocomplete on initial render with valid postcode", async () =
     await window.happyDOM.whenAsyncComplete();
   }, 2500);
 
-  it("should render a custom element", () => {
+  it("should render a custom element with a shadow root", () => {
     const autocomplete = document.body.querySelector("address-autocomplete");
     expect(autocomplete).toBeTruthy;
 

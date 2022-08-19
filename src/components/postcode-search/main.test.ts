@@ -17,9 +17,12 @@ describe("PostcodeSearch on initial render with default props", async () => {
     await window.happyDOM.whenAsyncComplete();
   }, 1000);
 
-  it("should render a custom element", () => {
-    const input = getShadowRoot("postcode-search");
+  it("should render a custom element with a shadow root", () => {
+    const input = document.body.querySelector("postcode-search");
     expect(input).toBeTruthy;
+
+    const inputShadowRoot = getShadowRoot("postcode-search");
+    expect(inputShadowRoot).toBeTruthy;
   });
 
   it("should be keyboard navigable", () => {
