@@ -14,7 +14,7 @@ incremented for features.
 ### Added
 - feat: Added map property `projection` to specify which system you are supplying coordinates in. Supported values are `EPSG:4326` (default), `EPSG:27700`, and `EPSG:3857` ([#168](https://github.com/theopensystemslab/map/pull/168))
 - feat: Added Vitest framework for unit testing our web components and a Github Action workflow to run tests on all pull requests ([#139](https://github.com/theopensystemslab/map/pull/139), [#191](https://github.com/theopensystemslab/map/pull/191))
-- feat: Added Pitsby interactive documentation for our web components, available at [oslmap.netlify.com](oslmap.netlify.com) ([#61](https://github.com/theopensystemslab/map/pull/61))
+- feat: Added Pitsby interactive documentation for our web components, available at [oslmap.netlify.app](https://oslmap.netlify.app/) ([#61](https://github.com/theopensystemslab/map/pull/61))
 
 ### Changed
 - docs: Updated README to reflect scope of all components and new local dev instructions ([#181](https://github.com/theopensystemslab/map/pull/181))
