@@ -14,7 +14,7 @@ specifiers:
   husky: ^8.0.1
   lint-staged: ^13.0.3
   lit: ^2.0.0-rc.2
-  ol: ^6.9.0
+  ol: ^7.0.0
   ol-mapbox-style: ^8.2.1
   postcode: ^5.1.0
   prettier: ^2.3.2
@@ -31,7 +31,7 @@ dependencies:
   accessible-autocomplete: 2.0.4
   govuk-frontend: 4.0.1
   lit: 2.0.0-rc.2
-  ol: 6.9.0
+  ol: 7.0.0
   ol-mapbox-style: 8.2.1
   postcode: 5.1.0
   proj4: 2.8.0
@@ -2143,11 +2143,6 @@ packages:
       get-intrinsic: 1.1.2
     dev: true
 
-  /callsites/3.1.0:
-    resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
-    engines: {node: '>=6'}
-    dev: false
-
   /camel-case/4.1.2:
     resolution: {integrity: sha512-gxGWBrTT1JuMx6R+o5PTXMmUnhnVzLQ9SNutD4YqKtI6ap897t3tKECYla6gCWEkplXnlNybEkZg9GEGxKFCgw==}
     dependencies:
@@ -2648,6 +2643,7 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
+    dev: true
 
   /decode-uri-component/0.2.0:
     resolution: {integrity: sha512-hjf+xovcEn31w/EUYdTXQh/8smFL/dzYjohQGEIgjyNavaJfBY2p5F527Bo1VPATxv0VYTUC2bOcXvqFwk78Og==}
@@ -2766,6 +2762,10 @@ packages:
       no-case: 3.0.4
       tslib: 2.1.0
     dev: true
+
+  /earcut/2.2.4:
+    resolution: {integrity: sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==}
+    dev: false
 
   /ee-first/1.1.1:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
@@ -3051,12 +3051,6 @@ packages:
       estraverse: 4.3.0
     dev: true
 
-  /esm/3.2.25:
-    resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
-    engines: {node: '>=6'}
-    dev: false
-    optional: true
-
   /esrecurse/4.3.0:
     resolution: {integrity: sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==}
     engines: {node: '>=4.0'}
@@ -3329,8 +3323,8 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /geotiff/1.0.8:
-    resolution: {integrity: sha512-3YA6NpGuuXF+WwwgA7moSHIw1U0XHxBY8W5bjjoSGBCVuw6s+DOgt7Z95Y3bf5k19RHixv6zW8KpW/yrRno43Q==}
+  /geotiff/2.0.4:
+    resolution: {integrity: sha512-aG8h9bJccGusioPsEWsEqx8qdXpZN71A20WCvRKGxcnHSOWLKmC5ZmsAmodfxb9TRQvs+89KikGuPzxchhA+Uw==}
     engines: {browsers: defaults, node: '>=10.19'}
     dependencies:
       '@petamoriken/float16': 3.5.11
@@ -3338,10 +3332,8 @@ packages:
       lru-cache: 6.0.0
       pako: 2.0.4
       parse-headers: 2.0.4
-      threads: 1.7.0
+      web-worker: 1.2.0
       xml-utils: 1.0.2
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /get-func-name/2.0.0:
@@ -3761,11 +3753,6 @@ packages:
     engines: {node: '>=0.12.0'}
     dev: true
 
-  /is-observable/2.1.0:
-    resolution: {integrity: sha512-DailKdLb0WU+xX8K5w7VsJhapwHLZ9jjmazqCJq4X12CTgqq73TKnbRcnSLuXYPOoLQgV5IrD7ePiX/h1vnkBw==}
-    engines: {node: '>=8'}
-    dev: false
-
   /is-plain-obj/3.0.0:
     resolution: {integrity: sha512-gwsOE28k+23GP1B6vFl1oVh/WOzmawBrKwo5Ev6wMKzPkaXaCDIQKzLnvsA42DRlbVTWorkgTKIviAKCWkfUwA==}
     engines: {node: '>=10'}
@@ -4149,6 +4136,7 @@ packages:
 
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    dev: true
 
   /ms/2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
@@ -4274,21 +4262,9 @@ packages:
       object-keys: 1.1.1
     dev: true
 
-  /observable-fns/0.6.1:
-    resolution: {integrity: sha512-9gRK4+sRWzeN6AOewNBTLXir7Zl/i3GB6Yl26gK4flxz8BXVpD3kt8amREmWNb0mxYOGDotvE5a4N+PtGGKdkg==}
-    dev: false
-
   /obuf/1.1.2:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
     dev: true
-
-  /ol-mapbox-style/6.5.3:
-    resolution: {integrity: sha512-2SNJQ/7acgACC4nnuKCm9qeMXK2LEeUQWZWRKlXNCstjRf7SDcQvSFXrNSlDLvzhtQ0Gv3QTX5L7plE2wm7Z3Q==}
-    dependencies:
-      '@mapbox/mapbox-gl-style-spec': 13.24.0
-      mapbox-to-css-font: 2.4.1
-      webfont-matcher: 1.1.0
-    dev: false
 
   /ol-mapbox-style/8.2.1:
     resolution: {integrity: sha512-3kBBuZC627vDL8vnUdfVbCbfkhkcZj2kXPHQcuLhC4JJEA+XkEVEtEde8x8+AZctRbHwBkSiubTPaRukgLxIRw==}
@@ -4297,15 +4273,21 @@ packages:
       mapbox-to-css-font: 2.4.1
     dev: false
 
-  /ol/6.9.0:
-    resolution: {integrity: sha512-VmU5HKHwO2O1uGgmBcng/dL1PouVB1jKiYUbiXPR5l1i/3B3qatexl4rapZAnsGx0vsOC7lI1GLx7jEZro8C8Q==}
+  /ol-mapbox-style/9.0.0:
+    resolution: {integrity: sha512-smixniNq2N4nTLAYf8ouIcBI4dOd1P6p3CWd/cmuP6ai85s84vOGUVbCa1jcS40oDRlOakWRP3XqtEQhEv7Wbw==}
     dependencies:
-      geotiff: 1.0.8
-      ol-mapbox-style: 6.5.3
+      '@mapbox/mapbox-gl-style-spec': 13.24.0
+      mapbox-to-css-font: 2.4.1
+    dev: false
+
+  /ol/7.0.0:
+    resolution: {integrity: sha512-7kCUKeWXopFPuEE0iuNXTasMi4wgvoM/Ri7pHW74/0lPfdWrrjrYAn2hOuIdfSIiMxdjifwQqpC9hhTFGxmH7A==}
+    dependencies:
+      earcut: 2.2.4
+      geotiff: 2.0.4
+      ol-mapbox-style: 9.0.0
       pbf: 3.2.1
       rbush: 3.0.1
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /on-finished/2.4.1:
@@ -5723,19 +5705,6 @@ packages:
       qs: 6.10.3
     dev: true
 
-  /threads/1.7.0:
-    resolution: {integrity: sha512-Mx5NBSHX3sQYR6iI9VYbgHKBLisyB+xROCBGjjWm1O9wb9vfLxdaGtmT/KCjUqMsSNW6nERzCW3T6H43LqjDZQ==}
-    dependencies:
-      callsites: 3.1.0
-      debug: 4.3.4
-      is-observable: 2.1.0
-      observable-fns: 0.6.1
-    optionalDependencies:
-      tiny-worker: 2.3.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /through/2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
     dev: true
@@ -5743,14 +5712,6 @@ packages:
   /thunky/1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
     dev: true
-
-  /tiny-worker/2.3.0:
-    resolution: {integrity: sha512-pJ70wq5EAqTAEl9IkGzA+fN0836rycEuz2Cn6yeZ6FRzlVS5IDOkFHpIoEsksPRQV34GDqXm65+OlnZqUSyK2g==}
-    requiresBuild: true
-    dependencies:
-      esm: 3.2.25
-    dev: false
-    optional: true
 
   /tinypool/0.2.4:
     resolution: {integrity: sha512-Vs3rhkUH6Qq1t5bqtb816oT+HeJTXfwt2cbPH17sWHIYKTotQIFPk3tf2fgqRrVyMDVOc1EnPgzIxfIulXVzwQ==}
@@ -5996,8 +5957,8 @@ packages:
       minimalistic-assert: 1.0.1
     dev: true
 
-  /webfont-matcher/1.1.0:
-    resolution: {integrity: sha1-mM6VCXsp4x++czBT4Q5XFkLRxsc=}
+  /web-worker/1.2.0:
+    resolution: {integrity: sha512-PgF341avzqyx60neE9DD+XS26MMNMoUQRz9NOZwW32nPQrF6p77f1htcnjBSEV8BGMKZ16choqUG4hyI0Hx7mA==}
     dev: false
 
   /webidl-conversions/3.0.1:
