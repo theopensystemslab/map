@@ -66,11 +66,11 @@ describe("Snap points loading behaviour", () => {
       drawMode 
       osVectorTileApiKey=${process.env.VITE_APP_OS_VECTOR_TILES_API_KEY}
     />`);
-    const pointLayer = window.olMap
+    const pointsLayer = window.olMap
       ?.getAllLayers()
-      .find((layer) => layer.get("name") === "pointLayer");
-    expect(pointLayer).toBeDefined();
-    const source = pointLayer?.getSource() as VectorSource;
+      .find((layer) => layer.get("name") === "pointsLayer");
+    expect(pointsLayer).toBeDefined();
+    const source = pointsLayer?.getSource() as VectorSource;
     expect(source.getFeatures()?.length).toEqual(0);
     expect(getSnapSpy).not.toHaveBeenCalled();
   });
@@ -105,10 +105,10 @@ describe("Snap points loading behaviour", () => {
       drawMode 
       osVectorTileApiKey=${process.env.VITE_APP_OS_VECTOR_TILES_API_KEY}
     />`);
-    const pointLayer = window.olMap
+    const pointsLayer = window.olMap
       ?.getAllLayers()
-      .find((layer) => layer.get("name") === "pointLayer");
-    const source = pointLayer?.getSource() as VectorSource;
+      .find((layer) => layer.get("name") === "pointsLayer");
+    const source = pointsLayer?.getSource() as VectorSource;
     const mockSnapPoint = new Feature(new Point([1, 1]));
     source?.addFeature(mockSnapPoint);
     expect(source.getFeatures()?.length).toEqual(1);

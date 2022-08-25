@@ -15,7 +15,7 @@ export const pointsSource = new VectorSource({
 export const pointsLayer = new VectorLayer({
   source: pointsSource,
   properties: {
-    name: "pointLayer",
+    name: "pointsLayer",
   },
   style: new Style({
     image: new CircleStyle({
