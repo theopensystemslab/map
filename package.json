@@ -34,8 +34,7 @@
     "ol-mapbox-style": "^9.0.0",
     "postcode": "^5.1.0",
     "proj4": "^2.8.0",
-    "rambda": "^7.0.1",
-    "wait-for-expect": "^3.0.2"
+    "rambda": "^7.0.1"
   },
   "devDependencies": {
     "@glorious/pitsby": "^1.30.16",
@@ -52,7 +51,8 @@
     "sass": "^1.44.0",
     "typescript": "^4.3.5",
     "vite": "^3.0.4",
-    "vitest": "0.20.3"
+    "vitest": "0.20.3",
+    "wait-for-expect": "^3.0.2"
   },
   "engines": {
     "node": "^16",

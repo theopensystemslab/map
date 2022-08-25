@@ -37,7 +37,6 @@ dependencies:
   postcode: 5.1.0
   proj4: 2.8.0
   rambda: 7.0.3
-  wait-for-expect: 3.0.2
 
 devDependencies:
   '@glorious/pitsby': 1.30.16_angular@1.8.3
@@ -55,6 +54,7 @@ devDependencies:
   typescript: 4.3.5
   vite: 3.0.4_sass@1.44.0+stylus@0.58.1
   vitest: 0.20.3_w2npxtxmzs4b3q3jlg4zl7d3g4
+  wait-for-expect: 3.0.2
 
 packages:
 
@@ -5940,7 +5940,7 @@ packages:
 
   /wait-for-expect/3.0.2:
     resolution: {integrity: sha512-cfS1+DZxuav1aBYbaO/kE06EOS8yRw7qOFoD3XtjTkYvCvh3zUvNST8DXK/nPaeqIzIv3P3kL3lRJn8iwOiSag==}
-    dev: false
+    dev: true
 
   /watchpack/2.4.0:
     resolution: {integrity: sha512-Lcvm7MGST/4fup+ifyKi2hjyIAwcdI4HRgtvTpIUxBRhB+RFtUh8XtDOxUfctVCnhVi+QQj49i91OyvzkJl6cg==}
