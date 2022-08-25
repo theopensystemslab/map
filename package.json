@@ -34,7 +34,8 @@
     "ol-mapbox-style": "^9.0.0",
     "postcode": "^5.1.0",
     "proj4": "^2.8.0",
-    "rambda": "^7.0.1"
+    "rambda": "^7.0.1",
+    "wait-for-expect": "^3.0.2"
   },
   "devDependencies": {
     "@glorious/pitsby": "^1.30.16",
