@@ -26,3 +26,4 @@ jobs:
       - run: pnpm test
         env:
           VITE_APP_OS_PLACES_API_KEY: ${{ secrets.OS_API_KEY }}
+          VITE_APP_OS_VECTOR_TILES_API_KEY: ${{ secrets.OS_API_KEY }}

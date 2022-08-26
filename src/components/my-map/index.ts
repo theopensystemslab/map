@@ -222,6 +222,9 @@ export class MyMap extends LitElement {
 
     this.map = map;
 
+    // Append to global window for reference in tests
+    window.olMap = import.meta.env.VITEST ? this.map : undefined;
+
     // make configurable interactions available
     const draw = configureDraw(this.drawPointer);
     const modify = configureModify(this.drawPointer);
@@ -396,26 +399,24 @@ export class MyMap extends LitElement {
       drawingLayer.setZIndex(1001);
 
       // extract snap-able points from the basemap, and display them as points on the map if initial render within zoom
-      if (this.zoom < snapsZoom) {
+      const addSnapPoints = (): void => {
         pointsSource.clear();
-        const extent = map.getView().calculateExtent(map.getSize());
-        getSnapPointsFromVectorTiles(osVectorTileBaseMap, extent);
-      }
-
-      // continue to fetch & update snaps as map moves
-      map.on("moveend", () => {
         const currentZoom: number | undefined = map.getView().getZoom();
-        if (currentZoom && currentZoom < snapsZoom) {
-          pointsSource.clear();
-          return;
-        }
-
-        // timeout minimizes snap updates mid-pan/drag
-        setTimeout(() => {
-          pointsSource.clear();
+        if (currentZoom && currentZoom >= snapsZoom) {
           const extent = map.getView().calculateExtent(map.getSize());
           getSnapPointsFromVectorTiles(osVectorTileBaseMap, extent);
-        }, 200);
+        }
+      };
+
+      // Wait for all vector tiles to finish loading before extracting points from them
+      map.on("loadend", addSnapPoints);
+
+      // Update snap points when appropriate
+      // Timeout minimizes updates mid-pan/drag
+      map.on("moveend", () => {
+        const isSourceLoaded =
+          osVectorTileBaseMap.getSource()?.getState() === "ready";
+        if (isSourceLoaded) setTimeout(addSnapPoints, 200);
       });
     }
 
@@ -535,6 +536,9 @@ export class MyMap extends LitElement {
 }
 
 declare global {
+  interface Window {
+    olMap: Map | undefined;
+  }
   interface HTMLElementTagNameMap {
     "my-map": MyMap;
   }
