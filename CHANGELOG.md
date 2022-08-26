@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.5.9] - 2022-08-26
+
+### Changed
+- fix: Ensure snap points load on the map's `loadend` event ([#193](https://github.com/theopensystemslab/map/pull/193))
+- test: Added basic suite of OL tests for snap loading, exposing an `olMap` instance on the global window for testing
+
 ### [0.5.8] - 2022-08-19
 
 ### Added
