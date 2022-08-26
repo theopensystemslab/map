@@ -22,7 +22,7 @@ const setupMap = async (mapElement: any) => {
 
 test("olMap is added to the global window for tests", async () => {
   await setupMap(`<my-map id="map-vitest" disableVectorTiles />`);
-  expect(window.olMap).not.toBeUndefined();
+  expect(window.olMap).toBeTruthy();
   expect(window.olMap).toBeInstanceOf(Map);
 });
 
@@ -82,7 +82,7 @@ describe("Snap points loading behaviour", () => {
       drawMode 
       osVectorTileApiKey=${process.env.VITE_APP_OS_VECTOR_TILES_API_KEY}
     />`);
-    expect(getSnapSpy).toHaveBeenCalled();
+    expect(getSnapSpy).toHaveBeenCalledOnce();
   });
 
   it("should load snap points on zoom into correct range", async () => {
@@ -94,7 +94,7 @@ describe("Snap points loading behaviour", () => {
     />`);
     window.olMap?.getView().setZoom(ZOOM_WITHIN_RANGE);
     window.olMap?.dispatchEvent("loadend");
-    expect(getSnapSpy).toHaveBeenCalled();
+    expect(getSnapSpy).toHaveBeenCalledOnce();
   });
 
   it("should clear snap points on zoom out of range", async () => {
