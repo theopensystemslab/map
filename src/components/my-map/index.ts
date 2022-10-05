@@ -28,7 +28,7 @@ import {
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { proj27700, ProjectionEnum } from "./projections";
-import { scaleControl } from "./scale-line";
+import { scaleControl, northArrowControl } from "./controls";
 import {
   getSnapPointsFromVectorTiles,
   pointsLayer,
@@ -36,7 +36,7 @@ import {
 } from "./snapping";
 import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
 import styles from "./styles.scss";
-import pinUrl from "./pin.svg";
+import pinIcon from "./icons/poi-alt.svg";
 
 type MarkerImageEnum = "circle" | "pin";
 
@@ -103,6 +103,9 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   showMarker = false;
 
+  @property({ type: String })
+  markerImage: MarkerImageEnum = "circle";
+
   @property({ type: Number })
   markerLatitude = this.latitude;
 
@@ -154,8 +157,8 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   useScaleBarStyle = false;
 
-  @property({ type: String })
-  markerImage: MarkerImageEnum = "circle";
+  @property({ type: Boolean })
+  showNorthArrow = false;
 
   // set class property (map doesn't require any reactivity using @state)
   map?: Map;
@@ -212,7 +215,7 @@ export class MyMap extends LitElement {
       controls: defaultControls({
         attribution: true,
         zoom: !this.staticMode,
-      }).extend(this.showScale ? [scaleControl(this.useScaleBarStyle)] : []),
+      }),
       interactions: defaultInteractions({
         doubleClickZoom: !this.staticMode,
         dragPan: !this.staticMode,
@@ -228,6 +231,15 @@ export class MyMap extends LitElement {
     // make configurable interactions available
     const draw = configureDraw(this.drawPointer);
     const modify = configureModify(this.drawPointer);
+
+    // add custom scale line and north arrow controls to the map
+    if (this.showScale) {
+      map.addControl(scaleControl(this.useScaleBarStyle));
+    }
+
+    if (this.showNorthArrow) {
+      map.addControl(northArrowControl());
+    }
 
     // add a custom 'reset' control below zoom
     const button = document.createElement("button");
@@ -266,7 +278,7 @@ export class MyMap extends LitElement {
     element.className = "reset-control ol-unselectable ol-control";
     element.appendChild(button);
 
-    var ResetControl = new Control({ element: element });
+    const ResetControl = new Control({ element: element });
 
     if (!this.hideResetControl) {
       map.addControl(ResetControl);
@@ -471,7 +483,7 @@ export class MyMap extends LitElement {
       fill: new Fill({ color: this.markerColor }),
     });
 
-    const markerPin = new Icon({ src: pinUrl });
+    const markerPin = new Icon({ src: pinIcon, scale: 0.5 });
 
     const markerImage = () => {
       switch (this.markerImage) {

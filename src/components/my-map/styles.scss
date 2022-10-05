@@ -30,6 +30,16 @@
   top: 114px;
   left: 0.5em;
 }
+.north-arrow-control img {
+  width: 44px;
+  height: auto;
+}
+.north-arrow-control {
+  top: 0.5em;
+  right: 0.5em;
+  border-radius: 0 !important;
+  background-color: none !important;
+}
 #area {
   position: absolute;
   bottom: 0;
