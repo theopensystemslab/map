@@ -215,6 +215,7 @@ export class MyMap extends LitElement {
       controls: defaultControls({
         attribution: true,
         zoom: !this.staticMode,
+        rotate: false, // alternatively uses custom prop `showNorthArrow`
       }),
       interactions: defaultInteractions({
         doubleClickZoom: !this.staticMode,
