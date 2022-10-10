@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.6.0] - 2022-10-10
+
+### Added
+- feat: `showNorthArrow` boolean prop will show a static North arrow icon in the upper right of the map for official reference ([#198]https://github.com/theopensystemslab/map/pull/198)
+
 ### [0.5.9] - 2022-08-26
 
 ### Changed
