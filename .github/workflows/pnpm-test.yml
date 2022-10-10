@@ -23,7 +23,7 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: "**/pnpm-lock.yaml"
       - run: pnpm install --no-frozen-lockfile
-      - run: pnpm run test:ci -- --coverage --watch false
+      - run: pnpm run test:ci
         env:
           VITE_APP_OS_PLACES_API_KEY: ${{ secrets.OS_API_KEY }}
           VITE_APP_OS_VECTOR_TILES_API_KEY: ${{ secrets.OS_API_KEY }}
