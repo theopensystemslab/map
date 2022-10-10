@@ -21,7 +21,7 @@
     "prepublishOnly": "npm run build",
     "prepare": "husky install",
     "test": "vitest",
-    "test:ci": "NODE_ENV=ci vitest --run --coverage",
+    "test:ci": "NODE_ENV=ci vitest --run --coverage --threads=false",
     "test:ui": "vitest --ui",
     "docs": "NODE_ENV=development pitsby build --watch --port=7007",
     "docsPublish": "pitsby build"
