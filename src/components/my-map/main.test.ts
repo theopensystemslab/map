@@ -29,7 +29,7 @@ test("olMap is added to the global window for tests", async () => {
 describe("MyMap on initial render with OSM basemap", async () => {
   beforeEach(
     () => setupMap('<my-map id="map-vitest" disableVectorTiles />'),
-    2500
+    3000
   );
 
   it("should render a custom element with a shadow root", () => {
