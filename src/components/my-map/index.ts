@@ -1,18 +1,19 @@
 import { html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Control, defaults as defaultControls } from "ol/control";
-import { Point } from "ol/geom";
+import { defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
+import { Point } from "ol/geom";
 import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import Map from "ol/Map";
 import { ProjectionLike, transform, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
-import { Circle, Fill, Stroke, Style, Icon } from "ol/style";
+import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
 
+import { northArrowControl, scaleControl, resetControl } from "./controls";
 import {
   configureDraw,
   configureModify,
@@ -21,6 +22,7 @@ import {
   DrawPointerEnum,
   snap,
 } from "./drawing";
+import pinIcon from "./icons/poi-alt.svg";
 import {
   getFeaturesAtPoint,
   makeFeatureLayer,
@@ -28,17 +30,16 @@ import {
 } from "./os-features";
 import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { proj27700, ProjectionEnum } from "./projections";
-import { scaleControl, northArrowControl } from "./controls";
 import {
   getSnapPointsFromVectorTiles,
   pointsLayer,
   pointsSource,
 } from "./snapping";
-import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
 import styles from "./styles.scss";
-import pinIcon from "./icons/poi-alt.svg";
+import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
 
 type MarkerImageEnum = "circle" | "pin";
+type ResetControlImageEnum = "unicode" | "reset" | "trash" | "erase";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
@@ -145,6 +146,9 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   hideResetControl = false;
 
+  @property({ type: String })
+  resetControlImage: ResetControlImageEnum = "unicode";
+
   @property({ type: Boolean })
   staticMode = false;
 
@@ -242,11 +246,7 @@ export class MyMap extends LitElement {
       map.addControl(northArrowControl());
     }
 
-    // add a custom 'reset' control below zoom
-    const button = document.createElement("button");
-    button.innerHTML = "↻";
-    button.title = "Reset map view";
-
+    // add a custom 'reset' control to the map
     const handleReset = () => {
       if (this.showFeaturesAtPoint) {
         fitToData(map, outlineSource, this.featureBuffer);
@@ -271,18 +271,8 @@ export class MyMap extends LitElement {
       }
     };
 
-    // this is an internal event listener, so doesn't need to be removed later
-    // ref https://lit.dev/docs/components/lifecycle/#disconnectedcallback
-    button.addEventListener("click", handleReset, false);
-
-    const element = document.createElement("div");
-    element.className = "reset-control ol-unselectable ol-control";
-    element.appendChild(button);
-
-    const ResetControl = new Control({ element: element });
-
     if (!this.hideResetControl) {
-      map.addControl(ResetControl);
+      map.addControl(resetControl(handleReset, this.resetControlImage));
     }
 
     // Apply aria-labels to OL Controls for accessibility
