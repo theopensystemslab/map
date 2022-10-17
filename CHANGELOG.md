@@ -12,7 +12,7 @@ incremented for features.
 ### [0.6.1] - 2022-10-17
 
 ### Added
-- feat: `resetControlImage` prop can be used to specify a custom icon for the reset control button. This is likely a temporary prop while user research testing is conducted, then we will refactor to use a single standard icon
+- feat: `resetControlImage` prop can be used to specify a custom icon for the reset control button. This is likely a temporary prop while user research testing is conducted, then we will refactor to use a single standard icon ([#209](https://github.com/theopensystemslab/map/pull/209))
 
 ### [0.6.0] - 2022-10-10
 
