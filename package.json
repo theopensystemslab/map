@@ -42,7 +42,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/node": "^18.6.3",
     "@types/proj4": "^2.5.2",
-    "@vitest/ui": "^0.23.2",
+    "@vitest/ui": "^0.25.4",
     "happy-dom": "^6.0.4",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
