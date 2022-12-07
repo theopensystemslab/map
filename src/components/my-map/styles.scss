@@ -26,6 +26,16 @@
 .ol-control button:hover {
   background-color: rgba(44, 44, 44, 0.85) !important;
 }
+.ol-scale-line {
+  background-color: transparent;
+}
+.ol-scale-line-inner {
+  border: 0.2em solid #2c2c2c;
+  border-top: none;
+  color: #2c2c2c;
+  font-size: 1em;
+  font-family: inherit;
+}
 .reset-control {
   top: 114px;
   left: 0.5em;
