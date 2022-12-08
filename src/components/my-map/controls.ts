@@ -1,8 +1,6 @@
 import { Control, ScaleLine } from "ol/control";
 import "ol/ol.css";
-import eraseIcon from "./icons/erase.svg";
 import northArrowIcon from "./icons/north-arrow-n.svg";
-import resetIcon from "./icons/reset.svg";
 import trashCanIcon from "./icons/trash-can.svg";
 
 export function scaleControl(useScaleBarStyle: boolean) {
@@ -34,14 +32,9 @@ export function resetControl(listener: any, icon: string) {
   if (icon === "unicode") {
     button.innerHTML = "↻";
   } else {
-    const propToSVGLookup: any = {
-      reset: resetIcon,
-      trash: trashCanIcon,
-      erase: eraseIcon,
-    };
     const image = document.createElement("img");
     image.className = "reset-icon";
-    image.src = propToSVGLookup[icon];
+    image.src = trashCanIcon;
     button.appendChild(image);
   }
 
