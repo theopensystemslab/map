@@ -16,10 +16,11 @@ import { last } from "rambda";
 import { northArrowControl, scaleControl, resetControl } from "./controls";
 import {
   configureDraw,
+  configureDrawingLayer,
   configureModify,
-  drawingLayer,
   drawingSource,
   DrawPointerEnum,
+  DrawTypeEnum,
   snap,
 } from "./drawing";
 import pinIcon from "./icons/poi-alt.svg";
@@ -71,6 +72,12 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   drawMode = false;
 
+  @property({ type: String })
+  drawType: DrawTypeEnum = "Polygon";
+
+  @property({ type: String })
+  drawPointColor = "#2c2c2c";
+
   @property({ type: Object })
   drawGeojsonData = {
     type: "Feature",
@@ -114,7 +121,7 @@ export class MyMap extends LitElement {
   markerLongitude = this.longitude;
 
   @property({ type: String })
-  markerColor = "#000000";
+  markerColor = "#2c2c2c";
 
   @property({ type: Object })
   geojsonData = {
@@ -234,7 +241,11 @@ export class MyMap extends LitElement {
     window.olMap = import.meta.env.VITEST ? this.map : undefined;
 
     // make configurable interactions available
-    const draw = configureDraw(this.drawPointer);
+    const draw = configureDraw(
+      this.drawType,
+      this.drawPointer,
+      this.drawPointColor
+    );
     const modify = configureModify(this.drawPointer);
 
     // add custom scale line and north arrow controls to the map
@@ -261,10 +272,13 @@ export class MyMap extends LitElement {
         drawingSource.clear();
 
         this.dispatch("geojsonChange", {});
-        this.dispatch(
-          "areaChange",
-          `0 ${this.areaUnit === "m2" ? "m²" : this.areaUnit}`
-        );
+
+        if (this.drawType === "Polygon") {
+          this.dispatch(
+            "areaChange",
+            `0 ${this.areaUnit === "m2" ? "m²" : this.areaUnit}`
+          );
+        }
 
         map.addInteraction(draw);
         map.addInteraction(snap);
@@ -335,6 +349,10 @@ export class MyMap extends LitElement {
     }
 
     // draw interactions
+    const drawingLayer = configureDrawingLayer(
+      this.drawType,
+      this.drawPointColor
+    );
     if (this.drawMode) {
       // make sure drawingSource is cleared upfront, even if drawGeojsonData is provided
       drawingSource.clear();
@@ -375,22 +393,23 @@ export class MyMap extends LitElement {
             })
           );
 
-          if (lastSketchGeom) {
+          if (lastSketchGeom && this.drawType === "Polygon") {
             this.dispatch(
               "areaChange",
               formatArea(lastSketchGeom, this.areaUnit)
             );
           }
 
-          // limit to drawing a single polygon, only allow modifications to existing shape
+          // limit to drawing a single feature, only allow modifications to existing shape
           map.removeInteraction(draw);
         }
       });
     }
 
-    // show snapping points when in drawMode, with vector tile basemap enabled, and at qualifying zoom
+    // show snapping points when in boundary drawMode, with vector tile basemap enabled, and at qualifying zoom
     if (
       this.drawMode &&
+      this.drawType === "Polygon" &&
       Boolean(this.osVectorTilesApiKey) &&
       !this.disableVectorTiles
     ) {
