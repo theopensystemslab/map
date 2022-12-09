@@ -39,7 +39,7 @@ import styles from "./styles.scss";
 import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
 
 type MarkerImageEnum = "circle" | "pin";
-type ResetControlImageEnum = "unicode" | "reset" | "trash" | "erase";
+type ResetControlImageEnum = "unicode" | "trash";
 
 @customElement("my-map")
 export class MyMap extends LitElement {
