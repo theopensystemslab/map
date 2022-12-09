@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.6.2] - 2022-12-09
+
+### Added 
+- feat: add `drawingType` prop to specify "Polygon" (default) or "Point" to enable drawing a single point ([#232](https://github.com/theopensystemslab/map/pull/232))
+
+### Changed
+- chore: update styling of default scale line ([#230](https://github.com/theopensystemslab/map/pull/230))
+- chore: swap out north arrow icon and remove unused `resetControlImage` icons ([#233](https://github.com/theopensystemslab/map/pull/233))
+- build: update vite and vitest-related dependencies
+
 ### [0.6.1] - 2022-10-17
 
 ### Added
