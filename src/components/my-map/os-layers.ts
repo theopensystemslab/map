@@ -69,7 +69,6 @@ export function getProxyServiceURL(
   return serviceURLLookup[service];
 }
 
-// Assumption: If you provide an API key this takes precedent over a proxy?
 export function getServiceURL({
   service,
   apiKey,
@@ -79,8 +78,8 @@ export function getServiceURL({
   apiKey?: string;
   proxyEndpoint?: string;
 }): string | undefined {
-  if (apiKey) return getOSServiceURL(service, apiKey);
   if (proxyEndpoint) return getProxyServiceURL(service, proxyEndpoint);
+  if (apiKey) return getOSServiceURL(service, apiKey);
   return;
 }
 
@@ -91,6 +90,9 @@ export function makeRasterBaseMap(apiKey: string, proxyEndpoint: string) {
     proxyEndpoint,
   });
   return new TileLayer({
+    properties: {
+      name: "rasterBaseMap",
+    },
     source: tileServiceURL
       ? new XYZ({
           url: tileServiceURL,
@@ -113,6 +115,9 @@ export function makeOsVectorTileBaseMap(apiKey: string, proxyEndpoint: string) {
   });
   const osVectorTileLayer = new VectorTileLayer({
     declutter: true,
+    properties: {
+      name: "vectorBaseMap",
+    },
     source: new VectorTileSource({
       format: new MVT(),
       url: vectorTileServiceUrl,
