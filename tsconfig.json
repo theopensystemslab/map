@@ -17,7 +17,8 @@
     "rootDir": "./src",
     "skipLibCheck": true,
     "strict": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "useDefineForClassFields": false
   },
   "include": ["src/**/*.ts", "types/*.d.ts"],
   "exclude": ["src/components/*.doc.js", "src/components/docs/*.doc.js"]
