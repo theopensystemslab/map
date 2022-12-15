@@ -1,5 +1,4 @@
 import "./index";
-import { constructURL, getServiceURL } from "./os-layers";
 import { setupMap } from "../../test-utils";
 
 import VectorTileSource from "ol/source/VectorTile";

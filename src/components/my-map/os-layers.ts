@@ -38,6 +38,7 @@ export function makeOsVectorTileBaseMap(apiKey: string, proxyEndpoint: string) {
     service: "vectorTile",
     apiKey,
     proxyEndpoint,
+    params: { srs: "3857" },
   });
   const osVectorTileLayer = new VectorTileLayer({
     declutter: true,
@@ -56,6 +57,7 @@ export function makeOsVectorTileBaseMap(apiKey: string, proxyEndpoint: string) {
     service: "vectorTileStyle",
     apiKey,
     proxyEndpoint,
+    params: { srs: "3857" },
   });
   if (vectorTileStyleUrl) {
     // ref https://github.com/openlayers/ol-mapbox-style#usage-example

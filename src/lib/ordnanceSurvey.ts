@@ -1,6 +1,12 @@
 const OS_DOMAIN = "https://api.os.uk";
 type OSServices = "xyz" | "vectorTile" | "vectorTileStyle" | "places";
 type ServiceLookup = Record<OSServices, string>;
+interface ServiceOptions {
+  service: OSServices;
+  apiKey: string;
+  proxyEndpoint: string;
+  params?: Record<string, string>;
+}
 
 // Ordnance Survey sources
 const tileServicePath = "/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png";
@@ -20,20 +26,18 @@ export function constructURL(
   return openLayersURL;
 }
 
-export function getOSServiceURL(
-  service: OSServices,
-  apiKey: string,
-  params?: Record<string, string>
-): string {
+export function getOSServiceURL({
+  service,
+  apiKey,
+  params,
+}: Omit<ServiceOptions, "proxyEndpoint">): string {
   const serviceURLLookup: ServiceLookup = {
     xyz: constructURL(OS_DOMAIN, tileServicePath, { ...params, key: apiKey }),
     vectorTile: constructURL(OS_DOMAIN, vectorTileServicePath, {
-      srs: "3857",
       ...params,
       key: apiKey,
     }),
     vectorTileStyle: constructURL(OS_DOMAIN, vectorTileStylePath, {
-      srs: "3857",
       ...params,
       key: apiKey,
     }),
@@ -44,11 +48,11 @@ export function getOSServiceURL(
 
 // OS API key must be appended to requests by the proxy endpoint
 // Please see docs: TODO!
-export function getProxyServiceURL(
-  service: OSServices,
-  proxyEndpoint: string,
-  params?: Record<string, string>
-): string {
+export function getProxyServiceURL({
+  service,
+  proxyEndpoint,
+  params,
+}: Omit<ServiceOptions, "apiKey">): string {
   let { origin: proxyOrigin, pathname: proxyPathname } = new URL(proxyEndpoint);
   // Remove trailing slash on pathname if present
   proxyPathname = proxyPathname.replace(/\/$/, "");
@@ -58,12 +62,12 @@ export function getProxyServiceURL(
     vectorTile: constructURL(
       proxyOrigin,
       proxyPathname + vectorTileServicePath,
-      { srs: "3857", ...params }
+      params
     ),
     vectorTileStyle: constructURL(
       proxyOrigin,
       proxyPathname + vectorTileStylePath,
-      { srs: "3857", ...params }
+      params
     ),
     places: constructURL(proxyOrigin, proxyPathname + placesPath, params),
   };
@@ -75,13 +79,9 @@ export function getServiceURL({
   apiKey,
   proxyEndpoint,
   params,
-}: {
-  service: OSServices;
-  apiKey?: string;
-  proxyEndpoint?: string;
-  params?: Record<string, string>;
-}): string | undefined {
-  if (proxyEndpoint) return getProxyServiceURL(service, proxyEndpoint, params);
-  if (apiKey) return getOSServiceURL(service, apiKey, params);
+}: ServiceOptions): string | undefined {
+  if (proxyEndpoint)
+    return getProxyServiceURL({ service, proxyEndpoint, params });
+  if (apiKey) return getOSServiceURL({ service, apiKey, params });
   return;
 }

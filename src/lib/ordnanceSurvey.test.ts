@@ -26,6 +26,8 @@ describe("getServiceURL helper function", () => {
     const result = getServiceURL({
       service: "vectorTile",
       apiKey: "my-api-key",
+      proxyEndpoint: "",
+      params: { srs: "3857" },
     });
 
     expect(result).toBeDefined();
@@ -42,6 +44,8 @@ describe("getServiceURL helper function", () => {
     const result = getServiceURL({
       service: "vectorTileStyle",
       proxyEndpoint: "https://www.my-site.com/api/proxy/os",
+      apiKey: "",
+      params: { srs: "3857" },
     });
 
     expect(result).toBeDefined();
@@ -57,6 +61,7 @@ describe("getServiceURL helper function", () => {
     const result = getServiceURL({
       service: "xyz",
       proxyEndpoint: "https://www.my-site.com/api/proxy/os/",
+      apiKey: "",
     });
 
     expect(result).toBeDefined();
@@ -68,7 +73,11 @@ describe("getServiceURL helper function", () => {
   });
 
   it("returns undefined without an API key or proxy endpoint", () => {
-    const result = getServiceURL({ service: "xyz" });
+    const result = getServiceURL({
+      service: "xyz",
+      apiKey: "",
+      proxyEndpoint: "",
+    });
     expect(result).toBeUndefined();
   });
 });
