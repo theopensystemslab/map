@@ -119,8 +119,6 @@ export class AddressAutocomplete extends LitElement {
       params,
     });
 
-    if (!url) throw Error("Unable to fetch from OS Places API");
-
     await fetch(url)
       .then((resp) => resp.json())
       .then((data) => {

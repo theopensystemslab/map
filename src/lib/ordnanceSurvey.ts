@@ -1,5 +1,10 @@
 const OS_DOMAIN = "https://api.os.uk";
-type OSServices = "xyz" | "vectorTile" | "vectorTileStyle" | "places";
+type OSServices =
+  | "xyz"
+  | "vectorTile"
+  | "vectorTileStyle"
+  | "places"
+  | "features";
 type ServiceLookup = Record<OSServices, string>;
 interface ServiceOptions {
   service: OSServices;
@@ -13,6 +18,7 @@ const tileServicePath = "/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png";
 const vectorTileServicePath = "/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf";
 const vectorTileStylePath = "/maps/vector/v1/vts/resources/styles";
 const placesPath = "/search/places/v1/postcode";
+const featuresPath = "/features/v1/wfs";
 
 export function constructURL(
   domain: string,
@@ -42,6 +48,7 @@ export function getOSServiceURL({
       key: apiKey,
     }),
     places: constructURL(OS_DOMAIN, placesPath, { ...params, key: apiKey }),
+    features: constructURL(OS_DOMAIN, featuresPath, { ...params, key: apiKey }),
   };
   return serviceURLLookup[service];
 }
@@ -70,18 +77,24 @@ export function getProxyServiceURL({
       params
     ),
     places: constructURL(proxyOrigin, proxyPathname + placesPath, params),
+    features: constructURL(proxyOrigin, proxyPathname + featuresPath, params),
   };
   return serviceURLLookup[service];
 }
 
+/**
+ * Get either an OS service URL, or a proxied endpoint to an OS service URL
+ */
 export function getServiceURL({
   service,
   apiKey,
   proxyEndpoint,
   params,
-}: ServiceOptions): string | undefined {
+}: ServiceOptions): string {
   if (proxyEndpoint)
     return getProxyServiceURL({ service, proxyEndpoint, params });
   if (apiKey) return getOSServiceURL({ service, apiKey, params });
-  return;
+  throw Error(
+    `Unable to generate URL for OS ${service} API. Either an API key or proxy endpoint must be`
+  );
 }

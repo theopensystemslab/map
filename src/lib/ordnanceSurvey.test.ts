@@ -72,12 +72,13 @@ describe("getServiceURL helper function", () => {
     );
   });
 
-  it("returns undefined without an API key or proxy endpoint", () => {
-    const result = getServiceURL({
-      service: "xyz",
-      apiKey: "",
-      proxyEndpoint: "",
-    });
-    expect(result).toBeUndefined();
+  it("throws error without an API key or proxy endpoint", () => {
+    expect(() =>
+      getServiceURL({
+        service: "xyz",
+        apiKey: "",
+        proxyEndpoint: "",
+      })
+    ).toThrowError();
   });
 });

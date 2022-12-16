@@ -184,9 +184,6 @@ export class MyMap extends LitElement {
   firstUpdated() {
     const target = this.renderRoot.querySelector(`#${this.id}`) as HTMLElement;
 
-    const useVectorTiles =
-      !this.disableVectorTiles && Boolean(this.osVectorTilesApiKey);
-
     const rasterBaseMap = makeRasterBaseMap(
       this.osVectorTilesApiKey,
       this.osProxyEndpoint
@@ -195,6 +192,9 @@ export class MyMap extends LitElement {
       this.osVectorTilesApiKey,
       this.osProxyEndpoint
     );
+
+    const useVectorTiles =
+      !this.disableVectorTiles && Boolean(osVectorTileBaseMap);
 
     // @ts-ignore
     const projection: ProjectionLike =
@@ -209,7 +209,7 @@ export class MyMap extends LitElement {
 
     const map = new Map({
       target,
-      layers: [useVectorTiles ? osVectorTileBaseMap : rasterBaseMap],
+      layers: [useVectorTiles ? osVectorTileBaseMap! : rasterBaseMap],
       view: new View({
         projection: "EPSG:3857",
         extent: transformExtent(
@@ -411,8 +411,8 @@ export class MyMap extends LitElement {
     if (
       this.drawMode &&
       this.drawType === "Polygon" &&
-      Boolean(this.osVectorTilesApiKey) &&
-      !this.disableVectorTiles
+      useVectorTiles &&
+      osVectorTileBaseMap
     ) {
       // define zoom threshold for showing snaps (not @property yet because computationally expensive!)
       const snapsZoom: number = 20;
@@ -444,12 +444,25 @@ export class MyMap extends LitElement {
     }
 
     // OS Features API & click-to-select interactions
-    if (this.showFeaturesAtPoint && Boolean(this.osFeaturesApiKey)) {
-      getFeaturesAtPoint(centerCoordinate, this.osFeaturesApiKey, false);
+    const isUsingOSFeaturesAPI =
+      this.showFeaturesAtPoint &&
+      Boolean(this.osFeaturesApiKey || this.osProxyEndpoint);
+    if (isUsingOSFeaturesAPI) {
+      getFeaturesAtPoint(
+        centerCoordinate,
+        this.osFeaturesApiKey,
+        this.osProxyEndpoint,
+        false
+      );
 
       if (this.clickFeatures) {
         map.on("singleclick", (e) => {
-          getFeaturesAtPoint(e.coordinate, this.osFeaturesApiKey, true);
+          getFeaturesAtPoint(
+            e.coordinate,
+            this.osFeaturesApiKey,
+            this.osProxyEndpoint,
+            true
+          );
         });
       }
 
