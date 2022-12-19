@@ -147,7 +147,9 @@ export class MyMap extends LitElement {
   @property({ type: String })
   osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY || "";
 
-  // TODO: Docs
+  @property({ type: String })
+  osCopyright = `© Crown copyright and database rights ${new Date().getFullYear()} OS (0)100024857`;
+
   @property({ type: String })
   osProxyEndpoint = "";
 
@@ -186,11 +188,13 @@ export class MyMap extends LitElement {
 
     const rasterBaseMap = makeRasterBaseMap(
       this.osVectorTilesApiKey,
-      this.osProxyEndpoint
+      this.osProxyEndpoint,
+      this.osCopyright
     );
     const osVectorTileBaseMap = makeOsVectorTileBaseMap(
       this.osVectorTilesApiKey,
-      this.osProxyEndpoint
+      this.osProxyEndpoint,
+      this.osCopyright
     );
 
     const useVectorTiles =

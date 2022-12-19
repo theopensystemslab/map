@@ -7,16 +7,15 @@ import { ATTRIBUTION } from "ol/source/OSM";
 import VectorTileSource from "ol/source/VectorTile";
 import { getServiceURL } from "../../lib/ordnanceSurvey";
 
-const OS_COPYRIGHT = `© Crown copyright and database rights ${new Date().getFullYear()} OS (0)100024857`;
-
 export function makeRasterBaseMap(
   apiKey: string,
-  proxyEndpoint: string
+  proxyEndpoint: string,
+  copyright: string
 ): TileLayer<OSM> {
   const isUsingOS = Boolean(apiKey || proxyEndpoint);
   // Fallback to OSM if not using OS services
   const basemap = isUsingOS
-    ? makeOSRasterBaseMap(apiKey, proxyEndpoint)
+    ? makeOSRasterBaseMap(apiKey, proxyEndpoint, copyright)
     : makeOSMRasterBasemap();
   basemap.set("name", "rasterBaseMap");
   return basemap;
@@ -24,7 +23,8 @@ export function makeRasterBaseMap(
 
 function makeOSRasterBaseMap(
   apiKey: string,
-  proxyEndpoint: string
+  proxyEndpoint: string,
+  copyright: string
 ): TileLayer<XYZ> {
   const tileServiceURL = getServiceURL({
     service: "xyz",
@@ -34,7 +34,7 @@ function makeOSRasterBaseMap(
   return new TileLayer({
     source: new XYZ({
       url: tileServiceURL,
-      attributions: [OS_COPYRIGHT],
+      attributions: [copyright],
       attributionsCollapsible: false,
       maxZoom: 20,
     }),
@@ -51,7 +51,8 @@ function makeOSMRasterBasemap(): TileLayer<OSM> {
 
 export function makeOsVectorTileBaseMap(
   apiKey: string,
-  proxyEndpoint: string
+  proxyEndpoint: string,
+  copyright: string
 ): VectorTileLayer | undefined {
   const isUsingOS = Boolean(apiKey || proxyEndpoint);
   if (!isUsingOS) return;
@@ -70,7 +71,7 @@ export function makeOsVectorTileBaseMap(
     source: new VectorTileSource({
       format: new MVT(),
       url: vectorTileServiceUrl,
-      attributions: [OS_COPYRIGHT],
+      attributions: [copyright],
       attributionsCollapsible: false,
     }),
   });
