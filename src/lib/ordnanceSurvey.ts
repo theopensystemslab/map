@@ -65,7 +65,7 @@ export function getProxyServiceURL({
   proxyPathname = proxyPathname.replace(/\/$/, "");
 
   const serviceURLLookup: ServiceLookup = {
-    xyz: constructURL(proxyOrigin, proxyPathname + tileServicePath),
+    xyz: constructURL(proxyOrigin, proxyPathname + tileServicePath, params),
     vectorTile: constructURL(
       proxyOrigin,
       proxyPathname + vectorTileServicePath,
@@ -95,6 +95,6 @@ export function getServiceURL({
     return getProxyServiceURL({ service, proxyEndpoint, params });
   if (apiKey) return getOSServiceURL({ service, apiKey, params });
   throw Error(
-    `Unable to generate URL for OS ${service} API. Either an API key or proxy endpoint must be`
+    `Unable to generate URL for OS ${service} API. Either an API key or proxy endpoint must be supplied`
   );
 }

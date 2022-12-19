@@ -103,6 +103,10 @@ export class AddressAutocomplete extends LitElement {
   }
 
   async _fetchData(offset: number = 0, prevResults: Address[] = []) {
+    const isUsingOS = Boolean(this.osPlacesApiKey || this.osProxyEndpoint);
+    if (!isUsingOS)
+      throw Error("OS Places API key or OS proxy endpoint not found");
+
     // https://apidocs.os.uk/docs/os-places-service-metadata
     const params: Record<string, string> = {
       postcode: this.postcode,

@@ -1,6 +1,7 @@
 import "./index";
 import { setupMap } from "../../test-utils";
 
+import { OSM } from "ol/source";
 import VectorTileSource from "ol/source/VectorTile";
 import type { IWindow } from "happy-dom";
 
@@ -66,7 +67,17 @@ describe("OS Layer loading", () => {
     );
   });
 
-  it.todo(
-    "falls back to an OSM basemap without an OS API key or proxy endpoint"
-  );
+  it("falls back to an OSM basemap without an OS API key or proxy endpoint", async () => {
+    await setupMap(`
+      <my-map id="map-vitest" disableVectorTiles osVectorTilesApiKey=""/>`);
+    const rasterBaseMap = window.olMap
+      ?.getAllLayers()
+      .find((layer) => layer.get("name") === "rasterBaseMap");
+    expect(rasterBaseMap).toBeDefined();
+    const source = rasterBaseMap?.getSource() as OSM;
+    expect(source.getUrls()?.length).toBeGreaterThan(0);
+    source
+      .getUrls()
+      ?.forEach((url) => expect(url).toMatch(/openstreetmap\.org/));
+  });
 });

@@ -80,3 +80,37 @@ describe("AddressAutocomplete on initial render with empty postcode", async () =
     );
   });
 });
+
+describe("External API calls", async () => {
+  const fetchSpy = vi.spyOn(window, "fetch").mockResolvedValue({
+    json: async () => ({ header: {}, results: [] }),
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("calls proxy when 'osProxyEndpoint' provided", async () => {
+    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey="" osProxyEndpoint="https://www.my-site.com/api/v1/os" />`;
+    await window.happyDOM.whenAsyncComplete();
+
+    expect(fetchSpy).toHaveBeenCalledWith(
+      expect.stringContaining(
+        "https://www.my-site.com/api/v1/os/search/places/v1/postcode?postcode=SE5+0HU"
+      )
+    );
+  });
+
+  it("calls OS API when 'osPlacesApiKey' provided", async () => {
+    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey=${
+      import.meta.env.VITE_APP_OS_PLACES_API_KEY
+    } />`;
+    await window.happyDOM.whenAsyncComplete();
+
+    expect(fetchSpy).toHaveBeenCalledWith(
+      expect.stringContaining(
+        "https://api.os.uk/search/places/v1/postcode?postcode=SE5+0HU"
+      )
+    );
+  });
+});
