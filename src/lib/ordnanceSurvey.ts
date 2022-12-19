@@ -45,8 +45,10 @@ export function getOSServiceURL({
   return osServiceURL;
 }
 
-// OS API key must be appended to requests by the proxy endpoint
-// Please see docs: TODO!
+/**
+ * Generate a proxied OS service URL
+ * XXX: OS API key must be appended to requests by the proxy endpoint
+ */
 export function getProxyServiceURL({
   service,
   proxyEndpoint,

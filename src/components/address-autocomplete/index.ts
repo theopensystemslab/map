@@ -34,7 +34,6 @@ export class AddressAutocomplete extends LitElement {
   @property({ type: String })
   osPlacesApiKey = import.meta.env.VITE_APP_OS_PLACES_API_KEY || "";
 
-  // TODO: Docs
   @property({ type: String })
   osProxyEndpoint = "";
 
