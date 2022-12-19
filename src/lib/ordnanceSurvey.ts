@@ -5,7 +5,6 @@ type OSServices =
   | "vectorTileStyle"
   | "places"
   | "features";
-type ServiceLookup = Record<OSServices, string>;
 interface ServiceOptions {
   service: OSServices;
   apiKey: string;
@@ -14,11 +13,13 @@ interface ServiceOptions {
 }
 
 // Ordnance Survey sources
-const tileServicePath = "/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png";
-const vectorTileServicePath = "/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf";
-const vectorTileStylePath = "/maps/vector/v1/vts/resources/styles";
-const placesPath = "/search/places/v1/postcode";
-const featuresPath = "/features/v1/wfs";
+const PATH_LOOKUP: Record<OSServices, string> = {
+  xyz: "/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png",
+  vectorTile: "/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf",
+  vectorTileStyle: "/maps/vector/v1/vts/resources/styles",
+  places: "/search/places/v1/postcode",
+  features: "/features/v1/wfs",
+};
 
 export function constructURL(
   domain: string,
@@ -37,20 +38,11 @@ export function getOSServiceURL({
   apiKey,
   params,
 }: Omit<ServiceOptions, "proxyEndpoint">): string {
-  const serviceURLLookup: ServiceLookup = {
-    xyz: constructURL(OS_DOMAIN, tileServicePath, { ...params, key: apiKey }),
-    vectorTile: constructURL(OS_DOMAIN, vectorTileServicePath, {
-      ...params,
-      key: apiKey,
-    }),
-    vectorTileStyle: constructURL(OS_DOMAIN, vectorTileStylePath, {
-      ...params,
-      key: apiKey,
-    }),
-    places: constructURL(OS_DOMAIN, placesPath, { ...params, key: apiKey }),
-    features: constructURL(OS_DOMAIN, featuresPath, { ...params, key: apiKey }),
-  };
-  return serviceURLLookup[service];
+  const osServiceURL = constructURL(OS_DOMAIN, PATH_LOOKUP[service], {
+    ...params,
+    key: apiKey,
+  });
+  return osServiceURL;
 }
 
 // OS API key must be appended to requests by the proxy endpoint
@@ -63,23 +55,12 @@ export function getProxyServiceURL({
   let { origin: proxyOrigin, pathname: proxyPathname } = new URL(proxyEndpoint);
   // Remove trailing slash on pathname if present
   proxyPathname = proxyPathname.replace(/\/$/, "");
-
-  const serviceURLLookup: ServiceLookup = {
-    xyz: constructURL(proxyOrigin, proxyPathname + tileServicePath, params),
-    vectorTile: constructURL(
-      proxyOrigin,
-      proxyPathname + vectorTileServicePath,
-      params
-    ),
-    vectorTileStyle: constructURL(
-      proxyOrigin,
-      proxyPathname + vectorTileStylePath,
-      params
-    ),
-    places: constructURL(proxyOrigin, proxyPathname + placesPath, params),
-    features: constructURL(proxyOrigin, proxyPathname + featuresPath, params),
-  };
-  return serviceURLLookup[service];
+  const proxyServiceURL = constructURL(
+    proxyOrigin,
+    proxyPathname + PATH_LOOKUP[service],
+    params
+  );
+  return proxyServiceURL;
 }
 
 /**
