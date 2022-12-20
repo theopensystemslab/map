@@ -43,7 +43,7 @@ module.exports = {
     {
       name: "osProxyEndpoint",
       type: "String",
-      values: "https://api.planx.dev/proxy/ordnance-survey",
+      values: "https://api.editor.planx.dev/proxy/ordnance-survey",
     },
   ],
   methods: [
@@ -95,7 +95,7 @@ module.exports = {
     {
       title: "Select an address in postcode SE19 1NT",
       description: "Standard case (via proxy)",
-      template: `<address-autocomplete postcode="SE19 1NT" osPlacesApiKey="" osProxyEndpoint="https://api.planx.dev/proxy/ordnance-survey" />`,
+      template: `<address-autocomplete postcode="SE19 1NT" osPlacesApiKey="" osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey" />`,
       controller: function (document) {
         const autocomplete = document.querySelector("address-autocomplete");
 

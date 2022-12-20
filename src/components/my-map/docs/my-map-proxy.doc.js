@@ -84,7 +84,7 @@ module.exports = {
     {
       name: "osProxyEndpoint",
       type: "String",
-      values: "https://api.planx.dev/proxy/ordnance-survey",
+      values: "https://api.editor.planx.dev/proxy/ordnance-survey",
     },
   ],
   examples: [
@@ -92,13 +92,13 @@ module.exports = {
       title: "Basemap: Ordnance Survey vector tiles (proxied)",
       description:
         "Calls the Ordnance Survey Vector Tiles API via the supplied proxy endpoint. The proxy must append a valid Ordnance Survey API key to each request.",
-      template: `<my-map zoom="18" osProxyEndpoint="https://api.planx.dev/proxy/ordnance-survey"/>`,
+      template: `<my-map zoom="18" osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey"/>`,
     },
     {
       title: "Basemap: Ordnance Survey raster tiles (proxied)",
       description:
         "Calls the Ordnance Survey Maps API via the supplied proxy endpoint. The proxy must append a valid Ordnance Survey API key to each request.",
-      template: `<my-map zoom="18" osVectorTilesApiKey="" disableVectorTiles osProxyEndpoint="https://api.planx.dev/proxy/ordnance-survey"/>`,
+      template: `<my-map zoom="18" osVectorTilesApiKey="" disableVectorTiles osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey"/>`,
     },
   ],
 };
