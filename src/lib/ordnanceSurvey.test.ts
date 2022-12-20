@@ -54,6 +54,7 @@ describe("getServiceURL helper function", () => {
     expect(decodeURIComponent(pathname)).toEqual(
       "/api/proxy/os/maps/vector/v1/vts/resources/styles"
     );
+    expect(searchParams.get("key")).toBeNull();
     expect(searchParams.get("srs")).toEqual("3857");
   });
 

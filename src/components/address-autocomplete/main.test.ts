@@ -94,23 +94,22 @@ describe("External API calls", async () => {
     document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey="" osProxyEndpoint="https://www.my-site.com/api/v1/os" />`;
     await window.happyDOM.whenAsyncComplete();
 
-    expect(fetchSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        "https://www.my-site.com/api/v1/os/search/places/v1/postcode?postcode=SE5+0HU"
-      )
+    expect(fetchSpy).toHaveBeenCalled();
+    expect(fetchSpy.mock.lastCall?.[0]).toContain(
+      "https://www.my-site.com/api/v1/os/search/places/v1/postcode?postcode=SE5+0HU"
     );
+    expect(fetchSpy.mock.lastCall?.[0]).not.toContain("&key=");
   });
 
   it("calls OS API when 'osPlacesApiKey' provided", async () => {
-    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey=${
-      import.meta.env.VITE_APP_OS_PLACES_API_KEY
-    } />`;
+    const mockAPIKey = "test-test-test";
+    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey=${mockAPIKey} />`;
     await window.happyDOM.whenAsyncComplete();
 
-    expect(fetchSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        "https://api.os.uk/search/places/v1/postcode?postcode=SE5+0HU"
-      )
+    expect(fetchSpy).toHaveBeenCalled();
+    expect(fetchSpy.mock.lastCall?.[0]).toContain(
+      "https://api.os.uk/search/places/v1/postcode?postcode=SE5+0HU"
     );
+    expect(fetchSpy.mock.lastCall?.[0]).toContain(`&key=${mockAPIKey}`);
   });
 });

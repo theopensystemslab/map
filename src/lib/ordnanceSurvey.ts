@@ -1,10 +1,12 @@
 const OS_DOMAIN = "https://api.os.uk";
+
 type OSServices =
   | "xyz"
   | "vectorTile"
   | "vectorTileStyle"
   | "places"
   | "features";
+
 interface ServiceOptions {
   service: OSServices;
   apiKey: string;

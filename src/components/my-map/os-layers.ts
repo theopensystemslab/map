@@ -16,7 +16,7 @@ export function makeRasterBaseMap(
   // Fallback to OSM if not using OS services
   const basemap = isUsingOS
     ? makeOSRasterBaseMap(apiKey, proxyEndpoint, copyright)
-    : makeOSMRasterBasemap();
+    : makeDefaultTileLayer();
   basemap.set("name", "rasterBaseMap");
   return basemap;
 }
@@ -41,7 +41,7 @@ function makeOSRasterBaseMap(
   });
 }
 
-function makeOSMRasterBasemap(): TileLayer<OSM> {
+function makeDefaultTileLayer(): TileLayer<OSM> {
   return new TileLayer({
     source: new OSM({
       attributions: [ATTRIBUTION],
