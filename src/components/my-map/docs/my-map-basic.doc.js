@@ -84,7 +84,7 @@ module.exports = {
     {
       name: "osProxyEndpoint",
       type: "String",
-      values: "https://api.1334.planx.pizza/proxy/ordnance-survey",
+      values: "https://api.planx.dev/proxy/ordnance-survey",
     },
   ],
   examples: [

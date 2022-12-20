@@ -1,7 +1,7 @@
 module.exports = {
   name: "MyMap - Proxy",
   description:
-    "The MyMap component can either call the Ordnance Survey API directly, or via a proxy. Calling the API directly may be suitable for internal use, where exposure of API keys is not a concern, whilst calling a proxy may be more suitable for public use. Any proxy supplied via the osProxyEndpoint property must append a valid Ordnance Survey API key to all requests. For full implementation details, please see XXXX",
+    "The MyMap component can either call the Ordnance Survey API directly, or via a proxy. Calling the API directly may be suitable for internal use, where exposure of API keys is not a concern, whilst calling a proxy may be more suitable for public use. Any proxy supplied via the osProxyEndpoint property must append a valid Ordnance Survey API key to all requests. For full implementation details, please see https://github.com/theopensystemslab/map/blob/main/docs/how-to-use-a-proxy.md",
   properties: [
     {
       name: "latitude",
@@ -84,7 +84,7 @@ module.exports = {
     {
       name: "osProxyEndpoint",
       type: "String",
-      values: "https://api.1334.planx.pizza/proxy/ordnance-survey",
+      values: "https://api.planx.dev/proxy/ordnance-survey",
     },
   ],
   examples: [
@@ -92,13 +92,13 @@ module.exports = {
       title: "Basemap: Ordnance Survey vector tiles (proxied)",
       description:
         "Calls the Ordnance Survey Vector Tiles API via the supplied proxy endpoint. The proxy must append a valid Ordnance Survey API key to each request.",
-      template: `<my-map zoom="18" osProxyEndpoint="https://api.1334.planx.pizza/proxy/ordnance-survey"/>`,
+      template: `<my-map zoom="18" osProxyEndpoint="https://api.planx.dev/proxy/ordnance-survey"/>`,
     },
     {
       title: "Basemap: Ordnance Survey raster tiles (proxied)",
       description:
         "Calls the Ordnance Survey Maps API via the supplied proxy endpoint. The proxy must append a valid Ordnance Survey API key to each request.",
-      template: `<my-map zoom="18" osVectorTilesApiKey="" disableVectorTiles osProxyEndpoint="https://api.1334.planx.pizza/proxy/ordnance-survey"/>`,
+      template: `<my-map zoom="18" osVectorTilesApiKey="" disableVectorTiles osProxyEndpoint="https://api.planx.dev/proxy/ordnance-survey"/>`,
     },
   ],
 };
