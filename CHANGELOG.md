@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.6.3] - 2022-12-21
+
+### Added 
+- feat: add `osProxyEndpoint` prop to support optionally calling the Ordnance Survey APIs via a proxy in public applications to avoid exposing your API keys ([#241](https://github.com/theopensystemslab/map/pull/241))
+
+### Changed
+- build: update vitest dependencies
+
 ### [0.6.2] - 2022-12-09
 
 ### Added 
