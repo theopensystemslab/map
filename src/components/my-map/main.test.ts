@@ -6,19 +6,13 @@ import Point from "ol/geom/Point";
 import VectorSource from "ol/source/Vector";
 import waitForExpect from "wait-for-expect";
 
-import { getShadowRoot } from "../../test-utils";
+import { getShadowRoot, setupMap } from "../../test-utils";
 import * as snapping from "./snapping";
 import "./index";
 
 declare global {
   interface Window extends IWindow {}
 }
-
-const setupMap = async (mapElement: any) => {
-  document.body.innerHTML = mapElement;
-  await window.happyDOM.whenAsyncComplete();
-  window.olMap?.dispatchEvent("loadend");
-};
 
 test("olMap is added to the global window for tests", async () => {
   await setupMap(`<my-map id="map-vitest" disableVectorTiles />`);

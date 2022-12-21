@@ -29,6 +29,11 @@ module.exports = {
       type: "Number",
       values: "12",
     },
+    {
+      name: "osProxyEndpoint",
+      type: "String",
+      values: "https://api.editor.planx.dev/proxy/ordnance-survey",
+    },
   ],
   examples: [
     {

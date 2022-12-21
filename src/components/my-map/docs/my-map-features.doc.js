@@ -38,6 +38,11 @@ module.exports = {
       type: "String",
       values: "https://osdatahub.os.uk/plans",
     },
+    {
+      name: "osProxyEndpoint",
+      type: "String",
+      values: "https://api.editor.planx.dev/proxy/ordnance-survey",
+    },
   ],
   examples: [
     {

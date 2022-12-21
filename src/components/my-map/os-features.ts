@@ -4,10 +4,9 @@ import { Vector as VectorLayer } from "ol/layer";
 import { toLonLat } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
 import { Fill, Stroke, Style } from "ol/style";
+import { getServiceURL } from "../../lib/ordnanceSurvey";
 
 import { hexToRgba } from "./utils";
-
-const featureServiceUrl = "https://api.os.uk/features/v1/wfs";
 
 const featureSource = new VectorSource();
 
@@ -39,11 +38,13 @@ export function makeFeatureLayer(
  *   features containing the coordinates of the provided point
  * @param coord - xy coordinate
  * @param apiKey - Ordnance Survey Features API key, sign up here: https://osdatahub.os.uk/plans
+ * @param proxyEndpoint - Endpoint to proxy all requests to Ordnance Survey
  * @param supportClickFeatures - whether the featureSource should support `clickFeatures` mode or be cleared upfront
  */
 export function getFeaturesAtPoint(
   coord: Array<number>,
   apiKey: any,
+  proxyEndpoint: string,
   supportClickFeatures: boolean
 ) {
   const xml = `
@@ -60,8 +61,7 @@ export function getFeaturesAtPoint(
   `;
 
   // Define (WFS) parameters object
-  const wfsParams = {
-    key: apiKey,
+  const params = {
     service: "WFS",
     request: "GetFeature",
     version: "2.0.0",
@@ -70,12 +70,19 @@ export function getFeaturesAtPoint(
     outputFormat: "GEOJSON",
     srsName: "urn:ogc:def:crs:EPSG::4326",
     filter: xml,
-    count: 1,
+    count: "1",
   };
+
+  const url = getServiceURL({
+    service: "features",
+    apiKey,
+    proxyEndpoint,
+    params,
+  });
 
   // Use fetch() method to request GeoJSON data from the OS Features API
   // If successful, replace everything in the vector layer with the GeoJSON response
-  fetch(getUrl(wfsParams))
+  fetch(url)
     .then((response) => response.json())
     .then((data) => {
       if (!data.features.length) return;
@@ -129,17 +136,4 @@ export function getFeaturesAtPoint(
       );
     })
     .catch((error) => console.log(error));
-}
-
-/**
- * Helper function to return OS Features URL with encoded parameters
- * @param {object} params - parameters object to be encoded
- * @returns {string}
- */
-function getUrl(params: any) {
-  const encodedParameters = Object.keys(params)
-    .map((paramName) => paramName + "=" + encodeURI(params[paramName]))
-    .join("&");
-
-  return `${featureServiceUrl}?${encodedParameters}`;
 }

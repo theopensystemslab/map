@@ -5,46 +5,89 @@ import VectorTileLayer from "ol/layer/VectorTile";
 import { OSM, XYZ } from "ol/source";
 import { ATTRIBUTION } from "ol/source/OSM";
 import VectorTileSource from "ol/source/VectorTile";
+import { getServiceURL } from "../../lib/ordnanceSurvey";
 
-// Ordnance Survey sources
-const tileServiceUrl = `https://api.os.uk/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png?key=`;
-const vectorTileServiceUrl = `https://api.os.uk/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf?srs=3857&key=`;
-const vectorTileStyleUrl = `https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857&key=`;
+export function makeRasterBaseMap(
+  apiKey: string,
+  proxyEndpoint: string,
+  copyright: string
+): TileLayer<OSM> {
+  const isUsingOS = Boolean(apiKey || proxyEndpoint);
+  // Fallback to OSM if not using OS services
+  const basemap = isUsingOS
+    ? makeOSRasterBaseMap(apiKey, proxyEndpoint, copyright)
+    : makeDefaultTileLayer();
+  basemap.set("name", "rasterBaseMap");
+  return basemap;
+}
 
-export function makeRasterBaseMap(copyright: string, apiKey?: string) {
+function makeOSRasterBaseMap(
+  apiKey: string,
+  proxyEndpoint: string,
+  copyright: string
+): TileLayer<XYZ> {
+  const tileServiceURL = getServiceURL({
+    service: "xyz",
+    apiKey,
+    proxyEndpoint,
+  });
   return new TileLayer({
-    source: apiKey
-      ? new XYZ({
-          url: tileServiceUrl + apiKey,
-          attributions: [copyright],
-          attributionsCollapsible: false,
-          maxZoom: 20,
-        })
-      : // no OS API key found, sign up here https://osdatahub.os.uk/plans
-        new OSM({
-          attributions: [ATTRIBUTION],
-        }),
+    source: new XYZ({
+      url: tileServiceURL,
+      attributions: [copyright],
+      attributionsCollapsible: false,
+      maxZoom: 20,
+    }),
   });
 }
 
-export function makeOsVectorTileBaseMap(copyright: string, apiKey: string) {
-  let osVectorTileLayer = new VectorTileLayer({
+function makeDefaultTileLayer(): TileLayer<OSM> {
+  return new TileLayer({
+    source: new OSM({
+      attributions: [ATTRIBUTION],
+    }),
+  });
+}
+
+export function makeOsVectorTileBaseMap(
+  apiKey: string,
+  proxyEndpoint: string,
+  copyright: string
+): VectorTileLayer | undefined {
+  const isUsingOS = Boolean(apiKey || proxyEndpoint);
+  if (!isUsingOS) return;
+
+  const vectorTileServiceUrl = getServiceURL({
+    service: "vectorTile",
+    apiKey,
+    proxyEndpoint,
+    params: { srs: "3857" },
+  });
+  const osVectorTileLayer = new VectorTileLayer({
     declutter: true,
+    properties: {
+      name: "vectorBaseMap",
+    },
     source: new VectorTileSource({
       format: new MVT(),
-      url: vectorTileServiceUrl + apiKey,
+      url: vectorTileServiceUrl,
       attributions: [copyright],
       attributionsCollapsible: false,
     }),
   });
 
-  if (apiKey) {
-    // ref https://github.com/openlayers/ol-mapbox-style#usage-example
-    fetch(vectorTileStyleUrl + apiKey)
-      .then((response) => response.json())
-      .then((glStyle) => stylefunction(osVectorTileLayer, glStyle, "esri"))
-      .catch((error) => console.log(error));
-  }
+  const vectorTileStyleUrl = getServiceURL({
+    service: "vectorTileStyle",
+    apiKey,
+    proxyEndpoint,
+    params: { srs: "3857" },
+  });
+
+  // ref https://github.com/openlayers/ol-mapbox-style#usage-example
+  fetch(vectorTileStyleUrl)
+    .then((response) => response.json())
+    .then((glStyle) => stylefunction(osVectorTileLayer, glStyle, "esri"))
+    .catch((error) => console.log(error));
 
   return osVectorTileLayer;
 }

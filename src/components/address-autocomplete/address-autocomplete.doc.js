@@ -1,7 +1,7 @@
 module.exports = {
   name: "AddressAutocomplete",
   description:
-    "AddressAutocomplete is a Lit wrapper for the Gov.UK accessible-autocomplete component that fetches & displays addresses in a given postcode using the Ordnance Survey Places API.",
+    "AddressAutocomplete is a Lit wrapper for the Gov.UK accessible-autocomplete component that fetches & displays addresses in a given postcode using the Ordnance Survey Places API. The Ordnance Survey API can be called directly, or via a proxy. Calling the API directly may be suitable for internal use, where exposure of API keys is not a concern, whilst calling a proxy may be more suitable for public use. Any proxy supplied via the osProxyEndpoint property must append a valid Ordnance Survey API key to all requests. For full implementation details, please see https://github.com/theopensystemslab/map/blob/main/docs/how-to-use-a-proxy.md",
   properties: [
     {
       name: "postcode",
@@ -40,6 +40,11 @@ module.exports = {
       values: "https://osdatahub.os.uk/plans",
       required: true,
     },
+    {
+      name: "osProxyEndpoint",
+      type: "String",
+      values: "https://api.editor.planx.dev/proxy/ordnance-survey",
+    },
   ],
   methods: [
     {
@@ -72,6 +77,25 @@ module.exports = {
       title: "Select an address in postcode SE19 1NT",
       description: "Standard case",
       template: `<address-autocomplete postcode="SE19 1NT" osPlacesApiKey=${process.env.VITE_APP_OS_PLACES_API_KEY} />`,
+      controller: function (document) {
+        const autocomplete = document.querySelector("address-autocomplete");
+
+        autocomplete.addEventListener("ready", ({ detail: data }) => {
+          console.debug("autocomplete ready", { data });
+        });
+
+        autocomplete.addEventListener(
+          "addressSelection",
+          ({ detail: address }) => {
+            console.debug({ detail: address });
+          }
+        );
+      },
+    },
+    {
+      title: "Select an address in postcode SE19 1NT",
+      description: "Standard case (via proxy)",
+      template: `<address-autocomplete postcode="SE19 1NT" osPlacesApiKey="" osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey" />`,
       controller: function (document) {
         const autocomplete = document.querySelector("address-autocomplete");
 

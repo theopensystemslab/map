@@ -80,3 +80,36 @@ describe("AddressAutocomplete on initial render with empty postcode", async () =
     );
   });
 });
+
+describe("External API calls", async () => {
+  const fetchSpy = vi.spyOn(window, "fetch").mockResolvedValue({
+    json: async () => ({ header: {}, results: [] }),
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("calls proxy when 'osProxyEndpoint' provided", async () => {
+    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey="" osProxyEndpoint="https://www.my-site.com/api/v1/os" />`;
+    await window.happyDOM.whenAsyncComplete();
+
+    expect(fetchSpy).toHaveBeenCalled();
+    expect(fetchSpy.mock.lastCall?.[0]).toContain(
+      "https://www.my-site.com/api/v1/os/search/places/v1/postcode?postcode=SE5+0HU"
+    );
+    expect(fetchSpy.mock.lastCall?.[0]).not.toContain("&key=");
+  });
+
+  it("calls OS API when 'osPlacesApiKey' provided", async () => {
+    const mockAPIKey = "test-test-test";
+    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey=${mockAPIKey} />`;
+    await window.happyDOM.whenAsyncComplete();
+
+    expect(fetchSpy).toHaveBeenCalled();
+    expect(fetchSpy.mock.lastCall?.[0]).toContain(
+      "https://api.os.uk/search/places/v1/postcode?postcode=SE5+0HU"
+    );
+    expect(fetchSpy.mock.lastCall?.[0]).toContain(`&key=${mockAPIKey}`);
+  });
+});

@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import accessibleAutocomplete from "accessible-autocomplete";
 
 import styles from "./styles.scss";
+import { getServiceURL } from "../../lib/ordnanceSurvey";
 
 // https://apidocs.os.uk/docs/os-places-lpi-output
 type Address = {
@@ -32,6 +33,9 @@ export class AddressAutocomplete extends LitElement {
 
   @property({ type: String })
   osPlacesApiKey = import.meta.env.VITE_APP_OS_PLACES_API_KEY || "";
+
+  @property({ type: String })
+  osProxyEndpoint = "";
 
   @property({ type: String })
   arrowStyle: ArrowStyleEnum = "default";
@@ -98,6 +102,10 @@ export class AddressAutocomplete extends LitElement {
   }
 
   async _fetchData(offset: number = 0, prevResults: Address[] = []) {
+    const isUsingOS = Boolean(this.osPlacesApiKey || this.osProxyEndpoint);
+    if (!isUsingOS)
+      throw Error("OS Places API key or OS proxy endpoint not found");
+
     // https://apidocs.os.uk/docs/os-places-service-metadata
     const params: Record<string, string> = {
       postcode: this.postcode,
@@ -105,13 +113,16 @@ export class AddressAutocomplete extends LitElement {
       maxResults: "100",
       output_srs: "EPSG:4326",
       lr: "EN",
-      key: this.osPlacesApiKey,
+      offset: offset.toString(),
     };
-    const url = `https://api.os.uk/search/places/v1/postcode?${new URLSearchParams(
-      params
-    )}`;
+    const url = getServiceURL({
+      service: "places",
+      apiKey: this.osPlacesApiKey,
+      proxyEndpoint: this.osProxyEndpoint,
+      params,
+    });
 
-    await fetch(url + `&offset=${offset}`)
+    await fetch(url)
       .then((resp) => resp.json())
       .then((data) => {
         // handle error formats returned by OS
@@ -224,7 +235,8 @@ export class AddressAutocomplete extends LitElement {
   render() {
     // handle various error states
     let errorMessage;
-    if (!this.osPlacesApiKey) errorMessage = "Missing OS Places API key";
+    if (!this.osPlacesApiKey && !this.osProxyEndpoint)
+      errorMessage = "Missing OS Places API key or proxy endpoint";
     else if (this._osError) errorMessage = this._osError;
     else if (this._totalAddresses === 0)
       errorMessage = `No addresses found in postcode ${this.postcode}`;
