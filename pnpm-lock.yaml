@@ -24,7 +24,7 @@ specifiers:
   sass: ^1.44.0
   typescript: ^4.3.5
   vite: ^4.0.0
-  vitest: 0.26.1
+  vitest: 0.26.2
   wait-for-expect: ^3.0.2
 
 dependencies:
@@ -53,7 +53,7 @@ devDependencies:
   sass: 1.44.0
   typescript: 4.3.5
   vite: 4.0.0_ozw2wkf2rbezarvtwxhe3y65wq
-  vitest: 0.26.1_tbtrq7wdzjsdphea6vwu534cuy
+  vitest: 0.26.2_tbtrq7wdzjsdphea6vwu534cuy
   wait-for-expect: 3.0.2
 
 packages:
@@ -5804,8 +5804,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite-node/0.26.1_ozw2wkf2rbezarvtwxhe3y65wq:
-    resolution: {integrity: sha512-5FJSKZZJz48zFRKHE55WyevZe61hLMQEsqGn+ungfd60kxEztFybZ3yG9ToGFtOWNCCy7Vn5EVuXD8bdeHOSdw==}
+  /vite-node/0.26.2_ozw2wkf2rbezarvtwxhe3y65wq:
+    resolution: {integrity: sha512-4M/zlatItZAyvrQG+82zQBhgDjRZRhVJYFW4T9wcAKh7eMmSiPOVSeI5zsV9UzHXgCcIDKX0o0r3s4OxExTHqg==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     dependencies:
@@ -5861,8 +5861,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.26.1_tbtrq7wdzjsdphea6vwu534cuy:
-    resolution: {integrity: sha512-qTLRnjYmjmJpHlLUtErxtlRqGCe8WItFhGXKklpWivu7CLP9KXN9iTezROe+vf51Kb+BB/fzxK6fUG9DvFGL5Q==}
+  /vitest/0.26.2_tbtrq7wdzjsdphea6vwu534cuy:
+    resolution: {integrity: sha512-Jvqxh6SDy9SsuslkDjts0iDewDIdq4rveEt69YgDuAb1tVDGV0lDepVaeAFraoySWqneJmOt4TngFFNhlw7GfA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -5899,7 +5899,7 @@ packages:
       tinypool: 0.3.0
       tinyspy: 1.0.2
       vite: 4.0.0_ozw2wkf2rbezarvtwxhe3y65wq
-      vite-node: 0.26.1_ozw2wkf2rbezarvtwxhe3y65wq
+      vite-node: 0.26.2_ozw2wkf2rbezarvtwxhe3y65wq
     transitivePeerDependencies:
       - less
       - sass
