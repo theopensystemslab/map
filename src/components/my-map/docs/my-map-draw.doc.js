@@ -62,25 +62,6 @@ module.exports = {
       title: "Load an initial shape onto the drawing canvas",
       description:
         "Load a polygon with the ability to continue modifying it. Click 'reset' to erase and draw fresh.",
-      controller: function (element) {
-        const map = element.querySelector("my-map");
-        map.drawGeojsonData = {
-          type: "Feature",
-          properties: {},
-          geometry: {
-            type: "Polygon",
-            coordinates: [
-              [
-                [-0.07666435775970835, 51.48432362355473],
-                [-0.07670012065571297, 51.48419742371502],
-                [-0.07630374962243747, 51.484158450222964],
-                [-0.07627692753228853, 51.484288361835524],
-                [-0.07666435775970835, 51.48432362355473],
-              ],
-            ],
-          },
-        };
-      },
       template: `
         <my-map 
           id="draw-mode-1"
@@ -88,7 +69,24 @@ module.exports = {
           maxZoom="23" 
           drawMode 
           drawPointer="dot"
-          osVectorTilesApiKey="" />`,
+          osVectorTilesApiKey="" 
+          drawGeojsonData=${JSON.stringify({
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "Polygon",
+              coordinates: [
+                [
+                  [-0.07666435775970835, 51.48432362355473],
+                  [-0.07670012065571297, 51.48419742371502],
+                  [-0.07630374962243747, 51.484158450222964],
+                  [-0.07627692753228853, 51.484288361835524],
+                  [-0.07666435775970835, 51.48432362355473],
+                ],
+              ],
+            },
+          })}
+        />`,
     },
     {
       title: "Calculate the area of the drawn polygon",
