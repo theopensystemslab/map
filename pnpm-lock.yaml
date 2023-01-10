@@ -24,7 +24,7 @@ specifiers:
   sass: ^1.44.0
   typescript: ^4.3.5
   vite: ^4.0.0
-  vitest: 0.26.2
+  vitest: 0.27.0
   wait-for-expect: ^3.0.2
 
 dependencies:
@@ -53,7 +53,7 @@ devDependencies:
   sass: 1.44.0
   typescript: 4.3.5
   vite: 4.0.0_ozw2wkf2rbezarvtwxhe3y65wq
-  vitest: 0.26.2_tbtrq7wdzjsdphea6vwu534cuy
+  vitest: 0.27.0_tbtrq7wdzjsdphea6vwu534cuy
   wait-for-expect: 3.0.2
 
 packages:
@@ -2310,6 +2310,11 @@ packages:
   /bytes/3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
+    dev: true
+
+  /cac/6.7.14:
+    resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
+    engines: {node: '>=8'}
     dev: true
 
   /call-bind/1.0.2:
@@ -5804,14 +5809,16 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite-node/0.26.2_ozw2wkf2rbezarvtwxhe3y65wq:
-    resolution: {integrity: sha512-4M/zlatItZAyvrQG+82zQBhgDjRZRhVJYFW4T9wcAKh7eMmSiPOVSeI5zsV9UzHXgCcIDKX0o0r3s4OxExTHqg==}
+  /vite-node/0.27.0_ozw2wkf2rbezarvtwxhe3y65wq:
+    resolution: {integrity: sha512-O1o9joT0qCGx5Om6W0VNLr7M00ttrnFlfZX2d+oxt2T9oZ9DvYSv8kDRhNJDVhAgNgUm3Tc0h/+jppNf3mVKbA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     dependencies:
+      cac: 6.7.14
       debug: 4.3.4
       mlly: 1.0.0
       pathe: 0.2.0
+      picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
       vite: 4.0.0_ozw2wkf2rbezarvtwxhe3y65wq
@@ -5861,8 +5868,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.26.2_tbtrq7wdzjsdphea6vwu534cuy:
-    resolution: {integrity: sha512-Jvqxh6SDy9SsuslkDjts0iDewDIdq4rveEt69YgDuAb1tVDGV0lDepVaeAFraoySWqneJmOt4TngFFNhlw7GfA==}
+  /vitest/0.27.0_tbtrq7wdzjsdphea6vwu534cuy:
+    resolution: {integrity: sha512-BnOa7T6CnXVC6UgcAsvFOZ2Dtvqkt+/Nl6CRgh4qVT70vElf65XwEL6zMRyTF+h2QXJziEkxYdrLo5WCxckMLQ==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -5889,17 +5896,19 @@ packages:
       '@vitest/ui': 0.26.1
       acorn: 8.8.1
       acorn-walk: 8.2.0
+      cac: 6.7.14
       chai: 4.3.7
       debug: 4.3.4
       happy-dom: 8.1.0
       local-pkg: 0.4.2
+      picocolors: 1.0.0
       source-map: 0.6.1
       strip-literal: 1.0.0
       tinybench: 2.3.1
       tinypool: 0.3.0
       tinyspy: 1.0.2
       vite: 4.0.0_ozw2wkf2rbezarvtwxhe3y65wq
-      vite-node: 0.26.2_ozw2wkf2rbezarvtwxhe3y65wq
+      vite-node: 0.27.0_ozw2wkf2rbezarvtwxhe3y65wq
     transitivePeerDependencies:
       - less
       - sass
