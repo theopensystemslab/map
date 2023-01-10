@@ -8,7 +8,7 @@ export function scaleControl(useScaleBarStyle: boolean) {
     units: "metric",
     bar: useScaleBarStyle,
     steps: 4,
-    text: false,
+    text: useScaleBarStyle,
     minWidth: 140,
   });
 }

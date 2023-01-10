@@ -36,7 +36,7 @@ import {
   pointsLayer,
   pointsSource,
 } from "./snapping";
-import styles from "./styles.scss";
+import styles from "./styles.scss?inline";
 import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
 
 type MarkerImageEnum = "circle" | "pin";
