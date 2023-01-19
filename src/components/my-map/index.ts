@@ -37,7 +37,13 @@ import {
   pointsSource,
 } from "./snapping";
 import styles from "./styles.scss?inline";
-import { AreaUnitEnum, fitToData, formatArea, hexToRgba } from "./utils";
+import {
+  AreaUnitEnum,
+  fitToData,
+  formatArea,
+  hexToRgba,
+  makeGeoJSON,
+} from "./utils";
 
 type MarkerImageEnum = "circle" | "pin";
 type ResetControlImageEnum = "unicode" | "trash";
@@ -391,12 +397,10 @@ export class MyMap extends LitElement {
         if (sketches.length > 0) {
           const lastSketchGeom = last(sketches)?.getGeometry();
 
-          this.dispatch(
-            "geojsonChange",
-            new GeoJSON().writeFeaturesObject(sketches, {
-              featureProjection: "EPSG:3857",
-            })
-          );
+          this.dispatch("geojsonChange", {
+            webMercator: makeGeoJSON(sketches, "EPSG:3857"),
+            britishNationalGrid: makeGeoJSON(sketches, "EPSG:27700"),
+          });
 
           if (lastSketchGeom && this.drawType === "Polygon") {
             this.dispatch(
@@ -487,12 +491,10 @@ export class MyMap extends LitElement {
           fitToData(map, outlineSource, this.featureBuffer);
 
           // write the geojson representation of the feature or merged features
-          this.dispatch(
-            "featuresGeojsonChange",
-            new GeoJSON().writeFeaturesObject(outlineSource.getFeatures(), {
-              featureProjection: "EPSG:3857",
-            })
-          );
+          this.dispatch("featuresGeojsonChange", {
+            webMercator: makeGeoJSON(outlineSource, "EPSG:3857"),
+            britishNationalGrid: makeGeoJSON(outlineSource, "EPSG:27700"),
+          });
 
           // calculate the total area of the feature or merged features
           const data = outlineSource.getFeatures()[0].getGeometry();
