@@ -398,8 +398,8 @@ export class MyMap extends LitElement {
           const lastSketchGeom = last(sketches)?.getGeometry();
 
           this.dispatch("geojsonChange", {
-            webMercator: makeGeoJSON(sketches, "EPSG:3857"),
-            britishNationalGrid: makeGeoJSON(sketches, "EPSG:27700"),
+            "EPSG:3857": makeGeoJSON(sketches, "EPSG:3857"),
+            "EPSG:27700": makeGeoJSON(sketches, "EPSG:27700"),
           });
 
           if (lastSketchGeom && this.drawType === "Polygon") {
@@ -492,8 +492,8 @@ export class MyMap extends LitElement {
 
           // write the geojson representation of the feature or merged features
           this.dispatch("featuresGeojsonChange", {
-            webMercator: makeGeoJSON(outlineSource, "EPSG:3857"),
-            britishNationalGrid: makeGeoJSON(outlineSource, "EPSG:27700"),
+            "EPSG:3857": makeGeoJSON(outlineSource, "EPSG:3857"),
+            "EPSG:27700": makeGeoJSON(outlineSource, "EPSG:27700"),
           });
 
           // calculate the total area of the feature or merged features
