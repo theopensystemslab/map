@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.7.0] - 2023-01-20
+
+### Changed
+- **BREAKING**: GeoJSON change events are now dispatched in _two_ projections: EPSG:3857 (prior default) and EPSG:27700. If you are subscribed to these events, please update your code to reflect the new data format ([#255](https://github.com/theopensystemslab/map/pull/255))
+- fix: display scale bar correctly ([#252](https://github.com/theopensystemslab/map/pull/252))
+- fix: debug `drawGeojsonData` examples in Pitsy Component Docs ([#249](https://github.com/theopensystemslab/map/pull/249))
+
 ### [0.6.3] - 2022-12-21
 
 ### Added 
