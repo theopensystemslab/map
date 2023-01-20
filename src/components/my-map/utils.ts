@@ -1,9 +1,14 @@
 import { asArray, asString } from "ol/color";
 import { buffer } from "ol/extent";
+import { GeoJSON } from "ol/format";
+import { GeoJSONObject } from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
+import { Feature } from "ol/index";
 import Map from "ol/Map";
 import { Vector } from "ol/source";
+import VectorSource from "ol/source/Vector";
 import { getArea } from "ol/sphere";
+import { ProjectionEnum } from "./projections";
 
 export type AreaUnitEnum = "m2" | "ha";
 
@@ -54,4 +59,22 @@ export function fitToData(
 export function hexToRgba(hexColor: string, alpha: number) {
   const [r, g, b] = Array.from(asArray(hexColor));
   return asString([r, g, b, alpha]);
+}
+
+/**
+ * Generate a geojson object from a vector source or an array of features
+ * @param source
+ * @param projection
+ * @returns
+ */
+export function makeGeoJSON(
+  source: VectorSource<Geometry> | Feature<Geometry>[],
+  projection: ProjectionEnum
+): GeoJSONObject {
+  return new GeoJSON().writeFeaturesObject(
+    source instanceof VectorSource ? source.getFeatures() : source,
+    {
+      featureProjection: projection,
+    }
+  );
 }
