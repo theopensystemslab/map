@@ -71,10 +71,18 @@ export function makeGeoJSON(
   source: VectorSource<Geometry> | Feature<Geometry>[],
   projection: ProjectionEnum
 ): GeoJSONObject {
+  // ref https://openlayers.org/en/latest/apidoc/module-ol_format_GeoJSON-GeoJSON.html#writeFeaturesObject
+  const options =
+    projection === "EPSG:27700"
+      ? {
+          dataProjection: projection,
+          featureProjection: "EPSG:3857",
+          decimals: 0,
+        }
+      : { featureProjection: projection };
+
   return new GeoJSON().writeFeaturesObject(
     source instanceof VectorSource ? source.getFeatures() : source,
-    {
-      featureProjection: projection,
-    }
+    options
   );
 }
