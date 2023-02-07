@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.7.1] - 2023-02-07
+
+### Changed
+- fix: correctly project coordinates to EPSG:27700 on GeoJSON change events (coordinates in EPSG:3857 are and were ok!) ([#261](https://github.com/theopensystemslab/map/pull/261))
+
 ### [0.7.0] - 2023-01-20
 
 ### Changed
