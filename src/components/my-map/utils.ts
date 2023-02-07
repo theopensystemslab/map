@@ -77,7 +77,6 @@ export function makeGeoJSON(
       ? {
           dataProjection: projection,
           featureProjection: "EPSG:3857",
-          decimals: 0,
         }
       : { featureProjection: projection };
 
