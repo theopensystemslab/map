@@ -1,3 +1,4 @@
+import Map from "ol/Map";
 import { Control, ScaleLine } from "ol/control";
 import "ol/ol.css";
 import "ol-ext/dist/ol-ext.css";
@@ -5,6 +6,7 @@ import northArrowIcon from "./icons/north-arrow-n.svg";
 import trashCanIcon from "./icons/trash-can.svg";
 import printIcon from "./icons/printer.svg";
 import PrintDialog from "ol-ext/control/PrintDialog";
+import { Options } from "ol-ext/control/PrintDialog";
 import CanvasScaleLine from "ol-ext/control/CanvasScaleLine";
 import jsPDF from "jspdf";
 import { saveAs } from "file-saver";
@@ -105,20 +107,47 @@ PrintDialog.prototype.formats = [
   },
 ];
 
+export interface PrintControlOptions extends Options {
+  map: Map;
+}
+
 export class PrintControl extends PrintDialog {
-  constructor() {
+  mainMap: Map;
+
+  constructor({ map }: PrintControlOptions) {
     super({
       northImage: northArrowIcon,
       saveAs: saveAs,
       jsPDF: jsPDF,
       copy: false,
     });
+    this.mainMap = map;
     this.setSize("A4");
     this.setMargin(10);
     this.setOrientation("portrait");
     this.element.className = "ol-print ol-unselectable ol-control";
 
+    this.setupCanvasScaleLine();
     this.setupPrintButton();
+  }
+
+  /**
+   * Toggle scaleControl when printControl is open
+   * Instead, display CanvasScaleLine which can be printed
+   */
+  private setupCanvasScaleLine() {
+    const scaleLineControl = this.mainMap
+      ?.getControls()
+      .getArray()
+      .filter(
+        (control: Control) => control instanceof ScaleLine
+      )[0] as ScaleLine;
+    if (!scaleLineControl) return;
+    // @ts-ignore
+    this.on("show", () => this.getMap().removeControl(scaleLineControl));
+    // @ts-ignore
+    this.on("hide", () => this.getMap().addControl(scaleLineControl));
+    this.mainMap.addControl(new CanvasScaleLine({ dpi: 96 }));
   }
 
   /**
