@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { defaults as defaultControls } from "ol/control";
 import { GeoJSON } from "ol/format";
 import { Point } from "ol/geom";
+import { ScaleLine } from "ol/control";
 import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
@@ -13,7 +14,12 @@ import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
 import View from "ol/View";
 import { last } from "rambda";
 
-import { northArrowControl, scaleControl, resetControl } from "./controls";
+import {
+  northArrowControl,
+  scaleControl,
+  resetControl,
+  PrintControl,
+} from "./controls";
 import {
   configureDraw,
   configureDrawingLayer,
@@ -180,6 +186,9 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   showNorthArrow = false;
 
+  @property({ type: Boolean })
+  showPrint = false;
+
   // set class property (map doesn't require any reactivity using @state)
   map?: Map;
 
@@ -260,12 +269,19 @@ export class MyMap extends LitElement {
     const modify = configureModify(this.drawPointer);
 
     // add custom scale line and north arrow controls to the map
-    if (this.showScale) {
-      map.addControl(scaleControl(this.useScaleBarStyle));
-    }
-
+    let scale: ScaleLine;
     if (this.showNorthArrow) {
       map.addControl(northArrowControl());
+    }
+
+    if (this.showScale) {
+      scale = scaleControl(this.useScaleBarStyle);
+      map.addControl(scale);
+    }
+
+    if (this.showPrint) {
+      const printControl = new PrintControl({ map });
+      map.addControl(printControl);
     }
 
     // add a custom 'reset' control to the map

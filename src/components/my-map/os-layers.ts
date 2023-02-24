@@ -35,6 +35,7 @@ function makeOSRasterBaseMap(
     source: new XYZ({
       url: tileServiceURL,
       attributions: [copyright],
+      crossOrigin: "anonymous",
       attributionsCollapsible: false,
       maxZoom: 20,
     }),
@@ -45,6 +46,7 @@ function makeDefaultTileLayer(): TileLayer<OSM> {
   return new TileLayer({
     source: new OSM({
       attributions: [ATTRIBUTION],
+      crossOrigin: "anonymous",
     }),
   });
 }
