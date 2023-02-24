@@ -90,15 +90,18 @@ describe("External API calls", async () => {
     vi.clearAllMocks();
   });
 
+  // Component makes a request for styles and tiles in a non-determintic manner
+  const lastTwoCalls = () => fetchSpy.mock.calls?.slice(-2).join(", ");
+
   it("calls proxy when 'osProxyEndpoint' provided", async () => {
     document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey="" osProxyEndpoint="https://www.my-site.com/api/v1/os" />`;
     await window.happyDOM.whenAsyncComplete();
 
     expect(fetchSpy).toHaveBeenCalled();
-    expect(fetchSpy.mock.lastCall?.[0]).toContain(
+    expect(lastTwoCalls()).toContain(
       "https://www.my-site.com/api/v1/os/search/places/v1/postcode?postcode=SE5+0HU"
     );
-    expect(fetchSpy.mock.lastCall?.[0]).not.toContain("&key=");
+    expect(fetchSpy.mock.calls?.[0]).not.toContain("&key=");
   });
 
   it("calls OS API when 'osPlacesApiKey' provided", async () => {
@@ -107,9 +110,9 @@ describe("External API calls", async () => {
     await window.happyDOM.whenAsyncComplete();
 
     expect(fetchSpy).toHaveBeenCalled();
-    expect(fetchSpy.mock.lastCall?.[0]).toContain(
+    expect(lastTwoCalls()).toContain(
       "https://api.os.uk/search/places/v1/postcode?postcode=SE5+0HU"
     );
-    expect(fetchSpy.mock.lastCall?.[0]).toContain(`&key=${mockAPIKey}`);
+    expect(lastTwoCalls()).toContain(`&key=${mockAPIKey}`);
   });
 });
