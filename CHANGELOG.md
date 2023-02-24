@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.8.0] - 2023-02-24
+
+### Added
+- feat: Printing ([#263](https://github.com/theopensystemslab/map/pull/263))
+
+### Changed
+- chore: Update `@testing-library/dom` and `vitest` dependencies to latests ([#265](https://github.com/theopensystemslab/map/pull/265))
+
 ### [0.7.1] - 2023-02-07
 
 ### Changed
