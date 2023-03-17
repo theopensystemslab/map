@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.7.4] - 2023-03-17
+
+### Changed
+- fix: ensure autocomplete selected address formatting always matches option, completing #275 below. ([#277](https://github.com/theopensystemslab/map/pull/277))
+
 ### [0.7.3] - 2023-03-17
 
 ### Changed
