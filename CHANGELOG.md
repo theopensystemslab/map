@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.7.3] - 2023-03-17
+
+### Changed
+- fix: split single line addresses on last occurance of council name, not first, in address-autocomplete dropdown options. Our previous string formatting method failed on postcode ME7 1NH ([#275](https://github.com/theopensystemslab/map/pull/275))
+
 ### [0.7.2] - 2023-02-24
 
 ### Added
