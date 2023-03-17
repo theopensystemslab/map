@@ -2,7 +2,7 @@ import { html, LitElement, TemplateResult, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import accessibleAutocomplete from "accessible-autocomplete";
 
-import styles from "./styles.scss";
+import styles from "./styles.scss?inline";
 import { getServiceURL } from "../../lib/ordnanceSurvey";
 
 // https://apidocs.os.uk/docs/os-places-lpi-output
@@ -91,9 +91,12 @@ export class AddressAutocomplete extends LitElement {
       onConfirm: (option: string) => {
         this._selectedAddress = this._addressesInPostcode.filter(
           (address) =>
-            address.LPI.ADDRESS.split(
-              `, ${address.LPI.ADMINISTRATIVE_AREA}`
-            )[0] === option
+            address.LPI.ADDRESS.slice(
+              0,
+              address.LPI.ADDRESS.lastIndexOf(
+                `, ${address.LPI.ADMINISTRATIVE_AREA}`
+              )
+            ) === option
         )[0];
         if (this._selectedAddress)
           this.dispatch("addressSelection", { address: this._selectedAddress });
