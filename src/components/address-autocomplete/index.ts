@@ -155,9 +155,12 @@ export class AddressAutocomplete extends LitElement {
             .map((address: Address) => {
               // omit the council name and postcode from the display name
               this._options.push(
-                address.LPI.ADDRESS.split(
-                  `, ${address.LPI.ADMINISTRATIVE_AREA}`
-                )[0]
+                address.LPI.ADDRESS.slice(
+                  0,
+                  address.LPI.ADDRESS.lastIndexOf(
+                    `, ${address.LPI.ADMINISTRATIVE_AREA}`
+                  )
+                )
               );
             });
 
