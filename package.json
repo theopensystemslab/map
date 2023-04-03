@@ -48,7 +48,7 @@
     "@types/ol-ext": "npm:@siedlerchr/types-ol-ext@^3.0.9",
     "@types/proj4": "^2.5.2",
     "@vitest/ui": "^0.29.2",
-    "happy-dom": "^8.1.0",
+    "happy-dom": "^9.1.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.3.2",
