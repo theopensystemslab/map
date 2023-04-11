@@ -9,7 +9,7 @@ specifiers:
   '@types/node': ^18.6.3
   '@types/ol-ext': npm:@siedlerchr/types-ol-ext@^3.0.9
   '@types/proj4': ^2.5.2
-  '@vitest/ui': ^0.29.2
+  '@vitest/ui': ^0.30.0
   accessible-autocomplete: ^2.0.4
   file-saver: ^2.0.5
   govuk-frontend: ^4.0.1
@@ -54,7 +54,7 @@ devDependencies:
   '@types/node': 18.6.3
   '@types/ol-ext': /@siedlerchr/types-ol-ext/3.0.9
   '@types/proj4': 2.5.2
-  '@vitest/ui': 0.29.2
+  '@vitest/ui': 0.30.0
   happy-dom: 9.1.9
   husky: 8.0.1
   lint-staged: 13.0.3
@@ -63,7 +63,7 @@ devDependencies:
   sass: 1.44.0
   typescript: 4.3.5
   vite: 4.0.0_ozw2wkf2rbezarvtwxhe3y65wq
-  vitest: 0.30.0_2niz3pjulk47y36igoaqq6upee
+  vitest: 0.30.0_p767p5ipsoh4o7725cgz3opcny
   wait-for-expect: 3.0.2
 
 packages:
@@ -1843,10 +1843,12 @@ packages:
       tinyspy: 2.1.0
     dev: true
 
-  /@vitest/ui/0.29.2:
-    resolution: {integrity: sha512-GpCExCMptrS1z3Xf6kz35Xdvjc2eTBy9OIIwW3HjePVxw9Q++ZoEaIBVimRTTGzSe40XiAI/ZyR0H0Ya9brqLA==}
+  /@vitest/ui/0.30.0:
+    resolution: {integrity: sha512-kzapVRHVXsXcIbi3GR5DVQ+1y0BPcwUmyTqodCckr6l0eyhCL3ecGigR9PH255yFx27vFcwrtl07zfrUWzPOpg==}
     dependencies:
+      '@vitest/utils': 0.30.0
       fast-glob: 3.2.12
+      fflate: 0.7.4
       flatted: 3.2.7
       pathe: 1.1.0
       picocolors: 1.0.0
@@ -3314,6 +3316,10 @@ packages:
 
   /fflate/0.4.8:
     resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
+
+  /fflate/0.7.4:
+    resolution: {integrity: sha512-5u2V/CDW15QM1XbbgS+0DfPxVB+jUKhWEKuuFuHncbk3tEEqzmoXL+2KyOFuKGqOnmdIy0/davWF1CkuwtibCw==}
+    dev: true
 
   /file-loader/6.2.0_webpack@5.74.0:
     resolution: {integrity: sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==}
@@ -6101,7 +6107,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.30.0_2niz3pjulk47y36igoaqq6upee:
+  /vitest/0.30.0_p767p5ipsoh4o7725cgz3opcny:
     resolution: {integrity: sha512-2WW4WeTHtrLFeoiuotWvEW6khozx1NvMGYoGsNz2btdddEbqvEdPJIouIdoiC5i61Rl1ctZvm9cn2R9TcPQlzw==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6139,7 +6145,7 @@ packages:
       '@vitest/runner': 0.30.0
       '@vitest/snapshot': 0.30.0
       '@vitest/spy': 0.30.0
-      '@vitest/ui': 0.29.2
+      '@vitest/ui': 0.30.0
       '@vitest/utils': 0.30.0
       acorn: 8.8.2
       acorn-walk: 8.2.0
