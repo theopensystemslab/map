@@ -27,7 +27,7 @@ specifiers:
   rambda: ^7.0.1
   rollup-plugin-postcss-lit: ^2.0.0
   sass: ^1.44.0
-  typescript: ^4.3.5
+  typescript: ^5.0.4
   vite: ^4.0.0
   vitest: 0.29.2
   wait-for-expect: ^3.0.2
@@ -61,7 +61,7 @@ devDependencies:
   prettier: 2.3.2
   rollup-plugin-postcss-lit: 2.0.0
   sass: 1.44.0
-  typescript: 4.3.5
+  typescript: 5.0.4
   vite: 4.0.0_ozw2wkf2rbezarvtwxhe3y65wq
   vitest: 0.29.2_lfoz2e5dvw5f46kuez3rsh4v5q
   wait-for-expect: 3.0.2
@@ -2071,10 +2071,8 @@ packages:
       indent-string: 4.0.0
     dev: true
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -5326,7 +5324,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
     dev: true
 
@@ -5916,9 +5914,9 @@ packages:
       mime-types: 2.1.35
     dev: true
 
-  /typescript/4.3.5:
-    resolution: {integrity: sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==}
-    engines: {node: '>=4.2.0'}
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
+    engines: {node: '>=12.20'}
     hasBin: true
     dev: true
 
