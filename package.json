@@ -68,5 +68,6 @@
   },
   "stackblitz": {
     "startCommand": "npm run test:ui"
-  }
+  },
+  "packageManager": "pnpm@7.13.4"
 }
