@@ -40,9 +40,7 @@ describe("OS Layer loading", () => {
   });
 
   it("requests layers via proxy when an API key is not provided", async () => {
-    const fetchSpy = vi.spyOn(window, "fetch").mockResolvedValue({
-      json: async () => ({ version: 8, layers: [] }),
-    });
+    const fetchSpy = vi.spyOn(window, "fetch");
 
     const osProxyEndpoint = "https://www.my-site.com/api/v1/os";
     await setupMap(`

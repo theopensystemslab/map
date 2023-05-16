@@ -82,9 +82,7 @@ describe("AddressAutocomplete on initial render with empty postcode", async () =
 });
 
 describe("External API calls", async () => {
-  const fetchSpy = vi.spyOn(window, "fetch").mockResolvedValue({
-    json: async () => ({ header: {}, results: [] }),
-  });
+  const fetchSpy = vi.spyOn(window, "fetch");
 
   afterEach(() => {
     vi.clearAllMocks();
