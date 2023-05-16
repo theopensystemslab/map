@@ -27,7 +27,7 @@ specifiers:
   rambda: ^7.0.1
   rollup-plugin-postcss-lit: ^2.0.0
   sass: ^1.44.0
-  typescript: ^4.3.5
+  typescript: ^5.0.4
   vite: ^4.0.0
   vitest: 0.31.0
   wait-for-expect: ^3.0.2
@@ -61,7 +61,7 @@ devDependencies:
   prettier: 2.3.2
   rollup-plugin-postcss-lit: 2.0.0
   sass: 1.44.0
-  typescript: 4.3.5
+  typescript: 5.0.4
   vite: 4.0.0_ozw2wkf2rbezarvtwxhe3y65wq
   vitest: 0.31.0_p767p5ipsoh4o7725cgz3opcny
   wait-for-expect: 3.0.2
@@ -5965,9 +5965,9 @@ packages:
       mime-types: 2.1.35
     dev: true
 
-  /typescript/4.3.5:
-    resolution: {integrity: sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==}
-    engines: {node: '>=4.2.0'}
+  /typescript/5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
+    engines: {node: '>=12.20'}
     hasBin: true
     dev: true
 
