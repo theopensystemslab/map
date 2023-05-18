@@ -56,7 +56,7 @@
     "sass": "^1.44.0",
     "typescript": "^5.0.4",
     "vite": "^4.0.0",
-    "vitest": "0.31.0",
+    "vitest": "0.31.1",
     "wait-for-expect": "^3.0.2"
   },
   "engines": {
