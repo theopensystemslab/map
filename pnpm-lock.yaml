@@ -9,7 +9,7 @@ specifiers:
   '@types/node': ^20.1.5
   '@types/ol-ext': npm:@siedlerchr/types-ol-ext@^3.0.9
   '@types/proj4': ^2.5.2
-  '@vitest/ui': ^0.30.0
+  '@vitest/ui': ^0.32.0
   accessible-autocomplete: ^2.0.4
   file-saver: ^2.0.5
   govuk-frontend: ^4.0.1
@@ -54,7 +54,7 @@ devDependencies:
   '@types/node': 20.1.5
   '@types/ol-ext': /@siedlerchr/types-ol-ext/3.0.9
   '@types/proj4': 2.5.2
-  '@vitest/ui': 0.30.0
+  '@vitest/ui': 0.32.0_vitest@0.32.0
   happy-dom: 9.1.9
   husky: 8.0.1
   lint-staged: 13.0.3
@@ -63,7 +63,7 @@ devDependencies:
   sass: 1.44.0
   typescript: 5.0.4
   vite: 4.0.0_bhiuhlal5wno6327g3o4psrid4
-  vitest: 0.32.0_p767p5ipsoh4o7725cgz3opcny
+  vitest: 0.32.0_pzalofefxcbowwu7qg56kclmtm
   wait-for-expect: 3.0.2
 
 packages:
@@ -1843,24 +1843,19 @@ packages:
       tinyspy: 2.1.0
     dev: true
 
-  /@vitest/ui/0.30.0:
-    resolution: {integrity: sha512-kzapVRHVXsXcIbi3GR5DVQ+1y0BPcwUmyTqodCckr6l0eyhCL3ecGigR9PH255yFx27vFcwrtl07zfrUWzPOpg==}
+  /@vitest/ui/0.32.0_vitest@0.32.0:
+    resolution: {integrity: sha512-55gugh6+owrOqW83RCgLm9q+o3SlzvFVgl1lyfnr0WB8ABxLoM+3pgusEjosscgEYGzTjTXaZY6xLd4qlfH/RQ==}
+    peerDependencies:
+      vitest: '>=0.30.1 <1'
     dependencies:
-      '@vitest/utils': 0.30.0
+      '@vitest/utils': 0.32.0
       fast-glob: 3.2.12
       fflate: 0.7.4
       flatted: 3.2.7
       pathe: 1.1.0
       picocolors: 1.0.0
-      sirv: 2.0.2
-    dev: true
-
-  /@vitest/utils/0.30.0:
-    resolution: {integrity: sha512-qFZgoOKQ+rJV9xG4BBxgOSilnLQ2gkfG4I+z1wBuuQ3AD33zQrnB88kMFfzsot1E1AbF3dNK1e4CU7q3ojahRA==}
-    dependencies:
-      concordance: 5.0.4
-      loupe: 2.3.6
-      pretty-format: 27.5.1
+      sirv: 2.0.3
+      vitest: 0.32.0_pzalofefxcbowwu7qg56kclmtm
     dev: true
 
   /@vitest/utils/0.32.0:
@@ -5510,8 +5505,8 @@ packages:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
     dev: true
 
-  /sirv/2.0.2:
-    resolution: {integrity: sha512-4Qog6aE29nIjAOKe/wowFTxOdmbEZKb+3tsLljaBRzJwtqto0BChD2zzH0LhgCSXiI+V7X+Y45v14wBZQ1TK3w==}
+  /sirv/2.0.3:
+    resolution: {integrity: sha512-O9jm9BsID1P+0HOi81VpXPoDxYP374pkOLzACAoyUQ/3OUVndNpsz6wMnY2z+yOxzbllCKZrM+9QrWsv4THnyA==}
     engines: {node: '>= 10'}
     dependencies:
       '@polka/url': 1.0.0-next.21
@@ -6115,7 +6110,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.32.0_p767p5ipsoh4o7725cgz3opcny:
+  /vitest/0.32.0_pzalofefxcbowwu7qg56kclmtm:
     resolution: {integrity: sha512-SW83o629gCqnV3BqBnTxhB10DAwzwEx3z+rqYZESehUB+eWsJxwcBQx7CKy0otuGMJTYh7qCVuUX23HkftGl/Q==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6153,7 +6148,7 @@ packages:
       '@vitest/runner': 0.32.0
       '@vitest/snapshot': 0.32.0
       '@vitest/spy': 0.32.0
-      '@vitest/ui': 0.30.0
+      '@vitest/ui': 0.32.0_vitest@0.32.0
       '@vitest/utils': 0.32.0
       acorn: 8.8.2
       acorn-walk: 8.2.0
