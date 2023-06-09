@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@glorious/pitsby': ^1.30.16
-  '@testing-library/dom': ^9.0.0
+  '@testing-library/dom': ^9.3.0
   '@testing-library/user-event': ^14.4.3
   '@turf/union': ^6.5.0
   '@types/file-saver': ^2.0.5
@@ -48,8 +48,8 @@ dependencies:
 
 devDependencies:
   '@glorious/pitsby': 1.30.16_angular@1.8.3
-  '@testing-library/dom': 9.0.0
-  '@testing-library/user-event': 14.4.3_@testing-library+dom@9.0.0
+  '@testing-library/dom': 9.3.0
+  '@testing-library/user-event': 14.4.3_@testing-library+dom@9.3.0
   '@types/file-saver': 2.0.5
   '@types/node': 20.1.5
   '@types/ol-ext': /@siedlerchr/types-ol-ext/3.0.9
@@ -1601,8 +1601,8 @@ packages:
       jspdf: 2.5.1
     dev: true
 
-  /@testing-library/dom/9.0.0:
-    resolution: {integrity: sha512-+/TLgKNFsYUshOY/zXsQOk+PlFQK+eyJ9T13IDVNJEi+M+Un7xlJK+FZKkbGSnf0+7E1G6PlDhkSYQ/GFiruBQ==}
+  /@testing-library/dom/9.3.0:
+    resolution: {integrity: sha512-Dffe68pGwI6WlLRYR2I0piIkyole9cSBH5jGQKCGMRpHW5RHCqAUaqc2Kv0tUyd4dU4DLPKhJIjyKOnjv4tuUw==}
     engines: {node: '>=14'}
     dependencies:
       '@babel/code-frame': 7.18.6
@@ -1611,17 +1611,17 @@ packages:
       aria-query: 5.0.0
       chalk: 4.1.2
       dom-accessibility-api: 0.5.14
-      lz-string: 1.4.4
+      lz-string: 1.5.0
       pretty-format: 27.5.1
     dev: true
 
-  /@testing-library/user-event/14.4.3_@testing-library+dom@9.0.0:
+  /@testing-library/user-event/14.4.3_@testing-library+dom@9.3.0:
     resolution: {integrity: sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
     dependencies:
-      '@testing-library/dom': 9.0.0
+      '@testing-library/dom': 9.3.0
     dev: true
 
   /@trysound/sax/0.2.0:
@@ -2083,8 +2083,10 @@ packages:
       indent-string: 4.0.0
     dev: true
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -4132,8 +4134,8 @@ packages:
     dependencies:
       yallist: 4.0.0
 
-  /lz-string/1.4.4:
-    resolution: {integrity: sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==}
+  /lz-string/1.5.0:
+    resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
     hasBin: true
     dev: true
 
@@ -5369,7 +5371,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
     dev: true
 
