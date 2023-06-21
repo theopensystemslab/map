@@ -26,7 +26,7 @@ specifiers:
   proj4: ^2.8.0
   rambda: ^7.0.1
   rollup-plugin-postcss-lit: ^2.0.0
-  sass: ^1.44.0
+  sass: ^1.63.5
   typescript: ^5.0.4
   vite: ^4.0.0
   vitest: 0.32.0
@@ -60,10 +60,10 @@ devDependencies:
   lint-staged: 13.0.3
   prettier: 2.3.2
   rollup-plugin-postcss-lit: 2.0.0
-  sass: 1.44.0
+  sass: 1.63.5
   typescript: 5.0.4
-  vite: 4.0.0_bhiuhlal5wno6327g3o4psrid4
-  vitest: 0.32.0_pzalofefxcbowwu7qg56kclmtm
+  vite: 4.0.0_72e3wnxlol5atozlggg2lkk2yu
+  vitest: 0.32.0_vpj2dq6fpua46lf7d3nykoak3m
   wait-for-expect: 3.0.2
 
 packages:
@@ -1855,7 +1855,7 @@ packages:
       pathe: 1.1.0
       picocolors: 1.0.0
       sirv: 2.0.3
-      vitest: 0.32.0_pzalofefxcbowwu7qg56kclmtm
+      vitest: 0.32.0_vpj2dq6fpua46lf7d3nykoak3m
     dev: true
 
   /@vitest/utils/0.32.0:
@@ -2083,8 +2083,10 @@ packages:
       indent-string: 4.0.0
     dev: true
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -2490,21 +2492,6 @@ packages:
 
   /check-error/1.0.2:
     resolution: {integrity: sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==}
-    dev: true
-
-  /chokidar/3.5.2:
-    resolution: {integrity: sha512-ekGhOnNVPgT77r4K/U3GDhu+FQ2S8TnK/s2KbIGXi0SZWuwkZ2QNyfWdZW+TVfn84DpEP7rLeCt2UI6bJ8GwbQ==}
-    engines: {node: '>= 8.10.0'}
-    dependencies:
-      anymatch: 3.1.2
-      braces: 3.0.2
-      glob-parent: 5.1.2
-      is-binary-path: 2.1.0
-      is-glob: 4.0.3
-      normalize-path: 3.0.0
-      readdirp: 3.6.0
-    optionalDependencies:
-      fsevents: 2.3.2
     dev: true
 
   /chokidar/3.5.3:
@@ -5332,13 +5319,14 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: true
 
-  /sass/1.44.0:
-    resolution: {integrity: sha512-0hLREbHFXGQqls/K8X+koeP+ogFRPF4ZqetVB19b7Cst9Er8cOR0rc6RU7MaI4W1JmUShd1BPgPoeqmmgMMYFw==}
-    engines: {node: '>=8.9.0'}
+  /sass/1.63.5:
+    resolution: {integrity: sha512-Q6c5gs482oezdAp+0fWF9cRisvpy7yfYb64knID0OE8AnMgtkluRPfpGMFjeD4/+M4+6QpJZCU6JRSxbjiktkg==}
+    engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
-      chokidar: 3.5.2
+      chokidar: 3.5.3
       immutable: 4.0.0
+      source-map-js: 1.0.2
     dev: true
 
   /sax/1.2.4:
@@ -5369,7 +5357,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
     dev: true
 
@@ -6053,7 +6041,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite-node/0.32.0_bhiuhlal5wno6327g3o4psrid4:
+  /vite-node/0.32.0_72e3wnxlol5atozlggg2lkk2yu:
     resolution: {integrity: sha512-220P/y8YacYAU+daOAqiGEFXx2A8AwjadDzQqos6wSukjvvTWNqleJSwoUn0ckyNdjHIKoxn93Nh1vWBqEKr3Q==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6063,7 +6051,7 @@ packages:
       mlly: 1.2.0
       pathe: 1.1.0
       picocolors: 1.0.0
-      vite: 4.0.0_bhiuhlal5wno6327g3o4psrid4
+      vite: 4.0.0_72e3wnxlol5atozlggg2lkk2yu
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -6074,7 +6062,7 @@ packages:
       - terser
     dev: true
 
-  /vite/4.0.0_bhiuhlal5wno6327g3o4psrid4:
+  /vite/4.0.0_72e3wnxlol5atozlggg2lkk2yu:
     resolution: {integrity: sha512-ynad+4kYs8Jcnn8J7SacS9vAbk7eMy0xWg6E7bAhS1s79TK+D7tVFGXVZ55S7RNLRROU1rxoKlvZ/qjaB41DGA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -6104,13 +6092,13 @@ packages:
       postcss: 8.4.19
       resolve: 1.22.1
       rollup: 3.7.0
-      sass: 1.44.0
+      sass: 1.63.5
       stylus: 0.58.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.32.0_pzalofefxcbowwu7qg56kclmtm:
+  /vitest/0.32.0_vpj2dq6fpua46lf7d3nykoak3m:
     resolution: {integrity: sha512-SW83o629gCqnV3BqBnTxhB10DAwzwEx3z+rqYZESehUB+eWsJxwcBQx7CKy0otuGMJTYh7qCVuUX23HkftGl/Q==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6165,8 +6153,8 @@ packages:
       strip-literal: 1.0.1
       tinybench: 2.5.0
       tinypool: 0.5.0
-      vite: 4.0.0_bhiuhlal5wno6327g3o4psrid4
-      vite-node: 0.32.0_bhiuhlal5wno6327g3o4psrid4
+      vite: 4.0.0_72e3wnxlol5atozlggg2lkk2yu
+      vite-node: 0.32.0_72e3wnxlol5atozlggg2lkk2yu
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
