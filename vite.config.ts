@@ -31,4 +31,12 @@ export default defineConfig({
     globals: true,
     environment: 'happy-dom',
   },
+  // https://frontend.design-system.service.gov.uk/importing-css-assets-and-javascript/#silence-deprecation-warnings-from-dependencies-in-dart-sass
+  css: {
+    preprocessorOptions: {
+      scss: {
+        quietDeps: true
+      }
+    }
+  }
 });
