@@ -22,7 +22,7 @@ specifiers:
   ol-ext: ^4.0.4
   ol-mapbox-style: ^10.0.0
   postcode: ^5.1.0
-  prettier: ^2.3.2
+  prettier: ^2.8.8
   proj4: ^2.8.0
   rambda: ^7.0.1
   rollup-plugin-postcss-lit: ^2.0.0
@@ -58,7 +58,7 @@ devDependencies:
   happy-dom: 9.1.9
   husky: 8.0.1
   lint-staged: 13.2.3
-  prettier: 2.3.2
+  prettier: 2.8.8
   rollup-plugin-postcss-lit: 2.0.0
   sass: 1.63.6
   typescript: 5.0.4
@@ -5216,8 +5216,8 @@ packages:
     hasBin: true
     dev: true
 
-  /prettier/2.3.2:
-    resolution: {integrity: sha512-lnJzDfJ66zkMy58OL5/NY5zp70S7Nz6KqcKkXYzn2tMVrNxvbqaBpg7H3qHaLxCJ5lNMsGuM8+ohS7cZrthdLQ==}
+  /prettier/2.8.8:
+    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
