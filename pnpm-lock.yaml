@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@glorious/pitsby': ^1.30.16
-  '@testing-library/dom': ^9.0.0
+  '@testing-library/dom': ^9.3.1
   '@testing-library/user-event': ^14.4.3
   '@turf/union': ^6.5.0
   '@types/file-saver': ^2.0.5
