@@ -6,10 +6,10 @@ updates:
       interval: "weekly"
     reviewers:
       - "theopensystemslab/planx"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule: 
       interval: "weekly"
     reviewers:
       - "theopensystemslab/planx"
-      
