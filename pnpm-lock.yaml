@@ -9,7 +9,7 @@ specifiers:
   '@types/node': ^20.3.2
   '@types/ol-ext': npm:@siedlerchr/types-ol-ext@^3.0.9
   '@types/proj4': ^2.5.2
-  '@vitest/ui': ^0.32.0
+  '@vitest/ui': ^0.32.2
   accessible-autocomplete: ^2.0.4
   file-saver: ^2.0.5
   govuk-frontend: ^4.0.1
@@ -54,7 +54,7 @@ devDependencies:
   '@types/node': 20.3.2
   '@types/ol-ext': /@siedlerchr/types-ol-ext/3.0.9
   '@types/proj4': 2.5.2
-  '@vitest/ui': 0.32.0_vitest@0.32.0
+  '@vitest/ui': 0.32.2_vitest@0.32.0
   happy-dom: 9.1.9
   husky: 8.0.1
   lint-staged: 13.2.3
@@ -63,7 +63,7 @@ devDependencies:
   sass: 1.63.6
   typescript: 5.0.4
   vite: 4.0.0_rr37v2kaut26grzpsze3ylifey
-  vitest: 0.32.0_n2jq4n3kqeklv3vyxvu3zkfw34
+  vitest: 0.32.0_tluf2zom5nre2fglx3lvohp2aa
   wait-for-expect: 3.0.2
 
 packages:
@@ -1849,25 +1849,33 @@ packages:
       tinyspy: 2.1.0
     dev: true
 
-  /@vitest/ui/0.32.0_vitest@0.32.0:
-    resolution: {integrity: sha512-55gugh6+owrOqW83RCgLm9q+o3SlzvFVgl1lyfnr0WB8ABxLoM+3pgusEjosscgEYGzTjTXaZY6xLd4qlfH/RQ==}
+  /@vitest/ui/0.32.2_vitest@0.32.0:
+    resolution: {integrity: sha512-N5JKftnB8qzKFtpQC5OcUGxYTLo6wiB/95Lgyk6MF52t74Y7BJOWbf6EFYhXqt9J0MSbhOR2kapq+WKKUGDW0g==}
     peerDependencies:
       vitest: '>=0.30.1 <1'
     dependencies:
-      '@vitest/utils': 0.32.0
+      '@vitest/utils': 0.32.2
       fast-glob: 3.2.12
       fflate: 0.7.4
       flatted: 3.2.7
       pathe: 1.1.0
       picocolors: 1.0.0
       sirv: 2.0.3
-      vitest: 0.32.0_n2jq4n3kqeklv3vyxvu3zkfw34
+      vitest: 0.32.0_tluf2zom5nre2fglx3lvohp2aa
     dev: true
 
   /@vitest/utils/0.32.0:
     resolution: {integrity: sha512-53yXunzx47MmbuvcOPpLaVljHaeSu1G2dHdmy7+9ngMnQIkBQcvwOcoclWFnxDMxFbnq8exAfh3aKSZaK71J5A==}
     dependencies:
       concordance: 5.0.4
+      loupe: 2.3.6
+      pretty-format: 27.5.1
+    dev: true
+
+  /@vitest/utils/0.32.2:
+    resolution: {integrity: sha512-lnJ0T5i03j0IJaeW73hxe2AuVnZ/y1BhhCOuIcl9LIzXnbpXJT9Lrt6brwKHXLOiA7MZ6N5hSJjt0xE1dGNCzQ==}
+    dependencies:
+      diff-sequences: 29.4.3
       loupe: 2.3.6
       pretty-format: 27.5.1
     dev: true
@@ -3023,6 +3031,11 @@ packages:
 
   /detect-node/2.1.0:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
+    dev: true
+
+  /diff-sequences/29.4.3:
+    resolution: {integrity: sha512-ofrBgwpPhCD85kMKtE9RYFFq6OC1A89oW2vvgWZNCwxrUpRUILopY7lsYyMDSjc8g6U6aiO0Qubg6r4Wgt5ZnA==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dev: true
 
   /dir-glob/3.0.1:
@@ -6337,7 +6350,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.32.0_n2jq4n3kqeklv3vyxvu3zkfw34:
+  /vitest/0.32.0_tluf2zom5nre2fglx3lvohp2aa:
     resolution: {integrity: sha512-SW83o629gCqnV3BqBnTxhB10DAwzwEx3z+rqYZESehUB+eWsJxwcBQx7CKy0otuGMJTYh7qCVuUX23HkftGl/Q==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6375,7 +6388,7 @@ packages:
       '@vitest/runner': 0.32.0
       '@vitest/snapshot': 0.32.0
       '@vitest/spy': 0.32.0
-      '@vitest/ui': 0.32.0_vitest@0.32.0
+      '@vitest/ui': 0.32.2_vitest@0.32.0
       '@vitest/utils': 0.32.0
       acorn: 8.8.2
       acorn-walk: 8.2.0
