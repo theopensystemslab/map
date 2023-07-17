@@ -13,7 +13,7 @@ specifiers:
   accessible-autocomplete: ^2.0.4
   file-saver: ^2.0.5
   govuk-frontend: ^4.6.0
-  happy-dom: ^9.1.9
+  happy-dom: ^10.3.2
   husky: ^8.0.1
   jspdf: ^2.5.1
   lint-staged: ^13.2.3
@@ -55,7 +55,7 @@ devDependencies:
   '@types/ol-ext': /@siedlerchr/types-ol-ext/3.0.9
   '@types/proj4': 2.5.2
   '@vitest/ui': 0.32.4_vitest@0.32.0
-  happy-dom: 9.1.9
+  happy-dom: 10.3.2
   husky: 8.0.1
   lint-staged: 13.2.3
   prettier: 3.0.0
@@ -63,7 +63,7 @@ devDependencies:
   sass: 1.63.6
   typescript: 5.0.4
   vite: 4.4.4_rr37v2kaut26grzpsze3ylifey
-  vitest: 0.32.0_vkfeyim4r6rth4evgxxdj2oowq
+  vitest: 0.32.0_n2inrgn54qq4mq5mzttyfljtzq
   wait-for-expect: 3.0.2
 
 packages:
@@ -1872,7 +1872,7 @@ packages:
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.3
-      vitest: 0.32.0_vkfeyim4r6rth4evgxxdj2oowq
+      vitest: 0.32.0_n2inrgn54qq4mq5mzttyfljtzq
     dev: true
 
   /@vitest/utils/0.32.0:
@@ -3158,8 +3158,8 @@ packages:
     resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==}
     dev: true
 
-  /entities/4.3.1:
-    resolution: {integrity: sha512-o4q/dYJlmyjP2zfnaWDUC6A3BQFmVTX+tZPezK7k0GLSU9QYCauscf5Y+qcEPzKL+EixVouYDgLQK5H9GrLpkg==}
+  /entities/4.5.0:
+    resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
     dev: true
 
@@ -3626,11 +3626,11 @@ packages:
     resolution: {integrity: sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==}
     dev: true
 
-  /happy-dom/9.1.9:
-    resolution: {integrity: sha512-OMbnoknA7iNNG/5fwt1JckCKc53QLLFo2ljzit1pCV9SC1TYwcQj0obq0QUTeqIf2p2skbFG69bo19YoSj/1DA==}
+  /happy-dom/10.3.2:
+    resolution: {integrity: sha512-SmV12YEaaAlEfhfq+4unIHkyvqY08as7x9dM+Q6TxjNpHX0k3ihJ4mukjxxstEpx463XhVQJsAKGlNoVdKWsVA==}
     dependencies:
       css.escape: 1.5.1
-      he: 1.2.0
+      entities: 4.5.0
       iconv-lite: 0.6.3
       webidl-conversions: 7.0.0
       whatwg-encoding: 2.0.0
@@ -4782,7 +4782,7 @@ packages:
   /parse5/7.0.0:
     resolution: {integrity: sha512-y/t8IXSPWTuRZqXc0ajH/UwDj4mnqLEbSttNbThcFhGrZuOyoyvNBO85PBp2jQa55wY9d07PBNjsK8ZP3K5U6g==}
     dependencies:
-      entities: 4.3.1
+      entities: 4.5.0
     dev: true
 
   /parseurl/1.3.3:
@@ -6387,7 +6387,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.32.0_vkfeyim4r6rth4evgxxdj2oowq:
+  /vitest/0.32.0_n2inrgn54qq4mq5mzttyfljtzq:
     resolution: {integrity: sha512-SW83o629gCqnV3BqBnTxhB10DAwzwEx3z+rqYZESehUB+eWsJxwcBQx7CKy0otuGMJTYh7qCVuUX23HkftGl/Q==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6433,7 +6433,7 @@ packages:
       chai: 4.3.7
       concordance: 5.0.4
       debug: 4.3.4
-      happy-dom: 9.1.9
+      happy-dom: 10.3.2
       local-pkg: 0.4.3
       magic-string: 0.30.0
       pathe: 1.1.0
