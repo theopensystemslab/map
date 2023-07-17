@@ -20,7 +20,7 @@ specifiers:
   lit: ^2.7.5
   ol: ^7.0.0
   ol-ext: ^4.0.4
-  ol-mapbox-style: ^10.0.0
+  ol-mapbox-style: ^10.6.0
   postcode: ^5.1.0
   prettier: ^3.0.0
   proj4: ^2.9.0
@@ -41,7 +41,7 @@ dependencies:
   lit: 2.7.5
   ol: 7.0.0
   ol-ext: 4.0.4_ol@7.0.0
-  ol-mapbox-style: 10.0.0
+  ol-mapbox-style: 10.6.0
   postcode: 5.1.0
   proj4: 2.9.0
   rambda: 7.0.3
@@ -3544,6 +3544,19 @@ packages:
       xml-utils: 1.0.2
     dev: false
 
+  /geotiff/2.0.7:
+    resolution: {integrity: sha512-FKvFTNowMU5K6lHYY2f83d4lS2rsCNdpUC28AX61x9ZzzqPNaWFElWv93xj0eJFaNyOYA63ic5OzJ88dHpoA5Q==}
+    engines: {node: '>=10.19'}
+    dependencies:
+      '@petamoriken/float16': 3.5.11
+      lerc: 3.0.0
+      pako: 2.0.4
+      parse-headers: 2.0.4
+      quick-lru: 6.1.1
+      web-worker: 1.2.0
+      xml-utils: 1.0.2
+    dev: false
+
   /get-func-name/2.0.0:
     resolution: {integrity: sha512-Hm0ixYtaSZ/V7C8FJrtZIuBBI+iSgL+1Aq82zSu8VQNB4S3Gk8e7Qs3VwBDJAhmRZcFqkl3tQu36g/Foh5I5ig==}
     dev: true
@@ -4658,11 +4671,12 @@ packages:
       ol: 7.0.0
     dev: false
 
-  /ol-mapbox-style/10.0.0:
-    resolution: {integrity: sha512-C+jgyYi/cSCyQegc0TZ5E5+mfArhPbau5XUtQXBhqtVk5vM948Bgb2WZ/ks9tpGL5X+x/uEz3X3HZcVYoHQJFQ==}
+  /ol-mapbox-style/10.6.0:
+    resolution: {integrity: sha512-s86QhCoyyKVRsYkvPzzdWd///bhYh3onWrBq4lNXnCd9G/hS6AoK023kn4zlDESVlTBDTWLz8vhOistp0M3TXA==}
     dependencies:
       '@mapbox/mapbox-gl-style-spec': 13.24.0
       mapbox-to-css-font: 2.4.1
+      ol: 7.4.0
     dev: false
 
   /ol-mapbox-style/9.0.0:
@@ -4678,6 +4692,16 @@ packages:
       earcut: 2.2.4
       geotiff: 2.0.4
       ol-mapbox-style: 9.0.0
+      pbf: 3.2.1
+      rbush: 3.0.1
+    dev: false
+
+  /ol/7.4.0:
+    resolution: {integrity: sha512-bgBbiah694HhC0jt8ptEFNRXwgO8d6xWH3G97PCg4bmn9Li5nLLbi59oSrvqUI6VPVwonPQF1YcqJymxxyMC6A==}
+    dependencies:
+      earcut: 2.2.4
+      geotiff: 2.0.7
+      ol-mapbox-style: 10.6.0
       pbf: 3.2.1
       rbush: 3.0.1
     dev: false
@@ -5333,6 +5357,11 @@ packages:
   /queue-tick/1.0.0:
     resolution: {integrity: sha512-ULWhjjE8BmiICGn3G8+1L9wFpERNxkf8ysxkAer4+TFdRefDaXOCV5m92aMB9FtBVmn/8sETXLXY6BfW7hyaWQ==}
     dev: true
+
+  /quick-lru/6.1.1:
+    resolution: {integrity: sha512-S27GBT+F0NTRiehtbrgaSE1idUAJ5bX8dPAQTdylEyNlrdcH5X4Lz7Edz3DYzecbsCluD5zO8ZNEe04z3D3u6Q==}
+    engines: {node: '>=12'}
+    dev: false
 
   /quickselect/2.0.0:
     resolution: {integrity: sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==}
