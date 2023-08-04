@@ -18,7 +18,7 @@ specifiers:
   jspdf: ^2.5.1
   lint-staged: ^13.2.3
   lit: ^2.7.6
-  ol: ^7.0.0
+  ol: ^7.4.0
   ol-ext: ^4.0.4
   ol-mapbox-style: ^10.0.0
   postcode: ^5.1.0
@@ -39,8 +39,8 @@ dependencies:
   govuk-frontend: 4.7.0
   jspdf: 2.5.1
   lit: 2.7.6
-  ol: 7.0.0
-  ol-ext: 4.0.4_ol@7.0.0
+  ol: 7.4.0
+  ol-ext: 4.0.4_ol@7.4.0
   ol-mapbox-style: 10.0.0
   postcode: 5.1.0
   proj4: 2.9.0
@@ -3499,15 +3499,15 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /geotiff/2.0.4:
-    resolution: {integrity: sha512-aG8h9bJccGusioPsEWsEqx8qdXpZN71A20WCvRKGxcnHSOWLKmC5ZmsAmodfxb9TRQvs+89KikGuPzxchhA+Uw==}
-    engines: {browsers: defaults, node: '>=10.19'}
+  /geotiff/2.0.7:
+    resolution: {integrity: sha512-FKvFTNowMU5K6lHYY2f83d4lS2rsCNdpUC28AX61x9ZzzqPNaWFElWv93xj0eJFaNyOYA63ic5OzJ88dHpoA5Q==}
+    engines: {node: '>=10.19'}
     dependencies:
       '@petamoriken/float16': 3.5.11
       lerc: 3.0.0
-      lru-cache: 6.0.0
       pako: 2.0.4
       parse-headers: 2.0.4
+      quick-lru: 6.1.1
       web-worker: 1.2.0
       xml-utils: 1.0.2
     dev: false
@@ -4320,6 +4320,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: true
 
   /lz-string/1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
@@ -4606,12 +4607,12 @@ packages:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
     dev: true
 
-  /ol-ext/4.0.4_ol@7.0.0:
+  /ol-ext/4.0.4_ol@7.4.0:
     resolution: {integrity: sha512-VMSsBc/vuWgMvk2U8qUNLN0kKjsuPowISmqmMB9Bs8PfyHBNBKCUgMkYOVzO2cX5EQOdVkkcsa0N/Oln5L0oYA==}
     peerDependencies:
       ol: '>= 5.3.0'
     dependencies:
-      ol: 7.0.0
+      ol: 7.4.0
     dev: false
 
   /ol-mapbox-style/10.0.0:
@@ -4621,19 +4622,20 @@ packages:
       mapbox-to-css-font: 2.4.1
     dev: false
 
-  /ol-mapbox-style/9.0.0:
-    resolution: {integrity: sha512-smixniNq2N4nTLAYf8ouIcBI4dOd1P6p3CWd/cmuP6ai85s84vOGUVbCa1jcS40oDRlOakWRP3XqtEQhEv7Wbw==}
+  /ol-mapbox-style/10.6.0:
+    resolution: {integrity: sha512-s86QhCoyyKVRsYkvPzzdWd///bhYh3onWrBq4lNXnCd9G/hS6AoK023kn4zlDESVlTBDTWLz8vhOistp0M3TXA==}
     dependencies:
       '@mapbox/mapbox-gl-style-spec': 13.24.0
       mapbox-to-css-font: 2.4.1
+      ol: 7.4.0
     dev: false
 
-  /ol/7.0.0:
-    resolution: {integrity: sha512-7kCUKeWXopFPuEE0iuNXTasMi4wgvoM/Ri7pHW74/0lPfdWrrjrYAn2hOuIdfSIiMxdjifwQqpC9hhTFGxmH7A==}
+  /ol/7.4.0:
+    resolution: {integrity: sha512-bgBbiah694HhC0jt8ptEFNRXwgO8d6xWH3G97PCg4bmn9Li5nLLbi59oSrvqUI6VPVwonPQF1YcqJymxxyMC6A==}
     dependencies:
       earcut: 2.2.4
-      geotiff: 2.0.4
-      ol-mapbox-style: 9.0.0
+      geotiff: 2.0.7
+      ol-mapbox-style: 10.6.0
       pbf: 3.2.1
       rbush: 3.0.1
     dev: false
@@ -5285,6 +5287,11 @@ packages:
   /queue-tick/1.0.0:
     resolution: {integrity: sha512-ULWhjjE8BmiICGn3G8+1L9wFpERNxkf8ysxkAer4+TFdRefDaXOCV5m92aMB9FtBVmn/8sETXLXY6BfW7hyaWQ==}
     dev: true
+
+  /quick-lru/6.1.1:
+    resolution: {integrity: sha512-S27GBT+F0NTRiehtbrgaSE1idUAJ5bX8dPAQTdylEyNlrdcH5X4Lz7Edz3DYzecbsCluD5zO8ZNEe04z3D3u6Q==}
+    engines: {node: '>=12'}
+    dev: false
 
   /quickselect/2.0.0:
     resolution: {integrity: sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==}
@@ -6711,6 +6718,7 @@ packages:
 
   /yallist/4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
+    dev: true
 
   /yaml/1.10.2:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
