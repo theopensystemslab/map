@@ -17,7 +17,7 @@ specifiers:
   husky: ^8.0.3
   jspdf: ^2.5.1
   lint-staged: ^13.2.3
-  lit: ^2.7.5
+  lit: ^2.7.6
   ol: ^7.0.0
   ol-ext: ^4.0.4
   ol-mapbox-style: ^10.0.0
@@ -38,7 +38,7 @@ dependencies:
   file-saver: 2.0.5
   govuk-frontend: 4.6.0
   jspdf: 2.5.1
-  lit: 2.7.5
+  lit: 2.7.6
   ol: 7.0.0
   ol-ext: 4.0.4_ol@7.0.0
   ol-mapbox-style: 10.0.0
@@ -4243,8 +4243,8 @@ packages:
       '@types/trusted-types': 2.0.2
     dev: false
 
-  /lit/2.7.5:
-    resolution: {integrity: sha512-i/cH7Ye6nBDUASMnfwcictBnsTN91+aBjXoTHF2xARghXScKxpD4F4WYI+VLXg9lqbMinDfvoI7VnZXjyHgdfQ==}
+  /lit/2.7.6:
+    resolution: {integrity: sha512-1amFHA7t4VaaDe+vdQejSVBklwtH9svGoG6/dZi9JhxtJBBlqY5D1RV7iLUYY0trCqQc4NfhYYZilZiVHt7Hxg==}
     dependencies:
       '@lit/reactive-element': 1.6.2
       lit-element: 3.3.2
