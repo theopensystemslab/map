@@ -6,8 +6,8 @@ on:
       - main
 
 env:
-  PNPM_VERSION: 7.9.0
-  NODE_VERSION: 16.14.2 # LTS
+  PNPM_VERSION: 8.6.6
+  NODE_VERSION: 18.16.1
 
 jobs:
   vitest:
