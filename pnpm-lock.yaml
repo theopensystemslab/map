@@ -27,8 +27,8 @@ dependencies:
     specifier: ^7.4.0
     version: 7.4.0
   ol-ext:
-    specifier: ^4.0.4
-    version: 4.0.4(ol@7.4.0)
+    specifier: ^4.0.11
+    version: 4.0.11(ol@7.4.0)
   ol-mapbox-style:
     specifier: ^10.0.0
     version: 10.0.0
@@ -83,17 +83,17 @@ devDependencies:
     specifier: ^2.1.0
     version: 2.1.0
   sass:
-    specifier: ^1.63.6
-    version: 1.63.6
+    specifier: ^1.64.2
+    version: 1.64.2
   typescript:
     specifier: ^5.0.4
     version: 5.0.4
   vite:
     specifier: ^4.4.4
-    version: 4.4.4(@types/node@20.4.4)(sass@1.63.6)(stylus@0.58.1)
+    version: 4.4.4(@types/node@20.4.4)(sass@1.64.2)(stylus@0.58.1)
   vitest:
     specifier: 0.34.1
-    version: 0.34.1(@vitest/ui@0.32.4)(happy-dom@9.1.9)(sass@1.63.6)(stylus@0.58.1)
+    version: 0.34.1(@vitest/ui@0.32.4)(happy-dom@9.1.9)(sass@1.64.2)(stylus@0.58.1)
   wait-for-expect:
     specifier: ^3.0.2
     version: 3.0.2
@@ -1913,7 +1913,7 @@ packages:
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.3
-      vitest: 0.34.1(@vitest/ui@0.32.4)(happy-dom@9.1.9)(sass@1.63.6)(stylus@0.58.1)
+      vitest: 0.34.1(@vitest/ui@0.32.4)(happy-dom@9.1.9)(sass@1.64.2)(stylus@0.58.1)
     dev: true
 
   /@vitest/utils@0.32.4:
@@ -4640,8 +4640,8 @@ packages:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
     dev: true
 
-  /ol-ext@4.0.4(ol@7.4.0):
-    resolution: {integrity: sha512-VMSsBc/vuWgMvk2U8qUNLN0kKjsuPowISmqmMB9Bs8PfyHBNBKCUgMkYOVzO2cX5EQOdVkkcsa0N/Oln5L0oYA==}
+  /ol-ext@4.0.11(ol@7.4.0):
+    resolution: {integrity: sha512-zorUn71RsahiA/kbf+tRDbv19wqdLCclxd3gkjsFMnqCbdgl+P59CSJCqMO4O7b2bvaHrw5FEmep7FNFnGGQXg==}
     peerDependencies:
       ol: '>= 5.3.0'
     dependencies:
@@ -5592,8 +5592,8 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: true
 
-  /sass@1.63.6:
-    resolution: {integrity: sha512-MJuxGMHzaOW7ipp+1KdELtqKbfAWbH7OLIdoSMnVe3EXPMTmxTmlaZDCTsgIpPCs3w99lLo9/zDKkOrJuT5byw==}
+  /sass@1.64.2:
+    resolution: {integrity: sha512-TnDlfc+CRnUAgLO9D8cQLFu/GIjJIzJCGkE7o4ekIGQOH7T3GetiRR/PsTWJUHhkzcSPrARkPI+gNWn5alCzDg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -6317,7 +6317,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite-node@0.34.1(@types/node@20.4.4)(sass@1.63.6)(stylus@0.58.1):
+  /vite-node@0.34.1(@types/node@20.4.4)(sass@1.64.2)(stylus@0.58.1):
     resolution: {integrity: sha512-odAZAL9xFMuAg8aWd7nSPT+hU8u2r9gU3LRm9QKjxBEF2rRdWpMuqkrkjvyVQEdNFiBctqr2Gg4uJYizm5Le6w==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6327,7 +6327,7 @@ packages:
       mlly: 1.4.0
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.4.4(@types/node@20.4.4)(sass@1.63.6)(stylus@0.58.1)
+      vite: 4.4.4(@types/node@20.4.4)(sass@1.64.2)(stylus@0.58.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -6339,7 +6339,7 @@ packages:
       - terser
     dev: true
 
-  /vite@4.4.4(@types/node@20.4.4)(sass@1.63.6)(stylus@0.58.1):
+  /vite@4.4.4(@types/node@20.4.4)(sass@1.64.2)(stylus@0.58.1):
     resolution: {integrity: sha512-4mvsTxjkveWrKDJI70QmelfVqTm+ihFAb6+xf4sjEU2TmUCTlVX87tmg/QooPEMQb/lM9qGHT99ebqPziEd3wg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -6371,13 +6371,13 @@ packages:
       esbuild: 0.18.13
       postcss: 8.4.26
       rollup: 3.26.0
-      sass: 1.63.6
+      sass: 1.64.2
       stylus: 0.58.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitest@0.34.1(@vitest/ui@0.32.4)(happy-dom@9.1.9)(sass@1.63.6)(stylus@0.58.1):
+  /vitest@0.34.1(@vitest/ui@0.32.4)(happy-dom@9.1.9)(sass@1.64.2)(stylus@0.58.1):
     resolution: {integrity: sha512-G1PzuBEq9A75XSU88yO5G4vPT20UovbC/2osB2KEuV/FisSIIsw7m5y2xMdB7RsAGHAfg2lPmp2qKr3KWliVlQ==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6431,8 +6431,8 @@ packages:
       strip-literal: 1.0.1
       tinybench: 2.5.0
       tinypool: 0.7.0
-      vite: 4.4.4(@types/node@20.4.4)(sass@1.63.6)(stylus@0.58.1)
-      vite-node: 0.34.1(@types/node@20.4.4)(sass@1.63.6)(stylus@0.58.1)
+      vite: 4.4.4(@types/node@20.4.4)(sass@1.64.2)(stylus@0.58.1)
+      vite-node: 0.34.1(@types/node@20.4.4)(sass@1.64.2)(stylus@0.58.1)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
