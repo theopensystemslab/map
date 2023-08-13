@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.7.5] - 2023-08-14
+
+### Added
+- feat: add `clipGeojsonData` prop to disable panning/zooming/navigating the map's viewport beyond a given geojson extent. ([#363](https://github.com/theopensystemslab/map/pull/363))
+
+### Changed
+- deps: various dependency updates via Dependabot
+
 ### [0.7.4] - 2023-03-17
 
 ### Changed
