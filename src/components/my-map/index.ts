@@ -189,6 +189,12 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   showPrint = false;
 
+  @property({ type: Object })
+  clipGeojsonData = {
+    type: "Feature",
+    geometry: {},
+  };
+
   // set class property (map doesn't require any reactivity using @state)
   map?: Map;
 
@@ -204,12 +210,12 @@ export class MyMap extends LitElement {
     const rasterBaseMap = makeRasterBaseMap(
       this.osVectorTilesApiKey,
       this.osProxyEndpoint,
-      this.osCopyright
+      this.osCopyright,
     );
     const osVectorTileBaseMap = makeOsVectorTileBaseMap(
       this.osVectorTilesApiKey,
       this.osProxyEndpoint,
-      this.osCopyright
+      this.osCopyright,
     );
 
     const useVectorTiles =
@@ -223,20 +229,27 @@ export class MyMap extends LitElement {
     const centerCoordinate = transform(
       [this.longitude, this.latitude],
       projection,
-      "EPSG:3857"
+      "EPSG:3857",
     );
+
+    const clipFeature = new GeoJSON().readFeature(this.clipGeojsonData, {
+      featureProjection: "EPSG:3857",
+    });
+    const clipExtent = clipFeature.getGeometry()?.getExtent();
 
     const map = new Map({
       target,
       layers: [useVectorTiles ? osVectorTileBaseMap! : rasterBaseMap],
       view: new View({
         projection: "EPSG:3857",
-        extent: transformExtent(
-          // UK Boundary
-          [-10.76418, 49.528423, 1.9134116, 61.331151],
-          "EPSG:4326",
-          "EPSG:3857"
-        ),
+        extent: clipExtent
+          ? clipExtent
+          : transformExtent(
+              // UK Boundary
+              [-10.76418, 49.528423, 1.9134116, 61.331151],
+              "EPSG:4326",
+              "EPSG:3857",
+            ),
         minZoom: this.minZoom,
         maxZoom: this.maxZoom,
         center: centerCoordinate,
@@ -264,7 +277,7 @@ export class MyMap extends LitElement {
     const draw = configureDraw(
       this.drawType,
       this.drawPointer,
-      this.drawPointColor
+      this.drawPointColor,
     );
     const modify = configureModify(this.drawPointer);
 
@@ -303,7 +316,7 @@ export class MyMap extends LitElement {
         if (this.drawType === "Polygon") {
           this.dispatch(
             "areaChange",
-            `0 ${this.areaUnit === "m2" ? "m²" : this.areaUnit}`
+            `0 ${this.areaUnit === "m2" ? "m²" : this.areaUnit}`,
           );
         }
 
@@ -320,7 +333,7 @@ export class MyMap extends LitElement {
     const olControls: NodeListOf<HTMLButtonElement> | undefined =
       this.renderRoot?.querySelectorAll(".ol-control button");
     olControls?.forEach((node) =>
-      node.setAttribute("aria-label", node.getAttribute("title") || "")
+      node.setAttribute("aria-label", node.getAttribute("title") || ""),
     );
 
     // define cursors for dragging/panning and moving
@@ -378,7 +391,7 @@ export class MyMap extends LitElement {
     // draw interactions
     const drawingLayer = configureDrawingLayer(
       this.drawType,
-      this.drawPointColor
+      this.drawPointColor,
     );
     if (this.drawMode) {
       // make sure drawingSource is cleared upfront, even if drawGeojsonData is provided
@@ -421,7 +434,7 @@ export class MyMap extends LitElement {
           if (lastSketchGeom && this.drawType === "Polygon") {
             this.dispatch(
               "areaChange",
-              formatArea(lastSketchGeom, this.areaUnit)
+              formatArea(lastSketchGeom, this.areaUnit),
             );
           }
 
@@ -476,7 +489,7 @@ export class MyMap extends LitElement {
         centerCoordinate,
         this.osFeaturesApiKey,
         this.osProxyEndpoint,
-        false
+        false,
       );
 
       if (this.clickFeatures) {
@@ -485,7 +498,7 @@ export class MyMap extends LitElement {
             e.coordinate,
             this.osFeaturesApiKey,
             this.osProxyEndpoint,
-            true
+            true,
           );
         });
       }
@@ -493,7 +506,7 @@ export class MyMap extends LitElement {
       const outlineLayer = makeFeatureLayer(
         this.featureColor,
         this.featureFill,
-        this.featureBorderNone
+        this.featureBorderNone,
       );
       map.addLayer(outlineLayer);
 
@@ -517,7 +530,7 @@ export class MyMap extends LitElement {
           if (data) {
             this.dispatch(
               "featuresAreaChange",
-              formatArea(data, this.areaUnit)
+              formatArea(data, this.areaUnit),
             );
           }
         }
@@ -546,8 +559,8 @@ export class MyMap extends LitElement {
         transform(
           [this.markerLongitude, this.markerLatitude],
           projection,
-          "EPSG:3857"
-        )
+          "EPSG:3857",
+        ),
       );
       const markerLayer = new VectorLayer({
         source: new VectorSource({
@@ -589,7 +602,7 @@ export class MyMap extends LitElement {
     this.dispatchEvent(
       new CustomEvent(eventName, {
         detail: payload,
-      })
+      }),
     );
 }
 
