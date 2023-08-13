@@ -192,7 +192,9 @@ export class MyMap extends LitElement {
   @property({ type: Object })
   clipGeojsonData = {
     type: "Feature",
-    geometry: {},
+    geometry: {
+      coordinates: [],
+    },
   };
 
   // set class property (map doesn't require any reactivity using @state)
@@ -232,10 +234,12 @@ export class MyMap extends LitElement {
       "EPSG:3857",
     );
 
-    const clipFeature = new GeoJSON().readFeature(this.clipGeojsonData, {
-      featureProjection: "EPSG:3857",
-    });
-    const clipExtent = clipFeature.getGeometry()?.getExtent();
+    const clipFeature =
+      this.clipGeojsonData.geometry?.coordinates?.length > 0 &&
+      new GeoJSON().readFeature(this.clipGeojsonData, {
+        featureProjection: "EPSG:3857",
+      });
+    const clipExtent = clipFeature && clipFeature.getGeometry()?.getExtent();
 
     const map = new Map({
       target,
