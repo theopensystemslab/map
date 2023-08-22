@@ -27,7 +27,7 @@ specifiers:
   rambda: ^7.0.1
   rollup-plugin-postcss-lit: ^2.1.0
   sass: ^1.64.2
-  typescript: ^5.0.4
+  typescript: ^5.1.6
   vite: ^4.4.4
   vitest: 0.34.1
   wait-for-expect: ^3.0.2
@@ -61,7 +61,7 @@ devDependencies:
   prettier: 3.0.0
   rollup-plugin-postcss-lit: 2.1.0
   sass: 1.65.1
-  typescript: 5.0.4
+  typescript: 5.1.6
   vite: 4.4.4_spchxrv7abjecnm5sgq533vwti
   vitest: 0.34.1_ddlo6ztox6ajyconc6k6lqoghm
   wait-for-expect: 3.0.2
@@ -2502,6 +2502,7 @@ packages:
 
   /bindings/1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    requiresBuild: true
     dependencies:
       file-uri-to-path: 1.0.0
     dev: true
@@ -3794,6 +3795,7 @@ packages:
 
   /file-uri-to-path/1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5243,6 +5245,7 @@ packages:
 
   /nan/2.17.0:
     resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -7204,9 +7207,9 @@ packages:
       mime-types: 2.1.35
     dev: true
 
-  /typescript/5.0.4:
-    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
-    engines: {node: '>=12.20'}
+  /typescript/5.1.6:
+    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: true
 
