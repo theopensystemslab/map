@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@glorious/pitsby': ^1.30.16
+  '@glorious/pitsby': ^1.36.1
   '@testing-library/dom': ^9.3.1
   '@testing-library/user-event': ^14.4.3
   '@turf/union': ^6.5.0
@@ -47,7 +47,7 @@ dependencies:
   rambda: 8.3.0
 
 devDependencies:
-  '@glorious/pitsby': 1.36.0_angular@1.8.3
+  '@glorious/pitsby': 1.36.1_angular@1.8.3
   '@testing-library/dom': 9.3.1
   '@testing-library/user-event': 14.4.3_@testing-library+dom@9.3.1
   '@types/file-saver': 2.0.5
@@ -1441,8 +1441,8 @@ packages:
       shortid: 2.2.16
     dev: true
 
-  /@glorious/pitsby/1.36.0_angular@1.8.3:
-    resolution: {integrity: sha512-Uml8Y49LGW3iYl2fMInETQJEl9ck6HgaJMt1TyiHbUGXsslu05HRaO0puc+C+BJe2pIl7b3ClKCoXqg6yj9dgg==}
+  /@glorious/pitsby/1.36.1_angular@1.8.3:
+    resolution: {integrity: sha512-/HwPoj9CIAMv96oyzQlcTvMd4N2IzM55hS0I07GhhY2tpCAKNzBWk6I7lFxl+7rpirijbo+77KDuhInPHCkNHg==}
     hasBin: true
     dependencies:
       '@babel/core': 7.18.10
