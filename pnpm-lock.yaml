@@ -24,7 +24,7 @@ specifiers:
   postcode: ^5.1.0
   prettier: ^3.0.2
   proj4: ^2.9.0
-  rambda: ^7.0.1
+  rambda: ^8.3.0
   rollup-plugin-postcss-lit: ^2.1.0
   sass: ^1.64.2
   typescript: ^5.1.6
@@ -44,7 +44,7 @@ dependencies:
   ol-mapbox-style: 11.0.0
   postcode: 5.1.0
   proj4: 2.9.0
-  rambda: 7.0.3
+  rambda: 8.3.0
 
 devDependencies:
   '@glorious/pitsby': 1.36.0_angular@1.8.3
@@ -6156,8 +6156,8 @@ packages:
       performance-now: 2.1.0
     optional: true
 
-  /rambda/7.0.3:
-    resolution: {integrity: sha512-vRkFoukpx9PTmYyOjMZ6+anbDI9BrjaAepigsSOVQcgy7dZKMHM26m1/r8BvegeBCM8qBwr1m/+rufgNKRrofw==}
+  /rambda/8.3.0:
+    resolution: {integrity: sha512-XN5B8zIB6efO9Y9SrzdLQyk6XX3U7OyWESIvNYnm7AH8KCbXBtzsUVFaJYpUcIx5VahmvNV7fNjevR/ohc90jw==}
     dev: false
 
   /randombytes/2.1.0:
