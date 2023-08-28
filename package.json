@@ -40,7 +40,7 @@
     "rambda": "^8.3.0"
   },
   "devDependencies": {
-    "@glorious/pitsby": "^1.30.16",
+    "@glorious/pitsby": "^1.36.1",
     "@testing-library/dom": "^9.3.1",
     "@testing-library/user-event": "^14.4.3",
     "@types/file-saver": "^2.0.5",
