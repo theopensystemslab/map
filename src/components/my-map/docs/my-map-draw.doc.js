@@ -29,6 +29,16 @@ module.exports = {
       values: "100 (default)",
     },
     {
+      name: "drawColor",
+      type: "String",
+      values: "#ff0000 (default)",
+    },
+    {
+      name: "drawFillColor",
+      type: "String",
+      values: "rgba(255, 0, 0, 0.1) (default)",
+    },
+    {
       name: "areaUnits",
       type: "String",
       values: "m2 (default), ha",

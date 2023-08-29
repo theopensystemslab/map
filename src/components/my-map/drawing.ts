@@ -11,78 +11,91 @@ export type DrawTypeEnum = "Polygon" | "Point"; // ref https://openlayers.org/en
 export type DrawPointerEnum = "crosshair" | "dot";
 
 // drawPointer styles
-const crosshair = new RegularShape({
-  stroke: new Stroke({
-    color: "red",
-    width: 2,
-  }),
-  points: 4, // crosshair aka star
-  radius1: 15, // outer radius
-  radius2: 1, // inner radius
-});
-
-const dot = new CircleStyle({
-  radius: 6,
-  fill: new Fill({
-    color: "#ff0000",
-  }),
-});
-
-// feature style: red-line site boundary
-const redLineBase = {
-  color: "#ff0000",
-  width: 3,
-};
-
-const redLineStroke = new Stroke(redLineBase);
-
-const redDashedStroke = new Stroke({
-  ...redLineBase,
-  lineDash: [2, 8],
-});
-
-const redLineFill = new Fill({
-  color: "rgba(255, 0, 0, 0.1)",
-});
-
-const polygonVertices = new Style({
-  image: new RegularShape({
-    fill: new Fill({
-      color: "#fff",
-    }),
+function crosshair(drawColor: string) {
+  return new RegularShape({
     stroke: new Stroke({
-      color: "#ff0000",
+      color: drawColor,
       width: 2,
     }),
-    points: 4, // squares
-    radius: 5,
-    angle: Math.PI / 4,
-  }),
-  geometry: function (feature) {
-    const geom = feature.getGeometry();
-    if (geom instanceof Polygon) {
-      // return the coordinates of the drawn polygon
-      const coordinates: number[][] = geom.getCoordinates()[0];
-      return new MultiPoint(coordinates);
-    } else {
-      return;
-    }
-  },
-});
+    points: 4, // crosshair aka star
+    radius1: 15, // outer radius
+    radius2: 1, // inner radius
+  });
+}
 
-const boundaryLayerStyle: StyleLike = [
-  new Style({
-    fill: redLineFill,
-    stroke: redLineStroke,
-  }),
-  polygonVertices,
-];
+function dot(drawColor: string) {
+  return new CircleStyle({
+    radius: 6,
+    fill: new Fill({
+      color: drawColor,
+    }),
+  });
+}
 
-function configureBoundaryDrawStyle(pointerStyle: DrawPointerEnum) {
+function polygonVertices(drawColor: string) {
   return new Style({
-    stroke: redDashedStroke,
-    fill: redLineFill,
-    image: pointerStyle === "crosshair" ? crosshair : dot,
+    image: new RegularShape({
+      fill: new Fill({
+        color: "#fff",
+      }),
+      stroke: new Stroke({
+        color: drawColor,
+        width: 2,
+      }),
+      points: 4, // squares
+      radius: 5,
+      angle: Math.PI / 4,
+    }),
+    geometry: function (feature) {
+      const geom = feature.getGeometry();
+      if (geom instanceof Polygon) {
+        // return the coordinates of the drawn polygon
+        const coordinates = geom.getCoordinates()[0];
+        return new MultiPoint(coordinates);
+      } else {
+        return;
+      }
+    },
+  });
+}
+
+function boundaryLayerStyle(
+  drawColor: string,
+  drawColorFill: string,
+): StyleLike {
+  return [
+    new Style({
+      fill: new Fill({
+        color: drawColorFill,
+      }),
+      stroke: new Stroke({
+        color: drawColor,
+        width: 3,
+      }),
+    }),
+    polygonVertices(drawColor),
+  ];
+}
+
+function configureBoundaryDrawStyle(
+  pointerStyle: DrawPointerEnum,
+  drawColor: string,
+  drawFillColor: string,
+) {
+  return new Style({
+    stroke: configureDashedStroke(drawColor),
+    fill: new Fill({
+      color: drawFillColor,
+    }),
+    image: pointerStyle === "crosshair" ? crosshair(drawColor) : dot(drawColor),
+  });
+}
+
+function configureDashedStroke(drawColor: string) {
+  return new Stroke({
+    color: drawColor,
+    width: 3,
+    lineDash: [2, 8],
   });
 }
 
@@ -106,13 +119,15 @@ export const drawingSource = new VectorSource();
 
 export function configureDrawingLayer(
   drawType: DrawTypeEnum,
-  pointColor: string
+  pointColor: string,
+  drawColor: string,
+  drawFillColor: string,
 ) {
   return new VectorLayer({
     source: drawingSource,
     style:
       drawType === "Polygon"
-        ? boundaryLayerStyle
+        ? boundaryLayerStyle(drawColor, drawFillColor)
         : configurePointLayerStyle(pointColor),
   });
 }
@@ -121,14 +136,16 @@ export function configureDrawingLayer(
 export function configureDraw(
   drawType: DrawTypeEnum,
   pointerStyle: DrawPointerEnum,
-  pointColor: string
+  pointColor: string,
+  drawColor: string,
+  drawFillColor: string,
 ) {
   return new Draw({
     source: drawingSource,
     type: drawType,
     style:
       drawType === "Polygon"
-        ? configureBoundaryDrawStyle(pointerStyle)
+        ? configureBoundaryDrawStyle(pointerStyle, drawColor, drawFillColor)
         : configurePointDrawStyle(pointColor),
   });
 }
@@ -138,11 +155,15 @@ export const snap = new Snap({
   pixelTolerance: 15,
 });
 
-export function configureModify(pointerStyle: DrawPointerEnum) {
+export function configureModify(
+  pointerStyle: DrawPointerEnum,
+  drawColor: string,
+) {
   return new Modify({
     source: drawingSource,
     style: new Style({
-      image: pointerStyle === "crosshair" ? crosshair : dot,
+      image:
+        pointerStyle === "crosshair" ? crosshair(drawColor) : dot(drawColor),
     }),
   });
 }
