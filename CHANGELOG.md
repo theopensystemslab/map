@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.7.6] - 2023-08-30
+
+### Added
+- feat: add `drawColor` & `drawFillColor` props to customise the drawing color. It still defaults to red for the canonical example of location plans. ([#379](https://github.com/theopensystemslab/map/pull/379))
+
 ### [0.7.5] - 2023-08-14
 
 ### Added
