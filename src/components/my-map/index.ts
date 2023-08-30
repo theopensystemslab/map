@@ -109,6 +109,12 @@ export class MyMap extends LitElement {
   clickFeatures = false;
 
   @property({ type: String })
+  drawColor = "#ff0000";
+
+  @property({ type: String })
+  drawFillColor = "rgba(255, 0, 0, 0.1)";
+
+  @property({ type: String })
   featureColor = "#0000ff";
 
   @property({ type: Boolean })
@@ -282,8 +288,10 @@ export class MyMap extends LitElement {
       this.drawType,
       this.drawPointer,
       this.drawPointColor,
+      this.drawColor,
+      this.drawFillColor,
     );
-    const modify = configureModify(this.drawPointer);
+    const modify = configureModify(this.drawPointer, this.drawColor);
 
     // add custom scale line and north arrow controls to the map
     let scale: ScaleLine;
@@ -396,6 +404,8 @@ export class MyMap extends LitElement {
     const drawingLayer = configureDrawingLayer(
       this.drawType,
       this.drawPointColor,
+      this.drawColor,
+      this.drawFillColor,
     );
     if (this.drawMode) {
       // make sure drawingSource is cleared upfront, even if drawGeojsonData is provided
