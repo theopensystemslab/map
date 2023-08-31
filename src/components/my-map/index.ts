@@ -374,17 +374,22 @@ export class MyMap extends LitElement {
 
     const geojsonLayer = new VectorLayer({
       source: geojsonSource,
-      style: new Style({
-        stroke: new Stroke({
-          color: this.geojsonColor,
-          width: 3,
-        }),
-        fill: new Fill({
-          color: this.geojsonFill
-            ? hexToRgba(this.geojsonColor, 0.2)
-            : hexToRgba(this.geojsonColor, 0),
-        }),
-      }),
+      style: function (this: MyMap, feature: any) {
+        // Retrieve color from feature properties
+        let featureColor = feature.get("color") || this.geojsonColor; // Use the geojsonColor if no color property exists
+
+        return new Style({
+          stroke: new Stroke({
+            color: featureColor,
+            width: 3,
+          }),
+          fill: new Fill({
+            color: this.geojsonFill
+              ? hexToRgba(featureColor, 0.2)
+              : hexToRgba(featureColor, 0),
+          }),
+        });
+      }.bind(this),
     });
 
     map.addLayer(geojsonLayer);
