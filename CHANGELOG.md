@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.7.7] - 2023-09-01
+
+### Added
+- feat: ability to set a custom border color _per_ feature when passing a `FeatureCollection` into `geojsonData` by reading from the feature's `properties.color` attribute. If `properties.color` is not defined, `geojsonColor` will be used to style each feature. ([#381](https://github.com/theopensystemslab/map/pull/381))
+
 ### [0.7.6] - 2023-08-30
 
 ### Added
