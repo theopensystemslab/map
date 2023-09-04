@@ -18,7 +18,7 @@ specifiers:
   jspdf: ^2.5.1
   lint-staged: ^13.2.3
   lit: ^2.7.6
-  ol: ^7.5.1
+  ol: ^8.0.0
   ol-ext: ^4.0.11
   ol-mapbox-style: ^11.0.3
   postcode: ^5.1.0
@@ -39,9 +39,9 @@ dependencies:
   govuk-frontend: 4.7.0
   jspdf: 2.5.1
   lit: 2.7.6
-  ol: 7.5.1
-  ol-ext: 4.0.11_ol@7.5.1
-  ol-mapbox-style: 11.0.3_ol@7.5.1
+  ol: 8.0.0
+  ol-ext: 4.0.11_ol@8.0.0
+  ol-mapbox-style: 11.0.3_ol@8.0.0
   postcode: 5.1.0
   proj4: 2.9.0
   rambda: 8.3.0
@@ -5393,38 +5393,29 @@ packages:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
     dev: true
 
-  /ol-ext/4.0.11_ol@7.5.1:
+  /ol-ext/4.0.11_ol@8.0.0:
     resolution: {integrity: sha512-zorUn71RsahiA/kbf+tRDbv19wqdLCclxd3gkjsFMnqCbdgl+P59CSJCqMO4O7b2bvaHrw5FEmep7FNFnGGQXg==}
     peerDependencies:
       ol: '>= 5.3.0'
     dependencies:
-      ol: 7.5.1
+      ol: 8.0.0
     dev: false
 
-  /ol-mapbox-style/10.6.0:
-    resolution: {integrity: sha512-s86QhCoyyKVRsYkvPzzdWd///bhYh3onWrBq4lNXnCd9G/hS6AoK023kn4zlDESVlTBDTWLz8vhOistp0M3TXA==}
-    dependencies:
-      '@mapbox/mapbox-gl-style-spec': 13.24.0
-      mapbox-to-css-font: 2.4.1
-      ol: 7.5.1
-    dev: false
-
-  /ol-mapbox-style/11.0.3_ol@7.5.1:
+  /ol-mapbox-style/11.0.3_ol@8.0.0:
     resolution: {integrity: sha512-jc3PX1kHtvq8e5jPYVh9WFAppAbLrndik9qBicIemlQKPz0oFeQ98D3ITub3wfwVXXVReqeOKa43NGOseUne1Q==}
     peerDependencies:
       ol: '>=8.0.0 || >8.0.0-dev.0 < 8.0.0 || >=7.0.0 <=7.5.1'
     dependencies:
       '@mapbox/mapbox-gl-style-spec': 13.24.0
       mapbox-to-css-font: 2.4.1
-      ol: 7.5.1
+      ol: 8.0.0
     dev: false
 
-  /ol/7.5.1:
-    resolution: {integrity: sha512-CFXDhO8YdQt7I+zwrGYSONo/ZM2oLr7vUvxqpLEUyy+USaQjUeE8L6FBOWIPboopGVhnSVYd5hdEirn9ifKBZQ==}
+  /ol/8.0.0:
+    resolution: {integrity: sha512-tWDVFlt4ylZJeByD/Q5vSWPxEMoHy1tyyWT+LFDlGmGl6p9kmxtCfGAIupwUGrc5ifWsy+gDbg6QGd1Qw0y3HA==}
     dependencies:
       earcut: 2.2.4
       geotiff: 2.0.7
-      ol-mapbox-style: 10.6.0
       pbf: 3.2.1
       rbush: 3.0.1
     dev: false
