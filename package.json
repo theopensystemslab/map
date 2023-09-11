@@ -50,7 +50,7 @@
     "@vitest/ui": "^0.34.4",
     "happy-dom": "^9.1.9",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
     "rollup-plugin-postcss-lit": "^2.1.0",
     "sass": "^1.64.2",
