@@ -9,7 +9,7 @@ specifiers:
   '@types/node': ^20.4.4
   '@types/ol-ext': npm:@siedlerchr/types-ol-ext@^3.0.9
   '@types/proj4': ^2.5.2
-  '@vitest/ui': ^0.34.3
+  '@vitest/ui': ^0.34.4
   accessible-autocomplete: ^2.0.4
   file-saver: ^2.0.5
   govuk-frontend: ^4.7.0
@@ -54,7 +54,7 @@ devDependencies:
   '@types/node': 20.4.4
   '@types/ol-ext': /@siedlerchr/types-ol-ext/3.0.9
   '@types/proj4': 2.5.2
-  '@vitest/ui': 0.34.3_vitest@0.34.1
+  '@vitest/ui': 0.34.4_vitest@0.34.1
   happy-dom: 9.1.9
   husky: 8.0.3
   lint-staged: 13.2.3
@@ -63,7 +63,7 @@ devDependencies:
   sass: 1.65.1
   typescript: 5.2.2
   vite: 4.4.9_spchxrv7abjecnm5sgq533vwti
-  vitest: 0.34.1_mqlvvnn4w6xaggyf7jgv66n66m
+  vitest: 0.34.1_3xqsc5uqxntm4psg2swgvfbz7y
   wait-for-expect: 3.0.2
 
 packages:
@@ -1931,19 +1931,19 @@ packages:
       tinyspy: 2.1.1
     dev: true
 
-  /@vitest/ui/0.34.3_vitest@0.34.1:
-    resolution: {integrity: sha512-iNcOQ0xML9znOReiwpKJrTLSj5zFxmveD3VCxIJNqnsaMYpONSbSiiJLC1Y1dYlkmiHylp+ElNcUZYIMWdxRvA==}
+  /@vitest/ui/0.34.4_vitest@0.34.1:
+    resolution: {integrity: sha512-gz0m0r9ErFG32r+DRdwuLJpUDpbi+jrMcw9nJZAau48Fs4LDIBg561PvczvGqyYxzbyFU7vgkSnSlSDfK0d53w==}
     peerDependencies:
       vitest: '>=0.30.1 <1'
     dependencies:
-      '@vitest/utils': 0.34.3
+      '@vitest/utils': 0.34.4
       fast-glob: 3.3.1
       fflate: 0.8.0
       flatted: 3.2.7
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.3
-      vitest: 0.34.1_mqlvvnn4w6xaggyf7jgv66n66m
+      vitest: 0.34.1_3xqsc5uqxntm4psg2swgvfbz7y
     dev: true
 
   /@vitest/utils/0.34.1:
@@ -1954,8 +1954,8 @@ packages:
       pretty-format: 29.5.0
     dev: true
 
-  /@vitest/utils/0.34.3:
-    resolution: {integrity: sha512-kiSnzLG6m/tiT0XEl4U2H8JDBjFtwVlaE8I3QfGiMFR0QvnRDfYfdP3YvTBWM/6iJDAyaPY6yVQiCTUc7ZzTHA==}
+  /@vitest/utils/0.34.4:
+    resolution: {integrity: sha512-yR2+5CHhp/K4ySY0Qtd+CAL9f5Yh1aXrKfAT42bq6CtlGPh92jIDDDSg7ydlRow1CP+dys4TrOrbELOyNInHSg==}
     dependencies:
       diff-sequences: 29.4.3
       loupe: 2.3.6
@@ -7395,7 +7395,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.34.1_mqlvvnn4w6xaggyf7jgv66n66m:
+  /vitest/0.34.1_3xqsc5uqxntm4psg2swgvfbz7y:
     resolution: {integrity: sha512-G1PzuBEq9A75XSU88yO5G4vPT20UovbC/2osB2KEuV/FisSIIsw7m5y2xMdB7RsAGHAfg2lPmp2qKr3KWliVlQ==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -7433,7 +7433,7 @@ packages:
       '@vitest/runner': 0.34.1
       '@vitest/snapshot': 0.34.1
       '@vitest/spy': 0.34.1
-      '@vitest/ui': 0.34.3_vitest@0.34.1
+      '@vitest/ui': 0.34.4_vitest@0.34.1
       '@vitest/utils': 0.34.1
       acorn: 8.10.0
       acorn-walk: 8.2.0
