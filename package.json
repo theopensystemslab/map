@@ -31,7 +31,7 @@
     "file-saver": "^2.0.5",
     "govuk-frontend": "^4.7.0",
     "jspdf": "^2.5.1",
-    "lit": "^2.7.6",
+    "lit": "^2.8.0",
     "ol": "^7.5.1",
     "ol-ext": "^4.0.11",
     "ol-mapbox-style": "^11.0.3",
