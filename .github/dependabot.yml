@@ -3,13 +3,18 @@ updates:
   - package-ecosystem: "npm" # use this yaml value when package manager is 'pnpm'
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     reviewers:
       - "theopensystemslab/planx"
+    ignore:
+      - dependency-name: "ol"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "happy-dom"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule: 
-      interval: "weekly"
+      interval: "monthly"
     reviewers:
       - "theopensystemslab/planx"

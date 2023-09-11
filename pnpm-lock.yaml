@@ -6,7 +6,7 @@ specifiers:
   '@testing-library/user-event': ^14.4.3
   '@turf/union': ^6.5.0
   '@types/file-saver': ^2.0.5
-  '@types/node': ^20.4.4
+  '@types/node': 18.16.1
   '@types/ol-ext': npm:@siedlerchr/types-ol-ext@^3.0.9
   '@types/proj4': ^2.5.2
   '@vitest/ui': ^0.34.4
@@ -51,7 +51,7 @@ devDependencies:
   '@testing-library/dom': 9.3.1
   '@testing-library/user-event': 14.4.3_@testing-library+dom@9.3.1
   '@types/file-saver': 2.0.5
-  '@types/node': 20.4.4
+  '@types/node': 18.16.1
   '@types/ol-ext': /@siedlerchr/types-ol-ext/3.0.9
   '@types/proj4': 2.5.2
   '@vitest/ui': 0.34.4_vitest@0.34.4
@@ -62,7 +62,7 @@ devDependencies:
   rollup-plugin-postcss-lit: 2.1.0
   sass: 1.65.1
   typescript: 5.2.2
-  vite: 4.4.9_spchxrv7abjecnm5sgq533vwti
+  vite: 4.4.9_nyyrrz2j35c6q6qzng5nbnaqr4
   vitest: 0.34.4_3xqsc5uqxntm4psg2swgvfbz7y
   wait-for-expect: 3.0.2
 
@@ -1823,6 +1823,10 @@ packages:
     resolution: {integrity: sha512-fccbsHKqFDXClBZTDLA43zl0+TbxyIwyzIzwwhvoJvhNjOErCdeX2xJbURimv2EbSVUGav001PaCJg4mZxMl4w==}
     dev: true
 
+  /@types/node/18.16.1:
+    resolution: {integrity: sha512-DZxSZWXxFfOlx7k7Rv4LAyiMroaxa3Ly/7OOzZO8cBNho0YzAi4qlbrx8W27JGqG57IgR/6J7r+nOJWw6kcvZA==}
+    dev: true
+
   /@types/node/20.4.4:
     resolution: {integrity: sha512-CukZhumInROvLq3+b5gLev+vgpsIqC2D0deQr/yS1WnxvmYLlJXZpaQrQiseMY+6xusl79E04UjWoqyr+t1/Ew==}
     dev: true
@@ -2809,6 +2813,10 @@ packages:
 
   /colord/2.9.2:
     resolution: {integrity: sha512-Uqbg+J445nc1TKn4FoDPS6ZZqAvEDnwrH42yo8B40JSOgSLxMZ/gt3h4nmCtPLQeXhjJJkqBx7SCY35WnIixaQ==}
+    dev: true
+
+  /colorette/2.0.19:
+    resolution: {integrity: sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==}
     dev: true
 
   /colorette/2.0.20:
@@ -7269,6 +7277,44 @@ packages:
       - terser
     dev: true
 
+  /vite/4.4.9_nyyrrz2j35c6q6qzng5nbnaqr4:
+    resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 18.16.1
+      esbuild: 0.18.13
+      postcss: 8.4.28
+      rollup: 3.28.1
+      sass: 1.65.1
+      stylus: 0.58.1
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
   /vite/4.4.9_spchxrv7abjecnm5sgq533vwti:
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -7425,7 +7471,7 @@ packages:
       '@webpack-cli/configtest': 1.2.0_w3wu7rcwmvifygnqiqkxwjppse
       '@webpack-cli/info': 1.5.0_webpack-cli@4.10.0
       '@webpack-cli/serve': 1.7.0_webpack-cli@4.10.0
-      colorette: 2.0.20
+      colorette: 2.0.19
       commander: 7.2.0
       cross-spawn: 7.0.3
       fastest-levenshtein: 1.0.16
@@ -7442,7 +7488,7 @@ packages:
     peerDependencies:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
-      colorette: 2.0.20
+      colorette: 2.0.19
       memfs: 3.4.7
       mime-types: 2.1.35
       range-parser: 1.2.1
@@ -7471,7 +7517,7 @@ packages:
       ansi-html-community: 0.0.8
       bonjour-service: 1.0.13
       chokidar: 3.5.3
-      colorette: 2.0.20
+      colorette: 2.0.19
       compression: 1.7.4
       connect-history-api-fallback: 2.0.0
       default-gateway: 6.0.3
