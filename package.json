@@ -36,7 +36,7 @@
     "ol-ext": "^4.0.11",
     "ol-mapbox-style": "^11.0.3",
     "postcode": "^5.1.0",
-    "proj4": "^2.9.0",
+    "proj4": "^2.9.2",
     "rambda": "^8.3.0"
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "@types/file-saver": "^2.0.6",
     "@types/node": "18.16.1",
     "@types/ol-ext": "npm:@siedlerchr/types-ol-ext@^3.0.9",
-    "@types/proj4": "^2.5.2",
+    "@types/proj4": "^2.5.4",
     "@vitest/ui": "^0.34.6",
     "happy-dom": "^9.1.9",
     "husky": "^8.0.3",
