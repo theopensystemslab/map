@@ -20,7 +20,7 @@ specifiers:
   lit: ^2.8.0
   ol: ^7.5.1
   ol-ext: ^4.0.11
-  ol-mapbox-style: ^11.0.3
+  ol-mapbox-style: ^12.0.0
   postcode: ^5.1.0
   prettier: ^3.0.3
   proj4: ^2.9.2
@@ -41,7 +41,7 @@ dependencies:
   lit: 2.8.0
   ol: 7.5.1
   ol-ext: 4.0.11_ol@7.5.1
-  ol-mapbox-style: 11.0.3_ol@7.5.1
+  ol-mapbox-style: 12.0.0_ol@7.5.1
   postcode: 5.1.0
   proj4: 2.9.2
   rambda: 8.3.0
@@ -5380,10 +5380,10 @@ packages:
       ol: 7.5.1
     dev: false
 
-  /ol-mapbox-style/11.0.3_ol@7.5.1:
-    resolution: {integrity: sha512-jc3PX1kHtvq8e5jPYVh9WFAppAbLrndik9qBicIemlQKPz0oFeQ98D3ITub3wfwVXXVReqeOKa43NGOseUne1Q==}
+  /ol-mapbox-style/12.0.0_ol@7.5.1:
+    resolution: {integrity: sha512-rrIFh1BuXdMfl9XwKobpz7sKLAVchseowQlGdgN3WRbCnovSdTeC5RSw1lgnC334kY74y9CQ7cY2WOR5nbnpHg==}
     peerDependencies:
-      ol: '>=8.0.0 || >8.0.0-dev.0 < 8.0.0 || >=7.0.0 <=7.5.1'
+      ol: 8.x || 7.x
     dependencies:
       '@mapbox/mapbox-gl-style-spec': 13.24.0
       mapbox-to-css-font: 2.4.1
