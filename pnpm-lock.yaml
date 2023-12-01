@@ -8,7 +8,7 @@ specifiers:
   '@types/file-saver': ^2.0.6
   '@types/node': 18.16.1
   '@types/ol-ext': npm:@siedlerchr/types-ol-ext@^3.0.9
-  '@types/proj4': ^2.5.4
+  '@types/proj4': ^2.5.5
   '@vitest/ui': ^0.34.6
   accessible-autocomplete: ^2.0.4
   file-saver: ^2.0.5
@@ -53,7 +53,7 @@ devDependencies:
   '@types/file-saver': 2.0.6
   '@types/node': 18.16.1
   '@types/ol-ext': /@siedlerchr/types-ol-ext/3.0.9
-  '@types/proj4': 2.5.4
+  '@types/proj4': 2.5.5
   '@vitest/ui': 0.34.6_vitest@0.34.6
   happy-dom: 9.1.9
   husky: 8.0.3
@@ -1840,8 +1840,8 @@ packages:
     resolution: {integrity: sha512-CukZhumInROvLq3+b5gLev+vgpsIqC2D0deQr/yS1WnxvmYLlJXZpaQrQiseMY+6xusl79E04UjWoqyr+t1/Ew==}
     dev: true
 
-  /@types/proj4/2.5.4:
-    resolution: {integrity: sha512-AAqZQKgOGuEmhlfLgues7anx0vcZg+0xKE8UggfVnWJSKk4xdVm+Rg1q2q7YmqoZS51BJ5jTcCyYQqIGdxa8FQ==}
+  /@types/proj4/2.5.5:
+    resolution: {integrity: sha512-y4tHUVVoMEOm2nxRLQ2/ET8upj/pBmoutGxFw2LZJTQWPgWXI+cbxVEUFFmIzr/bpFR83hGDOTSXX6HBeObvZA==}
     dev: true
 
   /@types/qs/6.9.7:
