@@ -5,7 +5,7 @@ specifiers:
   '@testing-library/dom': ^9.3.1
   '@testing-library/user-event': ^14.5.1
   '@turf/union': ^6.5.0
-  '@types/file-saver': ^2.0.6
+  '@types/file-saver': ^2.0.7
   '@types/node': 18.16.1
   '@types/ol-ext': npm:@siedlerchr/types-ol-ext@^3.0.9
   '@types/proj4': ^2.5.5
@@ -50,7 +50,7 @@ devDependencies:
   '@glorious/pitsby': 1.36.1_angular@1.8.3
   '@testing-library/dom': 9.3.1
   '@testing-library/user-event': 14.5.1_@testing-library+dom@9.3.1
-  '@types/file-saver': 2.0.6
+  '@types/file-saver': 2.0.7
   '@types/node': 18.16.1
   '@types/ol-ext': /@siedlerchr/types-ol-ext/3.0.9
   '@types/proj4': 2.5.5
@@ -1794,8 +1794,8 @@ packages:
       '@types/serve-static': 1.15.0
     dev: true
 
-  /@types/file-saver/2.0.6:
-    resolution: {integrity: sha512-Mw671DVqoMHbjw0w4v2iiOro01dlT/WhWp5uwecBa0Wg8c+bcZOjgF1ndBnlaxhtvFCgTRBtsGivSVhrK/vnag==}
+  /@types/file-saver/2.0.7:
+    resolution: {integrity: sha512-dNKVfHd/jk0SkR/exKGj2ggkB45MAkzvWCaqLUUgkyjITkGNzH8H+yUwr+BLJUBjZOe9w8X3wgmXhZDRg1ED6A==}
     dev: true
 
   /@types/html-minifier-terser/6.1.0:
