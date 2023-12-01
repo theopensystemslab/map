@@ -17,7 +17,7 @@ specifiers:
   husky: ^8.0.3
   jspdf: ^2.5.1
   lint-staged: ^14.0.1
-  lit: ^3.0.1
+  lit: ^3.1.0
   ol: ^7.5.1
   ol-ext: ^4.0.11
   ol-mapbox-style: ^12.0.0
@@ -38,7 +38,7 @@ dependencies:
   file-saver: 2.0.5
   govuk-frontend: 4.7.0
   jspdf: 2.5.1
-  lit: 3.0.1
+  lit: 3.1.0
   ol: 7.5.1
   ol-ext: 4.0.11_ol@7.5.1
   ol-mapbox-style: 12.0.0_ol@7.5.1
@@ -4857,21 +4857,21 @@ packages:
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.1.2
       '@lit/reactive-element': 2.0.1
-      lit-html: 3.0.1
+      lit-html: 3.1.0
     dev: false
 
-  /lit-html/3.0.1:
-    resolution: {integrity: sha512-1nmGaNNQg9rBvE1yJ6oS3ZNbLs3FXtlG4+jgGkix8O740qVEwwiFVTgDGIIH8N5TcQ8V9tBk5T+sxqBgffcjJg==}
+  /lit-html/3.1.0:
+    resolution: {integrity: sha512-FwAjq3iNsaO6SOZXEIpeROlJLUlrbyMkn4iuv4f4u1H40Jw8wkeR/OUXZUHUoiYabGk8Y4Y0F/rgq+R4MrOLmA==}
     dependencies:
       '@types/trusted-types': 2.0.2
     dev: false
 
-  /lit/3.0.1:
-    resolution: {integrity: sha512-CYFv7/gwrs6bfPm299O9LD/HB4dgHvsEf/yqUOI//fi469i2OrT4xaptUcmhr05DNQEgsBFecFH8EJnN5So8oQ==}
+  /lit/3.1.0:
+    resolution: {integrity: sha512-rzo/hmUqX8zmOdamDAeydfjsGXbbdtAFqMhmocnh2j9aDYqbu0fjXygjCa0T99Od9VQ/2itwaGrjZz/ZELVl7w==}
     dependencies:
       '@lit/reactive-element': 2.0.1
       lit-element: 4.0.1
-      lit-html: 3.0.1
+      lit-html: 3.1.0
     dev: false
 
   /live-server/1.2.2:
