@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.7.8] - 2023-12-13
+
+### Changed
+- fix: now displays vertices for polygons as well as multipolygons that are passed into `drawGeojsonData` prop ([#417](https://github.com/theopensystemslab/map/pull/417))
+
 ### [0.7.7] - 2023-09-01
 
 ### Added
