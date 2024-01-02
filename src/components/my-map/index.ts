@@ -96,6 +96,9 @@ export class MyMap extends LitElement {
     geometry: {},
   };
 
+  @property({ type: String })
+  drawGeojsonDataCopyright = "";
+
   @property({ type: Number })
   drawGeojsonDataBuffer = 100;
 
@@ -148,6 +151,9 @@ export class MyMap extends LitElement {
   };
 
   @property({ type: String })
+  geojsonDataCopyright = "";
+
+  @property({ type: String })
   geojsonColor = "#ff0000";
 
   @property({ type: Boolean })
@@ -166,7 +172,8 @@ export class MyMap extends LitElement {
   osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY || "";
 
   @property({ type: String })
-  osCopyright = `© Crown copyright and database rights ${new Date().getFullYear()} OS (0)100024857`;
+  osCopyright =
+    `© Crown copyright and database rights ${new Date().getFullYear()} OS (0)100024857`;
 
   @property({ type: String })
   osProxyEndpoint = "";
@@ -195,6 +202,9 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   showPrint = false;
 
+  @property({ type: Boolean })
+  collapseAttributions = false;
+
   @property({ type: Object })
   clipGeojsonData = {
     type: "Feature",
@@ -219,11 +229,13 @@ export class MyMap extends LitElement {
       this.osVectorTilesApiKey,
       this.osProxyEndpoint,
       this.osCopyright,
+      this.collapseAttributions,
     );
     const osVectorTileBaseMap = makeOsVectorTileBaseMap(
       this.osVectorTilesApiKey,
       this.osProxyEndpoint,
       this.osCopyright,
+      this.collapseAttributions,
     );
 
     const useVectorTiles =
@@ -365,11 +377,13 @@ export class MyMap extends LitElement {
         featureProjection: "EPSG:3857",
       });
       geojsonSource.addFeatures(features);
+      geojsonSource.setAttributions(this.geojsonDataCopyright);
     } else if (this.geojsonData.type === "Feature") {
       let feature = new GeoJSON().readFeature(this.geojsonData, {
         featureProjection: "EPSG:3857",
       });
       geojsonSource.addFeature(feature);
+      geojsonSource.setAttributions(this.geojsonDataCopyright);
     }
 
     const geojsonLayer = new VectorLayer({
@@ -425,6 +439,7 @@ export class MyMap extends LitElement {
           featureProjection: "EPSG:3857",
         });
         drawingSource.addFeature(feature);
+        drawingSource.setAttributions(this.drawGeojsonDataCopyright);
         fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
       }
 
