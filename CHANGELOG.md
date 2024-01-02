@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.7.9] - 2024-01-02
+
+### Added
+- feat: new props `drawGeojsonDataCopyright`, `geojsonDataCopyright`, and `collapseAttributes` allow multiple attributions to be set and styled on the map ([#424](https://github.com/theopensystemslab/map/pull/424))
+
+### Changed
+- deps: various dependency updates via Dependabot
+
 ### [0.7.8] - 2023-12-13
 
 ### Changed
