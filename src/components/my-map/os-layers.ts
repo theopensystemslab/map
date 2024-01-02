@@ -10,12 +10,18 @@ import { getServiceURL } from "../../lib/ordnanceSurvey";
 export function makeRasterBaseMap(
   apiKey: string,
   proxyEndpoint: string,
-  copyright: string
+  copyright: string,
+  collapseAttributions: boolean,
 ): TileLayer<OSM> {
   const isUsingOS = Boolean(apiKey || proxyEndpoint);
   // Fallback to OSM if not using OS services
   const basemap = isUsingOS
-    ? makeOSRasterBaseMap(apiKey, proxyEndpoint, copyright)
+    ? makeOSRasterBaseMap(
+        apiKey,
+        proxyEndpoint,
+        copyright,
+        collapseAttributions,
+      )
     : makeDefaultTileLayer();
   basemap.set("name", "rasterBaseMap");
   return basemap;
@@ -24,7 +30,8 @@ export function makeRasterBaseMap(
 function makeOSRasterBaseMap(
   apiKey: string,
   proxyEndpoint: string,
-  copyright: string
+  copyright: string,
+  collapseAttributions: boolean,
 ): TileLayer<XYZ> {
   const tileServiceURL = getServiceURL({
     service: "xyz",
@@ -36,7 +43,7 @@ function makeOSRasterBaseMap(
       url: tileServiceURL,
       attributions: [copyright],
       crossOrigin: "anonymous",
-      attributionsCollapsible: false,
+      attributionsCollapsible: collapseAttributions,
       maxZoom: 20,
     }),
   });
@@ -54,7 +61,8 @@ function makeDefaultTileLayer(): TileLayer<OSM> {
 export function makeOsVectorTileBaseMap(
   apiKey: string,
   proxyEndpoint: string,
-  copyright: string
+  copyright: string,
+  collapseAttributions: boolean,
 ): VectorTileLayer | undefined {
   const isUsingOS = Boolean(apiKey || proxyEndpoint);
   if (!isUsingOS) return;
@@ -74,7 +82,7 @@ export function makeOsVectorTileBaseMap(
       format: new MVT(),
       url: vectorTileServiceUrl,
       attributions: [copyright],
-      attributionsCollapsible: false,
+      attributionsCollapsible: collapseAttributions,
     }),
   });
 
