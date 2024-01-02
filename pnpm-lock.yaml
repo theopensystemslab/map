@@ -12,7 +12,7 @@ specifiers:
   '@vitest/ui': ^0.34.7
   accessible-autocomplete: ^2.0.4
   file-saver: ^2.0.5
-  govuk-frontend: ^4.7.0
+  govuk-frontend: ^5.0.0
   happy-dom: ^9.1.9
   husky: ^8.0.3
   jspdf: ^2.5.1
@@ -36,7 +36,7 @@ dependencies:
   '@turf/union': 6.5.0
   accessible-autocomplete: 2.0.4
   file-saver: 2.0.5
-  govuk-frontend: 4.7.0
+  govuk-frontend: 5.0.0
   jspdf: 2.5.1
   lit: 3.0.1
   ol: 7.5.1
@@ -4033,8 +4033,8 @@ packages:
       get-intrinsic: 1.2.1
     dev: true
 
-  /govuk-frontend/4.7.0:
-    resolution: {integrity: sha512-0OsdCusF5qvLWwKziU8zqxiC0nq6WP0ZQuw51ymZ/1V0tO71oIKMlSLN2S9bm8RcEGSoidPt2A34gKxePrLjvg==}
+  /govuk-frontend/5.0.0:
+    resolution: {integrity: sha512-3WSfvQ+3kw/q/m8jrq/t8XnMUA8D2r0uhGyZaDbIh1gWTJBQzJBHbHiKYI9nc9ixIXdCFsc9RozkgEm57a795g==}
     engines: {node: '>= 4.2.0'}
     dev: false
 
