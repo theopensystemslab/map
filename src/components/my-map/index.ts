@@ -50,6 +50,7 @@ import {
   hexToRgba,
   makeGeoJSON,
 } from "./utils";
+import { GeoJSONFeature } from "ol/format/GeoJSON";
 
 type MarkerImageEnum = "circle" | "pin";
 type ResetControlImageEnum = "unicode" | "trash";
@@ -130,7 +131,10 @@ export class MyMap extends LitElement {
   featureBuffer = 40;
 
   @property({ type: Boolean })
-  showMarker = false;
+  showGeojsonDataMarkers = false;
+
+  @property({ type: Boolean })
+  showCentreMarker = false;
 
   @property({ type: String })
   markerImage: MarkerImageEnum = "circle";
@@ -587,14 +591,9 @@ export class MyMap extends LitElement {
       }
     };
 
-    // show a marker at a point
-    if (this.showMarker) {
+    const showNewMarker = (lon: number, lat: number) => {
       const markerPoint = new Point(
-        transform(
-          [this.markerLongitude, this.markerLatitude],
-          projection,
-          "EPSG:3857",
-        ),
+        transform([lon, lat], projection, "EPSG:3857"),
       );
       const markerLayer = new VectorLayer({
         source: new VectorSource({
@@ -604,6 +603,20 @@ export class MyMap extends LitElement {
       });
 
       map.addLayer(markerLayer);
+    };
+
+    // show a marker at a point
+    if (this.showCentreMarker) {
+      showNewMarker(this.markerLongitude, this.markerLatitude);
+    }
+
+    if (this.showGeojsonDataMarkers) {
+      this.geojsonData.features.forEach((feature: GeoJSONFeature) => {
+        showNewMarker(
+          feature.geometry.coordinates[0],
+          feature.geometry.coordinates[1],
+        );
+      });
     }
 
     // XXX: force re-render for safari due to it thinking map is 0 height on load
