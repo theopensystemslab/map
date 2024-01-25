@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.8.0] - 2024-01-25
+
+### Breaking
+- feat: adds new boolean prop `showGeojsonDataMarkers` to display point features passed via the `geojsonData` prop; renames existing `showMarker` boolean prop to `showCentreMarker` for clarity ([#429](https://github.com/theopensystemslab/map/pull/429))
+
 ### [0.7.9] - 2024-01-02
 
 ### Added
