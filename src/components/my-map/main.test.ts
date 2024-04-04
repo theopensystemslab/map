@@ -49,6 +49,15 @@ describe("Keyboard navigation of map container, controls and attribution links",
     expect(map).toBeTruthy;
     expect(map?.getAttribute("tabindex")).toEqual("-1");
   });
+
+  it("should keep map container in tab order if attributions are collapsed", async () => {
+    await setupMap(
+      `<my-map id="map-vitest" disableVectorTiles staticMode collapseAttributions />`,
+    );
+    const map = getShadowRoot("my-map")?.getElementById("map-vitest");
+    expect(map).toBeTruthy;
+    expect(map?.getAttribute("tabindex")).toEqual("1");
+  });
 });
 
 describe("Snap points loading behaviour", () => {

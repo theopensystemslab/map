@@ -651,7 +651,7 @@ export class MyMap extends LitElement {
       <div
         id="${this.id}"
         class="map"
-        tabindex="${this.staticMode ? -1 : 1}"
+        tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 1}"
       />`;
   }
 
