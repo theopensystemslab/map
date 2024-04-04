@@ -15,7 +15,7 @@
 }
 
 .map:focus {
-  outline: #ffdd00 solid 0.25em;
+  outline: #ffdd00 solid 0.25em; // GOV.UK yellow
 }
 
 .ol-control button {
@@ -29,6 +29,10 @@
 
 .ol-control button:hover {
   background-color: rgba(44, 44, 44, 0.85) !important;
+}
+
+.ol-control button:focus {
+  outline: #ffdd00 solid 0.15em; // GOV.UK yellow
 }
 
 .ol-scale-line {
@@ -97,4 +101,13 @@
 
 .ol-attribution li {
   display: list-item;
+}
+
+.ol-attribution a {
+  color: #0010a4; // Planx blue
+}
+
+.ol-attribution a:focus {
+  color: black;
+  background-color: #ffdd00; // GOV.UK yellow
 }
