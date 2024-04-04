@@ -366,13 +366,20 @@ export class MyMap extends LitElement {
 
     // Apply tabindexes to OL Controls & Attribution links for accessibility (container div has starting tabindex="1")
     const controlsLength = olControls?.length;
-    olControls?.forEach((node, i) => (node.tabIndex = i + 2));
-
-    const olAttributionLinks: NodeListOf<HTMLAnchorElement> | undefined =
-      this.renderRoot?.querySelectorAll(".ol-attribution a");
-    olAttributionLinks?.forEach(
-      (node, i) => (node.tabIndex = i + 2 + controlsLength),
+    olControls?.forEach((node, i) =>
+      // if `collapseAttributions` is set, ensure attributions control button is last, else follow top-down order
+      node.title === "Attributions"
+        ? (node.tabIndex = 2 + controlsLength)
+        : (node.tabIndex = i + 2),
     );
+
+    if (!this.collapseAttributions) {
+      const olAttributionLinks: NodeListOf<HTMLAnchorElement> | undefined =
+        this.renderRoot?.querySelectorAll(".ol-attribution a");
+      olAttributionLinks?.forEach(
+        (node, i) => (node.tabIndex = i + 2 + controlsLength),
+      );
+    }
 
     // define cursors for dragging/panning and moving
     map.on("pointerdrag", () => {
