@@ -23,7 +23,7 @@ test("olMap is added to the global window for tests", async () => {
 describe("MyMap on initial render with OSM basemap", async () => {
   beforeEach(
     () => setupMap('<my-map id="map-vitest" disableVectorTiles />'),
-    2500
+    2500,
   );
 
   it("should render a custom element with a shadow root", () => {
@@ -33,8 +33,27 @@ describe("MyMap on initial render with OSM basemap", async () => {
     const mapShadowRoot = getShadowRoot("my-map");
     expect(mapShadowRoot).toBeTruthy;
   });
+});
 
-  it("should be keyboard navigable", () => {
+describe("Keyboard navigation of map container, controls and attribution links", () => {
+  it("map container should be keyboard navigable by default", async () => {
+    await setupMap(`<my-map id="map-vitest" disableVectorTiles />`);
+    const map = getShadowRoot("my-map")?.getElementById("map-vitest");
+    expect(map).toBeTruthy;
+    expect(map?.getAttribute("tabindex")).toEqual("0");
+  });
+
+  it("should omit map container from tab order if not interactive", async () => {
+    await setupMap(`<my-map id="map-vitest" disableVectorTiles staticMode />`);
+    const map = getShadowRoot("my-map")?.getElementById("map-vitest");
+    expect(map).toBeTruthy;
+    expect(map?.getAttribute("tabindex")).toEqual("-1");
+  });
+
+  it("should keep map container in tab order if attributions are collapsed", async () => {
+    await setupMap(
+      `<my-map id="map-vitest" disableVectorTiles staticMode collapseAttributions />`,
+    );
     const map = getShadowRoot("my-map")?.getElementById("map-vitest");
     expect(map).toBeTruthy;
     expect(map?.getAttribute("tabindex")).toEqual("0");
@@ -47,7 +66,7 @@ describe("Snap points loading behaviour", () => {
 
   const getSnapSpy: MockInstance = vi.spyOn(
     snapping,
-    "getSnapPointsFromVectorTiles"
+    "getSnapPointsFromVectorTiles",
   );
   afterEach(() => {
     vi.resetAllMocks();
