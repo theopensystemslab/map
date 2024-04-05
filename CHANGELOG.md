@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.8.1] - 2024-04-05
+
+### Changed
+- fix: usability improvements such as stronger focus color contrast and improved keyboard navigation based on recent accessibility audit ([#442](https://github.com/theopensystemslab/map/pull/442))
+- deps: upgraded to Vite v5, in addition to a number of other Dependabot updates ([#441](https://github.com/theopensystemslab/map/pull/441))
+
 ### [0.8.0] - 2024-01-25
 
 ### Breaking
