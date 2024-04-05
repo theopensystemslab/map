@@ -364,22 +364,15 @@ export class MyMap extends LitElement {
       node.setAttribute("aria-label", node.getAttribute("title") || ""),
     );
 
-    // Apply tabindexes to OL Controls & Attribution links for accessibility (container div has starting tabindex="1")
-    const controlsLength = olControls?.length;
-    olControls?.forEach((node, i) =>
-      // if `collapseAttributions` is set, ensure attributions control button is last, else follow top-down order
-      node.title === "Attributions"
-        ? (node.tabIndex = 2 + controlsLength)
-        : (node.tabIndex = i + 2),
+    // Re-order overlay elements so that OL Attribution is final element
+    //   making OL Controls first in natural tab order for accessibility
+    const olAttribution = this.renderRoot?.querySelector(
+      ".ol-attribution",
+    ) as Node;
+    const olOverlay = this.renderRoot?.querySelector(
+      ".ol-overlaycontainer-stopevent",
     );
-
-    if (!this.collapseAttributions) {
-      const olAttributionLinks: NodeListOf<HTMLAnchorElement> | undefined =
-        this.renderRoot?.querySelectorAll(".ol-attribution a");
-      olAttributionLinks?.forEach(
-        (node, i) => (node.tabIndex = i + 2 + controlsLength),
-      );
-    }
+    olOverlay?.append(olAttribution);
 
     // define cursors for dragging/panning and moving
     map.on("pointerdrag", () => {
@@ -651,7 +644,7 @@ export class MyMap extends LitElement {
       <div
         id="${this.id}"
         class="map"
-        tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 1}"
+        tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
       />`;
   }
 

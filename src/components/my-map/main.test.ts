@@ -40,7 +40,7 @@ describe("Keyboard navigation of map container, controls and attribution links",
     await setupMap(`<my-map id="map-vitest" disableVectorTiles />`);
     const map = getShadowRoot("my-map")?.getElementById("map-vitest");
     expect(map).toBeTruthy;
-    expect(map?.getAttribute("tabindex")).toEqual("1");
+    expect(map?.getAttribute("tabindex")).toEqual("0");
   });
 
   it("should omit map container from tab order if not interactive", async () => {
@@ -56,7 +56,7 @@ describe("Keyboard navigation of map container, controls and attribution links",
     );
     const map = getShadowRoot("my-map")?.getElementById("map-vitest");
     expect(map).toBeTruthy;
-    expect(map?.getAttribute("tabindex")).toEqual("1");
+    expect(map?.getAttribute("tabindex")).toEqual("0");
   });
 });
 
