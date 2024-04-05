@@ -1,3 +1,7 @@
+$gov-uk-yellow: #ffdd00;
+$planx-blue: #0010a4;
+$planx-dark-grey: #2c2c2c;
+
 // default map size, can be overwritten with CSS
 :host {
   display: block;
@@ -15,12 +19,12 @@
 }
 
 .map:focus {
-  outline: #ffdd00 solid 0.25em;
+  outline: $gov-uk-yellow solid 0.25em;
 }
 
 .ol-control button {
   border-radius: 0 !important;
-  background-color: #2c2c2c !important;
+  background-color: $planx-dark-grey !important;
   cursor: pointer;
   min-width: 44px;
   min-height: 44px;
@@ -31,14 +35,18 @@
   background-color: rgba(44, 44, 44, 0.85) !important;
 }
 
+.ol-control button:focus {
+  outline: $gov-uk-yellow solid 0.15em;
+}
+
 .ol-scale-line {
   background-color: transparent;
 }
 
 .ol-scale-line-inner {
-  border: 0.2em solid #2c2c2c;
+  border: 0.2em solid $planx-dark-grey;
   border-top: none;
-  color: #2c2c2c;
+  color: $planx-dark-grey;
   font-size: 1em;
   font-family: inherit;
 }
@@ -97,4 +105,13 @@
 
 .ol-attribution li {
   display: list-item;
+}
+
+.ol-attribution a {
+  color: $planx-blue;
+}
+
+.ol-attribution a:focus {
+  color: black;
+  background-color: $gov-uk-yellow;
 }

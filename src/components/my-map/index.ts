@@ -309,22 +309,6 @@ export class MyMap extends LitElement {
     );
     const modify = configureModify(this.drawPointer, this.drawColor);
 
-    // add custom scale line and north arrow controls to the map
-    let scale: ScaleLine;
-    if (this.showNorthArrow) {
-      map.addControl(northArrowControl());
-    }
-
-    if (this.showScale) {
-      scale = scaleControl(this.useScaleBarStyle);
-      map.addControl(scale);
-    }
-
-    if (this.showPrint) {
-      const printControl = new PrintControl({ map });
-      map.addControl(printControl);
-    }
-
     // add a custom 'reset' control to the map
     const handleReset = () => {
       if (this.showFeaturesAtPoint) {
@@ -357,12 +341,38 @@ export class MyMap extends LitElement {
       map.addControl(resetControl(handleReset, this.resetControlImage));
     }
 
+    // add custom scale line and north arrow controls to the map
+    let scale: ScaleLine;
+    if (this.showNorthArrow) {
+      map.addControl(northArrowControl());
+    }
+
+    if (this.showScale) {
+      scale = scaleControl(this.useScaleBarStyle);
+      map.addControl(scale);
+    }
+
+    if (this.showPrint) {
+      const printControl = new PrintControl({ map });
+      map.addControl(printControl);
+    }
+
     // Apply aria-labels to OL Controls for accessibility
     const olControls: NodeListOf<HTMLButtonElement> | undefined =
       this.renderRoot?.querySelectorAll(".ol-control button");
     olControls?.forEach((node) =>
       node.setAttribute("aria-label", node.getAttribute("title") || ""),
     );
+
+    // Re-order overlay elements so that OL Attribution is final element
+    //   making OL Controls first in natural tab order for accessibility
+    const olAttribution = this.renderRoot?.querySelector(
+      ".ol-attribution",
+    ) as Node;
+    const olOverlay = this.renderRoot?.querySelector(
+      ".ol-overlaycontainer-stopevent",
+    );
+    olOverlay?.append(olAttribution);
 
     // define cursors for dragging/panning and moving
     map.on("pointerdrag", () => {
@@ -631,7 +641,11 @@ export class MyMap extends LitElement {
   render() {
     return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       <link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
-      <div id="${this.id}" class="map" tabindex="0" />`;
+      <div
+        id="${this.id}"
+        class="map"
+        tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
+      />`;
   }
 
   // unmount the map
