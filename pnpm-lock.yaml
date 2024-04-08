@@ -24,14 +24,14 @@ dependencies:
     specifier: ^3.0.1
     version: 3.0.1
   ol:
-    specifier: ^7.5.1
-    version: 7.5.1
+    specifier: ^9.1.0
+    version: 9.1.0
   ol-ext:
-    specifier: ^4.0.11
-    version: 4.0.11(ol@7.5.1)
+    specifier: ^4.0.17
+    version: 4.0.17(ol@9.1.0)
   ol-mapbox-style:
-    specifier: ^12.0.0
-    version: 12.0.0(ol@7.5.1)
+    specifier: ^12.3.0
+    version: 12.3.0(ol@9.1.0)
   postcode:
     specifier: ^5.1.0
     version: 5.1.0
@@ -59,8 +59,8 @@ devDependencies:
     specifier: 18.19.21
     version: 18.19.21
   '@types/ol-ext':
-    specifier: npm:@siedlerchr/types-ol-ext@^3.0.9
-    version: /@siedlerchr/types-ol-ext@3.0.9
+    specifier: npm:@siedlerchr/types-ol-ext@^3.3.0
+    version: /@siedlerchr/types-ol-ext@3.3.0(jspdf@2.5.1)
   '@types/proj4':
     specifier: ^2.5.5
     version: 2.5.5
@@ -2014,8 +2014,10 @@ packages:
     dev: true
     optional: true
 
-  /@siedlerchr/types-ol-ext@3.0.9:
-    resolution: {integrity: sha512-OwQovO8A+CtIqBr4s8r6hn9sN2uR3nB+z/MiLOYLS5YPPaJ1h0nyJXxmsofjcmtedGLkqwLcAl1YfAKxjG3bAg==}
+  /@siedlerchr/types-ol-ext@3.3.0(jspdf@2.5.1):
+    resolution: {integrity: sha512-DPiiOP6sFbrE38HoLkPE9XxOq7CduQo/qWfDCCMLqzyEENGwimuC6RvDqP3zvC4lM6WNTYskYmoj2e7CVf0nKw==}
+    peerDependencies:
+      jspdf: ^2.5.1
     dependencies:
       jspdf: 2.5.1
     dev: true
@@ -3189,6 +3191,28 @@ packages:
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
     dev: true
+
+  /color-name@2.0.0:
+    resolution: {integrity: sha512-SbtvAMWvASO5TE2QP07jHBMXKafgdZz8Vrsrn96fiL+O92/FN/PLARzUW5sKt013fjAprK2d2iCn2hk2Xb5oow==}
+    engines: {node: '>=12.20'}
+    dev: false
+
+  /color-parse@2.0.2:
+    resolution: {integrity: sha512-eCtOz5w5ttWIUcaKLiktF+DxZO1R9KLNY/xhbV6CkhM7sR3GhVghmt6X6yOnzeaM24po+Z9/S1apbXMwA3Iepw==}
+    dependencies:
+      color-name: 2.0.0
+    dev: false
+
+  /color-rgba@3.0.0:
+    resolution: {integrity: sha512-PPwZYkEY3M2THEHHV6Y95sGUie77S7X8v+h1r6LSAPF3/LL2xJ8duUXSrkic31Nzc4odPwHgUbiX/XuTYzQHQg==}
+    dependencies:
+      color-parse: 2.0.2
+      color-space: 2.0.1
+    dev: false
+
+  /color-space@2.0.1:
+    resolution: {integrity: sha512-nKqUYlo0vZATVOFHY810BSYjmCARrG7e5R3UE3CQlyjJTvv5kSSmPG1kzm/oDyyqjehM+lW1RnEt9It9GNa5JA==}
+    dev: false
 
   /colord@2.9.2:
     resolution: {integrity: sha512-Uqbg+J445nc1TKn4FoDPS6ZZqAvEDnwrH42yo8B40JSOgSLxMZ/gt3h4nmCtPLQeXhjJJkqBx7SCY35WnIixaQ==}
@@ -5787,38 +5811,31 @@ packages:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
     dev: true
 
-  /ol-ext@4.0.11(ol@7.5.1):
-    resolution: {integrity: sha512-zorUn71RsahiA/kbf+tRDbv19wqdLCclxd3gkjsFMnqCbdgl+P59CSJCqMO4O7b2bvaHrw5FEmep7FNFnGGQXg==}
+  /ol-ext@4.0.17(ol@9.1.0):
+    resolution: {integrity: sha512-o3D+x7dzUIRyVDshmNceGgcNKX0N+Xf/vgQ1QwEIsBDeRJgraAeKtREGOPP0upnI8ldehoLMsCIiZgnsWxWAVw==}
     peerDependencies:
       ol: '>= 5.3.0'
     dependencies:
-      ol: 7.5.1
+      ol: 9.1.0
     dev: false
 
-  /ol-mapbox-style@10.6.0:
-    resolution: {integrity: sha512-s86QhCoyyKVRsYkvPzzdWd///bhYh3onWrBq4lNXnCd9G/hS6AoK023kn4zlDESVlTBDTWLz8vhOistp0M3TXA==}
-    dependencies:
-      '@mapbox/mapbox-gl-style-spec': 13.24.0
-      mapbox-to-css-font: 2.4.1
-      ol: 7.5.1
-    dev: false
-
-  /ol-mapbox-style@12.0.0(ol@7.5.1):
-    resolution: {integrity: sha512-rrIFh1BuXdMfl9XwKobpz7sKLAVchseowQlGdgN3WRbCnovSdTeC5RSw1lgnC334kY74y9CQ7cY2WOR5nbnpHg==}
+  /ol-mapbox-style@12.3.0(ol@9.1.0):
+    resolution: {integrity: sha512-DPGWcEeC/XNejo0N10DpVOkMr2pRSzxOYWpe9RoOPiC9Ph34jiuyRpFQsLzlnJPrRo7pdQOYSYoM+mL8QF/HBA==}
     peerDependencies:
-      ol: 8.x || 7.x
+      ol: '*'
     dependencies:
       '@mapbox/mapbox-gl-style-spec': 13.24.0
       mapbox-to-css-font: 2.4.1
-      ol: 7.5.1
+      ol: 9.1.0
     dev: false
 
-  /ol@7.5.1:
-    resolution: {integrity: sha512-CFXDhO8YdQt7I+zwrGYSONo/ZM2oLr7vUvxqpLEUyy+USaQjUeE8L6FBOWIPboopGVhnSVYd5hdEirn9ifKBZQ==}
+  /ol@9.1.0:
+    resolution: {integrity: sha512-nDrkJ2tzZNpo/wzN/PpHV5zdxbnXZaFktoMaD2cFLEc6gCwlgLY21Yd8wnt/4FjaVYwLBnbN9USXSwIBGcyksQ==}
     dependencies:
+      color-rgba: 3.0.0
+      color-space: 2.0.1
       earcut: 2.2.4
       geotiff: 2.0.7
-      ol-mapbox-style: 10.6.0
       pbf: 3.2.1
       rbush: 3.0.1
     dev: false

@@ -18,7 +18,7 @@ function crosshair(drawColor: string) {
       width: 2,
     }),
     points: 4, // crosshair aka star
-    radius1: 15, // outer radius
+    radius: 15, // outer radius
     radius2: 1, // inner radius
   });
 }
