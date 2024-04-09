@@ -35,7 +35,7 @@ export const pointsLayer = new VectorLayer({
  */
 export function getSnapPointsFromVectorTiles(
   basemap: VectorTileLayer,
-  extent: number[]
+  extent: number[],
 ) {
   const points =
     basemap &&
@@ -51,7 +51,7 @@ export function getSnapPointsFromVectorTiles(
         new Feature({
           geometry: new Point(pair),
           i,
-        })
+        }) as never,
       );
     });
   }

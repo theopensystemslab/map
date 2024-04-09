@@ -43,8 +43,8 @@ export function formatArea(polygon: Geometry, unit: AreaUnitEnum) {
  */
 export function fitToData(
   olMap: Map,
-  olSource: Vector<Geometry>,
-  bufferValue: number
+  olSource: Vector<Feature<Geometry>>,
+  bufferValue: number,
 ) {
   const extent = olSource.getExtent();
   return olMap.getView().fit(buffer(extent, bufferValue));
@@ -68,8 +68,8 @@ export function hexToRgba(hexColor: string, alpha: number) {
  * @returns
  */
 export function makeGeoJSON(
-  source: VectorSource<Geometry> | Feature<Geometry>[],
-  projection: ProjectionEnum
+  source: VectorSource<Feature<Geometry>> | Feature<Geometry>[],
+  projection: ProjectionEnum,
 ): GeoJSONObject {
   // ref https://openlayers.org/en/latest/apidoc/module-ol_format_GeoJSON-GeoJSON.html#writeFeaturesObject
   const options =
@@ -82,6 +82,6 @@ export function makeGeoJSON(
 
   return new GeoJSON().writeFeaturesObject(
     source instanceof VectorSource ? source.getFeatures() : source,
-    options
+    options,
   );
 }
