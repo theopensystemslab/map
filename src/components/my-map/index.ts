@@ -217,6 +217,9 @@ export class MyMap extends LitElement {
     },
   };
 
+  @property({ type: String })
+  ariaLabelOlFixedOverlay = "";
+
   // set class property (map doesn't require any reactivity using @state)
   map?: Map;
 
@@ -628,6 +631,10 @@ export class MyMap extends LitElement {
         );
       });
     }
+
+    // Add an aria-label to the overlay canvas for accessibility
+    const olCanvas = this.renderRoot?.querySelector("canvas.ol-fixedoverlay");
+    olCanvas?.setAttribute("aria-label", this.ariaLabelOlFixedOverlay);
 
     // XXX: force re-render for safari due to it thinking map is 0 height on load
     setTimeout(() => {

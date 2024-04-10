@@ -62,9 +62,9 @@ module.exports = {
       values: "map (default)",
     },
     {
-      name: "ariaLabel",
+      name: "ariaLabelOlFixedOverlay",
       type: "String",
-      values: "An interactive map (default)",
+      values: "An interactive map",
     },
     {
       name: "disableVectorTiles",
