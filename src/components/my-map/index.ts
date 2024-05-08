@@ -367,6 +367,18 @@ export class MyMap extends LitElement {
       node.setAttribute("aria-label", node.getAttribute("title") || ""),
     );
 
+    // Apply aria-controls to attribution button for accessibility
+    const olAttributionButton: NodeListOf<HTMLButtonElement> | undefined =
+      this.renderRoot?.querySelectorAll(".ol-attribution button");
+    olAttributionButton?.forEach((node) =>
+      node.setAttribute("aria-controls", "ol-attribution-list"),
+    );
+
+    // Apply ID to attribution list for accessibility
+    const olList: NodeListOf<HTMLElement> | undefined =
+      this.renderRoot?.querySelectorAll(".ol-attribution ul");
+    olList?.forEach((node) => node.setAttribute("id", "ol-attribution-list"));
+
     // Re-order overlay elements so that OL Attribution is final element
     //   making OL Controls first in natural tab order for accessibility
     const olAttribution = this.renderRoot?.querySelector(
