@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.8.2] - 2024-05-09
+
+### Added 
+- feat(a11y): adds optional prop `ariaLabelOlFixedOverlay` which sets an `aria-label` on the outermost `canvas` element rendered in the shadow root ([#445](https://github.com/theopensystemslab/map/pull/445))
+- fix(a11y): sets `aria-controls` on the OL Attribution control button rendered when `collapseAttributions` is true, and a corresponding `id` on the attribution list ([#446](https://github.com/theopensystemslab/map/pull/446))
+
 ### [0.8.1] - 2024-04-05
 
 ### Changed
