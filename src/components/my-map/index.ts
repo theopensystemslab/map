@@ -663,7 +663,9 @@ export class MyMap extends LitElement {
       <div
         id="${this.id}"
         class="map"
-        role="application"
+        role="${this.staticMode && !this.collapseAttributions
+          ? "presentation"
+          : "application"}"
         tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
       />`;
   }
