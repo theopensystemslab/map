@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [0.8.3] - 2024-06-28
+
+### Fixed
+- fix(a11y): adds a `role` to the map container div of either `application` if interactive or `presentation` if implemented in static mode ([#454](https://github.com/theopensystemslab/map/pull/454))
+
+### Changed
+- deps: various dependency updates via Dependabot
+
 ### [0.8.2] - 2024-05-09
 
 ### Added 
