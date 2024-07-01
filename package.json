@@ -26,7 +26,7 @@
     "docsPublish": "pitsby build"
   },
   "dependencies": {
-    "@turf/union": "^6.5.0",
+    "@turf/union": "^7.0.0",
     "accessible-autocomplete": "^2.0.4",
     "file-saver": "^2.0.5",
     "govuk-frontend": "^5.0.0",
