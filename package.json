@@ -29,7 +29,7 @@
     "@turf/union": "^7.0.0",
     "accessible-autocomplete": "^2.0.4",
     "file-saver": "^2.0.5",
-    "govuk-frontend": "^5.0.0",
+    "govuk-frontend": "^5.4.0",
     "jspdf": "^2.5.1",
     "lit": "^3.0.1",
     "ol": "^9.1.0",
