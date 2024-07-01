@@ -49,7 +49,7 @@
     "@types/proj4": "^2.5.5",
     "@vitest/ui": "^0.34.7",
     "happy-dom": "^9.1.9",
-    "husky": "^8.0.3",
+    "husky": "^9.0.11",
     "lint-staged": "^14.0.1",
     "prettier": "^3.2.5",
     "rollup-plugin-postcss-lit": "^2.1.0",
