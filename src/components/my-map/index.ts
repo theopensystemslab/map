@@ -26,6 +26,7 @@ import {
   configureModify,
   drawingSource,
   DrawPointerEnum,
+  DrawShapeEnum,
   DrawTypeEnum,
   snap,
 } from "./drawing";
@@ -87,6 +88,9 @@ export class MyMap extends LitElement {
 
   @property({ type: String })
   drawType: DrawTypeEnum = "Polygon";
+
+  @property({ type: String })
+  drawShape: DrawShapeEnum = "freehand";
 
   @property({ type: String })
   drawPointColor = "#2c2c2c";
@@ -305,12 +309,17 @@ export class MyMap extends LitElement {
     // make configurable interactions available
     const draw = configureDraw(
       this.drawType,
+      this.drawShape,
       this.drawPointer,
       this.drawPointColor,
       this.drawColor,
       this.drawFillColor,
     );
-    const modify = configureModify(this.drawPointer, this.drawColor);
+    const modify = configureModify(
+      this.drawShape,
+      this.drawPointer,
+      this.drawColor,
+    );
 
     // add a custom 'reset' control to the map
     const handleReset = () => {

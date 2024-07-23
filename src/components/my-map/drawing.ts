@@ -1,5 +1,7 @@
 import { MultiPoint, MultiPolygon, Polygon } from "ol/geom";
+import { Type } from "ol/geom/Geometry";
 import { Draw, Modify, Snap } from "ol/interaction";
+import { createBox } from "ol/interaction/Draw";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import { Circle, Fill, RegularShape, Stroke, Style } from "ol/style";
@@ -7,7 +9,8 @@ import CircleStyle from "ol/style/Circle";
 import { StyleLike } from "ol/style/Style";
 import { pointsSource } from "./snapping";
 
-export type DrawTypeEnum = "Polygon" | "Point"; // ref https://openlayers.org/en/latest/apidoc/module-ol_geom_Geometry.html#~Type
+export type DrawTypeEnum = Extract<Type, "Polygon" | "Point">;
+export type DrawShapeEnum = "freehand" | "box" | "circle";
 export type DrawPointerEnum = "crosshair" | "dot";
 
 // drawPointer styles
@@ -138,6 +141,7 @@ export function configureDrawingLayer(
 // configure the key openlayers interactions
 export function configureDraw(
   drawType: DrawTypeEnum,
+  drawShape: DrawShapeEnum,
   pointerStyle: DrawPointerEnum,
   pointColor: string,
   drawColor: string,
@@ -145,12 +149,32 @@ export function configureDraw(
 ) {
   return new Draw({
     source: drawingSource,
-    type: drawType,
+    type: configureDrawType(drawType, drawShape),
     style:
       drawType === "Polygon"
         ? configureBoundaryDrawStyle(pointerStyle, drawColor, drawFillColor)
         : configurePointDrawStyle(pointColor),
+    geometryFunction: configureGeometryFunction(drawShape),
   });
+}
+
+export function configureDrawType(
+  drawType: DrawTypeEnum,
+  drawShape: DrawShapeEnum,
+): Type {
+  if (["box", "circle"].includes(drawShape)) {
+    return "Circle";
+  } else {
+    return drawType;
+  }
+}
+
+function configureGeometryFunction(drawShape: DrawShapeEnum) {
+  if (drawShape === "box") {
+    return createBox();
+  } else {
+    return undefined;
+  }
 }
 
 export const snap = new Snap({
@@ -159,6 +183,7 @@ export const snap = new Snap({
 });
 
 export function configureModify(
+  drawShape: DrawShapeEnum,
   pointerStyle: DrawPointerEnum,
   drawColor: string,
 ) {
@@ -168,5 +193,16 @@ export function configureModify(
       image:
         pointerStyle === "crosshair" ? crosshair(drawColor) : dot(drawColor),
     }),
+    insertVertexCondition: configureInsertVertexCondition(drawShape),
   });
+}
+
+function configureInsertVertexCondition(drawShape: DrawShapeEnum) {
+  // @todo research better "box" modification !
+  //   this simply skips new vertices and only allows existing ones to be modified, but doesn't preserve box-stretch drawing interaction
+  //   ref https://github.com/openlayers/openlayers/issues/5095
+  //       https://openlayers.org/en/latest/examples/draw-and-modify-features.html
+  return function () {
+    return drawShape !== "box";
+  };
 }
