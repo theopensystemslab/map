@@ -1,38 +1,41 @@
 import { MultiPoint, MultiPolygon, Polygon } from "ol/geom";
+import { Type } from "ol/geom/Geometry";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import { Circle, Fill, RegularShape, Stroke, Style } from "ol/style";
 import CircleStyle from "ol/style/Circle";
-import { StyleLike } from "ol/style/Style";
 import { pointsSource } from "./snapping";
 
-export type DrawTypeEnum = "Polygon" | "Point"; // ref https://openlayers.org/en/latest/apidoc/module-ol_geom_Geometry.html#~Type
+export type DrawTypeEnum = Extract<Type, "Polygon" | "Point" | "Circle">;
 export type DrawPointerEnum = "crosshair" | "dot";
 
-// drawPointer styles
-function crosshair(drawColor: string) {
-  return new RegularShape({
-    stroke: new Stroke({
-      color: drawColor,
-      width: 2,
-    }),
-    points: 4, // crosshair aka star
-    radius: 15, // outer radius
-    radius2: 1, // inner radius
-  });
+function configureDrawPointerImage(
+  drawPointer: DrawPointerEnum,
+  drawColor: string,
+) {
+  switch (drawPointer) {
+    case "crosshair":
+      return new RegularShape({
+        stroke: new Stroke({
+          color: drawColor,
+          width: 2,
+        }),
+        points: 4, // crosshair aka star
+        radius: 15, // outer radius
+        radius2: 1, // inner radius
+      });
+    case "dot":
+      return new CircleStyle({
+        radius: 6,
+        fill: new Fill({
+          color: drawColor,
+        }),
+      });
+  }
 }
 
-function dot(drawColor: string) {
-  return new CircleStyle({
-    radius: 6,
-    fill: new Fill({
-      color: drawColor,
-    }),
-  });
-}
-
-function polygonVertices(drawColor: string) {
+function getVertices(drawColor: string) {
   return new Style({
     image: new RegularShape({
       fill: new Fill({
@@ -48,7 +51,6 @@ function polygonVertices(drawColor: string) {
     }),
     geometry: function (feature) {
       const geom = feature.getGeometry();
-      // display the coordinates of the polygon(s)
       if (geom instanceof Polygon) {
         const coordinates = geom.getCoordinates()[0];
         return new MultiPoint(coordinates);
@@ -62,60 +64,34 @@ function polygonVertices(drawColor: string) {
   });
 }
 
-function boundaryLayerStyle(
-  drawColor: string,
-  drawColorFill: string,
-): StyleLike {
-  return [
-    new Style({
-      fill: new Fill({
-        color: drawColorFill,
-      }),
-      stroke: new Stroke({
-        color: drawColor,
-        width: 3,
-      }),
-    }),
-    polygonVertices(drawColor),
-  ];
-}
-
-function configureBoundaryDrawStyle(
-  pointerStyle: DrawPointerEnum,
+function configureDrawingLayerStyle(
+  drawType: DrawTypeEnum,
   drawColor: string,
   drawFillColor: string,
+  pointColor: string,
 ) {
-  return new Style({
-    stroke: configureDashedStroke(drawColor),
-    fill: new Fill({
-      color: drawFillColor,
-    }),
-    image: pointerStyle === "crosshair" ? crosshair(drawColor) : dot(drawColor),
-  });
-}
-
-function configureDashedStroke(drawColor: string) {
-  return new Stroke({
-    color: drawColor,
-    width: 3,
-    lineDash: [2, 8],
-  });
-}
-
-// feature style: single point
-function configurePointLayerStyle(pointColor: string) {
-  return new Style({
-    image: new Circle({
-      radius: 9,
-      fill: new Fill({ color: pointColor }),
-    }),
-  });
-}
-
-function configurePointDrawStyle(pointColor: string) {
-  return new Style({
-    fill: new Fill({ color: pointColor }),
-  });
+  switch (drawType) {
+    case "Point":
+      return new Style({
+        image: new Circle({
+          radius: 9,
+          fill: new Fill({ color: pointColor }),
+        }),
+      });
+    default:
+      return [
+        new Style({
+          fill: new Fill({
+            color: drawFillColor,
+          }),
+          stroke: new Stroke({
+            color: drawColor,
+            width: 3,
+          }),
+        }),
+        getVertices(drawColor),
+      ];
+  }
 }
 
 export const drawingSource = new VectorSource();
@@ -128,17 +104,45 @@ export function configureDrawingLayer(
 ) {
   return new VectorLayer({
     source: drawingSource,
-    style:
-      drawType === "Polygon"
-        ? boundaryLayerStyle(drawColor, drawFillColor)
-        : configurePointLayerStyle(pointColor),
+    style: configureDrawingLayerStyle(
+      drawType,
+      drawColor,
+      drawFillColor,
+      pointColor,
+    ),
   });
 }
 
-// configure the key openlayers interactions
+function configureDrawInteractionStyle(
+  drawType: DrawTypeEnum,
+  drawPointer: DrawPointerEnum,
+  drawColor: string,
+  drawFillColor: string,
+  pointColor: string,
+) {
+  switch (drawType) {
+    case "Point":
+      return new Style({
+        fill: new Fill({ color: pointColor }),
+      });
+    default:
+      return new Style({
+        stroke: new Stroke({
+          color: drawColor,
+          width: 3,
+          lineDash: [2, 8],
+        }),
+        fill: new Fill({
+          color: drawFillColor,
+        }),
+        image: configureDrawPointerImage(drawPointer, drawColor),
+      });
+  }
+}
+
 export function configureDraw(
   drawType: DrawTypeEnum,
-  pointerStyle: DrawPointerEnum,
+  drawPointer: DrawPointerEnum,
   pointColor: string,
   drawColor: string,
   drawFillColor: string,
@@ -146,10 +150,13 @@ export function configureDraw(
   return new Draw({
     source: drawingSource,
     type: drawType,
-    style:
-      drawType === "Polygon"
-        ? configureBoundaryDrawStyle(pointerStyle, drawColor, drawFillColor)
-        : configurePointDrawStyle(pointColor),
+    style: configureDrawInteractionStyle(
+      drawType,
+      drawPointer,
+      drawColor,
+      drawFillColor,
+      pointColor,
+    ),
   });
 }
 
@@ -159,14 +166,13 @@ export const snap = new Snap({
 });
 
 export function configureModify(
-  pointerStyle: DrawPointerEnum,
+  drawPointer: DrawPointerEnum,
   drawColor: string,
 ) {
   return new Modify({
     source: drawingSource,
     style: new Style({
-      image:
-        pointerStyle === "crosshair" ? crosshair(drawColor) : dot(drawColor),
+      image: configureDrawPointerImage(drawPointer, drawColor),
     }),
   });
 }
