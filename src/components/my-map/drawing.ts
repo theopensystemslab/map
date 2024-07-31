@@ -118,7 +118,7 @@ function configurePointDrawStyle(pointColor: string) {
   });
 }
 
-export const drawingSource = new VectorSource();
+export const drawingSource = new VectorSource({ wrapX: false });
 
 export function configureDrawingLayer(
   drawType: DrawTypeEnum,

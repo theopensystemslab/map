@@ -1,9 +1,9 @@
 import { html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { defaults as defaultControls } from "ol/control";
+import { defaults as defaultControls, ScaleLine } from "ol/control";
 import { GeoJSON } from "ol/format";
+import { GeoJSONFeature } from "ol/format/GeoJSON";
 import { Point } from "ol/geom";
-import { ScaleLine } from "ol/control";
 import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
@@ -12,13 +12,11 @@ import { ProjectionLike, transform, transformExtent } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
 import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
 import View from "ol/View";
-import { last } from "rambda";
-
 import {
   northArrowControl,
-  scaleControl,
-  resetControl,
   PrintControl,
+  resetControl,
+  scaleControl,
 } from "./controls";
 import {
   configureDraw,
@@ -50,7 +48,6 @@ import {
   hexToRgba,
   makeGeoJSON,
 } from "./utils";
-import { GeoJSONFeature } from "ol/format/GeoJSON";
 
 type MarkerImageEnum = "circle" | "pin";
 type ResetControlImageEnum = "unicode" | "trash";
@@ -84,6 +81,9 @@ export class MyMap extends LitElement {
 
   @property({ type: Boolean })
   drawMode = false;
+
+  @property({ type: Boolean })
+  drawMany = false;
 
   @property({ type: String })
   drawType: DrawTypeEnum = "Polygon";
@@ -487,22 +487,27 @@ export class MyMap extends LitElement {
         const sketches = drawingSource.getFeatures();
 
         if (sketches.length > 0) {
-          const lastSketchGeom = last(sketches)?.getGeometry();
-
           this.dispatch("geojsonChange", {
             "EPSG:3857": makeGeoJSON(sketches, "EPSG:3857"),
             "EPSG:27700": makeGeoJSON(sketches, "EPSG:27700"),
           });
 
-          if (lastSketchGeom && this.drawType === "Polygon") {
-            this.dispatch(
-              "areaChange",
-              formatArea(lastSketchGeom, this.areaUnit),
-            );
-          }
+          if (this.drawType === "Polygon") {
+            sketches.forEach((sketch) => {
+              const sketchGeom = sketch.getGeometry();
+              if (sketchGeom) {
+                this.dispatch(
+                  "areaChange",
+                  formatArea(sketchGeom, this.areaUnit),
+                );
+              }
+            });
 
-          // limit to drawing a single feature, only allow modifications to existing shape
-          map.removeInteraction(draw);
+            // Unless specified, limit to drawing a single feature, still allowing modifications
+            if (!this.drawMany) {
+              map.removeInteraction(draw);
+            }
+          }
         }
       });
     }
