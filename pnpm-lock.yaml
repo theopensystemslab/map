@@ -47,8 +47,8 @@ dependencies:
 
 devDependencies:
   '@glorious/pitsby':
-    specifier: ^1.37.0
-    version: 1.37.0(@uirouter/core@6.1.0)(angular@1.8.3)
+    specifier: ^1.37.2
+    version: 1.37.2(@uirouter/core@6.1.0)(angular@1.8.3)
   '@testing-library/dom':
     specifier: ^9.3.4
     version: 9.3.4
@@ -1582,8 +1582,8 @@ packages:
       shortid: 2.2.16
     dev: true
 
-  /@glorious/pitsby@1.37.0(@uirouter/core@6.1.0)(angular@1.8.3):
-    resolution: {integrity: sha512-NeG8Qbefb5qE9RFTQd7GGMfrm8sUTdwHk4vTcQKyTyGT47NphggsovBIlwuU1qsXVxBNvDCSgC1yVQYlhHu7Hg==}
+  /@glorious/pitsby@1.37.2(@uirouter/core@6.1.0)(angular@1.8.3):
+    resolution: {integrity: sha512-HJe0UFdBA1Lk43AR1jGV9vF2u22Pwufk2LSd/W/PLM0F7NKBfoKR/gKySY5+dzIaPWHaDlIIfXL28i4g/ezcnA==}
     hasBin: true
     dependencies:
       '@babel/core': 7.24.7
