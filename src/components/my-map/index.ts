@@ -88,6 +88,9 @@ export class MyMap extends LitElement {
   @property({ type: String })
   drawType: DrawTypeEnum = "Polygon";
 
+  /**
+   * @deprecated - please set `drawColor`
+   */
   @property({ type: String })
   drawPointColor = "#2c2c2c";
 
@@ -115,6 +118,9 @@ export class MyMap extends LitElement {
   @property({ type: String })
   drawColor = "#ff0000";
 
+  /**
+   * @deprecated - please set `drawColor` and fill will be automatically inferred using 10% opacity
+   */
   @property({ type: String })
   drawFillColor = "rgba(255, 0, 0, 0.1)";
 
@@ -303,13 +309,7 @@ export class MyMap extends LitElement {
     window.olMap = import.meta.env.VITEST ? this.map : undefined;
 
     // make configurable interactions available
-    const draw = configureDraw(
-      this.drawType,
-      this.drawPointer,
-      this.drawPointColor,
-      this.drawColor,
-      this.drawFillColor,
-    );
+    const draw = configureDraw(this.drawType, this.drawPointer, this.drawColor);
     const modify = configureModify(this.drawPointer, this.drawColor);
 
     // add a custom 'reset' control to the map
@@ -449,12 +449,7 @@ export class MyMap extends LitElement {
     }
 
     // draw interactions
-    const drawingLayer = configureDrawingLayer(
-      this.drawType,
-      this.drawPointColor,
-      this.drawColor,
-      this.drawFillColor,
-    );
+    const drawingLayer = configureDrawingLayer(this.drawType, this.drawColor);
     if (this.drawMode) {
       // make sure drawingSource is cleared upfront, even if drawGeojsonData is provided
       drawingSource.clear();

@@ -10,6 +10,15 @@ import { pointsSource } from "./snapping";
 export type DrawTypeEnum = Extract<Type, "Polygon" | "Point" | "Circle">;
 export type DrawPointerEnum = "crosshair" | "dot";
 
+function getFillFromColor(drawColor: string) {
+  if (drawColor.startsWith("#")) {
+    // 10% opacity
+    return "#1A" + drawColor.substring(1);
+  } else {
+    return drawColor;
+  }
+}
+
 function configureDrawPointerImage(
   drawPointer: DrawPointerEnum,
   drawColor: string,
@@ -64,25 +73,20 @@ function getVertices(drawColor: string) {
   });
 }
 
-function configureDrawingLayerStyle(
-  drawType: DrawTypeEnum,
-  drawColor: string,
-  drawFillColor: string,
-  pointColor: string,
-) {
+function configureDrawingLayerStyle(drawType: DrawTypeEnum, drawColor: string) {
   switch (drawType) {
     case "Point":
       return new Style({
         image: new Circle({
           radius: 9,
-          fill: new Fill({ color: pointColor }),
+          fill: new Fill({ color: drawColor }),
         }),
       });
     default:
       return [
         new Style({
           fill: new Fill({
-            color: drawFillColor,
+            color: getFillFromColor(drawColor),
           }),
           stroke: new Stroke({
             color: drawColor,
@@ -98,18 +102,11 @@ export const drawingSource = new VectorSource();
 
 export function configureDrawingLayer(
   drawType: DrawTypeEnum,
-  pointColor: string,
   drawColor: string,
-  drawFillColor: string,
 ) {
   return new VectorLayer({
     source: drawingSource,
-    style: configureDrawingLayerStyle(
-      drawType,
-      drawColor,
-      drawFillColor,
-      pointColor,
-    ),
+    style: configureDrawingLayerStyle(drawType, drawColor),
   });
 }
 
@@ -117,13 +114,13 @@ function configureDrawInteractionStyle(
   drawType: DrawTypeEnum,
   drawPointer: DrawPointerEnum,
   drawColor: string,
-  drawFillColor: string,
-  pointColor: string,
 ) {
+  console.log("here", getFillFromColor(drawColor));
+
   switch (drawType) {
     case "Point":
       return new Style({
-        fill: new Fill({ color: pointColor }),
+        fill: new Fill({ color: drawColor }),
       });
     default:
       return new Style({
@@ -133,7 +130,7 @@ function configureDrawInteractionStyle(
           lineDash: [2, 8],
         }),
         fill: new Fill({
-          color: drawFillColor,
+          color: getFillFromColor(drawColor),
         }),
         image: configureDrawPointerImage(drawPointer, drawColor),
       });
@@ -143,20 +140,12 @@ function configureDrawInteractionStyle(
 export function configureDraw(
   drawType: DrawTypeEnum,
   drawPointer: DrawPointerEnum,
-  pointColor: string,
   drawColor: string,
-  drawFillColor: string,
 ) {
   return new Draw({
     source: drawingSource,
     type: drawType,
-    style: configureDrawInteractionStyle(
-      drawType,
-      drawPointer,
-      drawColor,
-      drawFillColor,
-      pointColor,
-    ),
+    style: configureDrawInteractionStyle(drawType, drawPointer, drawColor),
   });
 }
 
