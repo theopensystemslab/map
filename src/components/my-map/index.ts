@@ -486,6 +486,11 @@ export class MyMap extends LitElement {
       drawingSource.on("change", () => {
         const sketches = drawingSource.getFeatures();
 
+        // Assign a label to each feature based on its' index
+        sketches.forEach((sketch, i) => {
+          sketch.set("label", i + 1);
+        });
+
         if (sketches.length > 0) {
           this.dispatch("geojsonChange", {
             "EPSG:3857": makeGeoJSON(sketches, "EPSG:3857"),

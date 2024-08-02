@@ -2,7 +2,7 @@ import { MultiPoint, MultiPolygon, Polygon } from "ol/geom";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
-import { Circle, Fill, RegularShape, Stroke, Style } from "ol/style";
+import { Circle, Fill, RegularShape, Stroke, Style, Text } from "ol/style";
 import CircleStyle from "ol/style/Circle";
 import { StyleLike } from "ol/style/Style";
 import { pointsSource } from "./snapping";
@@ -91,6 +91,14 @@ function configureBoundaryDrawStyle(
       color: drawFillColor,
     }),
     image: pointerStyle === "crosshair" ? crosshair(drawColor) : dot(drawColor),
+    text: new Text({
+      font: "inherit",
+      fill: new Fill({ color: "#000" }),
+      stroke: new Stroke({
+        color: "#fff",
+        width: 2,
+      }),
+    }),
   });
 }
 
@@ -115,6 +123,14 @@ function configurePointLayerStyle(pointColor: string) {
 function configurePointDrawStyle(pointColor: string) {
   return new Style({
     fill: new Fill({ color: pointColor }),
+    text: new Text({
+      font: "inherit",
+      fill: new Fill({ color: "#000" }),
+      stroke: new Stroke({
+        color: "#fff",
+        width: 2,
+      }),
+    }),
   });
 }
 
