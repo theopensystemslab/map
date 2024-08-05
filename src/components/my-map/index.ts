@@ -493,26 +493,23 @@ export class MyMap extends LitElement {
         });
 
         if (sketches.length > 0) {
-          this.dispatch("geojsonC}hange", {
-            "EPSG:3857": makeGeoJSON(sketches, "EPSG:3857"),
-            "EPSG:27700": makeGeoJSON(sketches, "EPSG:27700"),
-          });
-
           if (this.drawType === "Polygon") {
             sketches.forEach((sketch) => {
               const sketchGeom = sketch.getGeometry();
               if (sketchGeom) {
-                this.dispatch(
-                  "areaChange",
-                  formatArea(sketchGeom, this.areaUnit),
-                );
+                sketch.set("area", formatArea(sketchGeom, this.areaUnit));
               }
             });
+          }
 
-            // Unless specified, limit to drawing a single feature, still allowing modifications
-            if (!this.drawMany) {
-              map.removeInteraction(draw);
-            }
+          this.dispatch("geojsonChange", {
+            "EPSG:3857": makeGeoJSON(sketches, "EPSG:3857"),
+            "EPSG:27700": makeGeoJSON(sketches, "EPSG:27700"),
+          });
+
+          // Unless specified, limit to drawing a single feature, still allowing modifications
+          if (!this.drawMany) {
+            map.removeInteraction(draw);
           }
         }
       });
