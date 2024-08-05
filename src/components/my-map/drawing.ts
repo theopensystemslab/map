@@ -3,9 +3,10 @@ import { Type } from "ol/geom/Geometry";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
-import { Circle, Fill, RegularShape, Stroke, Style } from "ol/style";
+import { Circle, Fill, RegularShape, Stroke, Style, Text } from "ol/style";
 import CircleStyle from "ol/style/Circle";
 import { pointsSource } from "./snapping";
+import { FeatureLike } from "ol/Feature";
 
 export type DrawTypeEnum = Extract<Type, "Polygon" | "Point" | "Circle">;
 export type DrawPointerEnum = "crosshair" | "dot";
@@ -64,11 +65,28 @@ function getVertices(drawColor: string) {
   });
 }
 
+function styleFeatureLabels(drawType: DrawTypeEnum, feature: FeatureLike) {
+  return new Text({
+    text: feature.get("label"),
+    font: "50px inherit",
+    placement: drawType === "Point" ? "line" : "point", // "point" placement is center point of polygon
+    fill: new Fill({
+      color: "#000",
+    }),
+    stroke: new Stroke({
+      color: "#fff",
+      width: 3,
+    }),
+  });
+}
+
 function configureDrawingLayerStyle(
   drawType: DrawTypeEnum,
   drawColor: string,
   drawFillColor: string,
   pointColor: string,
+  drawMany: boolean,
+  feature: FeatureLike,
 ) {
   switch (drawType) {
     case "Point":
@@ -77,6 +95,7 @@ function configureDrawingLayerStyle(
           radius: 9,
           fill: new Fill({ color: pointColor }),
         }),
+        text: drawMany ? styleFeatureLabels(drawType, feature) : undefined,
       });
     default:
       return [
@@ -88,6 +107,7 @@ function configureDrawingLayerStyle(
             color: drawColor,
             width: 3,
           }),
+          text: drawMany ? styleFeatureLabels(drawType, feature) : undefined,
         }),
         getVertices(drawColor),
       ];
@@ -101,15 +121,20 @@ export function configureDrawingLayer(
   pointColor: string,
   drawColor: string,
   drawFillColor: string,
+  drawMany: boolean,
 ) {
   return new VectorLayer({
     source: drawingSource,
-    style: configureDrawingLayerStyle(
-      drawType,
-      drawColor,
-      drawFillColor,
-      pointColor,
-    ),
+    style: function (feature) {
+      return configureDrawingLayerStyle(
+        drawType,
+        drawColor,
+        drawFillColor,
+        pointColor,
+        drawMany,
+        feature,
+      );
+    },
   });
 }
 

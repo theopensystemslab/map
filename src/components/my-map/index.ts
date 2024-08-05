@@ -454,6 +454,7 @@ export class MyMap extends LitElement {
       this.drawPointColor,
       this.drawColor,
       this.drawFillColor,
+      this.drawMany,
     );
     if (this.drawMode) {
       // make sure drawingSource is cleared upfront, even if drawGeojsonData is provided
@@ -488,11 +489,11 @@ export class MyMap extends LitElement {
 
         // Assign a label to each feature based on its' index
         sketches.forEach((sketch, i) => {
-          sketch.set("label", i + 1);
+          sketch.set("label", `${i + 1}`); // needs to be type string in order to be parsed by Style "Text"
         });
 
         if (sketches.length > 0) {
-          this.dispatch("geojsonChange", {
+          this.dispatch("geojsonC}hange", {
             "EPSG:3857": makeGeoJSON(sketches, "EPSG:3857"),
             "EPSG:27700": makeGeoJSON(sketches, "EPSG:27700"),
           });
