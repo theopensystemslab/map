@@ -89,7 +89,7 @@ export class MyMap extends LitElement {
   drawType: DrawTypeEnum = "Polygon";
 
   /**
-   * @deprecated - please set `drawColor`
+   * @deprecated - please set `drawColor` regardless of `drawType`
    */
   @property({ type: String })
   drawPointColor = "#2c2c2c";
@@ -116,7 +116,7 @@ export class MyMap extends LitElement {
   drawColor = "#ff0000";
 
   /**
-   * @deprecated - please set `drawColor` and fill will be automatically inferred using 10% opacity
+   * @deprecated - please set `drawColor` and fill will be automatically inferred using 20% opacity
    */
   @property({ type: String })
   drawFillColor = "rgba(255, 0, 0, 0.1)";
