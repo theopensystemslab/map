@@ -3,9 +3,10 @@ import { Type } from "ol/geom/Geometry";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
-import { Circle, Fill, RegularShape, Stroke, Style } from "ol/style";
+import { Circle, Fill, RegularShape, Stroke, Style, Text } from "ol/style";
 import CircleStyle from "ol/style/Circle";
 import { pointsSource } from "./snapping";
+import { FeatureLike } from "ol/Feature";
 
 export type DrawTypeEnum = Extract<Type, "Polygon" | "Point" | "Circle">;
 export type DrawPointerEnum = "crosshair" | "dot";
@@ -73,7 +74,27 @@ function getVertices(drawColor: string) {
   });
 }
 
-function configureDrawingLayerStyle(drawType: DrawTypeEnum, drawColor: string) {
+function styleFeatureLabels(drawType: DrawTypeEnum, feature: FeatureLike) {
+  return new Text({
+    text: feature.get("label"),
+    font: "50px inherit",
+    placement: drawType === "Point" ? "line" : "point", // "point" placement is center point of polygon
+    fill: new Fill({
+      color: "#000",
+    }),
+    stroke: new Stroke({
+      color: "#fff",
+      width: 3,
+    }),
+  });
+}
+
+function configureDrawingLayerStyle(
+  drawType: DrawTypeEnum,
+  drawColor: string,
+  drawMany: boolean,
+  feature: FeatureLike,
+) {
   switch (drawType) {
     case "Point":
       return new Style({
@@ -81,6 +102,7 @@ function configureDrawingLayerStyle(drawType: DrawTypeEnum, drawColor: string) {
           radius: 9,
           fill: new Fill({ color: drawColor }),
         }),
+        text: drawMany ? styleFeatureLabels(drawType, feature) : undefined,
       });
     default:
       return [
@@ -92,21 +114,25 @@ function configureDrawingLayerStyle(drawType: DrawTypeEnum, drawColor: string) {
             color: drawColor,
             width: 3,
           }),
+          text: drawMany ? styleFeatureLabels(drawType, feature) : undefined,
         }),
         getVertices(drawColor),
       ];
   }
 }
 
-export const drawingSource = new VectorSource();
+export const drawingSource = new VectorSource({ wrapX: false });
 
 export function configureDrawingLayer(
   drawType: DrawTypeEnum,
   drawColor: string,
+  drawMany: boolean,
 ) {
   return new VectorLayer({
     source: drawingSource,
-    style: configureDrawingLayerStyle(drawType, drawColor),
+    style: function (feature) {
+      return configureDrawingLayerStyle(drawType, drawColor, drawMany, feature);
+    },
   });
 }
 
