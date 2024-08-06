@@ -12,20 +12,14 @@ const featureSource = new VectorSource();
 
 export const outlineSource = new VectorSource();
 
-export function makeFeatureLayer(
-  color: string,
-  featureFill: boolean,
-  borderNone: boolean
-) {
+export function makeFeatureLayer(color: string, featureFill: boolean) {
   return new VectorLayer({
     source: outlineSource,
     style: new Style({
-      stroke: borderNone
-        ? undefined
-        : new Stroke({
-            width: 3,
-            color: color,
-          }),
+      stroke: new Stroke({
+        width: 3,
+        color: color,
+      }),
       fill: new Fill({
         color: featureFill ? hexToRgba(color, 0.2) : hexToRgba(color, 0),
       }),
@@ -45,7 +39,7 @@ export function getFeaturesAtPoint(
   coord: Array<number>,
   apiKey: any,
   proxyEndpoint: string,
-  supportClickFeatures: boolean
+  supportClickFeatures: boolean,
 ) {
   const xml = `
     <ogc:Filter>
@@ -91,7 +85,7 @@ export function getFeaturesAtPoint(
         validKeys = ["TOID", "DescriptiveGroup"];
 
       Object.keys(properties).forEach(
-        (key) => validKeys.includes(key) || delete properties[key]
+        (key) => validKeys.includes(key) || delete properties[key],
       );
 
       const geojson = new GeoJSON();
@@ -131,8 +125,8 @@ export function getFeaturesAtPoint(
           featureSource.getFeatures().reduce((acc: any, curr) => {
             const toMerge = geojson.writeFeatureObject(curr).geometry;
             return acc ? union(acc, toMerge) : toMerge;
-          }, null)
-        )
+          }, null),
+        ),
       );
     })
     .catch((error) => console.log(error));
