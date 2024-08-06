@@ -88,6 +88,9 @@ export class MyMap extends LitElement {
   @property({ type: String })
   drawType: DrawTypeEnum = "Polygon";
 
+  /**
+   * @deprecated - please set `drawColor` regardless of `drawType`
+   */
   @property({ type: String })
   drawPointColor = "#2c2c2c";
 
@@ -107,16 +110,19 @@ export class MyMap extends LitElement {
   drawPointer: DrawPointerEnum = "crosshair";
 
   @property({ type: Boolean })
-  showFeaturesAtPoint = false;
-
-  @property({ type: Boolean })
   clickFeatures = false;
 
   @property({ type: String })
   drawColor = "#ff0000";
 
+  /**
+   * @deprecated - please set `drawColor` and fill will be automatically inferred using 20% opacity
+   */
   @property({ type: String })
   drawFillColor = "rgba(255, 0, 0, 0.1)";
+
+  @property({ type: Boolean })
+  showFeaturesAtPoint = false;
 
   @property({ type: String })
   featureColor = "#0000ff";
@@ -124,14 +130,14 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   featureFill = false;
 
+  /**
+   * @deprecated
+   */
   @property({ type: Boolean })
   featureBorderNone = false;
 
   @property({ type: Number })
   featureBuffer = 40;
-
-  @property({ type: Boolean })
-  showGeojsonDataMarkers = false;
 
   @property({ type: Boolean })
   showCentreMarker = false;
@@ -153,6 +159,9 @@ export class MyMap extends LitElement {
     type: "FeatureCollection",
     features: [],
   };
+
+  @property({ type: Boolean })
+  showGeojsonDataMarkers = false;
 
   @property({ type: String })
   geojsonDataCopyright = "";
@@ -303,13 +312,7 @@ export class MyMap extends LitElement {
     window.olMap = import.meta.env.VITEST ? this.map : undefined;
 
     // make configurable interactions available
-    const draw = configureDraw(
-      this.drawType,
-      this.drawPointer,
-      this.drawPointColor,
-      this.drawColor,
-      this.drawFillColor,
-    );
+    const draw = configureDraw(this.drawType, this.drawPointer, this.drawColor);
     const modify = configureModify(this.drawPointer, this.drawColor);
 
     // add a custom 'reset' control to the map
@@ -418,9 +421,8 @@ export class MyMap extends LitElement {
     const geojsonLayer = new VectorLayer({
       source: geojsonSource,
       style: function (this: MyMap, feature: any) {
-        // Retrieve color from feature properties
-        let featureColor = feature.get("color") || this.geojsonColor; // Use the geojsonColor if no color property exists
-
+        // Read color from geojson feature `properties` if set or fallback to prop
+        let featureColor = feature.get("color") || this.geojsonColor;
         return new Style({
           stroke: new Stroke({
             color: featureColor,
@@ -451,9 +453,7 @@ export class MyMap extends LitElement {
     // draw interactions
     const drawingLayer = configureDrawingLayer(
       this.drawType,
-      this.drawPointColor,
       this.drawColor,
-      this.drawFillColor,
       this.drawMany,
     );
     if (this.drawMode) {
@@ -577,7 +577,6 @@ export class MyMap extends LitElement {
       const outlineLayer = makeFeatureLayer(
         this.featureColor,
         this.featureFill,
-        this.featureBorderNone,
       );
       map.addLayer(outlineLayer);
 
