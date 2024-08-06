@@ -1,3 +1,4 @@
+import { FeatureLike } from "ol/Feature";
 import { MultiPoint, MultiPolygon, Polygon } from "ol/geom";
 import { Type } from "ol/geom/Geometry";
 import { Draw, Modify, Snap } from "ol/interaction";
@@ -6,7 +7,6 @@ import { Vector as VectorSource } from "ol/source";
 import { Circle, Fill, RegularShape, Stroke, Style, Text } from "ol/style";
 import CircleStyle from "ol/style/Circle";
 import { pointsSource } from "./snapping";
-import { FeatureLike } from "ol/Feature";
 
 export type DrawTypeEnum = Extract<Type, "Polygon" | "Point" | "Circle">;
 export type DrawPointerEnum = "crosshair" | "dot";
