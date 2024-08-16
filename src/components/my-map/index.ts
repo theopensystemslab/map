@@ -1,5 +1,6 @@
 import { html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import apply from "ol-mapbox-style";
 import { defaults as defaultControls, ScaleLine } from "ol/control";
 import { GeoJSON } from "ol/format";
 import { GeoJSONFeature } from "ol/format/GeoJSON";
@@ -192,6 +193,12 @@ export class MyMap extends LitElement {
   osProxyEndpoint = "";
 
   @property({ type: Boolean })
+  applySatelliteStyle = false;
+
+  @property({ type: String })
+  mapboxAccessToken = import.meta.env.VITE_APP_MAPBOX_ACCESS_TOKEN || "";
+
+  @property({ type: Boolean })
   hideResetControl = false;
 
   @property({ type: String })
@@ -307,6 +314,23 @@ export class MyMap extends LitElement {
     });
 
     this.map = map;
+
+    if (this.mapboxAccessToken && this.applySatelliteStyle) {
+      if (osVectorTileBaseMap) map.removeLayer(osVectorTileBaseMap);
+      if (rasterBaseMap) map.removeLayer(rasterBaseMap);
+
+      apply(
+        map,
+        `https://api.mapbox.com/styles/v1/mapbox/satellite-v9?access_token=${this.mapboxAccessToken}`,
+      );
+
+      const satelliteAttribution =
+        '<a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a> <a href="https://labs.mapbox.com/contribute/#/-74@site/src/10" target="_blank" rel="noopener noreferrer"><strong>Improve this map</strong></a>';
+      const satelliteLayer = new VectorLayer({
+        source: new VectorSource({ attributions: satelliteAttribution }), // empty besides attribution
+      });
+      map.addLayer(satelliteLayer);
+    }
 
     // Append to global window for reference in tests
     window.olMap = import.meta.env.VITEST ? this.map : undefined;

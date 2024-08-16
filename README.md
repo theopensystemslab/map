@@ -29,6 +29,24 @@ These web components can be used independently or together following GOV.UK's [A
 
 Find these components in the wild, including what we're learning through public beta user-testing, at [https://www.ripa.digital/](https://www.ripa.digital/).
 
+## Bring your own API keys
+
+Different features rely on different APIs - namely from Ordnance Survey and Mapbox. 
+
+Address autocomplete utilises OS Places API.
+
+For the map:
+- We'll attempt to render the map using the OS Vector Tiles API
+  - You can pass `disableVectorTiles` to render a raster basemap instead which uses the default OS Maps API
+  - If you don't have an OS API key at all, it defaults to OpenStreetMap
+- `clickFeatures` requires the OS Features API
+- `applySatelliteStyle` requires a Mapbox Access Token with the scope `style:read`
+
+When using Ordnance Survey APIs:
+- Update the `osCopyright` attribution with your license number
+- Configure `osProxyEndpoint` to avoid exposing your keys
+  - ** We are not currently supporting a similar proxy for Mapbox because access tokens can be restricted to specific URLs via your account
+
 ## Running locally
 
 - Rename `.env.example` to `.env.local` and replace the values - or simply provide your API keys as props
