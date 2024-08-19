@@ -195,14 +195,23 @@ export class MyMap extends LitElement {
   disableVectorTiles = false;
 
   @property({ type: String })
+  osApiKey = import.meta.env.VITE_APP_OS_API_KEY || "";
+
+  /**
+   * @deprecated - please set singular `osApiKey`
+   */
+  @property({ type: String })
   osVectorTilesApiKey = import.meta.env.VITE_APP_OS_VECTOR_TILES_API_KEY || "";
 
+  /**
+   * @deprecated - please set singular `osApiKey`
+   */
   @property({ type: String })
   osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY || "";
 
   @property({ type: String })
   osCopyright =
-    `© Crown copyright and database rights ${new Date().getFullYear()} OS (0)100024857`;
+    `© Crown copyright and database rights ${new Date().getFullYear()} OS <your account number>`;
 
   @property({ type: String })
   osProxyEndpoint = "";
@@ -266,30 +275,33 @@ export class MyMap extends LitElement {
   firstUpdated() {
     const target = this.renderRoot.querySelector(`#${this.id}`) as HTMLElement;
 
+    const isUsingOS = Boolean(this.osApiKey || this.osProxyEndpoint);
+
     const basemapLayers: BaseLayer[] = [];
     let osVectorTileBasemap: VectorTileLayer | undefined,
       osRasterBasemap: TileLayer<XYZ> | undefined,
       mapboxSatelliteBasemap: VectorLayer<VectorSource> | undefined;
 
-    if (this.basemap === "OSVectorTile") {
+    if (this.basemap === "OSVectorTile" && isUsingOS) {
       osVectorTileBasemap = makeOsVectorTileBasemap(
-        this.osVectorTilesApiKey,
+        this.osApiKey,
         this.osProxyEndpoint,
         this.osCopyright,
       );
-      if (osVectorTileBasemap) basemapLayers.push(osVectorTileBasemap);
-    } else if (this.basemap === "OSRaster") {
+      basemapLayers.push(osVectorTileBasemap);
+    } else if (this.basemap === "OSRaster" && isUsingOS) {
       osRasterBasemap = makeOSRasterBasemap(
-        this.osVectorTilesApiKey,
+        this.osApiKey,
         this.osProxyEndpoint,
         this.osCopyright,
       );
-      if (osRasterBasemap) basemapLayers.push(osRasterBasemap);
-    } else if (this.basemap === "MapboxSatellite") {
-      mapboxSatelliteBasemap = makeMapboxSatelliteBasemap(
-        this.mapboxAccessToken,
-      );
-      if (mapboxSatelliteBasemap) basemapLayers.push(mapboxSatelliteBasemap);
+      basemapLayers.push(osRasterBasemap);
+    } else if (
+      this.basemap === "MapboxSatellite" &&
+      Boolean(this.mapboxAccessToken)
+    ) {
+      mapboxSatelliteBasemap = makeMapboxSatelliteBasemap();
+      basemapLayers.push(mapboxSatelliteBasemap);
     } else if (this.basemap === "OSM" || basemapLayers.length === 0) {
       // Fallback to OpenStreetMap if we've failed to make any of the above layers, or if it's set directly
       const osmBasemap = makeDefaultTileLayer();
@@ -601,13 +613,11 @@ export class MyMap extends LitElement {
     }
 
     // OS Features API & click-to-select interactions
-    const isUsingOSFeaturesAPI =
-      this.showFeaturesAtPoint &&
-      Boolean(this.osFeaturesApiKey || this.osProxyEndpoint);
-    if (isUsingOSFeaturesAPI) {
+    const isUsingOSFeatures = isUsingOS && this.showFeaturesAtPoint;
+    if (isUsingOSFeatures) {
       getFeaturesAtPoint(
         centerCoordinate,
-        this.osFeaturesApiKey,
+        this.osApiKey,
         this.osProxyEndpoint,
         false,
       );
@@ -616,7 +626,7 @@ export class MyMap extends LitElement {
         map.on("singleclick", (e) => {
           getFeaturesAtPoint(
             e.coordinate,
-            this.osFeaturesApiKey,
+            this.osApiKey,
             this.osProxyEndpoint,
             true,
           );

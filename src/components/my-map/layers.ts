@@ -26,19 +26,12 @@ export function makeDefaultTileLayer(): TileLayer<OSM> {
   return layer;
 }
 
-export function makeMapboxSatelliteBasemap(
-  accessToken: string,
-): VectorLayer<VectorSource> | undefined {
-  const isUsingMapbox = Boolean(accessToken);
-  if (!isUsingMapbox) return;
-
-  const satelliteAttribution =
-    '<a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a> <a href="https://labs.mapbox.com/contribute/#/-74@site/src/10" target="_blank" rel="noopener noreferrer"><strong>Improve this map</strong></a>';
-
+export function makeMapboxSatelliteBasemap(): VectorLayer<VectorSource> {
   // Layer is empty besides attribution, style is "applied" after instantiating map in index.ts
   const layer = new VectorLayer({
     source: new VectorSource({
-      attributions: satelliteAttribution,
+      attributions:
+        '<a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a> <a href="https://labs.mapbox.com/contribute/#/-74@site/src/10" target="_blank" rel="noopener noreferrer"><strong>Improve this map</strong></a>',
     }),
   });
   layer.set("name", "mapboxSatelliteBasemap"); // @todo debug why not actually set??
@@ -49,10 +42,7 @@ export function makeOSRasterBasemap(
   apiKey: string,
   proxyEndpoint: string,
   copyright: string,
-): TileLayer<XYZ> | undefined {
-  const isUsingOS = Boolean(apiKey || proxyEndpoint);
-  if (!isUsingOS) return;
-
+): TileLayer<XYZ> {
   const tileServiceURL = getServiceURL({
     service: "xyz",
     apiKey,
@@ -74,10 +64,7 @@ export function makeOsVectorTileBasemap(
   apiKey: string,
   proxyEndpoint: string,
   copyright: string,
-): VectorTileLayer | undefined {
-  const isUsingOS = Boolean(apiKey || proxyEndpoint);
-  if (!isUsingOS) return;
-
+): VectorTileLayer {
   const vectorTileServiceUrl = getServiceURL({
     service: "vectorTile",
     apiKey,
@@ -99,7 +86,6 @@ export function makeOsVectorTileBasemap(
     proxyEndpoint,
     params: { srs: "3857" },
   });
-
   // ref https://github.com/openlayers/ol-mapbox-style#usage-example
   fetch(vectorTileStyleUrl)
     .then((response) => response.json())

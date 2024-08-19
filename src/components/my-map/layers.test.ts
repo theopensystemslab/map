@@ -19,11 +19,11 @@ describe("Basemap layer loading", () => {
   });
 
   it("loads OSVectorTile basemap by default and requests layers directly from OS when an API key is provided", async () => {
-    const apiKey = process.env.VITE_APP_OS_VECTOR_TILES_API_KEY;
+    const apiKey = process.env.VITE_APP_OS_API_KEY;
     await setupMap(`
       <my-map 
         id="map-vitest" 
-        osVectorTileApiKey=${apiKey}
+        osApiKey=${apiKey}
       />`);
     const vectorBasemap = window.olMap
       ?.getAllLayers()
@@ -66,12 +66,12 @@ describe("Basemap layer loading", () => {
   });
 
   it("loads OSRaster basemap when an OS API key is provided", async () => {
-    const apiKey = process.env.VITE_APP_OS_VECTOR_TILES_API_KEY;
+    const apiKey = process.env.VITE_APP_OS_API_KEY;
     await setupMap(`
       <my-map 
         id="map-vitest" 
         basemap="OSRaster"
-        osVectorTileApiKey=${apiKey}
+        osApiKey=${apiKey}
       />`);
     const rasterBasemap = window.olMap
       ?.getAllLayers()
@@ -108,7 +108,7 @@ describe("Basemap layer loading", () => {
 
   it("fallsback to an OSM basemap when an OS basemap is specified without an OS API key or proxy endpoint", async () => {
     await setupMap(`
-      <my-map id="map-vitest" basemap="OSVectorTile" osVectorTilesApiKey=${undefined} />`);
+      <my-map id="map-vitest" basemap="OSVectorTile" osApiKey="" />`);
     const osmBasemap = window.olMap
       ?.getAllLayers()
       .find((layer) => layer.get("name") === "osmBasemap");
