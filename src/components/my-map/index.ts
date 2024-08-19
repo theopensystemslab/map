@@ -8,9 +8,12 @@ import { Point } from "ol/geom";
 import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
+import BaseLayer from "ol/layer/Base";
+import TileLayer from "ol/layer/Tile";
+import VectorTileLayer from "ol/layer/VectorTile";
 import Map from "ol/Map";
 import { ProjectionLike, transform, transformExtent } from "ol/proj";
-import { Vector as VectorSource } from "ol/source";
+import { Vector as VectorSource, XYZ } from "ol/source";
 import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
 import View from "ol/View";
 import {
@@ -30,11 +33,17 @@ import {
 } from "./drawing";
 import pinIcon from "./icons/poi-alt.svg";
 import {
+  BasemapEnum,
+  makeDefaultTileLayer,
+  makeMapboxSatelliteBasemap,
+  makeOSRasterBasemap,
+  makeOsVectorTileBasemap,
+} from "./layers";
+import {
   getFeaturesAtPoint,
   makeFeatureLayer,
   outlineSource,
 } from "./os-features";
-import { makeOsVectorTileBaseMap, makeRasterBaseMap } from "./os-layers";
 import { proj27700, ProjectionEnum } from "./projections";
 import {
   getSnapPointsFromVectorTiles,
@@ -67,6 +76,9 @@ export class MyMap extends LitElement {
 
   @property({ type: Number })
   longitude = -0.127758;
+
+  @property({ type: String })
+  basemap: BasemapEnum = "OSVectorTile";
 
   @property({ type: String })
   projection: ProjectionEnum = "EPSG:4326";
@@ -176,6 +188,9 @@ export class MyMap extends LitElement {
   @property({ type: Number })
   geojsonBuffer = 12;
 
+  /**
+   * @deprecated - please specify `basemap="OSRaster"` directly instead
+   */
   @property({ type: Boolean })
   disableVectorTiles = false;
 
@@ -192,6 +207,9 @@ export class MyMap extends LitElement {
   @property({ type: String })
   osProxyEndpoint = "";
 
+  /**
+   * @deprecated - please specify `basemap="MapboxSatellite"` + `mapboxAccessToken` instead
+   */
   @property({ type: Boolean })
   applySatelliteStyle = false;
 
@@ -248,21 +266,35 @@ export class MyMap extends LitElement {
   firstUpdated() {
     const target = this.renderRoot.querySelector(`#${this.id}`) as HTMLElement;
 
-    const rasterBaseMap = makeRasterBaseMap(
-      this.osVectorTilesApiKey,
-      this.osProxyEndpoint,
-      this.osCopyright,
-      this.collapseAttributions,
-    );
-    const osVectorTileBaseMap = makeOsVectorTileBaseMap(
-      this.osVectorTilesApiKey,
-      this.osProxyEndpoint,
-      this.osCopyright,
-      this.collapseAttributions,
-    );
+    const basemapLayers: BaseLayer[] = [];
+    let osVectorTileBasemap: VectorTileLayer | undefined,
+      osRasterBasemap: TileLayer<XYZ> | undefined,
+      mapboxSatelliteBasemap: VectorLayer<VectorSource> | undefined;
 
-    const useVectorTiles =
-      !this.disableVectorTiles && Boolean(osVectorTileBaseMap);
+    if (this.basemap === "OSVectorTile") {
+      osVectorTileBasemap = makeOsVectorTileBasemap(
+        this.osVectorTilesApiKey,
+        this.osProxyEndpoint,
+        this.osCopyright,
+      );
+      if (osVectorTileBasemap) basemapLayers.push(osVectorTileBasemap);
+    } else if (this.basemap === "OSRaster") {
+      osRasterBasemap = makeOSRasterBasemap(
+        this.osVectorTilesApiKey,
+        this.osProxyEndpoint,
+        this.osCopyright,
+      );
+      if (osRasterBasemap) basemapLayers.push(osRasterBasemap);
+    } else if (this.basemap === "MapboxSatellite") {
+      mapboxSatelliteBasemap = makeMapboxSatelliteBasemap(
+        this.mapboxAccessToken,
+      );
+      if (mapboxSatelliteBasemap) basemapLayers.push(mapboxSatelliteBasemap);
+    } else if (this.basemap === "OSM" || basemapLayers.length === 0) {
+      // Fallback to OpenStreetMap if we've failed to make any of the above layers, or if it's set directly
+      const osmBasemap = makeDefaultTileLayer();
+      basemapLayers.push(osmBasemap);
+    }
 
     // @ts-ignore
     const projection: ProjectionLike =
@@ -284,7 +316,7 @@ export class MyMap extends LitElement {
 
     const map = new Map({
       target,
-      layers: [useVectorTiles ? osVectorTileBaseMap! : rasterBaseMap],
+      layers: basemapLayers,
       view: new View({
         projection: "EPSG:3857",
         extent: clipExtent
@@ -303,6 +335,9 @@ export class MyMap extends LitElement {
       }),
       controls: defaultControls({
         attribution: true,
+        attributionOptions: {
+          collapsed: this.collapseAttributions,
+        },
         zoom: !this.staticMode,
         rotate: false, // alternatively uses custom prop `showNorthArrow`
       }),
@@ -315,21 +350,11 @@ export class MyMap extends LitElement {
 
     this.map = map;
 
-    if (this.mapboxAccessToken && this.applySatelliteStyle) {
-      if (osVectorTileBaseMap) map.removeLayer(osVectorTileBaseMap);
-      if (rasterBaseMap) map.removeLayer(rasterBaseMap);
-
+    if (this.basemap === "MapboxSatellite" && mapboxSatelliteBasemap) {
       apply(
         map,
         `https://api.mapbox.com/styles/v1/mapbox/satellite-v9?access_token=${this.mapboxAccessToken}`,
       );
-
-      const satelliteAttribution =
-        '<a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a> <a href="https://labs.mapbox.com/contribute/#/-74@site/src/10" target="_blank" rel="noopener noreferrer"><strong>Improve this map</strong></a>';
-      const satelliteLayer = new VectorLayer({
-        source: new VectorSource({ attributions: satelliteAttribution }), // empty besides attribution
-      });
-      map.addLayer(satelliteLayer);
     }
 
     // Append to global window for reference in tests
@@ -543,8 +568,8 @@ export class MyMap extends LitElement {
     if (
       this.drawMode &&
       this.drawType === "Polygon" &&
-      useVectorTiles &&
-      osVectorTileBaseMap
+      this.basemap === "OSVectorTile" &&
+      osVectorTileBasemap
     ) {
       // define zoom threshold for showing snaps (not @property yet because computationally expensive!)
       const snapsZoom: number = 20;
@@ -559,7 +584,7 @@ export class MyMap extends LitElement {
         const currentZoom: number | undefined = map.getView().getZoom();
         if (currentZoom && currentZoom >= snapsZoom) {
           const extent = map.getView().calculateExtent(map.getSize());
-          getSnapPointsFromVectorTiles(osVectorTileBaseMap, extent);
+          getSnapPointsFromVectorTiles(osVectorTileBasemap, extent);
         }
       };
 
@@ -570,7 +595,7 @@ export class MyMap extends LitElement {
       // Timeout minimizes updates mid-pan/drag
       map.on("moveend", () => {
         const isSourceLoaded =
-          osVectorTileBaseMap.getSource()?.getState() === "ready";
+          osVectorTileBasemap.getSource()?.getState() === "ready";
         if (isSourceLoaded) setTimeout(addSnapPoints, 200);
       });
     }
