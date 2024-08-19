@@ -10,15 +10,12 @@ declare global {
 }
 
 test.todo(
-  "Replace environment variable prop dependency with mock response. Ref https://vitest.dev/guide/mocking.html"
+  "Replace environment variable prop dependency with mock response. Ref https://vitest.dev/guide/mocking.html",
 );
 
 describe("AddressAutocomplete on initial render with valid postcode", async () => {
   beforeEach(async () => {
-    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey=${
-      import.meta.env.VITE_APP_OS_PLACES_API_KEY
-    } />`;
-
+    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osApiKey=${import.meta.env.VITE_APP_OS_API_KEY} />`;
     await window.happyDOM.whenAsyncComplete();
   }, 2500);
 
@@ -57,7 +54,7 @@ describe("AddressAutocomplete on initial render with valid postcode", async () =
 
   it("should always render the warning message container for screenreaders", () => {
     const error = getShadowRoot("address-autocomplete")?.getElementById(
-      "error-message-container"
+      "error-message-container",
     );
     expect(error).toBeTruthy;
   });
@@ -65,10 +62,7 @@ describe("AddressAutocomplete on initial render with valid postcode", async () =
 
 describe("AddressAutocomplete on initial render with empty postcode", async () => {
   beforeEach(async () => {
-    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="HP11 1BR" osPlacesApiKey=${
-      import.meta.env.VITE_APP_OS_PLACES_API_KEY
-    } />`;
-
+    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="HP11 1BR" osApiKey=${import.meta.env.VITE_APP_OS_API_KEY} />`;
     await window.happyDOM.whenAsyncComplete();
   }, 500);
 
@@ -76,7 +70,7 @@ describe("AddressAutocomplete on initial render with empty postcode", async () =
     const autocomplete = getShadowRoot("address-autocomplete");
     console.log(autocomplete?.innerHTML); // pnpm test:ui
     expect(autocomplete?.innerHTML).toContain(
-      "No addresses found in postcode HP11 1BR"
+      "No addresses found in postcode HP11 1BR",
     );
   });
 });
@@ -92,24 +86,24 @@ describe("External API calls", async () => {
   const lastTwoCalls = () => fetchSpy.mock.calls?.slice(-2).join(", ");
 
   it("calls proxy when 'osProxyEndpoint' provided", async () => {
-    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey="" osProxyEndpoint="https://www.my-site.com/api/v1/os" />`;
+    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osApiKey="" osProxyEndpoint="https://www.my-site.com/api/v1/os" />`;
     await window.happyDOM.whenAsyncComplete();
 
     expect(fetchSpy).toHaveBeenCalled();
     expect(lastTwoCalls()).toContain(
-      "https://www.my-site.com/api/v1/os/search/places/v1/postcode?postcode=SE5+0HU"
+      "https://www.my-site.com/api/v1/os/search/places/v1/postcode?postcode=SE5+0HU",
     );
     expect(fetchSpy.mock.calls?.[0]).not.toContain("&key=");
   });
 
-  it("calls OS API when 'osPlacesApiKey' provided", async () => {
+  it("calls OS API when 'osApiKey' provided", async () => {
     const mockAPIKey = "test-test-test";
-    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osPlacesApiKey=${mockAPIKey} />`;
+    document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osApiKey=${mockAPIKey} />`;
     await window.happyDOM.whenAsyncComplete();
 
     expect(fetchSpy).toHaveBeenCalled();
     expect(lastTwoCalls()).toContain(
-      "https://api.os.uk/search/places/v1/postcode?postcode=SE5+0HU"
+      "https://api.os.uk/search/places/v1/postcode?postcode=SE5+0HU",
     );
     expect(lastTwoCalls()).toContain(`&key=${mockAPIKey}`);
   });
