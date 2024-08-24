@@ -535,6 +535,7 @@ export class MyMap extends LitElement {
       }
 
       map.addLayer(drawingLayer);
+      drawingLayer.setZIndex(1001); // Ensure drawing layer is on top of Mapbox Satellite style
 
       if (!loadInitialDrawing) {
         map.addInteraction(draw);
