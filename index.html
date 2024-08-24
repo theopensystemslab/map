@@ -41,11 +41,22 @@
 
 <body style="font-family:Inter,Helvetica,sans-serif;">
   <div style="display:flex;flex-direction:column;">
-    <h1 style="color:red;font-size:16px;">*** This is a testing sandbox - these components are unaware of each other!
-      ***</h1>
+    <h1 style="color:red;font-size:16px;">
+      *** This is a testing sandbox - these components are unaware of each other!***
+    </h1>
     <div style="margin-bottom:1em">
-      <my-map zoom="20" maxZoom="23" id="example-map" drawMode drawMany drawType="Polygon" applySatelliteStyle useScaleBarStyle showScale showNorthArrow showPrint
-        osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey" ariaLabelOlFixedOverlay="Interactive example map" />
+      <my-map 
+        id="example-map"
+        ariaLabelOlFixedOverlay="Interactive example map"
+        zoom="20"
+        maxZoom="23"
+        basemap="MapboxSatellite"
+        drawMode
+        drawMany
+        drawType="Polygon"
+        osCopyright="© Crown copyright and database rights 2024 OS (0)100024857"
+        osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey"
+      />
     </div>
     <div style="margin-bottom:1em">
       <postcode-search hintText="Optional hint text shows up here" id="example-postcode" />
@@ -67,7 +78,6 @@
   <script>
     // --- MAP --- //
     const map = document.querySelector("my-map");
-    map.geojsonDataCopyright = `<a href="https://www.planning.data.gov.uk/dataset/title-boundary" target="_blank">Title boundary</a> subject to Crown copyright and database rights ${new Date().getFullYear()} OS (0)100026316`;
     map.clipGeojsonData = {
       "type": "Feature",
       "geometry": {
@@ -104,9 +114,6 @@
     });
 
     // applicable when drawMode is enabled
-    map.addEventListener("areaChange", ({ detail: area }) => {
-      console.debug({ area });
-    });
     map.addEventListener("geojsonChange", ({ detail: geojson }) => {
       console.debug({ geojson });
     });

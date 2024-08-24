@@ -15,16 +15,13 @@ declare global {
 }
 
 test("olMap is added to the global window for tests", async () => {
-  await setupMap(`<my-map id="map-vitest" disableVectorTiles />`);
+  await setupMap(`<my-map id="map-vitest" />`);
   expect(window.olMap).toBeTruthy();
   expect(window.olMap).toBeInstanceOf(Map);
 });
 
 describe("MyMap on initial render with OSM basemap", async () => {
-  beforeEach(
-    () => setupMap('<my-map id="map-vitest" disableVectorTiles />'),
-    2500,
-  );
+  beforeEach(() => setupMap('<my-map id="map-vitest" basemap="OSM" />'), 2500);
 
   it("should render a custom element with a shadow root", () => {
     const map = document.body.querySelector("my-map");
@@ -37,14 +34,14 @@ describe("MyMap on initial render with OSM basemap", async () => {
 
 describe("Keyboard navigation of map container, controls and attribution links", () => {
   it("map container should be keyboard navigable by default", async () => {
-    await setupMap(`<my-map id="map-vitest" disableVectorTiles />`);
+    await setupMap(`<my-map id="map-vitest" />`);
     const map = getShadowRoot("my-map")?.getElementById("map-vitest");
     expect(map).toBeTruthy;
     expect(map?.getAttribute("tabindex")).toEqual("0");
   });
 
   it("should omit map container from tab order if not interactive", async () => {
-    await setupMap(`<my-map id="map-vitest" disableVectorTiles staticMode />`);
+    await setupMap(`<my-map id="map-vitest" staticMode />`);
     const map = getShadowRoot("my-map")?.getElementById("map-vitest");
     expect(map).toBeTruthy;
     expect(map?.getAttribute("tabindex")).toEqual("-1");
@@ -52,7 +49,7 @@ describe("Keyboard navigation of map container, controls and attribution links",
 
   it("should keep map container in tab order if attributions are collapsed", async () => {
     await setupMap(
-      `<my-map id="map-vitest" disableVectorTiles staticMode collapseAttributions />`,
+      `<my-map id="map-vitest" staticMode collapseAttributions />`,
     );
     const map = getShadowRoot("my-map")?.getElementById("map-vitest");
     expect(map).toBeTruthy;
@@ -77,7 +74,7 @@ describe("Snap points loading behaviour", () => {
       id="map-vitest" 
       zoom=${ZOOM_OUTWITH_RANGE} 
       drawMode 
-      osVectorTileApiKey=${process.env.VITE_APP_OS_VECTOR_TILES_API_KEY}
+      osApiKey=${process.env.VITE_APP_OS_API_KEY}
     />`);
     const pointsLayer = window.olMap
       ?.getAllLayers()
@@ -93,7 +90,7 @@ describe("Snap points loading behaviour", () => {
       id="map-vitest" 
       zoom=${ZOOM_WITHIN_RANGE} 
       drawMode 
-      osVectorTileApiKey=${process.env.VITE_APP_OS_VECTOR_TILES_API_KEY}
+      osApiKey=${process.env.VITE_APP_OS_API_KEY}
     />`);
     expect(getSnapSpy).toHaveBeenCalledOnce();
   });
@@ -103,7 +100,7 @@ describe("Snap points loading behaviour", () => {
       id="map-vitest" 
       zoom=${ZOOM_OUTWITH_RANGE} 
       drawMode 
-      osVectorTileApiKey=${process.env.VITE_APP_OS_VECTOR_TILES_API_KEY}
+      osApiKey=${process.env.VITE_APP_OS_API_KEY}
     />`);
     window.olMap?.getView().setZoom(ZOOM_WITHIN_RANGE);
     window.olMap?.dispatchEvent("loadend");
@@ -116,7 +113,7 @@ describe("Snap points loading behaviour", () => {
       id="map-vitest" 
       zoom=${ZOOM_WITHIN_RANGE}
       drawMode 
-      osVectorTileApiKey=${process.env.VITE_APP_OS_VECTOR_TILES_API_KEY}
+      osApiKey=${process.env.VITE_APP_OS_API_KEY}
     />`);
     const pointsLayer = window.olMap
       ?.getAllLayers()
@@ -138,7 +135,7 @@ describe("Snap points loading behaviour", () => {
       id="map-vitest" 
       zoom=${ZOOM_WITHIN_RANGE}
       drawMode 
-      osVectorTileApiKey=${process.env.VITE_APP_OS_VECTOR_TILES_API_KEY}
+      osApiKey=${process.env.VITE_APP_OS_API_KEY}
     />`);
     expect(getSnapSpy).toHaveBeenCalledTimes(1);
     window.olMap?.dispatchEvent("moveend");

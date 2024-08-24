@@ -33,18 +33,20 @@ Find these components in the wild, including what we're learning through public 
 
 Different features rely on different APIs - namely from Ordnance Survey and Mapbox. 
 
-Address autocomplete utilises OS Places API.
+You can set keys directly as props (eg `osApiKey`) on the applicable web components or via environment variables (eg `VITE_APP_OS_API_KEY`) for local development.
+
+Address autocomplete utilises the OS Places API.
 
 For the map:
-- We'll attempt to render the map using the OS Vector Tiles API
-  - You can pass `disableVectorTiles` to render a raster basemap instead which uses the default OS Maps API
-  - If you don't have an OS API key at all, it defaults to OpenStreetMap
+- The `basemap` prop defaults to `"OSVectorTile"` which requires the OS Vector Tiles API
+  - Basemap `"OSRaster"` uses the OS Maps API
+  - Basemap `"MapboxSatellite"` requires a Mapbox Access Token with with scope `style:read`
+  - The `"OSM"` (OpenStreetMap) basemap is available for users without any keys, and as a fallback if any of the above basemaps fail to build
 - `clickFeatures` requires the OS Features API
-- `applySatelliteStyle` requires a Mapbox Access Token with the scope `style:read`
 
 When using Ordnance Survey APIs:
-- Update the `osCopyright` attribution with your license number
-- Configure `osProxyEndpoint` to avoid exposing your keys
+- Update the `osCopyright` attribution prop with your license number
+- Configure an optional `osProxyEndpoint` to avoid exposing your keys (set this instead of `osApiKey`)
   - ** We are not currently supporting a similar proxy for Mapbox because access tokens can be restricted to specific URLs via your account
 
 ## Running locally
