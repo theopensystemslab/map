@@ -54,7 +54,7 @@ import styles from "./styles.scss?inline";
 import {
   AreaUnitEnum,
   fitToData,
-  formatArea,
+  calculateArea,
   hexToRgba,
   makeGeoJSON,
 } from "./utils";
@@ -234,6 +234,9 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   staticMode = false;
 
+  /**
+   * @deprecated - both `area.squareMetres` & `area.hectares` are carculated by defualt now in applicable `geojsonChange` events
+   */
   @property({ type: String })
   areaUnit: AreaUnitEnum = "m2";
 
@@ -389,16 +392,7 @@ export class MyMap extends LitElement {
 
       if (this.drawMode) {
         drawingSource.clear();
-
         this.dispatch("geojsonChange", {});
-
-        if (this.drawType === "Polygon") {
-          this.dispatch(
-            "areaChange",
-            `0 ${this.areaUnit === "m2" ? "m²" : this.areaUnit}`,
-          );
-        }
-
         map.addInteraction(draw);
         map.addInteraction(snap);
       }
@@ -507,7 +501,7 @@ export class MyMap extends LitElement {
       // log total area of static geojson data (assumes single polygon for now)
       const data = geojsonSource.getFeatures()[0].getGeometry();
       if (data) {
-        this.dispatch("geojsonDataArea", formatArea(data, this.areaUnit));
+        this.dispatch("geojsonDataArea", calculateArea(data, this.areaUnit));
       }
     }
 
@@ -541,7 +535,7 @@ export class MyMap extends LitElement {
       }
       map.addInteraction(modify);
 
-      // XXX: snap must be added after draw and modify
+      // Snap must be added after draw and modify
       map.addInteraction(snap);
 
       // 'change' listens for 'drawend' and modifications
@@ -555,10 +549,15 @@ export class MyMap extends LitElement {
 
         if (sketches.length > 0) {
           if (this.drawType === "Polygon") {
+            // Calculate the "area" and set on geojson `properties`
             sketches.forEach((sketch) => {
               const sketchGeom = sketch.getGeometry();
               if (sketchGeom) {
-                sketch.set("area", formatArea(sketchGeom, this.areaUnit));
+                sketch.set(
+                  "area.squareMetres",
+                  calculateArea(sketchGeom, "m2"),
+                );
+                sketch.set("area.hectares", calculateArea(sketchGeom, "ha"));
               }
             });
           }
@@ -639,29 +638,38 @@ export class MyMap extends LitElement {
       );
       map.addLayer(outlineLayer);
 
-      // ensure getFeaturesAtPoint has fetched successfully
+      // Ensure getFeaturesAtPoint has fetched successfully
       outlineSource.on("change", () => {
         if (
           outlineSource.getState() === "ready" &&
           outlineSource.getFeatures().length > 0
         ) {
-          // fit map to extent of features
+          // Fit map to extent of features
           fitToData(map, outlineSource, this.featureBuffer);
 
-          // write the geojson representation of the feature or merged features
+          // Calculate the total area of the feature or merged features and set on geojson `properties`
+          const osFeatures = outlineSource.getFeatures();
+          if (osFeatures.length > 0) {
+            osFeatures.forEach((osFeature) => {
+              const osFeatureGeom = osFeature.getGeometry();
+              if (osFeatureGeom) {
+                osFeature.set(
+                  "area.squareMetres",
+                  calculateArea(osFeatureGeom, "m2"),
+                );
+                osFeature.set(
+                  "area.hectares",
+                  calculateArea(osFeatureGeom, "ha"),
+                );
+              }
+            });
+          }
+
+          // Dispatch the geojson of the feature or merged features
           this.dispatch("featuresGeojsonChange", {
             "EPSG:3857": makeGeoJSON(outlineSource, "EPSG:3857"),
             "EPSG:27700": makeGeoJSON(outlineSource, "EPSG:27700"),
           });
-
-          // calculate the total area of the feature or merged features
-          const data = outlineSource.getFeatures()[0].getGeometry();
-          if (data) {
-            this.dispatch(
-              "featuresAreaChange",
-              formatArea(data, this.areaUnit),
-            );
-          }
         }
       });
     }
