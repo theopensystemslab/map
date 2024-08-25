@@ -76,7 +76,7 @@ module.exports = {
     {
       title: "Select an address in postcode SE19 1NT",
       description: "Standard case",
-      template: `<address-autocomplete postcode="SE19 1NT" osPlacesApiKey=${process.env.VITE_APP_OS_PLACES_API_KEY} />`,
+      template: `<address-autocomplete postcode="SE19 1NT" osApiKey=${process.env.VITE_APP_OS_API_KEY} />`,
       controller: function (document) {
         const autocomplete = document.querySelector("address-autocomplete");
 
@@ -88,14 +88,14 @@ module.exports = {
           "addressSelection",
           ({ detail: address }) => {
             console.debug({ detail: address });
-          }
+          },
         );
       },
     },
     {
       title: "Select an address in postcode SE19 1NT",
       description: "Standard case (via proxy)",
-      template: `<address-autocomplete postcode="SE19 1NT" osPlacesApiKey="" osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey" />`,
+      template: `<address-autocomplete postcode="SE19 1NT" osApiKey="" osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey" />`,
       controller: function (document) {
         const autocomplete = document.querySelector("address-autocomplete");
 
@@ -107,7 +107,7 @@ module.exports = {
           "addressSelection",
           ({ detail: address }) => {
             console.debug({ detail: address });
-          }
+          },
         );
       },
     },

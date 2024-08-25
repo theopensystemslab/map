@@ -32,6 +32,12 @@ export class AddressAutocomplete extends LitElement {
   initialAddress = "";
 
   @property({ type: String })
+  osApiKey = import.meta.env.VITE_APP_OS_API_KEY || "";
+
+  /**
+   * @deprecated - please set singular `osApiKey`
+   */
+  @property({ type: String })
   osPlacesApiKey = import.meta.env.VITE_APP_OS_PLACES_API_KEY || "";
 
   @property({ type: String })
@@ -94,9 +100,9 @@ export class AddressAutocomplete extends LitElement {
             address.LPI.ADDRESS.slice(
               0,
               address.LPI.ADDRESS.lastIndexOf(
-                `, ${address.LPI.ADMINISTRATIVE_AREA}`
-              )
-            ) === option
+                `, ${address.LPI.ADMINISTRATIVE_AREA}`,
+              ),
+            ) === option,
         )[0];
         if (this._selectedAddress)
           this.dispatch("addressSelection", { address: this._selectedAddress });
@@ -105,7 +111,7 @@ export class AddressAutocomplete extends LitElement {
   }
 
   async _fetchData(offset: number = 0, prevResults: Address[] = []) {
-    const isUsingOS = Boolean(this.osPlacesApiKey || this.osProxyEndpoint);
+    const isUsingOS = Boolean(this.osApiKey || this.osProxyEndpoint);
     if (!isUsingOS)
       throw Error("OS Places API key or OS proxy endpoint not found");
 
@@ -120,7 +126,7 @@ export class AddressAutocomplete extends LitElement {
     };
     const url = getServiceURL({
       service: "places",
-      apiKey: this.osPlacesApiKey,
+      apiKey: this.osApiKey,
       proxyEndpoint: this.osProxyEndpoint,
       params,
     });
@@ -153,7 +159,7 @@ export class AddressAutocomplete extends LitElement {
             .filter(
               (address: Address) =>
                 // filter out "ALTERNATIVE", "HISTORIC", and "PROVISIONAL" records
-                address.LPI.LPI_LOGICAL_STATUS_CODE_DESCRIPTION === "APPROVED"
+                address.LPI.LPI_LOGICAL_STATUS_CODE_DESCRIPTION === "APPROVED",
             )
             .map((address: Address) => {
               // omit the council name and postcode from the display name
@@ -161,9 +167,9 @@ export class AddressAutocomplete extends LitElement {
                 address.LPI.ADDRESS.slice(
                   0,
                   address.LPI.ADDRESS.lastIndexOf(
-                    `, ${address.LPI.ADMINISTRATIVE_AREA}`
-                  )
-                )
+                    `, ${address.LPI.ADMINISTRATIVE_AREA}`,
+                  ),
+                ),
               );
             });
 
@@ -178,7 +184,7 @@ export class AddressAutocomplete extends LitElement {
         ) {
           this._fetchData(
             this._addressesInPostcode.length,
-            this._addressesInPostcode
+            this._addressesInPostcode,
           );
         }
       })
@@ -241,7 +247,7 @@ export class AddressAutocomplete extends LitElement {
   render() {
     // handle various error states
     let errorMessage;
-    if (!this.osPlacesApiKey && !this.osProxyEndpoint)
+    if (!this.osApiKey && !this.osProxyEndpoint)
       errorMessage = "Missing OS Places API key or proxy endpoint";
     else if (this._osError) errorMessage = this._osError;
     else if (this._totalAddresses === 0)
@@ -263,7 +269,7 @@ export class AddressAutocomplete extends LitElement {
     this.dispatchEvent(
       new CustomEvent(eventName, {
         detail: payload,
-      })
+      }),
     );
 }
 

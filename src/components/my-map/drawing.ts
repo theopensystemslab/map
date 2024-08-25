@@ -7,6 +7,7 @@ import { Vector as VectorSource } from "ol/source";
 import { Circle, Fill, RegularShape, Stroke, Style, Text } from "ol/style";
 import CircleStyle from "ol/style/Circle";
 import { pointsSource } from "./snapping";
+import { hexToRgba } from "./utils";
 
 export type DrawTypeEnum = Extract<Type, "Polygon" | "Point" | "Circle">;
 export type DrawPointerEnum = "crosshair" | "dot";
@@ -68,7 +69,7 @@ function getVertices(drawColor: string) {
 function styleFeatureLabels(drawType: DrawTypeEnum, feature: FeatureLike) {
   return new Text({
     text: feature.get("label"),
-    font: "50px inherit",
+    font: "80px inherit",
     placement: drawType === "Point" ? "line" : "point", // "point" placement is center point of polygon
     fill: new Fill({
       color: "#000",
@@ -83,8 +84,6 @@ function styleFeatureLabels(drawType: DrawTypeEnum, feature: FeatureLike) {
 function configureDrawingLayerStyle(
   drawType: DrawTypeEnum,
   drawColor: string,
-  drawFillColor: string,
-  pointColor: string,
   drawMany: boolean,
   feature: FeatureLike,
 ) {
@@ -93,7 +92,7 @@ function configureDrawingLayerStyle(
       return new Style({
         image: new Circle({
           radius: 9,
-          fill: new Fill({ color: pointColor }),
+          fill: new Fill({ color: drawColor }),
         }),
         text: drawMany ? styleFeatureLabels(drawType, feature) : undefined,
       });
@@ -101,7 +100,7 @@ function configureDrawingLayerStyle(
       return [
         new Style({
           fill: new Fill({
-            color: drawFillColor,
+            color: hexToRgba(drawColor, 0.2),
           }),
           stroke: new Stroke({
             color: drawColor,
@@ -118,22 +117,13 @@ export const drawingSource = new VectorSource({ wrapX: false });
 
 export function configureDrawingLayer(
   drawType: DrawTypeEnum,
-  pointColor: string,
   drawColor: string,
-  drawFillColor: string,
   drawMany: boolean,
 ) {
   return new VectorLayer({
     source: drawingSource,
     style: function (feature) {
-      return configureDrawingLayerStyle(
-        drawType,
-        drawColor,
-        drawFillColor,
-        pointColor,
-        drawMany,
-        feature,
-      );
+      return configureDrawingLayerStyle(drawType, drawColor, drawMany, feature);
     },
   });
 }
@@ -142,13 +132,11 @@ function configureDrawInteractionStyle(
   drawType: DrawTypeEnum,
   drawPointer: DrawPointerEnum,
   drawColor: string,
-  drawFillColor: string,
-  pointColor: string,
 ) {
   switch (drawType) {
     case "Point":
       return new Style({
-        fill: new Fill({ color: pointColor }),
+        fill: new Fill({ color: drawColor }),
       });
     default:
       return new Style({
@@ -158,7 +146,7 @@ function configureDrawInteractionStyle(
           lineDash: [2, 8],
         }),
         fill: new Fill({
-          color: drawFillColor,
+          color: hexToRgba(drawColor, 0.2),
         }),
         image: configureDrawPointerImage(drawPointer, drawColor),
       });
@@ -168,20 +156,12 @@ function configureDrawInteractionStyle(
 export function configureDraw(
   drawType: DrawTypeEnum,
   drawPointer: DrawPointerEnum,
-  pointColor: string,
   drawColor: string,
-  drawFillColor: string,
 ) {
   return new Draw({
     source: drawingSource,
     type: drawType,
-    style: configureDrawInteractionStyle(
-      drawType,
-      drawPointer,
-      drawColor,
-      drawFillColor,
-      pointColor,
-    ),
+    style: configureDrawInteractionStyle(drawType, drawPointer, drawColor),
   });
 }
 

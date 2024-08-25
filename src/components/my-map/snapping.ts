@@ -3,7 +3,6 @@ import { FeatureLike } from "ol/Feature";
 import { Geometry } from "ol/geom";
 import Point from "ol/geom/Point";
 import { Vector as VectorLayer } from "ol/layer";
-import VectorTileLayer from "ol/layer/VectorTile";
 import VectorSource from "ol/source/Vector";
 import { Fill, Style } from "ol/style";
 import CircleStyle from "ol/style/Circle";
@@ -30,13 +29,13 @@ export const pointsLayer = new VectorLayer({
 });
 
 /**
- * Extract points that are available to snap to when a VectorTileLayer basemap is displayed
- * @param basemap - a VectorTileLayer
+ * Extract points that are available to snap to when an OS VectorLayer basemap is displayed
+ * @param basemap - a VectorLayer
  * @param extent - an array of 4 points
  * @returns - a VectorSource populated with points within the extent
  */
 export function getSnapPointsFromVectorTiles(
-  basemap: VectorTileLayer<FeatureLike>,
+  basemap: VectorLayer,
   extent: number[],
 ) {
   const points =
