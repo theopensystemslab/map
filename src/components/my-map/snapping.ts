@@ -1,13 +1,14 @@
 import { Feature } from "ol";
+import { FeatureLike } from "ol/Feature";
+import { Geometry } from "ol/geom";
 import Point from "ol/geom/Point";
 import { Vector as VectorLayer } from "ol/layer";
-import VectorTileLayer from "ol/layer/VectorTile";
 import VectorSource from "ol/source/Vector";
 import { Fill, Style } from "ol/style";
 import CircleStyle from "ol/style/Circle";
 import { splitEvery } from "rambda";
 
-export const pointsSource = new VectorSource({
+export const pointsSource: VectorSource<Feature<Geometry>> = new VectorSource({
   features: [],
   wrapX: false,
 });
@@ -28,13 +29,13 @@ export const pointsLayer = new VectorLayer({
 });
 
 /**
- * Extract points that are available to snap to when a VectorTileLayer basemap is displayed
- * @param basemap - a VectorTileLayer
+ * Extract points that are available to snap to when an OS VectorLayer basemap is displayed
+ * @param basemap - a VectorLayer
  * @param extent - an array of 4 points
  * @returns - a VectorSource populated with points within the extent
  */
 export function getSnapPointsFromVectorTiles(
-  basemap: VectorTileLayer,
+  basemap: VectorLayer,
   extent: number[],
 ) {
   const points =
@@ -42,7 +43,9 @@ export function getSnapPointsFromVectorTiles(
     basemap
       .getSource()
       ?.getFeaturesInExtent(extent)
-      ?.filter((feature) => feature.getGeometry()?.getType() !== "Point")
+      ?.filter(
+        (feature: FeatureLike) => feature.getGeometry()?.getType() !== "Point",
+      )
       ?.flatMap((feature: any) => feature.flatCoordinates_);
 
   if (points) {
