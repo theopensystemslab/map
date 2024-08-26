@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.0] - 2024-08-24
+
+We're starting to work towards a v1.0.0 stable release!
+
+### Breaking
+A number of props and dispatched events have been deprecated and condensed:
+- `osVectorTilesApiKey`, `osFeaturesApiKey` and `osPlacesApiKey` are deprecated in favor of a single `osApiKey` prop ([#476](https://github.com/theopensystemslab/map/pull/476))
+- `disableVectorTiles` is deprecated in favor of a _new_ `basemap` prop with enum values `"OSVectorTile" | "OSRaster" | "MapboxSatellite" | "OSM"`. The default is still `"OSVectorTile"` and we'll still fallback to OpenStreetMap if any of the API-dependent basemaps can't be initialised ([#476](https://github.com/theopensystemslab/map/pull/476))
+- `drawPointColor`, `drawFillColor` and `featureBorderNone` props are deprecated and rolled into existing style props ([#473](https://github.com/theopensystemslab/map/pull/473))
+- The `areaChange` event dispatched in `drawMode` has been deprecated and rolled into existing `geojsonChange` event. If your `drawType="Polygon"`, you'll now simply find an `area` property on the dispatched geojson feature ([#466-discussion](https://github.com/theopensystemslab/map/pull/466#discussion_r1703872391))
+- Similarly, the `featuresAreaChange` event dispatched by `clickFeatures` has been deprecated and rolled into `featuresGeojsonChange` event ([#479](https://github.com/theopensystemslab/map/pull/479))
+- `areaUnit` prop has been deprecated and you'll find the calculated area in _both_ `squareMetres` and `hectares` by default now in `geojsonChange` event data above ([#479](https://github.com/theopensystemslab/map/pull/479))
+
+We think the above deprecations will mean simpler, _more_ flexible configurations and subscriptions for end-users, but if you were relying on any of the deprecated props, cannot achieve feature parity with the alternatives, or find a regression we've overlooked, please open an [Issue](https://github.com/theopensystemslab/map/issues)!
+
+### Changed
+- fix: `osCopyright` prop no longer has a default license number, please add your own! ([#476](https://github.com/theopensystemslab/map/pull/476))
+- deps: various dependency updates via Dependabot
+
+### Added
+- feat: new `basemap` option `"MapboxSatellite"` displays aerial imagery; see README "Bring your own API keys" for configuring a Mapbox access token ([#475](https://github.com/theopensystemslab/map/pull/475))
+- feat: `drawMany` prop allows more than one feature to be drawn and will display labels (simple incremental index for now, _not_ customisable). The label and area (if `drawType="Polygon"`) will be included in the `properties` of each feature dispatched via the `geojsonChange` event ([#466](https://github.com/theopensystemslab/map/pull/466))
+- feat: `drawType` prop adds supported value `"Circle"` for drawing & modifying circles; please note this type is still quite experimental and does _not_ yet dispatch a `geojsonChange` event ("circles" are not a natively supported type in geojson and we'll need to transform to polygons first) ([#465](https://github.com/theopensystemslab/map/pull/465))
+
 ### [0.8.3] - 2024-06-28
 
 ### Fixed
