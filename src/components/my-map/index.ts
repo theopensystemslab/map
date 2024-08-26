@@ -235,7 +235,7 @@ export class MyMap extends LitElement {
   staticMode = false;
 
   /**
-   * @deprecated - both `area.squareMetres` & `area.hectares` are carculated by defualt now in applicable `geojsonChange` events
+   * @deprecated - both `area.squareMetres` & `area.hectares` are calculated by default now in applicable `geojsonChange` events
    */
   @property({ type: String })
   areaUnit: AreaUnitEnum = "m2";
