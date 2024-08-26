@@ -13,25 +13,26 @@ import { ProjectionEnum } from "./projections";
 export type AreaUnitEnum = "m2" | "ha";
 
 /**
- * Calculate & format the area of a polygon
+ * Calculate the area of a polygon
  * @param polygon
  * @param unit - defaults to square metres ("m2"), or supports "ha" for hectares
- * @returns - the total area formatted with unit as a string
+ * @returns - the total area
  */
-export function formatArea(polygon: Geometry, unit: AreaUnitEnum) {
+export function calculateArea(
+  polygon: Geometry,
+  unit: AreaUnitEnum = "m2",
+): number {
   const area = getArea(polygon);
 
   const squareMetres = Math.round(area * 100) / 100;
-  const hectares = squareMetres / 10000; // 0.0001 hectares in 1 square metre
+  const hectares = squareMetres / 10000; // 1 square metre = 0.0001 hectare
 
-  let output;
-  if (unit === "m2") {
-    output = squareMetres + " m²";
-  } else if (unit === "ha") {
-    output = hectares + " ha";
+  switch (unit) {
+    case "m2":
+      return squareMetres;
+    case "ha":
+      return hectares;
   }
-
-  return output;
 }
 
 /**
