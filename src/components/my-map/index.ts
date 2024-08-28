@@ -2,6 +2,7 @@ import { html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import apply from "ol-mapbox-style";
 import { defaults as defaultControls, ScaleLine } from "ol/control";
+import { FeatureLike } from "ol/Feature";
 import { GeoJSON } from "ol/format";
 import { GeoJSONFeature } from "ol/format/GeoJSON";
 import { Point } from "ol/geom";
@@ -53,8 +54,8 @@ import {
 import styles from "./styles.scss?inline";
 import {
   AreaUnitEnum,
-  fitToData,
   calculateArea,
+  fitToData,
   hexToRgba,
   makeGeoJSON,
 } from "./utils";
@@ -475,7 +476,7 @@ export class MyMap extends LitElement {
 
     const geojsonLayer = new VectorLayer({
       source: geojsonSource,
-      style: function (this: MyMap, feature: any) {
+      style: function (this: MyMap, feature: FeatureLike) {
         // Read color from geojson feature `properties` if set or fallback to prop
         let featureColor = feature.get("color") || this.geojsonColor;
         return new Style({
@@ -487,6 +488,10 @@ export class MyMap extends LitElement {
             color: this.geojsonFill
               ? hexToRgba(featureColor, 0.2)
               : hexToRgba(featureColor, 0),
+          }),
+          image: new Circle({
+            radius: 9,
+            fill: new Fill({ color: featureColor }),
           }),
         });
       }.bind(this),
