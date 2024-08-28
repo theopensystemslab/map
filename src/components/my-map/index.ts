@@ -493,6 +493,7 @@ export class MyMap extends LitElement {
     });
 
     map.addLayer(geojsonLayer);
+    geojsonLayer.setZIndex(1001);
 
     if (geojsonSource.getFeatures().length > 0) {
       // fit map to extent of geojson features, overriding default zoom & center
@@ -703,6 +704,7 @@ export class MyMap extends LitElement {
       });
 
       map.addLayer(markerLayer);
+      markerLayer.setZIndex(1001);
     };
 
     // show a marker at a point
