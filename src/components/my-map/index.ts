@@ -72,6 +72,9 @@ export class MyMap extends LitElement {
   @property({ type: String })
   id = "map";
 
+  @property({ type: String })
+  dataTestId = "map-test-id";
+
   @property({ type: Number })
   latitude = 51.507351;
 
@@ -749,6 +752,7 @@ export class MyMap extends LitElement {
           ? "presentation"
           : "application"}"
         tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
+        data-testid="${this.dataTestId}"
       />`;
   }
 
