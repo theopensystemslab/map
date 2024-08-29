@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.1] - 2024-08-29
+
+### Changed
+- fix: ensure `showCentreMarker` and `geojsonData` layers are correctly ordered on top of basemap when using "MapboxSatellite" ([#481](https://github.com/theopensystemslab/map/pull/481))
+- fix: ensure point features displayed via `geojsonData` have an associated style ([#482](https://github.com/theopensystemslab/map/pull/482))
+- fix: increased `drawMany` label font size and default point size for `drawType="Point"` ([#483](https://github.com/theopensystemslab/map/pull/483))
+
+### Added
+- feat: adds prop `dataTestId` to set a `data-testid` on the map's shadow root ([#484](https://github.com/theopensystemslab/map/pull/484))
+
 ### [1.0.0-alpha.0] - 2024-08-24
 
 We're starting to work towards a v1.0.0 stable release!
