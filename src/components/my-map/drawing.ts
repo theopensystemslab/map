@@ -69,14 +69,14 @@ function getVertices(drawColor: string) {
 function styleFeatureLabels(drawType: DrawTypeEnum, feature: FeatureLike) {
   return new Text({
     text: feature.get("label"),
-    font: "80px inherit",
+    font: "20px Source Sans Pro,sans-serif",
     placement: drawType === "Point" ? "line" : "point", // "point" placement is center point of polygon
     fill: new Fill({
       color: "#000",
     }),
     stroke: new Stroke({
       color: "#fff",
-      width: 3,
+      width: 4,
     }),
   });
 }
@@ -91,7 +91,7 @@ function configureDrawingLayerStyle(
     case "Point":
       return new Style({
         image: new Circle({
-          radius: 9,
+          radius: 12,
           fill: new Fill({ color: drawColor }),
         }),
         text: drawMany ? styleFeatureLabels(drawType, feature) : undefined,
