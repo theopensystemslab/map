@@ -18,8 +18,8 @@ dependencies:
     specifier: ^2.0.5
     version: 2.0.5
   govuk-frontend:
-    specifier: ^5.4.0
-    version: 5.4.0
+    specifier: ^5.6.0
+    version: 5.6.0
   jspdf:
     specifier: ^2.5.1
     version: 2.5.1
@@ -4362,8 +4362,8 @@ packages:
     dependencies:
       get-intrinsic: 1.2.4
 
-  /govuk-frontend@5.4.0:
-    resolution: {integrity: sha512-F3YwQYrYQqIPfNxsoph6O78Ey1unCB6cy6omx8KeWY9G504lWZFBSIaiUCma1jNLw9bOUU7Ui+tXG09jjqy0Mw==}
+  /govuk-frontend@5.6.0:
+    resolution: {integrity: sha512-yNA4bL7i7mNrg36wPNZ3RctHo9mjl82Phs8MWs1lwovxJuQ4ogEo/XWn2uB1HxkXNqgMlW4wnd0iiKgRMfxYfw==}
     engines: {node: '>= 4.2.0'}
     dev: false
 
