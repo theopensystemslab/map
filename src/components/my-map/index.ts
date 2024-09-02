@@ -113,8 +113,8 @@ export class MyMap extends LitElement {
 
   @property({ type: Object })
   drawGeojsonData = {
-    type: "Feature",
-    geometry: {},
+    type: "FeatureCollection",
+    features: [],
   };
 
   @property({ type: String })
@@ -460,7 +460,7 @@ export class MyMap extends LitElement {
       map.getViewport().style.cursor = "grab";
     });
 
-    // display static geojson if features are provided
+    // Display static GeoJSON if features are provided
     const geojsonSource = new VectorSource();
 
     if (this.geojsonData.type === "FeatureCollection") {
@@ -468,14 +468,14 @@ export class MyMap extends LitElement {
         featureProjection: "EPSG:3857",
       });
       geojsonSource.addFeatures(features);
-      geojsonSource.setAttributions(this.geojsonDataCopyright);
     } else if (this.geojsonData.type === "Feature") {
       let feature = new GeoJSON().readFeature(this.geojsonData, {
         featureProjection: "EPSG:3857",
       });
       geojsonSource.addFeature(feature);
-      geojsonSource.setAttributions(this.geojsonDataCopyright);
     }
+
+    geojsonSource.setAttributions(this.geojsonDataCopyright);
 
     const geojsonLayer = new VectorLayer({
       source: geojsonSource,
@@ -521,26 +521,34 @@ export class MyMap extends LitElement {
       this.drawMany,
     );
     if (this.drawMode) {
-      // make sure drawingSource is cleared upfront, even if drawGeojsonData is provided
+      // Clear drawingSource to begin, even if drawGeojsonData is provided
       drawingSource.clear();
 
-      // load an initial polygon into the drawing source if provided, or start from an empty drawing source
-      const loadInitialDrawing =
-        Object.keys(this.drawGeojsonData.geometry).length > 0;
-
-      if (loadInitialDrawing) {
+      // Load initial drawing (or drawings if drawMany) into the drawing source
+      if (this.drawGeojsonData.type === "FeatureCollection") {
+        let features = new GeoJSON().readFeatures(this.drawGeojsonData, {
+          featureProjection: "EPSG:3857",
+        });
+        drawingSource.addFeatures(features);
+      } else if (this.drawGeojsonData.type === "Feature") {
         let feature = new GeoJSON().readFeature(this.drawGeojsonData, {
           featureProjection: "EPSG:3857",
         });
         drawingSource.addFeature(feature);
-        drawingSource.setAttributions(this.drawGeojsonDataCopyright);
+      }
+
+      drawingSource.setAttributions(this.drawGeojsonDataCopyright);
+      if (drawingSource.getFeatures().length > 0) {
         fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
       }
 
       map.addLayer(drawingLayer);
       drawingLayer.setZIndex(1001); // Ensure drawing layer is on top of Mapbox Satellite style
 
-      if (!loadInitialDrawing) {
+      // If exactly one drawGeojsonData feature was initially provided, and we are NOT supporting drawMany, only add modify interaction to map, else add draw & modify
+      const modifyOnly =
+        drawingSource.getFeatures().length === 1 && !this.drawMany;
+      if (!modifyOnly) {
         map.addInteraction(draw);
       }
       map.addInteraction(modify);
