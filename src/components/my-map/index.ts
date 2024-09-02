@@ -538,7 +538,9 @@ export class MyMap extends LitElement {
       }
 
       drawingSource.setAttributions(this.drawGeojsonDataCopyright);
-      fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
+      if (drawingSource.getFeatures().length > 0) {
+        fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
+      }
 
       map.addLayer(drawingLayer);
       drawingLayer.setZIndex(1001); // Ensure drawing layer is on top of Mapbox Satellite style
