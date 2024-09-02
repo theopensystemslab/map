@@ -87,6 +87,7 @@ function configureDrawingLayerStyle(
   drawMany: boolean,
   feature: FeatureLike,
 ) {
+  drawColor = feature.get("color") || drawColor;
   switch (drawType) {
     case "Point":
       return new Style({
