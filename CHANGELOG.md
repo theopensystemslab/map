@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.2] - 2024-09-02
+
+### Fixed
+- fix: maintain existing drawing labels when modifying features ([#493](https://github.com/theopensystemslab/map/pull/493))
+- fix: `drawGeojsonData` accepts individual "Feature" or "FeatureCollection" to work correctly with `drawMany` ([#491](https://github.com/theopensystemslab/map/pull/491))
+
+### Added 
+- feat: `drawGeojsonData` will read from GeoJSON property "color" if set, or else fallback to the `drawColor` prop which allows individual features to use different styles when `drawMany` ([#492](https://github.com/theopensystemslab/map/pull/492))
+
 ### [1.0.0-alpha.1] - 2024-08-29
 
 ### Changed
