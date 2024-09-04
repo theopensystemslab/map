@@ -561,9 +561,9 @@ export class MyMap extends LitElement {
         const sketches = drawingSource.getFeatures();
 
         // Assign a label to each feature based on its' index
-        sketches.forEach((sketch, i) => {
-          // If this feature already exists and is only being modified, use its' current label, else use index (needs to be type string in order to be parsed by Style "Text")
-          const label = sketch.get("label") || `${i + 1}`;
+        sketches.forEach((sketch) => {
+          // If this feature already exists and is only being modified, use its' current label, else use feature length (needs to be type string in order to be parsed by Style "Text")
+          const label = sketch.get("label") || `${sketches.length}`;
           sketch.set("label", label);
         });
 
