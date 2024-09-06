@@ -232,6 +232,9 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   hideResetControl = false;
 
+  @property({ type: Boolean })
+  resetViewOnly = false;
+
   @property({ type: String })
   resetControlImage: ResetControlImageEnum = "unicode";
 
@@ -383,18 +386,22 @@ export class MyMap extends LitElement {
     const draw = configureDraw(this.drawType, this.drawPointer, this.drawColor);
     const modify = configureModify(this.drawPointer, this.drawColor);
 
-    // add a custom 'reset' control to the map
+    // Add a custom 'reset' control to the map
     const handleReset = () => {
+      // Reset the view port of the map based on available data or center/zoom by default
       if (this.showFeaturesAtPoint) {
         fitToData(map, outlineSource, this.featureBuffer);
       } else if (geojsonSource.getFeatures().length > 0) {
         fitToData(map, geojsonSource, this.geojsonBuffer);
+      } else if (this.resetViewOnly && drawingSource.getFeatures().length > 0) {
+        fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
       } else {
         map.getView().setCenter(centerCoordinate);
         map.getView().setZoom(this.zoom);
       }
 
-      if (this.drawMode) {
+      // If in drawMode, also clear features from the drawingSource by default
+      if (this.drawMode && !this.resetViewOnly) {
         drawingSource.clear();
         this.dispatch("geojsonChange", {});
         map.addInteraction(draw);
