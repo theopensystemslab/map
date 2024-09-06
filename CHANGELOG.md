@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.3] - 2024-09-06
+
+### Fixed
+- fix: ensure labels are incremental when drawing many features ([#495](https://github.com/theopensystemslab/map/pull/495))
+
+### Added
+- feat: add boolean prop `resetViewOnly` to prevent reset control from clearing drawing data and only reset viewport ([#496](https://github.com/theopensystemslab/map/pull/496))
+
 ### [1.0.0-alpha.2] - 2024-09-02
 
 ### Fixed
