@@ -38,7 +38,7 @@ export function resetControl(listener: any, icon: string) {
   button.title = "Reset map view";
 
   if (icon === "unicode") {
-    button.innerHTML = "↻";
+    button.innerHTML = "↺";
   } else {
     const image = document.createElement("img");
     image.className = "reset-icon";
@@ -140,7 +140,7 @@ export class PrintControl extends PrintDialog {
       ?.getControls()
       .getArray()
       .filter(
-        (control: Control) => control instanceof ScaleLine
+        (control: Control) => control instanceof ScaleLine,
       )[0] as ScaleLine;
     if (!scaleLineControl) return;
     // @ts-ignore
@@ -176,10 +176,10 @@ export class PrintControl extends PrintDialog {
       ?.getControls()
       .getArray()
       .filter(
-        (control) => control instanceof CanvasScaleLine
+        (control) => control instanceof CanvasScaleLine,
       )[0] as CanvasScaleLine;
     const canvasScaleLine = document.querySelector(
-      ".ol-scale-line-inner"
+      ".ol-scale-line-inner",
     ) as HTMLDivElement;
     const scale = Math.round(scaleLineControl.getScaleForResolution());
     if (canvasScaleLine) {
