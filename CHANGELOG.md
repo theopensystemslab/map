@@ -14,6 +14,9 @@ incremented for features.
 ### Fixed
 - fix: ensure labels are incremental when drawing many features ([#495](https://github.com/theopensystemslab/map/pull/495))
 
+### Changed
+- style: switch direction of reset icon ([#498](https://github.com/theopensystemslab/map/pull/498))
+
 ### Added
 - feat: add boolean prop `resetViewOnly` to prevent reset control from clearing drawing data and only reset viewport ([#496](https://github.com/theopensystemslab/map/pull/496))
 
