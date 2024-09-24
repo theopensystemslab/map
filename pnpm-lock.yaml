@@ -27,14 +27,14 @@ dependencies:
     specifier: ^3.0.1
     version: 3.0.1
   ol:
-    specifier: ^9.1.0
-    version: 9.1.0
+    specifier: ^9.2.4
+    version: 9.2.4
   ol-ext:
     specifier: ^4.0.21
-    version: 4.0.21(ol@9.1.0)
+    version: 4.0.21(ol@9.2.4)
   ol-mapbox-style:
     specifier: ^12.3.5
-    version: 12.3.5(ol@9.1.0)
+    version: 12.3.5(ol@9.2.4)
   postcode:
     specifier: ^5.1.0
     version: 5.1.0
@@ -225,7 +225,7 @@ packages:
       '@babel/core': 7.24.7
       '@babel/helper-compilation-targets': 7.24.7
       '@babel/helper-plugin-utils': 7.24.7
-      debug: 4.3.5
+      debug: 4.3.7
       lodash.debounce: 4.0.8
       resolve: 1.22.8
     transitivePeerDependencies:
@@ -5716,26 +5716,26 @@ packages:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
     dev: true
 
-  /ol-ext@4.0.21(ol@9.1.0):
+  /ol-ext@4.0.21(ol@9.2.4):
     resolution: {integrity: sha512-xP4oVD5KBvJW6P9UQwmPcgqMDh6nzUrHjle4qhNqzRW7OkP02mObw5UMGAgz+uhIW8doJ3hYCwy2HcpU1JFpig==}
     peerDependencies:
       ol: '>= 5.3.0'
     dependencies:
-      ol: 9.1.0
+      ol: 9.2.4
     dev: false
 
-  /ol-mapbox-style@12.3.5(ol@9.1.0):
+  /ol-mapbox-style@12.3.5(ol@9.2.4):
     resolution: {integrity: sha512-1tdq+jpzJ7BuqCeRpNV5u90X369MXDbHKpPPt0BNpbzi+4UEJ2dJIrd3eFQV9VbqvZeEIioEjyK7qOqXsUZs8w==}
     peerDependencies:
       ol: '*'
     dependencies:
       '@mapbox/mapbox-gl-style-spec': 13.28.0
       mapbox-to-css-font: 2.4.4
-      ol: 9.1.0
+      ol: 9.2.4
     dev: false
 
-  /ol@9.1.0:
-    resolution: {integrity: sha512-nDrkJ2tzZNpo/wzN/PpHV5zdxbnXZaFktoMaD2cFLEc6gCwlgLY21Yd8wnt/4FjaVYwLBnbN9USXSwIBGcyksQ==}
+  /ol@9.2.4:
+    resolution: {integrity: sha512-bsbu4ObaAlbELMIZWnYEvX4Z9jO+OyCBshtODhDKmqYTPEfnKOX3RieCr97tpJkqWTZvyV4tS9UQDvHoCdxS+A==}
     dependencies:
       color-rgba: 3.0.0
       color-space: 2.0.1
@@ -6880,7 +6880,7 @@ packages:
     resolution: {integrity: sha512-v67WcEouB5GxbTWL/4NeToqcZiAWEq90N888fczVArY8A79J0L4FD7vj5hm3eUMua5EpoQ59wa/oovY6TLvRUA==}
     engines: {node: '>= 18'}
     dependencies:
-      debug: 4.3.5
+      debug: 4.3.7
       destroy: 1.2.0
       encodeurl: 2.0.0
       escape-html: 1.0.3
@@ -7156,7 +7156,7 @@ packages:
   /spdy-transport@3.0.0:
     resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==}
     dependencies:
-      debug: 4.3.5
+      debug: 4.3.7
       detect-node: 2.1.0
       hpack.js: 2.1.6
       obuf: 1.1.2
