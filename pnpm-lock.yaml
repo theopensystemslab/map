@@ -89,8 +89,8 @@ devDependencies:
     specifier: ^1.77.8
     version: 1.77.8
   typescript:
-    specifier: ^5.5.2
-    version: 5.5.2
+    specifier: ^5.6.2
+    version: 5.6.2
   vite:
     specifier: ^5.4.6
     version: 5.4.6(@types/node@22.0.3)(sass@1.77.8)(stylus@0.58.1)
@@ -7498,8 +7498,8 @@ packages:
       mime-types: 2.1.35
     dev: true
 
-  /typescript@5.5.2:
-    resolution: {integrity: sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==}
+  /typescript@5.6.2:
+    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
