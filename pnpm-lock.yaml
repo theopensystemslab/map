@@ -21,8 +21,8 @@ dependencies:
     specifier: ^5.6.0
     version: 5.6.0
   jspdf:
-    specifier: ^2.5.1
-    version: 2.5.1
+    specifier: ^2.5.2
+    version: 2.5.2
   lit:
     specifier: ^3.0.1
     version: 3.0.1
@@ -63,7 +63,7 @@ devDependencies:
     version: 22.0.3
   '@types/ol-ext':
     specifier: npm:@siedlerchr/types-ol-ext@^3.3.0
-    version: /@siedlerchr/types-ol-ext@3.3.0(jspdf@2.5.1)
+    version: /@siedlerchr/types-ol-ext@3.3.0(jspdf@2.5.2)
   '@types/proj4':
     specifier: ^2.5.5
     version: 2.5.5
@@ -1913,12 +1913,12 @@ packages:
     dev: true
     optional: true
 
-  /@siedlerchr/types-ol-ext@3.3.0(jspdf@2.5.1):
+  /@siedlerchr/types-ol-ext@3.3.0(jspdf@2.5.2):
     resolution: {integrity: sha512-DPiiOP6sFbrE38HoLkPE9XxOq7CduQo/qWfDCCMLqzyEENGwimuC6RvDqP3zvC4lM6WNTYskYmoj2e7CVf0nKw==}
     peerDependencies:
       jspdf: ^2.5.1
     dependencies:
-      jspdf: 2.5.1
+      jspdf: 2.5.2
     dev: true
 
   /@sinclair/typebox@0.27.8:
@@ -4052,12 +4052,8 @@ packages:
       websocket-driver: 0.7.4
     dev: true
 
-  /fflate@0.4.8:
-    resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
-
   /fflate@0.8.2:
     resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
-    dev: true
 
   /file-loader@6.2.0(webpack@5.94.0):
     resolution: {integrity: sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==}
@@ -5098,13 +5094,13 @@ packages:
       graceful-fs: 4.2.11
     dev: true
 
-  /jspdf@2.5.1:
-    resolution: {integrity: sha512-hXObxz7ZqoyhxET78+XR34Xu2qFGrJJ2I2bE5w4SM8eFaFEkW2xcGRVUss360fYelwRSid/jT078kbNvmoW0QA==}
+  /jspdf@2.5.2:
+    resolution: {integrity: sha512-myeX9c+p7znDWPk0eTrujCzNjT+CXdXyk7YmJq5nD5V7uLLKmSXnlQ/Jn/kuo3X09Op70Apm0rQSnFWyGK8uEQ==}
     dependencies:
       '@babel/runtime': 7.24.7
       atob: 2.1.2
       btoa: 1.2.1
-      fflate: 0.4.8
+      fflate: 0.8.2
     optionalDependencies:
       canvg: 3.0.10
       core-js: 3.37.1
