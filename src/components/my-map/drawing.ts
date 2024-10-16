@@ -67,13 +67,15 @@ function getVertices(drawColor: string) {
 }
 
 function styleFeatureLabels(drawType: DrawTypeEnum, feature: FeatureLike) {
+  const offset = -25;
   return new Text({
     text: feature.get("label"),
-    font: "18px Source Sans Pro,sans-serif",
+    font: "bold 19px Source Sans Pro,sans-serif",
     placement: drawType === "Point" ? "line" : "point", // "point" placement is center point of polygon
     fill: new Fill({
-      color: "#fff",
+      color: "#000",
     }),
+    offsetY: offset,
   });
 }
 
@@ -84,19 +86,40 @@ function configureDrawingLayerStyle(
   feature: FeatureLike,
 ) {
   drawColor = feature.get("color") || drawColor;
+
   switch (drawType) {
     case "Point":
-      return new Style({
-        image: new Circle({
-          radius: 12,
-          fill: new Fill({ color: "#000" }),
-          stroke: new Stroke({
-            color: drawColor,
-            width: 2,
+      return [
+        new Style({
+          image: new RegularShape({
+            points: 3,
+            radius: 10,
+            angle: Math.PI,
+            displacement: [0, 10],
+            fill: new Fill({
+              color: drawColor,
+            }),
           }),
         }),
-        text: drawMany ? styleFeatureLabels(drawType, feature) : undefined,
-      });
+        new Style({
+          image: new CircleStyle({
+            radius: 12,
+            fill: new Fill({
+              color: "#fff",
+            }),
+            stroke: new Stroke({
+              color: drawColor,
+              width: 2,
+            }),
+            displacement: [0, 25],
+          }),
+        }),
+        drawMany
+          ? new Style({
+              text: styleFeatureLabels(drawType, feature),
+            })
+          : undefined,
+      ];
     default:
       return [
         new Style({
