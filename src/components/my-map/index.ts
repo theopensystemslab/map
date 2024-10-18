@@ -248,6 +248,9 @@ export class MyMap extends LitElement {
   areaUnit: AreaUnitEnum = "m2";
 
   @property({ type: Boolean })
+  hideDrawLabels = false;
+
+  @property({ type: Boolean })
   showScale = false;
 
   @property({ type: Boolean })
@@ -526,6 +529,7 @@ export class MyMap extends LitElement {
       this.drawType,
       this.drawColor,
       this.drawMany,
+      this.hideDrawLabels,
     );
     if (this.drawMode) {
       // Clear drawingSource to begin, even if drawGeojsonData is provided

@@ -85,6 +85,7 @@ function configureDrawingLayerStyle(
   drawType: DrawTypeEnum,
   drawColor: string,
   drawMany: boolean,
+  hideDrawLabels: boolean,
   feature: FeatureLike,
 ) {
   drawColor = feature.get("color") || drawColor;
@@ -95,7 +96,10 @@ function configureDrawingLayerStyle(
           radius: 12,
           fill: new Fill({ color: drawColor }),
         }),
-        text: drawMany ? styleFeatureLabels(drawType, feature) : undefined,
+        text:
+          drawMany && !hideDrawLabels
+            ? styleFeatureLabels(drawType, feature)
+            : undefined,
       });
     default:
       return [
@@ -107,7 +111,10 @@ function configureDrawingLayerStyle(
             color: drawColor,
             width: 3,
           }),
-          text: drawMany ? styleFeatureLabels(drawType, feature) : undefined,
+          text:
+            drawMany && !hideDrawLabels
+              ? styleFeatureLabels(drawType, feature)
+              : undefined,
         }),
         getVertices(drawColor),
       ];
@@ -120,11 +127,18 @@ export function configureDrawingLayer(
   drawType: DrawTypeEnum,
   drawColor: string,
   drawMany: boolean,
+  hideDrawLabels: boolean,
 ) {
   return new VectorLayer({
     source: drawingSource,
     style: function (feature) {
-      return configureDrawingLayerStyle(drawType, drawColor, drawMany, feature);
+      return configureDrawingLayerStyle(
+        drawType,
+        drawColor,
+        drawMany,
+        hideDrawLabels,
+        feature,
+      );
     },
   });
 }
