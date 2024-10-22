@@ -89,11 +89,11 @@ function configureDrawingLayerStyle(
     case "Point":
       return new Style({
         image: new Circle({
-          radius: 12,
+          radius: hideDrawLabels ? 10 : 12,
           fill: new Fill({ color: "#fff" }),
           stroke: new Stroke({
             color: drawColor,
-            width: 2,
+            width: hideDrawLabels ? 6 : 2,
           }),
         }),
         text:
