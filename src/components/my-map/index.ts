@@ -503,7 +503,7 @@ export class MyMap extends LitElement {
               : hexToRgba(featureColor, 0),
           }),
           image: new Circle({
-            radius: 9,
+            radius: 10,
             fill: new Fill({ color: featureColor }),
           }),
         });
@@ -706,7 +706,7 @@ export class MyMap extends LitElement {
     }
 
     const markerCircle = new Circle({
-      radius: 9,
+      radius: 10,
       fill: new Fill({ color: this.markerColor }),
     });
 
