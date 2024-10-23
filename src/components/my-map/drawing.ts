@@ -29,7 +29,7 @@ function configureDrawPointerImage(
       });
     case "dot":
       return new CircleStyle({
-        radius: 6,
+        radius: 10,
         fill: new Fill({
           color: drawColor,
         }),
@@ -89,11 +89,11 @@ function configureDrawingLayerStyle(
     case "Point":
       return new Style({
         image: new Circle({
-          radius: hideDrawLabels ? 10 : 12,
+          radius: drawMany && !hideDrawLabels ? 12 : 10,
           fill: new Fill({ color: "#fff" }),
           stroke: new Stroke({
             color: drawColor,
-            width: hideDrawLabels ? 6 : 2,
+            width: drawMany && !hideDrawLabels ? 2 : 6,
           }),
         }),
         text:
