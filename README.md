@@ -70,6 +70,15 @@ We use [Pitsby](https://pitsby.com/) for documenting our web components. It's si
 - `pnpm run docs` starts Pitsby in watch mode for local development
 - `pnpm run docsPublish` builds the site so Netlify can serve it from `pitsby/`
 
+### Deployments
+
+We publish this package via [NPM](https://www.npmjs.com/package/@opensystemslab/map).
+
+To create a new release:
+1. Open a new PR against `main` which bumps the package.json "version" & creates a CHANGELOG.md entry, request code review & merge on approval
+1. Run `npm publish` or `npm publish --tag next` if making a pre-release (requires permissions to OSL team in NPM & access to 2-factor auth method)
+1. [Draft a new release](https://github.com/theopensystemslab/map/releases) via GitHub web: tag should match version, automatically generate changenotes and link above PR, then "Publish" and set as latest version (or set as pre-release if you used `--tag next` in above command)
+
 ## License
 
 This repository is licensed under the [Open Government License v3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
