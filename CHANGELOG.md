@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.4] - 2024-10-23
+
+### Added
+- feat: new boolean prop `hideDrawLabels` allows default labels to be hidden when `drawMany` is enabled ([#508](https://github.com/theopensystemslab/map/pull/508))
+
+### Changed
+- style: increased visual constrast of drawing points by applying colored stroke rather fill and bumping overall size ([#507](https://github.com/theopensystemslab/map/pull/507), [#509](https://github.com/theopensystemslab/map/pull/509))
+
 ### [1.0.0-alpha.3] - 2024-09-06
 
 ### Fixed
