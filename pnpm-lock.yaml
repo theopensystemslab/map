@@ -42,8 +42,8 @@ dependencies:
     specifier: ^2.12.1
     version: 2.12.1
   rambda:
-    specifier: ^9.2.1
-    version: 9.2.1
+    specifier: ^9.4.0
+    version: 9.4.0
 
 devDependencies:
   '@glorious/pitsby':
@@ -6438,8 +6438,8 @@ packages:
       performance-now: 2.1.0
     optional: true
 
-  /rambda@9.2.1:
-    resolution: {integrity: sha512-6Dp+QQVQuAuhwBlbIvL2FjJVHCKF29W+n9ca/BMTVDqpj+Q7KKqUh7UAINEna8aaB2/oRvPuL5hViCTQARa70Q==}
+  /rambda@9.4.0:
+    resolution: {integrity: sha512-B7y7goUd+g0hNl5ODGUejNNERQL5gD8uANJ5Y5aHly8v0jKesFlwIe7prPfuJxttDpe3otQzHJ4NXMpTmL9ELA==}
     dev: false
 
   /randombytes@2.1.0:
