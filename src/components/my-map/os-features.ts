@@ -8,6 +8,7 @@ import { getServiceURL } from "../../lib/ordnanceSurvey";
 
 import { hexToRgba } from "./utils";
 import { featureCollection } from "@turf/helpers";
+import { MultiPolygon, Polygon, Feature } from "geojson";
 
 const featureSource = new VectorSource();
 
@@ -120,18 +121,22 @@ export function getFeaturesAtPoint(
       }
 
       outlineSource.clear();
-      outlineSource.addFeature(
-        // Merge all of the features into a single feature
-        geojson.readFeature(
-          featureSource.getFeatures().reduce((acc: any, curr) => {
-            const currentFeature = geojson.writeFeatureObject(curr);
-            if (!acc) return currentFeature;
 
-            const merged = union(featureCollection([currentFeature, acc]));
-            return merged;
-          }, null),
-        ),
-      );
+      // Convert OL features to GeoJSON
+      const allFeatures = featureSource
+        .getFeatures()
+        .map((feature) => geojson.writeFeatureObject(feature))
+        .filter((feature): feature is Feature<Polygon | MultiPolygon> =>
+          ["Polygon", "MultiPolygon"].includes(feature.geometry.type),
+        );
+
+      // Merge all GeoJSON features
+      const collection = featureCollection(allFeatures);
+      const mergedGeoJSON = union(collection);
+
+      // Convert back to OL feature and add to source
+      const mergedFeature = geojson.readFeature(mergedGeoJSON);
+      outlineSource.addFeature(mergedFeature);
     })
     .catch((error) => console.log(error));
 }
