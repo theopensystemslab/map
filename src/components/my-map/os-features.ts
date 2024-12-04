@@ -7,6 +7,7 @@ import { Fill, Stroke, Style } from "ol/style";
 import { getServiceURL } from "../../lib/ordnanceSurvey";
 
 import { hexToRgba } from "./utils";
+import { featureCollection } from "@turf/helpers";
 
 const featureSource = new VectorSource();
 
@@ -123,8 +124,11 @@ export function getFeaturesAtPoint(
         // Merge all of the features into a single feature
         geojson.readFeature(
           featureSource.getFeatures().reduce((acc: any, curr) => {
-            const toMerge = geojson.writeFeatureObject(curr).geometry;
-            return acc ? union(acc, toMerge) : toMerge;
+            const currentFeature = geojson.writeFeatureObject(curr);
+            if (!acc) return currentFeature;
+
+            const merged = union(featureCollection([currentFeature, acc]));
+            return merged;
           }, null),
         ),
       );

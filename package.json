@@ -26,6 +26,7 @@
     "docsPublish": "pitsby build"
   },
   "dependencies": {
+    "@turf/helpers": "^7.1.0",
     "@turf/union": "^7.1.0",
     "accessible-autocomplete": "^2.0.4",
     "file-saver": "^2.0.5",
