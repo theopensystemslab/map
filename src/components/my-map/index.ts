@@ -5,7 +5,7 @@ import { defaults as defaultControls, ScaleLine } from "ol/control";
 import { FeatureLike } from "ol/Feature";
 import { GeoJSON } from "ol/format";
 import { GeoJSONFeature } from "ol/format/GeoJSON";
-import { Point } from "ol/geom";
+import { Geometry, Point } from "ol/geom";
 import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
@@ -59,6 +59,7 @@ import {
   hexToRgba,
   makeGeoJSON,
 } from "./utils";
+import RenderFeature from "ol/render/Feature";
 
 type MarkerImageEnum = "circle" | "pin";
 type ResetControlImageEnum = "unicode" | "trash";
@@ -291,9 +292,9 @@ export class MyMap extends LitElement {
     const isUsingOS = Boolean(this.osApiKey || this.osProxyEndpoint);
 
     const basemapLayers: BaseLayer[] = [];
-    let osVectorTileBasemap: VectorTileLayer | undefined,
+    let osVectorTileBasemap: VectorTileLayer<RenderFeature> | undefined,
       osRasterBasemap: TileLayer<XYZ> | undefined,
-      mapboxSatelliteBasemap: VectorLayer<VectorSource> | undefined;
+      mapboxSatelliteBasemap: VectorLayer<Feature<Geometry>> | undefined;
 
     if (this.basemap === "OSVectorTile" && isUsingOS) {
       osVectorTileBasemap = makeOsVectorTileBasemap(
