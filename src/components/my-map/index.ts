@@ -4,7 +4,6 @@ import apply from "ol-mapbox-style";
 import { defaults as defaultControls, ScaleLine } from "ol/control";
 import { FeatureLike } from "ol/Feature";
 import { GeoJSON } from "ol/format";
-import { GeoJSONFeature } from "ol/format/GeoJSON";
 import { Geometry, Point } from "ol/geom";
 import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
@@ -60,6 +59,7 @@ import {
   makeGeoJSON,
 } from "./utils";
 import RenderFeature from "ol/render/Feature";
+import { GeoJSONFeatureCollection } from "ol/format/GeoJSON";
 
 type MarkerImageEnum = "circle" | "pin";
 type ResetControlImageEnum = "unicode" | "trash";
@@ -173,7 +173,7 @@ export class MyMap extends LitElement {
   markerColor = "#2c2c2c";
 
   @property({ type: Object })
-  geojsonData = {
+  geojsonData: GeoJSONFeatureCollection = {
     type: "FeatureCollection",
     features: [],
   };
@@ -743,7 +743,9 @@ export class MyMap extends LitElement {
     }
 
     if (this.showGeojsonDataMarkers) {
-      this.geojsonData.features.forEach((feature: GeoJSONFeature) => {
+      this.geojsonData.features.forEach((feature) => {
+        if (feature.geometry.type !== "Point") return;
+
         showNewMarker(
           feature.geometry.coordinates[0],
           feature.geometry.coordinates[1],
