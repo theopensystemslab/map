@@ -1,13 +1,15 @@
 import { Feature } from "ol";
+import { Geometry } from "ol/geom";
 import Point from "ol/geom/Point";
 import { Vector as VectorLayer } from "ol/layer";
 import VectorTileLayer from "ol/layer/VectorTile";
+import RenderFeature from "ol/render/Feature";
 import VectorSource from "ol/source/Vector";
 import { Fill, Style } from "ol/style";
 import CircleStyle from "ol/style/Circle";
 import { splitEvery } from "rambda";
 
-export const pointsSource = new VectorSource({
+export const pointsSource = new VectorSource<Feature<Geometry>>({
   features: [],
   wrapX: false,
 });
@@ -34,7 +36,7 @@ export const pointsLayer = new VectorLayer({
  * @returns - a VectorSource populated with points within the extent
  */
 export function getSnapPointsFromVectorTiles(
-  basemap: VectorTileLayer,
+  basemap: VectorTileLayer<RenderFeature>,
   extent: number[],
 ) {
   const points =
