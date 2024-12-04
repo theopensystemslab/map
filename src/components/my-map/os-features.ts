@@ -43,7 +43,7 @@ export function getFeaturesAtPoint(
   proxyEndpoint: string,
   supportClickFeatures: boolean,
 ) {
-  const xml = `
+  const xml = encodeURIComponent(`
     <ogc:Filter>
       <ogc:Contains>
       <ogc:PropertyName>SHAPE</ogc:PropertyName>
@@ -54,7 +54,7 @@ export function getFeaturesAtPoint(
         </gml:Point>
       </ogc:Contains>
     </ogc:Filter>
-  `;
+  `);
 
   // Define (WFS) parameters object
   const params = {
