@@ -23,12 +23,20 @@ export default defineConfig({
     // @ts-ignore
     {
       ...litcss(),
-      enforce: 'post'
-    }
+      enforce: "post",
+    },
   ],
   // https://vitest.dev/config/#options
   test: {
     globals: true,
-    environment: 'happy-dom',
+    environment: "happy-dom",
+  },
+  resolve: {
+    alias: {
+      "govuk-frontend": path.resolve(
+        __dirname,
+        "./node_modules/govuk-frontend"
+      ),
+    },
   },
 });
