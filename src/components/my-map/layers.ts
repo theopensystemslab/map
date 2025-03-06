@@ -10,7 +10,6 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { Feature } from "ol";
 import { Geometry } from "ol/geom";
-import RenderFeature from "ol/render/Feature";
 
 export type BasemapEnum =
   | "OSM"
@@ -29,7 +28,10 @@ export function makeDefaultTileLayer(): TileLayer<OSM> {
   return layer;
 }
 
-export function makeMapboxSatelliteBasemap(): VectorLayer<Feature<Geometry>> {
+export function makeMapboxSatelliteBasemap(): VectorLayer<
+  VectorSource<Feature<Geometry>>,
+  Feature<Geometry>
+> {
   // Layer is empty besides attribution, style is "applied" after instantiating map in index.ts
   const layer = new VectorLayer({
     source: new VectorSource({
@@ -67,7 +69,7 @@ export function makeOsVectorTileBasemap(
   apiKey: string,
   proxyEndpoint: string,
   copyright: string,
-): VectorTileLayer<RenderFeature> {
+): VectorTileLayer {
   const vectorTileServiceUrl = getServiceURL({
     service: "vectorTile",
     apiKey,

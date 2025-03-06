@@ -58,7 +58,6 @@ import {
   hexToRgba,
   makeGeoJSON,
 } from "./utils";
-import RenderFeature from "ol/render/Feature";
 import { GeoJSONFeatureCollection } from "ol/format/GeoJSON";
 
 type MarkerImageEnum = "circle" | "pin";
@@ -292,9 +291,11 @@ export class MyMap extends LitElement {
     const isUsingOS = Boolean(this.osApiKey || this.osProxyEndpoint);
 
     const basemapLayers: BaseLayer[] = [];
-    let osVectorTileBasemap: VectorTileLayer<RenderFeature> | undefined,
+    let osVectorTileBasemap: VectorTileLayer | undefined,
       osRasterBasemap: TileLayer<XYZ> | undefined,
-      mapboxSatelliteBasemap: VectorLayer<Feature<Geometry>> | undefined;
+      mapboxSatelliteBasemap:
+        | VectorLayer<VectorSource<Feature<Geometry>>, Feature<Geometry>>
+        | undefined;
 
     if (this.basemap === "OSVectorTile" && isUsingOS) {
       osVectorTileBasemap = makeOsVectorTileBasemap(
@@ -338,7 +339,10 @@ export class MyMap extends LitElement {
       new GeoJSON().readFeature(this.clipGeojsonData, {
         featureProjection: "EPSG:3857",
       });
-    const clipExtent = clipFeature && clipFeature.getGeometry()?.getExtent();
+    const clipExtent =
+      clipFeature &&
+      !Array.isArray(clipFeature) &&
+      clipFeature.getGeometry()?.getExtent();
 
     const map = new Map({
       target,
@@ -483,6 +487,9 @@ export class MyMap extends LitElement {
       let feature = new GeoJSON().readFeature(this.geojsonData, {
         featureProjection: "EPSG:3857",
       });
+
+      if (Array.isArray(feature)) return;
+
       geojsonSource.addFeature(feature);
     }
 
@@ -546,6 +553,9 @@ export class MyMap extends LitElement {
         let feature = new GeoJSON().readFeature(this.drawGeojsonData, {
           featureProjection: "EPSG:3857",
         });
+
+        if (Array.isArray(feature)) return;
+
         drawingSource.addFeature(feature);
       }
 
