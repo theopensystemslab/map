@@ -86,8 +86,8 @@ devDependencies:
     specifier: ^15.2.10
     version: 15.2.10
   prettier:
-    specifier: ^3.2.5
-    version: 3.2.5
+    specifier: ^3.5.3
+    version: 3.5.3
   rollup-plugin-postcss-lit:
     specifier: ^2.1.0
     version: 2.1.0
@@ -2926,7 +2926,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.26.9
       '@types/raf': 3.4.3
-      core-js: 3.40.0
+      core-js: 3.41.0
       raf: 3.4.1
       regenerator-runtime: 0.13.11
       rgbcolor: 1.0.1
@@ -3278,8 +3278,8 @@ packages:
       browserslist: 4.23.1
     dev: true
 
-  /core-js@3.40.0:
-    resolution: {integrity: sha512-7vsMc/Lty6AGnn7uFpYT56QesI5D2Y/UkgKounk87OP9Z2H9Z8kj6jzcSGAxFmUtDOS0ntK6lbQz+Nsa0Jj6mQ==}
+  /core-js@3.41.0:
+    resolution: {integrity: sha512-SJ4/EHwS36QMJd6h/Rg+GyR4A5xE0FSI3eZ+iBVpfqf1x0eTSg1smWLHrA+2jQThZSh97fmSgFSU8B61nxosxA==}
     requiresBuild: true
     optional: true
 
@@ -4996,7 +4996,7 @@ packages:
       fflate: 0.8.2
     optionalDependencies:
       canvg: 3.0.10
-      core-js: 3.40.0
+      core-js: 3.41.0
       dompurify: 3.2.4
       html2canvas: 1.4.1
 
@@ -6230,8 +6230,8 @@ packages:
     hasBin: true
     dev: true
 
-  /prettier@3.2.5:
-    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
+  /prettier@3.5.3:
+    resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
