@@ -24,8 +24,8 @@ dependencies:
     specifier: ^2.0.5
     version: 2.0.5
   govuk-frontend:
-    specifier: ^5.7.1
-    version: 5.7.1
+    specifier: ^5.9.0
+    version: 5.9.0
   jspdf:
     specifier: ^3.0.0
     version: 3.0.0
@@ -2926,7 +2926,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.26.9
       '@types/raf': 3.4.3
-      core-js: 3.40.0
+      core-js: 3.41.0
       raf: 3.4.1
       regenerator-runtime: 0.13.11
       rgbcolor: 1.0.1
@@ -3278,8 +3278,8 @@ packages:
       browserslist: 4.23.1
     dev: true
 
-  /core-js@3.40.0:
-    resolution: {integrity: sha512-7vsMc/Lty6AGnn7uFpYT56QesI5D2Y/UkgKounk87OP9Z2H9Z8kj6jzcSGAxFmUtDOS0ntK6lbQz+Nsa0Jj6mQ==}
+  /core-js@3.41.0:
+    resolution: {integrity: sha512-SJ4/EHwS36QMJd6h/Rg+GyR4A5xE0FSI3eZ+iBVpfqf1x0eTSg1smWLHrA+2jQThZSh97fmSgFSU8B61nxosxA==}
     requiresBuild: true
     optional: true
 
@@ -4377,8 +4377,8 @@ packages:
       get-intrinsic: 1.2.4
     dev: true
 
-  /govuk-frontend@5.7.1:
-    resolution: {integrity: sha512-jF1cq5rn57kxZmJRprUZhTQ31zaBBK4b5AyeJaPX3Yhg22lk90Mx/dQLvOk/ycV3wM7e0y+s4IPvb2fFaPlCGg==}
+  /govuk-frontend@5.9.0:
+    resolution: {integrity: sha512-8NzmyoDtRFYyHs413DfNPR8Zo6qw6Q02Mruxml/Yfy+EueaOI/JZ4gVM8d0pqzJmTiMcJuHhvxqYEgBRmqeoyA==}
     engines: {node: '>= 4.2.0'}
     dev: false
 
@@ -4996,7 +4996,7 @@ packages:
       fflate: 0.8.2
     optionalDependencies:
       canvg: 3.0.10
-      core-js: 3.40.0
+      core-js: 3.41.0
       dompurify: 3.2.4
       html2canvas: 1.4.1
 
