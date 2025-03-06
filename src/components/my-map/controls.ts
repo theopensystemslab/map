@@ -116,8 +116,10 @@ export class PrintControl extends PrintDialog {
 
   constructor({ map }: PrintControlOptions) {
     super({
+      // @ts-expect-error: Types don't allow an SVG override, but library does
       northImage: northArrowIcon,
       saveAs: saveAs,
+      // @ts-expect-error: Types don't match library
       jsPDF: jsPDF,
       copy: false,
     });
