@@ -3,7 +3,6 @@ import { Geometry } from "ol/geom";
 import Point from "ol/geom/Point";
 import { Vector as VectorLayer } from "ol/layer";
 import VectorTileLayer from "ol/layer/VectorTile";
-import RenderFeature from "ol/render/Feature";
 import VectorSource from "ol/source/Vector";
 import { Fill, Style } from "ol/style";
 import CircleStyle from "ol/style/Circle";
@@ -36,13 +35,12 @@ export const pointsLayer = new VectorLayer({
  * @returns - a VectorSource populated with points within the extent
  */
 export function getSnapPointsFromVectorTiles(
-  basemap: VectorTileLayer<RenderFeature>,
+  basemap: VectorTileLayer,
   extent: number[],
 ) {
   const points =
     basemap &&
     basemap
-      .getSource()
       ?.getFeaturesInExtent(extent)
       ?.filter((feature) => feature.getGeometry()?.getType() !== "Point")
       ?.flatMap((feature: any) => feature.flatCoordinates_);

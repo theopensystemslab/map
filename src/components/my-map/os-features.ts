@@ -136,7 +136,9 @@ export function getFeaturesAtPoint(
 
       // Convert back to OL feature and add to source
       const mergedFeature = geojson.readFeature(mergedGeoJSON);
-      outlineSource.addFeature(mergedFeature);
+      if (!Array.isArray(mergedFeature)) {
+        outlineSource.addFeature(mergedFeature);
+      }
     })
     .catch((error) => console.log(error));
 }
