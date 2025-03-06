@@ -32,13 +32,13 @@ export class AddressAutocomplete extends LitElement {
   initialAddress = "";
 
   @property({ type: String })
-  osApiKey = import.meta.env.VITE_APP_OS_API_KEY || "";
+  osApiKey = "";
 
   /**
    * @deprecated - please set singular `osApiKey`
    */
   @property({ type: String })
-  osPlacesApiKey = import.meta.env.VITE_APP_OS_PLACES_API_KEY || "";
+  osPlacesApiKey = "";
 
   @property({ type: String })
   osProxyEndpoint = "";

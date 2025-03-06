@@ -33,7 +33,7 @@ Find these components in the wild, including what we're learning through public 
 
 Different features rely on different APIs - namely from Ordnance Survey and Mapbox. 
 
-You can set keys directly as props (eg `osApiKey`) on the applicable web components or via environment variables (eg `VITE_APP_OS_API_KEY`) for local development.
+You can set keys directly as props (eg `osApiKey`) on the applicable web components or [use a proxy](https://github.com/theopensystemslab/map/blob/main/docs/how-to-use-a-proxy.md) to mask these secrets. 
 
 Address autocomplete utilises the OS Places API.
 
