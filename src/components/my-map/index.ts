@@ -200,19 +200,19 @@ export class MyMap extends LitElement {
   disableVectorTiles = false;
 
   @property({ type: String })
-  osApiKey = import.meta.env.VITE_APP_OS_API_KEY || "";
+  osApiKey = "";
 
   /**
    * @deprecated - please set singular `osApiKey`
    */
   @property({ type: String })
-  osVectorTilesApiKey = import.meta.env.VITE_APP_OS_VECTOR_TILES_API_KEY || "";
+  osVectorTilesApiKey = "";
 
   /**
    * @deprecated - please set singular `osApiKey`
    */
   @property({ type: String })
-  osFeaturesApiKey = import.meta.env.VITE_APP_OS_FEATURES_API_KEY || "";
+  osFeaturesApiKey = "";
 
   @property({ type: String })
   osCopyright =
@@ -228,7 +228,7 @@ export class MyMap extends LitElement {
   applySatelliteStyle = false;
 
   @property({ type: String })
-  mapboxAccessToken = import.meta.env.VITE_APP_MAPBOX_ACCESS_TOKEN || "";
+  mapboxAccessToken = "";
 
   @property({ type: Boolean })
   hideResetControl = false;
