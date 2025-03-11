@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.5] - 2025-03-11
+
+### Fixed
+- chore: ensured Vite environment variables are not bundled in build files ([#533](https://github.com/theopensystemslab/map/pull/533))
+
+### Changed
+- deps: now on OpenLayers v10 ! ([#535](https://github.com/theopensystemslab/map/pull/535))
+- deps: a number of other package updates via Dependabot
+- docs: deployment instructions now added for releases & pre-releases ([#511](https://github.com/theopensystemslab/map/pull/511))
+
 ### [1.0.0-alpha.4] - 2024-10-23
 
 ### Added
