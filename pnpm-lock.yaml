@@ -48,8 +48,8 @@ dependencies:
     specifier: ^2.15.0
     version: 2.15.0
   rambda:
-    specifier: ^9.4.0
-    version: 9.4.0
+    specifier: ^9.4.2
+    version: 9.4.2
 
 devDependencies:
   '@glorious/pitsby':
@@ -69,7 +69,7 @@ devDependencies:
     version: 22.0.3
   '@types/ol-ext':
     specifier: npm:@siedlerchr/types-ol-ext@^3.6.1
-    version: /@siedlerchr/types-ol-ext@3.6.1(jspdf@3.0.1)
+    version: /@siedlerchr/types-ol-ext@3.6.2(jspdf@3.0.1)
   '@types/proj4':
     specifier: ^2.5.6
     version: 2.5.6
@@ -1764,10 +1764,10 @@ packages:
     dev: true
     optional: true
 
-  /@siedlerchr/types-ol-ext@3.6.1(jspdf@3.0.1):
-    resolution: {integrity: sha512-CSqgXdS1d028TvnVXf2/dgnU66lRGHM9+R5E8lL2ilmm6ktHVZtsIhRR8rWSXu4Ybt1rGdMbwbDxofIbilWIyQ==}
+  /@siedlerchr/types-ol-ext@3.6.2(jspdf@3.0.1):
+    resolution: {integrity: sha512-BP/qBlXUFFHptuWQcYQ5ejmSm6HQa7wbriO0eVvblWG8O6eFWMRYNENO+T8NT7EPtQnxbXs+R3z9oP7aQdNI/w==}
     peerDependencies:
-      jspdf: ^2.5.2
+      jspdf: ^3.0.1
     dependencies:
       jspdf: 3.0.1
     dev: true
@@ -6122,8 +6122,8 @@ packages:
       performance-now: 2.1.0
     optional: true
 
-  /rambda@9.4.0:
-    resolution: {integrity: sha512-B7y7goUd+g0hNl5ODGUejNNERQL5gD8uANJ5Y5aHly8v0jKesFlwIe7prPfuJxttDpe3otQzHJ4NXMpTmL9ELA==}
+  /rambda@9.4.2:
+    resolution: {integrity: sha512-++euMfxnl7OgaEKwXh9QqThOjMeta2HH001N1v4mYQzBjJBnmXBh2BCK6dZAbICFVXOFUVD3xFG0R3ZPU0mxXw==}
     dev: false
 
   /randombytes@2.1.0:
