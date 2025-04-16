@@ -102,8 +102,7 @@ export class PostcodeSearch extends LitElement {
   }
 
   render() {
-    return html`<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-      <div class="govuk-form-group">
+    return html`<div class="govuk-form-group">
         ${this._makeLabel()}
         <div id="postcode-hint" class="govuk-hint">${this.hintText}</div>
         <p
