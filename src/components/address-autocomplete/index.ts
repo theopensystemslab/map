@@ -254,7 +254,6 @@ export class AddressAutocomplete extends LitElement {
       errorMessage = `No addresses found in postcode ${this.postcode}`;
 
     return html`
-      <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
       ${this._getErrorMessageContainer(errorMessage)}
       ${this._getAutocomplete(errorMessage)}
     `;
