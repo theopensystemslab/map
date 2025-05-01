@@ -57,7 +57,7 @@
     "rollup-plugin-postcss-lit": "^2.1.0",
     "sass": "^1.86.1",
     "typescript": "^5.8.3",
-    "vite": "^6.2.7",
+    "vite": "^6.3.4",
     "vitest": "3.0.7",
     "wait-for-expect": "^3.0.2"
   },
