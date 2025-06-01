@@ -18,8 +18,8 @@ dependencies:
     specifier: ^7946.0.14
     version: 7946.0.14
   accessible-autocomplete:
-    specifier: ^2.0.4
-    version: 2.0.4
+    specifier: ^3.0.1
+    version: 3.0.1
   file-saver:
     specifier: ^2.0.5
     version: 2.0.5
@@ -2426,10 +2426,13 @@ packages:
       negotiator: 0.6.3
     dev: true
 
-  /accessible-autocomplete@2.0.4:
-    resolution: {integrity: sha512-2p0txrSpvs5wXFUeQJHMheDPTZVSEmiUHWlEPb7vJnv2Dd1xPfoLnBQQMfNbTSit2pL/9sSQYESuD2Yyohd4Yw==}
-    dependencies:
-      preact: 8.5.3
+  /accessible-autocomplete@3.0.1:
+    resolution: {integrity: sha512-xMshgc2LT5addvvfCTGzIkRrvhbOFeylFSnSMfS/PdjvvvElZkakCwxO3/yJYBWyi1hi3tZloqOJQ5kqqJtH4g==}
+    peerDependencies:
+      preact: ^8.0.0
+    peerDependenciesMeta:
+      preact:
+        optional: true
     dev: false
 
   /acorn-node@1.8.2:
@@ -6179,11 +6182,6 @@ packages:
       picocolors: 1.1.1
       source-map-js: 1.2.1
     dev: true
-
-  /preact@8.5.3:
-    resolution: {integrity: sha512-O3kKP+1YdgqHOFsZF2a9JVdtqD+RPzCQc3rP+Ualf7V6rmRDchZ9MJbiGTT7LuyqFKZqlHSOyO/oMFmI2lVTsw==}
-    requiresBuild: true
-    dev: false
 
   /prettier@1.19.1:
     resolution: {integrity: sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==}
