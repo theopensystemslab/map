@@ -103,31 +103,31 @@ export class PostcodeSearch extends LitElement {
 
   render() {
     return html`<div class="govuk-form-group">
-        ${this._makeLabel()}
-        <div id="postcode-hint" class="govuk-hint">${this.hintText}</div>
-        <p
-          id=${this.errorId}
-          class="govuk-error-message"
-          style="display:none"
-          role="status"
-        >
-          <span class="govuk-visually-hidden">Error:</span>${this.errorMessage}
-        </p>
-        <input
-          class="govuk-input govuk-input--width-10"
-          id=${this.id}
-          name="postcode"
-          type="text"
-          autocomplete="postal-code"
-          spellcheck="false"
-          aria-describedby="postcode-hint ${this.errorId}"
-          .value=${this._postcode}
-          @input=${this._onInputChange}
-          @blur=${this._onBlur}
-          @keyup=${this._onKeyUp}
-          tabindex="0"
-        />
-      </div>`;
+      ${this._makeLabel()}
+      <div id="postcode-hint" class="govuk-hint">${this.hintText}</div>
+      <p
+        id=${this.errorId}
+        class="govuk-error-message"
+        style="display:none"
+        role="status"
+      >
+        <span class="govuk-visually-hidden">Error:</span>${this.errorMessage}
+      </p>
+      <input
+        class="govuk-input govuk-input--width-10"
+        id=${this.id}
+        name="postcode"
+        type="text"
+        autocomplete="postal-code"
+        spellcheck="false"
+        aria-describedby="postcode-hint ${this.errorId}"
+        .value=${this._postcode}
+        @input=${this._onInputChange}
+        @blur=${this._onBlur}
+        @keyup=${this._onKeyUp}
+        tabindex="0"
+      />
+    </div>`;
   }
 
   /**

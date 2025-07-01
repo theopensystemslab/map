@@ -96,12 +96,12 @@ describe("PostcodeSearch with input change", async () => {
   it("should show error message onBlur if no valid input", async () => {
     const input = getShadowRootEl(
       "postcode-search",
-      "input"
+      "input",
     ) as HTMLInputElement;
 
     // confirm error is not displayed yet (it should be _defined_ though for screenreaders)
     const error = getShadowRoot("postcode-search")?.getElementById(
-      "postcode-error-vitest"
+      "postcode-error-vitest",
     );
     expect(error).toBeTruthy;
     expect(error?.getAttribute("style")).toContain("display:none");
@@ -120,7 +120,7 @@ describe("PostcodeSearch with input change", async () => {
     expect(formGroup?.className).toContain("govuk-form-group--error");
 
     expect(input.getAttribute("aria-describedby")).toContain(
-      "postcode-error-vitest"
+      "postcode-error-vitest",
     );
   });
 
@@ -134,7 +134,7 @@ describe("PostcodeSearch with input change", async () => {
     // input is empty on render
     const input = getShadowRootEl(
       "postcode-search",
-      "input"
+      "input",
     ) as HTMLInputElement;
     expect(input!.value).toEqual("");
     expect(spyPostcodeChange).not.toHaveBeenCalled();

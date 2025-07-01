@@ -1,18 +1,20 @@
 # How to: Use a MyMap & AddressAutocomplete with a proxy
 
 ## Context
-Both `MyMap` and `AddressAutocomplete` can call the Ordnance Survey API directly, or via a proxy. 
+
+Both `MyMap` and `AddressAutocomplete` can call the Ordnance Survey API directly, or via a proxy.
 
 Calling the API directly may be suitable for internal use, where exposure of API keys is not a concern, whilst calling a proxy may be more suitable for public use.
 
 A proxy endpoint can be supplied via the `osProxyEndpoint` property on these components.
 
-Proxies are required to complete the following actions in order to work successfully - 
+Proxies are required to complete the following actions in order to work successfully -
 
 - Append a valid OS API key as a search parameter to incoming requests
 - Modify outgoing response with suitable CORS / CORP headers to allow the originating site access to the returned assets
 
 ## Diagram
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -28,25 +30,29 @@ sequenceDiagram
 ```
 
 ## Examples
-Please see the sample code below for how a proxy could be implemented - 
+
+Please see the sample code below for how a proxy could be implemented -
 
 ### Express
+
 Below is an annotated example of a simple proxy using [Express](https://github.com/expressjs/express) & [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware).
 
 **index.js**
+
 ```js
 import express from "express";
 import { useOrdnanceSurveyProxy } from "proxy";
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
-app.use('/proxy/ordnance-survey', useOrdnanceSurveyProxy)
+app.use("/proxy/ordnance-survey", useOrdnanceSurveyProxy);
 
-app.listen(port)
+app.listen(port);
 ```
 
 **proxy.js**
+
 ```js
 import { createProxyMiddleware } from "http-proxy-middleware";
 
@@ -94,4 +100,5 @@ export const appendAPIKey = (fullPath, req) => {
   return resultPath;
 };
 ```
+
 > A working and more fleshed out example (in TypeScript) can be seen [here in the PlanX API](https://github.com/theopensystemslab/planx-new/blob/production/api.planx.uk/proxy/ordnanceSurvey.ts).

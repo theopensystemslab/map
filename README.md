@@ -4,17 +4,17 @@
 
 A library of [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) for tasks related to addresses and planning permission in the UK built with [Lit](https://lit.dev/), [Vite](https://vitejs.dev/), and [Ordnance Survey APIs](https://developer.ordnancesurvey.co.uk/).
 
-***Web map***
+**_Web map_**
 
 `<my-map />` is an [OpenLayers](https://openlayers.org/)-powered map to support drawing and modifying red-line boundaries. Other supported modes include: highlighting an OS Feature that intersects with a given address point; clicking to select and merge multiple OS Features into a single boundary; and displaying static point or polygon data. Events are dispatched with the calculated area and geojson representation when you change your drawing.
 
 ![chrome-capture-2022-7-16-map](https://user-images.githubusercontent.com/5132349/184860750-bf7514db-7cab-4f9c-aa32-791099ecd6cc.gif)
 
-***Postcode search***
+**_Postcode search_**
 
 `<postcode-search />` is a [GOV.UK-styled](https://frontend.design-system.service.gov.uk/) input that validates UK postcodes using these [utility methods](https://www.npmjs.com/package/postcode). When a postcode is validated, an event is dispatched containing the sanitized string.
 
-***Address autocomplete***
+**_Address autocomplete_**
 
 `<address-autocomplete />` fetches addresses in a given UK postcode using the [OS Places API](https://developer.ordnancesurvey.co.uk/os-places-api) and displays them using GOV.UK's [accessible-autocomplete](https://github.com/alphagov/accessible-autocomplete) component. An event is dispatched with the OS record when you select an address.
 
@@ -31,13 +31,14 @@ Find these components in the wild, including what we're learning through public 
 
 ## Bring your own API keys
 
-Different features rely on different APIs - namely from Ordnance Survey and Mapbox. 
+Different features rely on different APIs - namely from Ordnance Survey and Mapbox.
 
-You can set keys directly as props (eg `osApiKey`) on the applicable web components or [use a proxy](https://github.com/theopensystemslab/map/blob/main/docs/how-to-use-a-proxy.md) to mask these secrets. 
+You can set keys directly as props (eg `osApiKey`) on the applicable web components or [use a proxy](https://github.com/theopensystemslab/map/blob/main/docs/how-to-use-a-proxy.md) to mask these secrets.
 
 Address autocomplete utilises the OS Places API.
 
 For the map:
+
 - The `basemap` prop defaults to `"OSVectorTile"` which requires the OS Vector Tiles API
   - Basemap `"OSRaster"` uses the OS Maps API
   - Basemap `"MapboxSatellite"` requires a Mapbox Access Token with with scope `style:read`
@@ -45,9 +46,10 @@ For the map:
 - `clickFeatures` requires the OS Features API
 
 When using Ordnance Survey APIs:
+
 - Update the `osCopyright` attribution prop with your license number
 - Configure an optional `osProxyEndpoint` to avoid exposing your keys (set this instead of `osApiKey`)
-  - ** We are not currently supporting a similar proxy for Mapbox because access tokens can be restricted to specific URLs via your account
+  - \*\* We are not currently supporting a similar proxy for Mapbox because access tokens can be restricted to specific URLs via your account
 
 ## Running locally
 
@@ -75,6 +77,7 @@ We use [Pitsby](https://pitsby.com/) for documenting our web components. It's si
 We publish this package via [NPM](https://www.npmjs.com/package/@opensystemslab/map).
 
 To create a new release:
+
 1. Open a new PR against `main` which bumps the package.json "version" & creates a CHANGELOG.md entry, request code review & merge on approval
 1. Run `npm publish` or `npm publish --tag next` if making a pre-release (requires permissions to OSL team in NPM & access to 2-factor auth method)
 1. [Draft a new release](https://github.com/theopensystemslab/map/releases) via GitHub web: tag should match version, automatically generate changenotes and link above PR, then "Publish" and set as latest version (or set as pre-release if you used `--tag next` in above command)

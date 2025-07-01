@@ -26,7 +26,7 @@ const PATH_LOOKUP: Record<OSServices, string> = {
 export function constructURL(
   domain: string,
   path: string,
-  params: Record<string, string> = {}
+  params: Record<string, string> = {},
 ): string {
   const url = new URL(path, domain);
   url.search = new URLSearchParams(params).toString();
@@ -62,7 +62,7 @@ export function getProxyServiceURL({
   const proxyServiceURL = constructURL(
     proxyOrigin,
     proxyPathname + PATH_LOOKUP[service],
-    params
+    params,
   );
   return proxyServiceURL;
 }
@@ -80,6 +80,6 @@ export function getServiceURL({
     return getProxyServiceURL({ service, proxyEndpoint, params });
   if (apiKey) return getOSServiceURL({ service, apiKey, params });
   throw Error(
-    `Unable to generate URL for OS ${service} API. Either an API key or proxy endpoint must be supplied`
+    `Unable to generate URL for OS ${service} API. Either an API key or proxy endpoint must be supplied`,
   );
 }
