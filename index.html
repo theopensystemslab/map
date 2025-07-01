@@ -1,18 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OS Web Components Sandbox</title>
-  <script type="module" src="./src/index.ts"></script>
-  <!-- OS vector tile source specifies fonts in .pbf format, which OpenLayers can't load, so make them available directly  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap"
-    rel="stylesheet" />
-  <!-- Examples of available style options for postcode-search & address-autocomplete -->
-  <!-- <style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OS Web Components Sandbox</title>
+    <script type="module" src="./src/index.ts"></script>
+    <!-- OS vector tile source specifies fonts in .pbf format, which OpenLayers can't load, so make them available directly  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Examples of available style options for postcode-search & address-autocomplete -->
+    <!-- <style>
       address-autocomplete {
         --autocomplete__label__font-size: 25px;
         --autocomplete__input__padding: 6px 40px 7px 12px;
@@ -37,33 +38,37 @@
         --postcode__input__height: 60px;
       }
     </style> -->
-</head>
+  </head>
 
-<body style="font-family:Inter,Helvetica,sans-serif;">
-  <div style="display:flex;flex-direction:column;">
-    <h1 style="color:red;font-size:16px;">
-      *** This is a testing sandbox - these components are unaware of each other!***
-    </h1>
-    <div style="margin-bottom:1em">
-      <my-map 
-        id="example-map"
-        ariaLabelOlFixedOverlay="Interactive example map"
-        zoom="20"
-        maxZoom="23"
-        drawMode
-        drawMany
-        drawType="Point"
-        basemap="MapboxSatellite"
-        showCentreMarker
-        osCopyright="© Crown copyright and database rights 2024 OS (0)100024857"
-        osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey"
-      />
-    </div>
-    <div style="margin-bottom:1em">
-      <postcode-search hintText="Optional hint text shows up here" id="example-postcode" />
-    </div>
-    <div style="margin-bottom:1em; background-color: white;">
-      <!-- 
+  <body style="font-family: Inter, Helvetica, sans-serif">
+    <div style="display: flex; flex-direction: column">
+      <h1 style="color: red; font-size: 16px">
+        *** This is a testing sandbox - these components are unaware of each
+        other!***
+      </h1>
+      <div style="margin-bottom: 1em">
+        <my-map
+          id="example-map"
+          ariaLabelOlFixedOverlay="Interactive example map"
+          zoom="20"
+          maxZoom="23"
+          drawMode
+          drawMany
+          drawType="Point"
+          basemap="MapboxSatellite"
+          showCentreMarker
+          osCopyright="© Crown copyright and database rights 2024 OS (0)100024857"
+          osProxyEndpoint="https://api.editor.planx.dev/proxy/ordnance-survey"
+        />
+      </div>
+      <div style="margin-bottom: 1em">
+        <postcode-search
+          hintText="Optional hint text shows up here"
+          id="example-postcode"
+        />
+      </div>
+      <div style="margin-bottom: 1em; background-color: white">
+        <!-- 
           Examples (as of March 2022):
           SE5 OHU (Southwark): default/"standard" postcode example, fetches 65 LPI addresses
           SE19 1NT (Lambeth): 56 DPA addresses -> 128 LPI addresses (87 "approved"), now requires paginated fetch
@@ -73,86 +78,78 @@
           Example with default value (used for planx "change" & "back" button behavior):
           <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" initialAddress="75, COBOURG ROAD, LONDON" />
         -->
-      <address-autocomplete postcode="SE5 0HU" id="example-autocomplete" arrowStyle="light" labelStyle="static" />
+        <address-autocomplete
+          postcode="SE5 0HU"
+          id="example-autocomplete"
+          arrowStyle="light"
+          labelStyle="static"
+        />
+      </div>
     </div>
-  </div>
-  <script>
-    // --- MAP --- //
-    const map = document.querySelector("my-map");
-    map.clipGeojsonData = {
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
+    <script>
+      // --- MAP --- //
+      const map = document.querySelector("my-map");
+      map.clipGeojsonData = {
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [
             [
-              -0.128307852848053,
-              51.50748361634746
+              [-0.128307852848053, 51.50748361634746],
+              [-0.1274388171272278, 51.50773069282454],
+              [-0.12710085879135133, 51.507243216327],
+              [-0.12802890311050416, 51.50705957656797],
+              [-0.128307852848053, 51.50748361634746],
             ],
-            [
-              -0.1274388171272278,
-              51.50773069282454
-            ],
-            [
-              -0.12710085879135133,
-              51.507243216327
-            ],
-            [
-              -0.12802890311050416,
-              51.50705957656797
-            ],
-            [
-              -0.128307852848053,
-              51.50748361634746
-            ]
-          ]
-        ]
-      },
-    };
+          ],
+        },
+      };
 
-    map.addEventListener("ready", (event) => {
-      console.log("map ready");
-    });
+      map.addEventListener("ready", (event) => {
+        console.log("map ready");
+      });
 
-    // applicable when drawMode is enabled
-    map.addEventListener("geojsonChange", ({ detail: geojson }) => {
-      console.debug({ geojson });
-    });
+      // applicable when drawMode is enabled
+      map.addEventListener("geojsonChange", ({ detail: geojson }) => {
+        console.debug({ geojson });
+      });
 
-    // applicable when showFeaturesAtPoint is enabled
-    map.addEventListener("featuresAreaChange", ({ detail: featuresArea }) => {
-      console.debug({ featuresArea });
-    });
-    map.addEventListener("featuresGeojsonChange", ({ detail: featuresGeojson }) => {
-      console.debug({ featuresGeojson });
-    });
+      // applicable when showFeaturesAtPoint is enabled
+      map.addEventListener("featuresAreaChange", ({ detail: featuresArea }) => {
+        console.debug({ featuresArea });
+      });
+      map.addEventListener(
+        "featuresGeojsonChange",
+        ({ detail: featuresGeojson }) => {
+          console.debug({ featuresGeojson });
+        },
+      );
 
-    // applicable when geojsonData is provided
-    map.addEventListener("geojsonDataArea", ({ detail: geojsonDataArea }) => {
-      console.debug({ geojsonDataArea });
-    });
+      // applicable when geojsonData is provided
+      map.addEventListener("geojsonDataArea", ({ detail: geojsonDataArea }) => {
+        console.debug({ geojsonDataArea });
+      });
 
-    // --- POSTCODE SEARCH --- //
-    const search = document.querySelector("postcode-search");
+      // --- POSTCODE SEARCH --- //
+      const search = document.querySelector("postcode-search");
 
-    search.addEventListener("postcodeChange", ({ detail }) => {
-      console.debug({ detail });
-    });
+      search.addEventListener("postcodeChange", ({ detail }) => {
+        console.debug({ detail });
+      });
 
-    // --- ADDRESS AUTOCOMPLETE --- //
-    const autocomplete = document.querySelector("address-autocomplete");
+      // --- ADDRESS AUTOCOMPLETE --- //
+      const autocomplete = document.querySelector("address-autocomplete");
 
-    autocomplete.addEventListener("ready", ({ detail: data }) => {
-      console.log("autocomplete ready", { data });
-    });
+      autocomplete.addEventListener("ready", ({ detail: data }) => {
+        console.log("autocomplete ready", { data });
+      });
 
-    autocomplete.addEventListener(
-      "addressSelection",
-      ({ detail: address }) => {
-        console.debug({ detail: address });
-      }
-    );
-  </script>
-</body>
-
+      autocomplete.addEventListener(
+        "addressSelection",
+        ({ detail: address }) => {
+          console.debug({ detail: address });
+        },
+      );
+    </script>
+  </body>
 </html>

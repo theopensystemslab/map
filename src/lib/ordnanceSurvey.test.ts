@@ -4,7 +4,7 @@ describe("constructURL helper function", () => {
   test("simple URL construction", () => {
     const result = constructURL(
       "https://www.test.com",
-      "/my-path/to-something"
+      "/my-path/to-something",
     );
     expect(result).toEqual("https://www.test.com/my-path/to-something");
   });
@@ -13,10 +13,10 @@ describe("constructURL helper function", () => {
     const result = constructURL(
       "https://www.test.com",
       "/my-path/to-something",
-      { test: "params", test2: "more-params" }
+      { test: "params", test2: "more-params" },
     );
     expect(result).toEqual(
-      "https://www.test.com/my-path/to-something?test=params&test2=more-params"
+      "https://www.test.com/my-path/to-something?test=params&test2=more-params",
     );
   });
 });
@@ -34,7 +34,7 @@ describe("getServiceURL helper function", () => {
     const { origin, pathname, searchParams } = new URL(result!);
     expect(origin).toEqual("https://api.os.uk");
     expect(decodeURIComponent(pathname)).toEqual(
-      "/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf"
+      "/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf",
     );
     expect(searchParams.get("key")).toEqual("my-api-key");
     expect(searchParams.get("srs")).toEqual("3857");
@@ -52,7 +52,7 @@ describe("getServiceURL helper function", () => {
     const { origin, pathname, searchParams } = new URL(result!);
     expect(origin).toEqual("https://www.my-site.com");
     expect(decodeURIComponent(pathname)).toEqual(
-      "/api/proxy/os/maps/vector/v1/vts/resources/styles"
+      "/api/proxy/os/maps/vector/v1/vts/resources/styles",
     );
     expect(searchParams.get("key")).toBeNull();
     expect(searchParams.get("srs")).toEqual("3857");
@@ -69,7 +69,7 @@ describe("getServiceURL helper function", () => {
     const { origin, pathname } = new URL(result!);
     expect(origin).toEqual("https://www.my-site.com");
     expect(decodeURIComponent(pathname)).toEqual(
-      "/api/proxy/os/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png"
+      "/api/proxy/os/maps/raster/v1/zxy/Light_3857/{z}/{x}/{y}.png",
     );
   });
 
@@ -79,7 +79,7 @@ describe("getServiceURL helper function", () => {
         service: "xyz",
         apiKey: "",
         proxyEndpoint: "",
-      })
+      }),
     ).toThrowError();
   });
 });
