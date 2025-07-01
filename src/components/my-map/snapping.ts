@@ -38,7 +38,7 @@ export function getSnapPointsFromVectorTiles(
   basemap: VectorTileLayer,
   extent: number[],
 ) {
-  const points =
+  const points: number[] =
     basemap &&
     basemap
       ?.getFeaturesInExtent(extent)
@@ -46,7 +46,7 @@ export function getSnapPointsFromVectorTiles(
       ?.flatMap((feature: any) => feature.flatCoordinates_);
 
   if (points) {
-    return (splitEvery(2, points) as [number, number][]).forEach((pair, i) => {
+    return splitEvery<number>(2)(points).forEach((pair, i) => {
       pointsSource.addFeature(
         new Feature({
           geometry: new Point(pair),
