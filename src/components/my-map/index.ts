@@ -777,7 +777,10 @@ export class MyMap extends LitElement {
 
   // render the map
   render() {
-    return html`<link rel="stylesheet" href="https://cdn.skypack.dev/ol@^6.6.1/ol.css" />
+    return html`<link
+        rel="stylesheet"
+        href="https://cdn.skypack.dev/ol@^6.6.1/ol.css"
+      />
       <div
         id="${this.id}"
         class="map"

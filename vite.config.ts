@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig } from "vite";
 import path from "path";
-import litcss from 'rollup-plugin-postcss-lit';
+import litcss from "rollup-plugin-postcss-lit";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -35,7 +35,7 @@ export default defineConfig({
     alias: {
       "govuk-frontend": path.resolve(
         __dirname,
-        "./node_modules/govuk-frontend"
+        "./node_modules/govuk-frontend",
       ),
     },
   },
