@@ -28,7 +28,7 @@ export class GeocodeAutocomplete extends LitElement {
   initialAddress = "";
 
   @property({ type: String })
-  osApiKey = "";
+  osApiKey = import.meta.env.VITE_APP_OS_API_KEY || "";
 
   @property({ type: String })
   osProxyEndpoint = "";
@@ -42,6 +42,9 @@ export class GeocodeAutocomplete extends LitElement {
   // internal reactive state
   @state()
   private _selectedAddress: Address | null = null;
+
+  @state()
+  private _addressesMatching: Address[] = [];
 
   @state()
   private _options: string[] = [];
@@ -83,19 +86,19 @@ export class GeocodeAutocomplete extends LitElement {
       dropdownArrow:
         this.arrowStyle === "light" ? this._getLightDropdownArrow : undefined,
       tNoResults: () => "No addresses found",
-      // onConfirm: (option: string) => {
-      //   this._selectedAddress = this._addressesInPostcode.filter(
-      //     (address) =>
-      //       address.LPI.ADDRESS.slice(
-      //         0,
-      //         address.LPI.ADDRESS.lastIndexOf(
-      //           `, ${address.LPI.ADMINISTRATIVE_AREA}`,
-      //         ),
-      //       ) === option,
-      //   )[0];
-      //   if (this._selectedAddress)
-      //     this.dispatch("addressSelection", { address: this._selectedAddress });
-      // },
+      onConfirm: (option: string) => {
+        this._selectedAddress = this._addressesMatching.filter(
+          (address) =>
+            address.LPI.ADDRESS.slice(
+              0,
+              address.LPI.ADDRESS.lastIndexOf(
+                `, ${address.LPI.ADMINISTRATIVE_AREA}`,
+              ),
+            ) === option,
+        )[0];
+        if (this._selectedAddress)
+          this.dispatch("addressSelection", { address: this._selectedAddress });
+      },
     });
   }
 
@@ -119,7 +122,9 @@ export class GeocodeAutocomplete extends LitElement {
     await fetch(url)
       .then((resp) => resp.json())
       .then((data) => {
+        // reset options on every fetch
         this._options = [];
+        this._addressesMatching = [];
 
         // handle error formats returned by OS
         if (data.error || data.fault) {
@@ -130,6 +135,8 @@ export class GeocodeAutocomplete extends LitElement {
         }
 
         if (data.results) {
+          this._addressesMatching = data.results;
+
           data.results
             .filter(
               (address: Address) =>
