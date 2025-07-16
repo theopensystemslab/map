@@ -5,6 +5,7 @@ type OSServices =
   | "vectorTile"
   | "vectorTileStyle"
   | "places"
+  | "find"
   | "features";
 
 interface ServiceOptions {
@@ -20,6 +21,7 @@ const PATH_LOOKUP: Record<OSServices, string> = {
   vectorTile: "/maps/vector/v1/vts/tile/{z}/{y}/{x}.pbf",
   vectorTileStyle: "/maps/vector/v1/vts/resources/styles",
   places: "/search/places/v1/postcode",
+  find: "/search/places/v1/find",
   features: "/features/v1/wfs",
 };
 
