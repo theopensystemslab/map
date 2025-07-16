@@ -28,7 +28,7 @@ export class GeocodeAutocomplete extends LitElement {
   initialAddress = "";
 
   @property({ type: String })
-  osApiKey = import.meta.env.VITE_APP_OS_API_KEY || "";
+  osApiKey = "";
 
   @property({ type: String })
   osProxyEndpoint = "";
