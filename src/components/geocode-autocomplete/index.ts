@@ -70,7 +70,13 @@ export class GeocodeAutocomplete extends LitElement {
       element: this.renderRoot.querySelector(`#${this.id}-container`),
       id: this.id,
       required: true,
-      source: this._options,
+      source: (query: string, populateResults: any) => {
+        // min query length before fetching
+        if (query.length > 5) {
+          this._fetchData(query);
+          populateResults(this._options);
+        }
+      },
       defaultValue: this.initialAddress,
       showAllValues: true,
       displayMenu: "overlay",
@@ -91,6 +97,57 @@ export class GeocodeAutocomplete extends LitElement {
       //     this.dispatch("addressSelection", { address: this._selectedAddress });
       // },
     });
+  }
+
+  async _fetchData(input: string = "") {
+    const isUsingOS = Boolean(this.osApiKey || this.osProxyEndpoint);
+    if (!isUsingOS)
+      throw Error("OS Places API key or OS proxy endpoint not found");
+
+    // https://docs.os.uk/os-apis/accessing-os-apis/os-places-api/technical-specification/find
+    const params: Record<string, string> = {
+      query: input,
+      dataset: "LPI",
+    };
+    const url = getServiceURL({
+      service: "find",
+      apiKey: this.osApiKey,
+      proxyEndpoint: this.osProxyEndpoint,
+      params,
+    });
+
+    await fetch(url)
+      .then((resp) => resp.json())
+      .then((data) => {
+        this._options = [];
+
+        // handle error formats returned by OS
+        if (data.error || data.fault) {
+          this._osError =
+            data.error?.message ||
+            data.fault?.faultstring ||
+            "Something went wrong";
+        }
+
+        if (data.results) {
+          data.results
+            .filter(
+              (address: Address) =>
+                address.LPI.LPI_LOGICAL_STATUS_CODE_DESCRIPTION === "APPROVED",
+            )
+            .map((address: Address) => {
+              this._options.push(
+                address.LPI.ADDRESS.slice(
+                  0,
+                  address.LPI.ADDRESS.lastIndexOf(
+                    `, ${address.LPI.ADMINISTRATIVE_AREA}`,
+                  ),
+                ),
+              );
+            });
+        }
+      })
+      .catch((error) => console.log(error));
   }
 
   _getLabelClasses() {
