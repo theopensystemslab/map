@@ -13,6 +13,27 @@ type Address = {
 type ArrowStyleEnum = "default" | "light";
 type LabelStyleEnum = "responsive" | "static";
 
+// debounce function
+function debounce(
+  fn: (...args: any[]) => void | Promise<void>,
+  delay: number,
+): (...args: any[]) => void {
+  let timer: NodeJS.Timeout | null = null;
+  let isFirstCall = true;
+  return function (this: any, ...args: any[]) {
+    if (isFirstCall) {
+      fn.apply(this, args);
+      isFirstCall = false;
+      return;
+    }
+
+    if (timer) clearTimeout(timer as NodeJS.Timeout);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
+
 @customElement("geocode-autocomplete")
 export class GeocodeAutocomplete extends LitElement {
   // ref https://github.com/e111077/vite-lit-element-ts-sass/issues/3
@@ -22,7 +43,7 @@ export class GeocodeAutocomplete extends LitElement {
   id = "geocode";
 
   @property({ type: String })
-  label = "Type an address";
+  label = "Search for an address";
 
   @property({ type: String })
   initialAddress = "";
@@ -45,9 +66,6 @@ export class GeocodeAutocomplete extends LitElement {
 
   @state()
   private _addressesMatching: Address[] = [];
-
-  @state()
-  private _options: string[] = [];
 
   @state()
   private _osError: string | undefined = undefined;
@@ -73,13 +91,12 @@ export class GeocodeAutocomplete extends LitElement {
       element: this.renderRoot.querySelector(`#${this.id}-container`),
       id: this.id,
       required: true,
-      source: (query: string, populateResults: any) => {
-        // min query length before fetching
-        if (query.length > 5) {
-          this._fetchData(query);
-          populateResults(this._options);
+      source: debounce((query: string, populateResults: any) => {
+        // min query length of 3 before fetching
+        if (query.length >= 3) {
+          this._fetchData(query, populateResults);
         }
-      },
+      }, 500),
       defaultValue: this.initialAddress,
       showAllValues: true,
       displayMenu: "overlay",
@@ -102,7 +119,10 @@ export class GeocodeAutocomplete extends LitElement {
     });
   }
 
-  async _fetchData(input: string = "") {
+  async _fetchData(
+    input: string = "",
+    populateResults: (values: string[]) => void,
+  ) {
     const isUsingOS = Boolean(this.osApiKey || this.osProxyEndpoint);
     if (!isUsingOS)
       throw Error("OS Places API key or OS proxy endpoint not found");
@@ -111,7 +131,9 @@ export class GeocodeAutocomplete extends LitElement {
     const params: Record<string, string> = {
       query: input,
       dataset: "LPI",
+      fq: "LPI_LOGICAL_STATUS_CODE:1",
     };
+
     const url = getServiceURL({
       service: "find",
       apiKey: this.osApiKey,
@@ -123,8 +145,7 @@ export class GeocodeAutocomplete extends LitElement {
       .then((resp) => resp.json())
       .then((data) => {
         // reset options on every fetch
-        this._options = [];
-        this._addressesMatching = [];
+        populateResults([]);
 
         // handle error formats returned by OS
         if (data.error || data.fault) {
@@ -137,21 +158,16 @@ export class GeocodeAutocomplete extends LitElement {
         if (data.results) {
           this._addressesMatching = data.results;
 
-          data.results
-            .filter(
-              (address: Address) =>
-                address.LPI.LPI_LOGICAL_STATUS_CODE_DESCRIPTION === "APPROVED",
-            )
-            .map((address: Address) => {
-              this._options.push(
-                address.LPI.ADDRESS.slice(
-                  0,
-                  address.LPI.ADDRESS.lastIndexOf(
-                    `, ${address.LPI.ADMINISTRATIVE_AREA}`,
-                  ),
-                ),
-              );
-            });
+          let options = data.results.map((address: Address) =>
+            address.LPI.ADDRESS.slice(
+              0,
+              address.LPI.ADDRESS.lastIndexOf(
+                `, ${address.LPI.ADMINISTRATIVE_AREA}`,
+              ),
+            ),
+          );
+
+          populateResults(options.slice(0, 5));
         }
       })
       .catch((error) => console.log(error));
