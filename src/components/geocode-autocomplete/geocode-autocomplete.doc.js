@@ -11,7 +11,7 @@ module.exports = {
     {
       name: "label",
       type: "String",
-      values: "Select an address (default)",
+      values: "Search for an address (default)",
     },
     {
       name: "arrowStyle",
