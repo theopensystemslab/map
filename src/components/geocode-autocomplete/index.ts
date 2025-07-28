@@ -105,13 +105,7 @@ export class GeocodeAutocomplete extends LitElement {
       tNoResults: () => "No addresses found",
       onConfirm: (option: string) => {
         this._selectedAddress = this._addressesMatching.filter(
-          (address) =>
-            address.LPI.ADDRESS.slice(
-              0,
-              address.LPI.ADDRESS.lastIndexOf(
-                `, ${address.LPI.ADMINISTRATIVE_AREA}`,
-              ),
-            ) === option,
+          (address) => address.LPI.ADDRESS === option,
         )[0];
         if (this._selectedAddress)
           this.dispatch("addressSelection", { address: this._selectedAddress });
@@ -158,13 +152,8 @@ export class GeocodeAutocomplete extends LitElement {
         if (data.results) {
           this._addressesMatching = data.results;
 
-          let options = data.results.map((address: Address) =>
-            address.LPI.ADDRESS.slice(
-              0,
-              address.LPI.ADDRESS.lastIndexOf(
-                `, ${address.LPI.ADMINISTRATIVE_AREA}`,
-              ),
-            ),
+          let options = data.results.map(
+            (address: Address) => address.LPI.ADDRESS,
           );
 
           populateResults(options.slice(0, 5));
