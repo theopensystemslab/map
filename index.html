@@ -157,6 +157,16 @@
           console.debug({ detail: address });
         },
       );
+
+      // -- GEOCODE AUTOCOMPLETE -- //
+      const geocodeAutocomplete = document.querySelector('geocode-autocomplete')
+
+      geocodeAutocomplete.addEventListener(
+        "addressSelection",
+        ({ detail: address }) => {
+          console.debug({ detail: address });
+        },
+      );
     </script>
   </body>
 </html>
