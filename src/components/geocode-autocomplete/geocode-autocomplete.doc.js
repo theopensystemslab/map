@@ -60,7 +60,7 @@ module.exports = {
       description: "Standard case",
       template: `<geocode-autocomplete osApiKey=${process.env.VITE_APP_OS_API_KEY} />`,
       controller: function (document) {
-        const autocomplete = document.querySelector("address-autocomplete");
+        const autocomplete = document.querySelector("geocode-autocomplete");
 
         autocomplete.addEventListener(
           "addressSelection",
