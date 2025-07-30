@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.6] - 2025-07-30
+
+### Fixed
+
+- chore: Remove polyfill.io links ([#539](https://github.com/theopensystemslab/map/pull/539))
+
+### Changed
+
+- deps: now on accessible-autocomplete v3 ! ([#554](https://github.com/theopensystemslab/map/pull/554))
+- deps: a number of other package updates via Dependabot
+
 ### [1.0.0-alpha.5] - 2025-03-11
 
 ### Fixed
