@@ -39,7 +39,7 @@
     "ol-mapbox-style": "^12.6.0",
     "postcode": "^5.1.0",
     "proj4": "^2.19.5",
-    "rambda": "^10.2.0"
+    "rambda": "^10.3.2"
   },
   "devDependencies": {
     "@glorious/pitsby": "^1.37.2",

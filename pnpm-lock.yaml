@@ -48,8 +48,8 @@ dependencies:
     specifier: ^2.19.5
     version: 2.19.5
   rambda:
-    specifier: ^10.2.0
-    version: 10.2.0
+    specifier: ^10.3.2
+    version: 10.3.2
 
 devDependencies:
   '@glorious/pitsby':
@@ -2899,7 +2899,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.26.10
       '@types/raf': 3.4.3
-      core-js: 3.42.0
+      core-js: 3.44.0
       raf: 3.4.1
       regenerator-runtime: 0.13.11
       rgbcolor: 1.0.1
@@ -3209,8 +3209,8 @@ packages:
       browserslist: 4.24.4
     dev: true
 
-  /core-js@3.42.0:
-    resolution: {integrity: sha512-Sz4PP4ZA+Rq4II21qkNqOEDTDrCvcANId3xpIgB34NDkWc3UduWj2dqEtN9yZIq8Dk3HyPI33x9sqqU5C8sr0g==}
+  /core-js@3.44.0:
+    resolution: {integrity: sha512-aFCtd4l6GvAXwVEh3XbbVqJGHDJt0OZRa+5ePGx3LLwi12WfexqQxcsohb2wgsa/92xtl19Hd66G/L+TaAxDMw==}
     requiresBuild: true
     optional: true
 
@@ -4224,7 +4224,7 @@ packages:
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
-      nan: 2.22.2
+      nan: 2.23.0
     dev: true
     optional: true
 
@@ -4968,7 +4968,7 @@ packages:
       fflate: 0.8.2
     optionalDependencies:
       canvg: 3.0.11
-      core-js: 3.42.0
+      core-js: 3.44.0
       dompurify: 3.2.6
       html2canvas: 1.4.1
 
@@ -5390,8 +5390,8 @@ packages:
       queue-tick: 1.0.1
     dev: true
 
-  /nan@2.22.2:
-    resolution: {integrity: sha512-DANghxFkS1plDdRsX0X9pm0Z6SJNN6gBdtXfanwoZ8hooC5gosGFSBGRYHUVPz1asKA/kMRqDRdHrluZ61SpBQ==}
+  /nan@2.23.0:
+    resolution: {integrity: sha512-1UxuyYGdoQHcGg87Lkqm3FzefucTa0NAiOcuRsDmysep3c1LVCRK2krrUDafMWtjSG04htvAmvg96+SDknOmgQ==}
     requiresBuild: true
     dev: true
     optional: true
@@ -6270,8 +6270,8 @@ packages:
       performance-now: 2.1.0
     optional: true
 
-  /rambda@10.2.0:
-    resolution: {integrity: sha512-+ucs+OgkatwV3MNfV7GO55xVQ8xTHRN1sca7qp6+6lZYmNXw3h+IW9aIjzb4cpoT4dJVHxoJqzEbLCOS3i6CJQ==}
+  /rambda@10.3.2:
+    resolution: {integrity: sha512-GCM14DK1CG9Fw3YRRoCUc111RA/SZQAGyvrBrdMCBUXIRQ2AVPb1mysON1gOpItuVJ0WQpEb/Eq5FRxU8OxNbg==}
     dev: false
 
   /randombytes@2.1.0:
@@ -6685,7 +6685,7 @@ packages:
       ms: 2.1.3
       on-finished: 2.4.1
       range-parser: 1.2.1
-      statuses: 2.0.1
+      statuses: 2.0.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -7006,6 +7006,11 @@ packages:
 
   /statuses@2.0.1:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
+    engines: {node: '>= 0.8'}
+    dev: true
+
+  /statuses@2.0.2:
+    resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
     engines: {node: '>= 0.8'}
     dev: true
 
