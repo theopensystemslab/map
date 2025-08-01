@@ -54,7 +54,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.10",
     "prettier": "^3.6.2",
-    "rollup-plugin-postcss-lit": "^2.1.0",
+    "rollup-plugin-postcss-lit": "^2.2.0",
     "sass": "^1.89.2",
     "typescript": "^5.8.3",
     "vite": "^6.3.4",
