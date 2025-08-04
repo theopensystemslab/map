@@ -32,7 +32,7 @@ module.exports = {
       name: "osApiKey",
       type: "String",
       values: "https://osdatahub.os.uk/plans",
-      required: true,
+      required: false,
     },
     {
       name: "osProxyEndpoint",
