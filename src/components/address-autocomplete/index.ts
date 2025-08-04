@@ -235,7 +235,7 @@ export class AddressAutocomplete extends LitElement {
       : html`
           <link
             rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@2.0.4/dist/accessible-autocomplete.min.css"
+            href="https://cdn.jsdelivr.net/npm/accessible-autocomplete@3.0.1/dist/accessible-autocomplete.min.css"
           />
           <label class=${this._getLabelClasses()} for=${this.id}>
             ${this.label}
