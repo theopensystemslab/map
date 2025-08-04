@@ -100,6 +100,7 @@ export class GeocodeAutocomplete extends LitElement {
       defaultValue: this.initialAddress,
       showAllValues: true,
       displayMenu: "overlay",
+      minLength: 3,
       dropdownArrow:
         this.arrowStyle === "light" ? this._getLightDropdownArrow : undefined,
       tNoResults: () => "No addresses found",
