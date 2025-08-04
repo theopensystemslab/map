@@ -9,6 +9,8 @@ import { getServiceURL } from "../../lib/ordnanceSurvey";
 type Address = {
   LPI: {
     ADDRESS: string;
+    MATCH: number;
+    UPRN: number;
   };
 };
 
@@ -69,6 +71,9 @@ export class GeocodeAutocomplete extends LitElement {
   private _addressesMatching: Address[] = [];
 
   @state()
+  private _isLoading: boolean = false;
+
+  @state()
   private _osError: string | undefined = undefined;
 
   // called when DOM node is connected to the document, before render
@@ -93,9 +98,13 @@ export class GeocodeAutocomplete extends LitElement {
       id: this.id,
       required: true,
       source: debounce((query: string, populateResults: any) => {
+        this._isLoading = true;
+
         // min query length of 3 before fetching
         if (query.length >= 3) {
           this._fetchData(query, populateResults);
+
+          this._isLoading = false;
         }
       }, 500),
       defaultValue: this.initialAddress,
@@ -104,7 +113,9 @@ export class GeocodeAutocomplete extends LitElement {
       minLength: 3,
       dropdownArrow:
         this.arrowStyle === "light" ? this._getLightDropdownArrow : undefined,
-      tNoResults: () => "No addresses found",
+      tNoResults: () => (this._isLoading ? `Loading...` : `No results found`),
+      tStatusQueryTooShort: (minQueryLength: number) =>
+        `Type at least ${minQueryLength} characters for search results`,
       onConfirm: (option: string) => {
         this._selectedAddress = this._addressesMatching.filter(
           (address) => address.LPI.ADDRESS === option,
@@ -128,6 +139,7 @@ export class GeocodeAutocomplete extends LitElement {
       query: input,
       dataset: "LPI",
       fq: "LPI_LOGICAL_STATUS_CODE:1",
+      maxresults: "100",
     };
 
     const url = getServiceURL({
@@ -152,13 +164,34 @@ export class GeocodeAutocomplete extends LitElement {
         }
 
         if (data.results) {
-          this._addressesMatching = data.results;
+          // dedupe based on UPRN
+          let uprns = new Set();
+          const dedupedResults = data.results.filter((result: Address) => {
+            if (!uprns.has(result.LPI.UPRN)) {
+              uprns.add(result.LPI.UPRN);
+              return true;
+            }
+            return false;
+          });
 
-          let options = data.results.map(
+          // sort by LPI.MATCH and numeric
+          const collator = new Intl.Collator([], { numeric: true });
+          const sortedAddresses = dedupedResults.sort(
+            (a: Address, b: Address) => {
+              if (a.LPI.MATCH !== b.LPI.MATCH) {
+                return b.LPI.MATCH - a.LPI.MATCH;
+              }
+              return collator.compare(a.LPI.ADDRESS, b.LPI.ADDRESS);
+            },
+          );
+
+          this._addressesMatching = sortedAddresses;
+
+          let options = sortedAddresses.map(
             (address: Address) => address.LPI.ADDRESS,
           );
 
-          populateResults(options.slice(0, 5));
+          populateResults(options);
         }
       })
       .catch((error) => console.log(error));
