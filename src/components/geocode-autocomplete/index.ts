@@ -5,15 +5,16 @@ import accessibleAutocomplete from "accessible-autocomplete";
 import styles from "./styles.scss?inline";
 import { getServiceURL } from "../../lib/ordnanceSurvey";
 
-// https://apidocs.os.uk/docs/os-places-lpi-output
+// https://docs.os.uk/os-apis/accessing-os-apis/os-places-api/technical-specification/find
 type Address = {
-  LPI: any;
+  LPI: {
+    ADDRESS: string;
+  };
 };
 
 type ArrowStyleEnum = "default" | "light";
 type LabelStyleEnum = "responsive" | "static";
 
-// debounce function
 function debounce(
   fn: (...args: any[]) => void | Promise<void>,
   delay: number,
