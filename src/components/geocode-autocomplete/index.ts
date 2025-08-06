@@ -140,6 +140,7 @@ export class GeocodeAutocomplete extends LitElement {
       dataset: "LPI",
       fq: "LPI_LOGICAL_STATUS_CODE:1",
       maxresults: "100",
+      lr: "EN",
     };
 
     const url = getServiceURL({
@@ -164,19 +165,9 @@ export class GeocodeAutocomplete extends LitElement {
         }
 
         if (data.results) {
-          // dedupe based on UPRN
-          let uprns = new Set();
-          const dedupedResults = data.results.filter((result: Address) => {
-            if (!uprns.has(result.LPI.UPRN)) {
-              uprns.add(result.LPI.UPRN);
-              return true;
-            }
-            return false;
-          });
-
-          // sort by LPI.MATCH and numeric
+          // sort by LPI.MATCH, then numeric
           const collator = new Intl.Collator([], { numeric: true });
-          const sortedAddresses = dedupedResults.sort(
+          const sortedAddresses = data.results.sort(
             (a: Address, b: Address) => {
               if (a.LPI.MATCH !== b.LPI.MATCH) {
                 return b.LPI.MATCH - a.LPI.MATCH;
