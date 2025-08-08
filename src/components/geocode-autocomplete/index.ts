@@ -9,8 +9,9 @@ import { getServiceURL } from "../../lib/ordnanceSurvey";
 type Address = {
   LPI: {
     ADDRESS: string;
+    LAT: number;
+    LNG: number;
     MATCH: number;
-    UPRN: number;
   };
 };
 
@@ -138,9 +139,10 @@ export class GeocodeAutocomplete extends LitElement {
     const params: Record<string, string> = {
       query: input,
       dataset: "LPI",
-      fq: "LPI_LOGICAL_STATUS_CODE:1",
       maxresults: "100",
       lr: "EN",
+      output_srs: "EPSG:4326",
+      fq: "LPI_LOGICAL_STATUS_CODE:1",
     };
 
     const url = getServiceURL({
