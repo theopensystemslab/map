@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.7] - 2025-08-08
+
+### Added
+
+- feat: New `geocode-autocomplete` component free-text address lookup ([#562](https://github.com/theopensystemslab/map/pull/539))
+
+### Changed
+
+- deps: a number of other package updates via Dependabot
+
 ### [1.0.0-alpha.6] - 2025-07-30
 
 ### Fixed
