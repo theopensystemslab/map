@@ -9,8 +9,9 @@ import { getServiceURL } from "../../lib/ordnanceSurvey";
 type Address = {
   LPI: {
     ADDRESS: string;
+    LAT: number;
+    LNG: number;
     MATCH: number;
-    UPRN: number;
   };
 };
 
