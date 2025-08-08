@@ -65,22 +65,26 @@ describe("Basemap layer loading", () => {
     );
   });
 
-  it("loads OSRaster basemap when an OS API key is provided", async () => {
-    const apiKey = process.env.VITE_APP_OS_API_KEY;
-    await setupMap(`
+  it(
+    "loads OSRaster basemap when an OS API key is provided",
+    { timeout: 10_000 },
+    async () => {
+      const apiKey = process.env.VITE_APP_OS_API_KEY;
+      await setupMap(`
       <my-map 
         id="map-vitest" 
         basemap="OSRaster"
         osApiKey=${apiKey}
       />`);
-    const rasterBasemap = window.olMap
-      ?.getAllLayers()
-      .find((layer) => layer.get("name") === "osRasterBasemap");
-    expect(rasterBasemap).toBeDefined();
-    const source = rasterBasemap?.getSource() as XYZ;
-    expect(source.getUrls()?.length).toBeGreaterThan(0);
-    source.getUrls()?.forEach((url) => expect(url).toMatch(/api.os.uk/));
-  });
+      const rasterBasemap = window.olMap
+        ?.getAllLayers()
+        .find((layer) => layer.get("name") === "osRasterBasemap");
+      expect(rasterBasemap).toBeDefined();
+      const source = rasterBasemap?.getSource() as XYZ;
+      expect(source.getUrls()?.length).toBeGreaterThan(0);
+      source.getUrls()?.forEach((url) => expect(url).toMatch(/api.os.uk/));
+    },
+  );
 
   it.skip("loads MapboxSatellite basemap when a Mapbox access token is provided", async () => {
     const accessToken = process.env.VITE_APP_MAPBOX_ACCESS_TOKEN;

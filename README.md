@@ -2,7 +2,7 @@
 
 [![npm @opensystemslab/map](https://img.shields.io/npm/v/@opensystemslab/map?style=flat-square)](http://npm.im/@opensystemslab/map)
 
-A library of [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) for tasks related to addresses and planning permission in the UK built with [Lit](https://lit.dev/), [Vite](https://vitejs.dev/), and [Ordnance Survey APIs](https://developer.ordnancesurvey.co.uk/).
+A library of [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) for tasks related to addresses and planning permission in the UK built with [Lit](https://lit.dev/), [Vite](https://vitejs.dev/), and [Ordnance Survey APIs](https://docs.os.uk/os-apis).
 
 **_Web map_**
 
@@ -16,11 +16,15 @@ A library of [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_C
 
 **_Address autocomplete_**
 
-`<address-autocomplete />` fetches addresses in a given UK postcode using the [OS Places API](https://developer.ordnancesurvey.co.uk/os-places-api) and displays them using GOV.UK's [accessible-autocomplete](https://github.com/alphagov/accessible-autocomplete) component. An event is dispatched with the OS record when you select an address.
+`<address-autocomplete />` fetches addresses in a given UK postcode using the [OS Places API](https://docs.os.uk/os-apis/accessing-os-apis/os-places-api/technical-specification/postcode) and displays them using GOV.UK's [accessible-autocomplete](https://github.com/alphagov/accessible-autocomplete) component. An event is dispatched with the OS record when you select an address.
 
 These web components can be used independently or together following GOV.UK's [Address lookup](https://design-system.service.gov.uk/patterns/addresses/) design pattern.
 
 ![chrome-capture-2022-7-16 (1)](https://user-images.githubusercontent.com/5132349/184858819-133bc7fa-7f48-4a2a-a416-b612febcce58.gif)
+
+**_Geocode autocomplete_**
+
+`<geocode-autocomplete />` is a web component that provides an autocomplete input for searching locations using the [OS Places API](https://docs.os.uk/os-apis/accessing-os-apis/os-places-api/technical-specification/find). It displays likely matches in a dropdown. When a location is selected, it dispatches an event with the OS record.
 
 ## Documentation & examples
 

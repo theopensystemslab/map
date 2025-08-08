@@ -5,40 +5,54 @@ import accessibleAutocomplete from "accessible-autocomplete";
 import styles from "./styles.scss?inline";
 import { getServiceURL } from "../../lib/ordnanceSurvey";
 
-// https://apidocs.os.uk/docs/os-places-lpi-output
+// https://docs.os.uk/os-apis/accessing-os-apis/os-places-api/technical-specification/find
 type Address = {
-  LPI: any;
+  LPI: {
+    ADDRESS: string;
+    MATCH: number;
+    UPRN: number;
+  };
 };
 
 type ArrowStyleEnum = "default" | "light";
 type LabelStyleEnum = "responsive" | "static";
 
-@customElement("address-autocomplete")
-export class AddressAutocomplete extends LitElement {
+function debounce(
+  fn: (...args: any[]) => void | Promise<void>,
+  delay: number,
+): (...args: any[]) => void {
+  let timer: NodeJS.Timeout | null = null;
+  let isFirstCall = true;
+  return function (this: any, ...args: any[]) {
+    if (isFirstCall) {
+      fn.apply(this, args);
+      isFirstCall = false;
+      return;
+    }
+
+    if (timer) clearTimeout(timer as NodeJS.Timeout);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
+
+@customElement("geocode-autocomplete")
+export class GeocodeAutocomplete extends LitElement {
   // ref https://github.com/e111077/vite-lit-element-ts-sass/issues/3
   static styles = unsafeCSS(styles);
 
-  // configurable component properties
   @property({ type: String })
-  id = "autocomplete";
+  id = "geocode";
 
   @property({ type: String })
-  postcode = "SE5 0HU";
-
-  @property({ type: String })
-  label = "Select an address";
+  label = "Search for an address";
 
   @property({ type: String })
   initialAddress = "";
 
   @property({ type: String })
   osApiKey = "";
-
-  /**
-   * @deprecated - please set singular `osApiKey`
-   */
-  @property({ type: String })
-  osPlacesApiKey = "";
 
   @property({ type: String })
   osProxyEndpoint = "";
@@ -51,16 +65,13 @@ export class AddressAutocomplete extends LitElement {
 
   // internal reactive state
   @state()
-  private _totalAddresses: number | undefined = undefined;
-
-  @state()
-  private _addressesInPostcode: Address[] = [];
-
-  @state()
-  private _options: string[] = [];
-
-  @state()
   private _selectedAddress: Address | null = null;
+
+  @state()
+  private _addressesMatching: Address[] = [];
+
+  @state()
+  private _isLoading: boolean = false;
 
   @state()
   private _osError: string | undefined = undefined;
@@ -68,7 +79,6 @@ export class AddressAutocomplete extends LitElement {
   // called when DOM node is connected to the document, before render
   connectedCallback() {
     super.connectedCallback();
-    this._fetchData();
   }
 
   // called when the component is removed from the document's DOM
@@ -87,22 +97,28 @@ export class AddressAutocomplete extends LitElement {
       element: this.renderRoot.querySelector(`#${this.id}-container`),
       id: this.id,
       required: true,
-      source: this._options,
+      source: debounce((query: string, populateResults: any) => {
+        this._isLoading = true;
+
+        // min query length of 3 before fetching
+        if (query.length >= 3) {
+          this._fetchData(query, populateResults);
+
+          this._isLoading = false;
+        }
+      }, 500),
       defaultValue: this.initialAddress,
       showAllValues: true,
       displayMenu: "overlay",
+      minLength: 3,
       dropdownArrow:
         this.arrowStyle === "light" ? this._getLightDropdownArrow : undefined,
-      tNoResults: () => "No addresses found",
+      tNoResults: () => (this._isLoading ? `Loading...` : `No results found`),
+      tStatusQueryTooShort: (minQueryLength: number) =>
+        `Type at least ${minQueryLength} characters for search results`,
       onConfirm: (option: string) => {
-        this._selectedAddress = this._addressesInPostcode.filter(
-          (address) =>
-            address.LPI.ADDRESS.slice(
-              0,
-              address.LPI.ADDRESS.lastIndexOf(
-                `, ${address.LPI.ADMINISTRATIVE_AREA}`,
-              ),
-            ) === option,
+        this._selectedAddress = this._addressesMatching.filter(
+          (address) => address.LPI.ADDRESS === option,
         )[0];
         if (this._selectedAddress)
           this.dispatch("addressSelection", { address: this._selectedAddress });
@@ -110,22 +126,25 @@ export class AddressAutocomplete extends LitElement {
     });
   }
 
-  async _fetchData(offset: number = 0, prevResults: Address[] = []) {
+  async _fetchData(
+    input: string = "",
+    populateResults: (values: string[]) => void,
+  ) {
     const isUsingOS = Boolean(this.osApiKey || this.osProxyEndpoint);
     if (!isUsingOS)
       throw Error("OS Places API key or OS proxy endpoint not found");
 
-    // https://apidocs.os.uk/docs/os-places-service-metadata
+    // https://docs.os.uk/os-apis/accessing-os-apis/os-places-api/technical-specification/find
     const params: Record<string, string> = {
-      postcode: this.postcode,
-      dataset: "LPI", // or "DPA" for only mailable addresses
-      maxResults: "100",
-      output_srs: "EPSG:4326",
+      query: input,
+      dataset: "LPI",
+      fq: "LPI_LOGICAL_STATUS_CODE:1",
+      maxresults: "100",
       lr: "EN",
-      offset: offset.toString(),
     };
+
     const url = getServiceURL({
-      service: "places",
+      service: "find",
       apiKey: this.osApiKey,
       proxyEndpoint: this.osProxyEndpoint,
       params,
@@ -134,6 +153,9 @@ export class AddressAutocomplete extends LitElement {
     await fetch(url)
       .then((resp) => resp.json())
       .then((data) => {
+        // reset options on every fetch
+        populateResults([]);
+
         // handle error formats returned by OS
         if (data.error || data.fault) {
           this._osError =
@@ -142,50 +164,25 @@ export class AddressAutocomplete extends LitElement {
             "Something went wrong";
         }
 
-        this._totalAddresses = data.header?.totalresults;
-
-        // concatenate full results
-        const concatenated = prevResults.concat(data.results || []);
-        this._addressesInPostcode = concatenated;
-
-        this.dispatch("ready", {
-          postcode: this.postcode,
-          status: `fetched ${this._addressesInPostcode.length}/${this._totalAddresses} addresses`,
-        });
-
-        // format & sort list of address "titles" that will be visible in dropdown
         if (data.results) {
-          data.results
-            .filter(
-              (address: Address) =>
-                // filter out "ALTERNATIVE", "HISTORIC", and "PROVISIONAL" records
-                address.LPI.LPI_LOGICAL_STATUS_CODE_DESCRIPTION === "APPROVED",
-            )
-            .map((address: Address) => {
-              // omit the council name and postcode from the display name
-              this._options.push(
-                address.LPI.ADDRESS.slice(
-                  0,
-                  address.LPI.ADDRESS.lastIndexOf(
-                    `, ${address.LPI.ADMINISTRATIVE_AREA}`,
-                  ),
-                ),
-              );
-            });
-
+          // sort by LPI.MATCH, then numeric
           const collator = new Intl.Collator([], { numeric: true });
-          this._options.sort((a, b) => collator.compare(a, b));
-        }
-
-        // fetch next page of results if they exist
-        if (
-          this._totalAddresses &&
-          this._totalAddresses > this._addressesInPostcode.length
-        ) {
-          this._fetchData(
-            this._addressesInPostcode.length,
-            this._addressesInPostcode,
+          const sortedAddresses = data.results.sort(
+            (a: Address, b: Address) => {
+              if (a.LPI.MATCH !== b.LPI.MATCH) {
+                return b.LPI.MATCH - a.LPI.MATCH;
+              }
+              return collator.compare(a.LPI.ADDRESS, b.LPI.ADDRESS);
+            },
           );
+
+          this._addressesMatching = sortedAddresses;
+
+          let options = sortedAddresses.map(
+            (address: Address) => address.LPI.ADDRESS,
+          );
+
+          populateResults(options);
         }
       })
       .catch((error) => console.log(error));
@@ -250,8 +247,6 @@ export class AddressAutocomplete extends LitElement {
     if (!this.osApiKey && !this.osProxyEndpoint)
       errorMessage = "Missing OS Places API key or proxy endpoint";
     else if (this._osError) errorMessage = this._osError;
-    else if (this._totalAddresses === 0)
-      errorMessage = `No addresses found in postcode ${this.postcode}`;
 
     return html`
       ${this._getErrorMessageContainer(errorMessage)}
@@ -274,6 +269,6 @@ export class AddressAutocomplete extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "address-autocomplete": AddressAutocomplete;
+    "geocode-autocomplete": GeocodeAutocomplete;
   }
 }
