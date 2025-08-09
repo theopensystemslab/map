@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.8] - 2025-08-09
+
+- fix: `geocode-autocomplete` outputs coordinates in EPSG:4326 in addition to BNG ([#570](https://github.com/theopensystemslab/map/pull/570))
+
 ### [1.0.0-alpha.7] - 2025-08-08
 
 ### Added
