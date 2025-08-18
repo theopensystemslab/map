@@ -74,7 +74,7 @@ module.exports = {
     {
       name: "osCopyright",
       type: "String",
-      values: `© Crown copyright and database rights ${new Date().getFullYear()} OS (0)100024857 (default)`,
+      values: `© Crown copyright and database rights ${new Date().getFullYear()} OS AC0000812160 (default)`,
     },
     {
       name: "osVectorTileApiKey",
