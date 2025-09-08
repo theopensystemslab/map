@@ -9,7 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.9] - 2025-09-08
+
+### Added
+
+- feat: Added `showGeojsonDataLabels` prop which can be applied when rendering static `geojsonData`. Styles match those used when `drawMode` plus `drawMany` are used ([#574](https://github.com/theopensystemslab/map/pull/574))
+
+### Changed
+
+- chore: Updated to new OS license number throughout examples and documentation ([#572](https://github.com/theopensystemslab/map/pull/572))
+
 ### [1.0.0-alpha.8] - 2025-08-09
+
+### Fixed
 
 - fix: `geocode-autocomplete` outputs coordinates in EPSG:4326 in addition to BNG ([#570](https://github.com/theopensystemslab/map/pull/570))
 
