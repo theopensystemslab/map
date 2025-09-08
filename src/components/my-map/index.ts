@@ -14,7 +14,7 @@ import VectorTileLayer from "ol/layer/VectorTile";
 import Map from "ol/Map";
 import { ProjectionLike, transform, transformExtent } from "ol/proj";
 import { Vector as VectorSource, XYZ } from "ol/source";
-import { Circle, Fill, Icon, Stroke, Style } from "ol/style";
+import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
 import View from "ol/View";
 import {
   northArrowControl,
@@ -179,6 +179,9 @@ export class MyMap extends LitElement {
 
   @property({ type: Boolean })
   showGeojsonDataMarkers = false;
+
+  @property({ type: Boolean })
+  showGeojsonDataLabels = false;
 
   @property({ type: String })
   geojsonDataCopyright = "";
@@ -499,7 +502,11 @@ export class MyMap extends LitElement {
       source: geojsonSource,
       style: function (this: MyMap, feature: FeatureLike) {
         // Read color from geojson feature `properties` if set or fallback to prop
-        let featureColor = feature.get("color") || this.geojsonColor;
+        const featureColor = feature.get("color") || this.geojsonColor;
+
+        // Read label from geojson feature `properties` if set or fallback to empty string
+        const featureLabel = feature.get("label") || "";
+
         return new Style({
           stroke: new Stroke({
             color: featureColor,
@@ -511,8 +518,23 @@ export class MyMap extends LitElement {
               : hexToRgba(featureColor, 0),
           }),
           image: new Circle({
-            radius: 10,
-            fill: new Fill({ color: featureColor }),
+            radius: this.showGeojsonDataLabels ? 12 : 10,
+            fill: new Fill({
+              color: this.showGeojsonDataLabels ? "#fff" : featureColor,
+            }),
+            stroke: new Stroke({
+              color: featureColor,
+              width: this.showGeojsonDataLabels ? 2 : 6,
+            }),
+          }),
+          text: new Text({
+            text: this.showGeojsonDataLabels ? featureLabel : "",
+            font: "bold 19px Source Sans Pro,sans-serif",
+            placement:
+              feature.getGeometry()?.getType() === "Point" ? "line" : "point", // "point" placement is center point of polygon
+            fill: new Fill({
+              color: "#000",
+            }),
           }),
         });
       }.bind(this),
