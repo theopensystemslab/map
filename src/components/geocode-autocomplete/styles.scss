@@ -7,39 +7,32 @@
     arial,
     sans-serif
   );
-  $font-size: var(--autocomplete__input__font-size, 19px);
-  $input-height: var(--autocomplete__input__height, 35px);
-  $arrow-down-z-index: var(--autocomplete__dropdown-arrow-down__z-index, 1);
+  $input-font-size: var(--autocomplete__input__font-size, 19px);
+  $input-height: var(--autocomplete__input__height, 48px);
+  $input-max-width: var(--autocomplete__input__max-width, 900px);
+  $input-padding: var(--autocomplete__input__padding, 8px);
+  $label-font-size: var(--autocomplete__label__font-size, 1em);
+  $label-margin-bottom: var(--autocomplete__label__margin-bottom, 0.5em);
 
-  .govuk-label {
-    font-family: $font-family;
-  }
-
+  .govuk-label,
   .govuk-label--static {
-    font-size: var(--autocomplete__label__font-size, 19px);
+    font-family: $font-family;
+    font-size: $label-font-size;
+    margin-bottom: $label-margin-bottom;
   }
 
   .autocomplete__input {
     font-family: $font-family;
-    font-size: $font-size;
+    font-size: $input-font-size;
     height: $input-height;
-    padding: var(--autocomplete__input__padding, 5px 34px 5px 5px);
-    // Ensure arrow is visible on white background, but behind the input so the click interaction works
-    // https://github.com/alphagov/accessible-autocomplete/issues/351
-    z-index: calc($arrow-down-z-index + 1);
-  }
-
-  .autocomplete__dropdown-arrow-down {
-    z-index: $arrow-down-z-index;
-    // Ensure the down arrow is vertically centred
-    $arrow-down-height: 17px;
-    top: calc(($input-height - $arrow-down-height) / 2);
+    padding: $input-padding;
+    max-width: $input-max-width;
   }
 
   .autocomplete__option {
     font-family: $font-family;
-    font-size: $font-size;
-    padding: var(--autocomplete__option__padding, 5px);
+    font-size: $input-font-size;
+    padding: var(--autocomplete__option__padding, 5px 8px);
     border-bottom: var(
       --autocomplete__option__border-bottom,
       solid 1px #b1b4b6
@@ -49,10 +42,10 @@
   .autocomplete__option--focused,
   .autocomplete__option:hover,
   .autocomplete__option--focused & .autocomplete__option:hover {
-    border-color: var(--autocomplete__option__hover-border-color, #1d70b8);
+    border-color: var(--autocomplete__option__hover-border-color, #1a1b1b);
     background-color: var(
       --autocomplete__option__hover-background-color,
-      #1d70b8
+      #1a1b1b
     );
   }
 
