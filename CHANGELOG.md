@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.10] - 2025-09-12
+
+### Changed
+
+- feat: Improved style override options for new `geocode-autocomplete` component ([#577](https://github.com/theopensystemslab/map/pull/577))
+
 ### [1.0.0-alpha.9] - 2025-09-08
 
 ### Added
