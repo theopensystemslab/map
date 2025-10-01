@@ -69,7 +69,7 @@ devDependencies:
     version: 22.0.3
   '@types/ol-ext':
     specifier: npm:@siedlerchr/types-ol-ext@^3.6.3
-    version: /@siedlerchr/types-ol-ext@3.6.3(jspdf@3.0.2)
+    version: /@siedlerchr/types-ol-ext@3.6.5(jspdf@3.0.2)
   '@types/proj4':
     specifier: ^2.5.6
     version: 2.5.6
@@ -92,17 +92,17 @@ devDependencies:
     specifier: ^2.2.0
     version: 2.2.0
   sass:
-    specifier: ^1.89.2
-    version: 1.89.2
+    specifier: ^1.93.2
+    version: 1.93.2
   typescript:
     specifier: ^5.8.3
     version: 5.8.3
   vite:
     specifier: ^6.3.4
-    version: 6.3.4(@types/node@22.0.3)(sass@1.89.2)(stylus@0.58.1)
+    version: 6.3.4(@types/node@22.0.3)(sass@1.93.2)(stylus@0.58.1)
   vitest:
     specifier: 3.0.7
-    version: 3.0.7(@types/node@22.0.3)(@vitest/ui@3.0.7)(happy-dom@9.1.9)(sass@1.89.2)(stylus@0.58.1)
+    version: 3.0.7(@types/node@22.0.3)(@vitest/ui@3.0.7)(happy-dom@9.1.9)(sass@1.93.2)(stylus@0.58.1)
   wait-for-expect:
     specifier: ^3.0.2
     version: 3.0.2
@@ -221,7 +221,7 @@ packages:
       '@babel/core': 7.28.3
       '@babel/helper-compilation-targets': 7.27.2
       '@babel/helper-plugin-utils': 7.27.1
-      debug: 4.4.1
+      debug: 4.4.3
       lodash.debounce: 4.0.8
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -1932,10 +1932,10 @@ packages:
     dev: true
     optional: true
 
-  /@siedlerchr/types-ol-ext@3.6.3(jspdf@3.0.2):
-    resolution: {integrity: sha512-CBDpg1/j4boiLv7b9o0MnaKgUwPkezc5WCnlaEkhP68J3vDtrDbtUp1GUgX/9Gsncu83+SrvPi0T2+gFlOAS8w==}
+  /@siedlerchr/types-ol-ext@3.6.5(jspdf@3.0.2):
+    resolution: {integrity: sha512-Wzw+F4Elpa6XsxQkp0TvQfUnvnQfItKU5yJiBQkfd3RElXv5QYiZwClpL1i9yWd9MAxcVRIIzhaulRDlc8ktMA==}
     peerDependencies:
-      jspdf: ^3.0.1
+      jspdf: ^3.0.2
     dependencies:
       jspdf: 3.0.2
     dev: true
@@ -2241,7 +2241,7 @@ packages:
       '@vitest/spy': 3.0.7
       estree-walker: 3.0.3
       magic-string: 0.30.18
-      vite: 6.3.4(@types/node@22.0.3)(sass@1.89.2)(stylus@0.58.1)
+      vite: 6.3.4(@types/node@22.0.3)(sass@1.93.2)(stylus@0.58.1)
     dev: true
 
   /@vitest/pretty-format@3.0.7:
@@ -2289,7 +2289,7 @@ packages:
       sirv: 3.0.1
       tinyglobby: 0.2.14
       tinyrainbow: 2.0.0
-      vitest: 3.0.7(@types/node@22.0.3)(@vitest/ui@3.0.7)(happy-dom@9.1.9)(sass@1.89.2)(stylus@0.58.1)
+      vitest: 3.0.7(@types/node@22.0.3)(@vitest/ui@3.0.7)(happy-dom@9.1.9)(sass@1.93.2)(stylus@0.58.1)
     dev: true
 
   /@vitest/utils@3.0.7:
@@ -2790,6 +2790,7 @@ packages:
 
   /bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    requiresBuild: true
     dependencies:
       file-uri-to-path: 1.0.0
     dev: true
@@ -3491,6 +3492,18 @@ packages:
       ms: 2.1.3
     dev: true
 
+  /debug@4.4.3:
+    resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.3
+    dev: true
+
   /decode-uri-component@0.2.2:
     resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
     engines: {node: '>=0.10'}
@@ -3629,8 +3642,8 @@ packages:
       domelementtype: 2.3.0
     dev: true
 
-  /dompurify@3.2.6:
-    resolution: {integrity: sha512-/2GogDQlohXPZe6D6NOgQvXLPSYBqIWMnZ8zzOhn09REE4eyAzb+Hed3jhoM9OkuaJ8P6ZGTTVWQKAi8ieIzfQ==}
+  /dompurify@3.2.7:
+    resolution: {integrity: sha512-WhL/YuveyGXJaerVlMYGWhvQswa7myDG17P7Vu65EWC05o8vfeNbvNf4d/BOvH99+ZW+LlQsc1GDKMa1vNK6dw==}
     requiresBuild: true
     optionalDependencies:
       '@types/trusted-types': 2.0.7
@@ -4098,6 +4111,7 @@ packages:
 
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -4988,7 +5002,7 @@ packages:
     optionalDependencies:
       canvg: 3.0.11
       core-js: 3.45.1
-      dompurify: 3.2.6
+      dompurify: 3.2.7
       html2canvas: 1.4.1
 
   /kind-of@3.2.2:
@@ -5411,6 +5425,7 @@ packages:
 
   /nan@2.23.0:
     resolution: {integrity: sha512-1UxuyYGdoQHcGg87Lkqm3FzefucTa0NAiOcuRsDmysep3c1LVCRK2krrUDafMWtjSG04htvAmvg96+SDknOmgQ==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -6591,8 +6606,8 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: true
 
-  /sass@1.89.2:
-    resolution: {integrity: sha512-xCmtksBKd/jdJ9Bt9p7nPKiuqrlBMBuuGkQlkhZjjQk3Ty48lv93k5Dq6OPkKt4XwxDJ7tvlfrTa1MPA9bf+QA==}
+  /sass@1.93.2:
+    resolution: {integrity: sha512-t+YPtOQHpGW1QWsh1CHQ5cPIr9lbbGZLZnbihP/D/qZj/yuV68m8qarcV17nvkOX81BCrvzAlq2klCQFZghyTg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -6683,7 +6698,7 @@ packages:
     resolution: {integrity: sha512-uaW0WwXKpL9blXE2o0bRhoL2EGXIrZxQ2ZQ4mgcfoBxdFmQold+qWsD2jLrfZ0trjKL6vOw0j//eAwcALFjKSw==}
     engines: {node: '>= 18'}
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
@@ -6945,7 +6960,7 @@ packages:
   /spdy-transport@3.0.0:
     resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==}
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       detect-node: 2.1.0
       hpack.js: 2.1.6
       obuf: 1.1.2
@@ -6959,7 +6974,7 @@ packages:
     resolution: {integrity: sha512-r46gZQZQV+Kl9oItvl1JZZqJKGr+oEkB08A6BzkiR7593/7IbtuncXHd2YoYeTsG4157ZssMu9KYvUHLcjcDoA==}
     engines: {node: '>=6.0.0'}
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       handle-thing: 2.0.1
       http-deceiver: 1.2.7
       select-hose: 2.0.0
@@ -7465,7 +7480,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite-node@3.0.7(@types/node@22.0.3)(sass@1.89.2)(stylus@0.58.1):
+  /vite-node@3.0.7(@types/node@22.0.3)(sass@1.93.2)(stylus@0.58.1):
     resolution: {integrity: sha512-2fX0QwX4GkkkpULXdT1Pf4q0tC1i1lFOyseKoonavXUNlQ77KpW2XqBGGNIm/J4Ows4KxgGJzDguYVPKwG/n5A==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
@@ -7474,7 +7489,7 @@ packages:
       debug: 4.4.1
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 6.3.4(@types/node@22.0.3)(sass@1.89.2)(stylus@0.58.1)
+      vite: 6.3.4(@types/node@22.0.3)(sass@1.93.2)(stylus@0.58.1)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -7490,7 +7505,7 @@ packages:
       - yaml
     dev: true
 
-  /vite@6.3.4(@types/node@22.0.3)(sass@1.89.2)(stylus@0.58.1):
+  /vite@6.3.4(@types/node@22.0.3)(sass@1.93.2)(stylus@0.58.1):
     resolution: {integrity: sha512-BiReIiMS2fyFqbqNT/Qqt4CVITDU9M9vE+DKcVAsB+ZV0wvTKd+3hMbkpxz1b+NmEDMegpVbisKiAZOnvO92Sw==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
@@ -7536,14 +7551,14 @@ packages:
       picomatch: 4.0.3
       postcss: 8.5.6
       rollup: 4.49.0
-      sass: 1.89.2
+      sass: 1.93.2
       stylus: 0.58.1
       tinyglobby: 0.2.14
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@3.0.7(@types/node@22.0.3)(@vitest/ui@3.0.7)(happy-dom@9.1.9)(sass@1.89.2)(stylus@0.58.1):
+  /vitest@3.0.7(@types/node@22.0.3)(@vitest/ui@3.0.7)(happy-dom@9.1.9)(sass@1.93.2)(stylus@0.58.1):
     resolution: {integrity: sha512-IP7gPK3LS3Fvn44x30X1dM9vtawm0aesAa2yBIZ9vQf+qB69NXC5776+Qmcr7ohUXIQuLhk7xQR0aSUIDPqavg==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
@@ -7591,8 +7606,8 @@ packages:
       tinyexec: 0.3.2
       tinypool: 1.1.1
       tinyrainbow: 2.0.0
-      vite: 6.3.4(@types/node@22.0.3)(sass@1.89.2)(stylus@0.58.1)
-      vite-node: 3.0.7(@types/node@22.0.3)(sass@1.89.2)(stylus@0.58.1)
+      vite: 6.3.4(@types/node@22.0.3)(sass@1.93.2)(stylus@0.58.1)
+      vite-node: 3.0.7(@types/node@22.0.3)(sass@1.93.2)(stylus@0.58.1)
       why-is-node-running: 2.3.0
     transitivePeerDependencies:
       - jiti
