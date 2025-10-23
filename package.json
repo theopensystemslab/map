@@ -36,7 +36,7 @@
     "lit": "^3.0.1",
     "ol": "^10.6.1",
     "ol-ext": "^4.0.33",
-    "ol-mapbox-style": "^12.6.0",
+    "ol-mapbox-style": "^13.1.0",
     "postcode": "^5.1.0",
     "proj4": "^2.19.5",
     "rambda": "^10.3.2"
