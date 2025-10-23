@@ -59,7 +59,7 @@
     "typescript": "^5.8.3",
     "vite": "^6.3.4",
     "vitest": "3.0.7",
-    "wait-for-expect": "^3.0.2"
+    "wait-for-expect": "^4.0.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md,html}": "prettier --write"
