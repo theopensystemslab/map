@@ -27,8 +27,8 @@ dependencies:
     specifier: ^5.11.0
     version: 5.11.0
   jspdf:
-    specifier: ^3.0.2
-    version: 3.0.2
+    specifier: ^4.0.0
+    version: 4.0.0
   lit:
     specifier: ^3.0.1
     version: 3.0.1
@@ -54,7 +54,7 @@ dependencies:
 devDependencies:
   '@glorious/pitsby':
     specifier: ^1.37.2
-    version: 1.37.2(@uirouter/core@6.1.1)(angular@1.8.3)
+    version: 1.37.2(@uirouter/core@6.1.2)(angular@1.8.3)
   '@testing-library/dom':
     specifier: ^10.4.0
     version: 10.4.0
@@ -69,7 +69,7 @@ devDependencies:
     version: 22.0.3
   '@types/ol-ext':
     specifier: npm:@siedlerchr/types-ol-ext@^3.6.3
-    version: /@siedlerchr/types-ol-ext@3.6.3(jspdf@3.0.2)
+    version: /@siedlerchr/types-ol-ext@3.6.5(jspdf@4.0.0)
   '@types/proj4':
     specifier: ^2.5.6
     version: 2.5.6
@@ -221,7 +221,7 @@ packages:
       '@babel/core': 7.28.3
       '@babel/helper-compilation-targets': 7.27.2
       '@babel/helper-plugin-utils': 7.27.1
-      debug: 4.4.1
+      debug: 4.4.3
       lodash.debounce: 4.0.8
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -1142,6 +1142,11 @@ packages:
   /@babel/runtime@7.28.3:
     resolution: {integrity: sha512-9uIQ10o0WGdpP6GDhXcdOJPJuDgFtIDtN/9+ArJQ2NAfAmiuhTQdzkaTGR33v43GYS2UrSA0eX2pPPHoFVvpxA==}
     engines: {node: '>=6.9.0'}
+    dev: true
+
+  /@babel/runtime@7.28.4:
+    resolution: {integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==}
+    engines: {node: '>=6.9.0'}
 
   /@babel/standalone@7.28.3:
     resolution: {integrity: sha512-VHmaaU23OkxShTtkwXlte7/uHDK8v55J9YLMqlucjnYujeB9YgrYCHU6LREqUegTVq+/KlLgjoUu8lbeI3XQPA==}
@@ -1438,7 +1443,7 @@ packages:
       shortid: 2.2.17
     dev: true
 
-  /@glorious/pitsby@1.37.2(@uirouter/core@6.1.1)(angular@1.8.3):
+  /@glorious/pitsby@1.37.2(@uirouter/core@6.1.2)(angular@1.8.3):
     resolution: {integrity: sha512-HJe0UFdBA1Lk43AR1jGV9vF2u22Pwufk2LSd/W/PLM0F7NKBfoKR/gKySY5+dzIaPWHaDlIIfXL28i4g/ezcnA==}
     hasBin: true
     dependencies:
@@ -1448,7 +1453,7 @@ packages:
       '@compilorama/staly': 0.4.1
       '@glorious/fyzer': 0.1.10
       '@glorious/rasket': 0.1.3
-      '@uirouter/angularjs': 1.1.1(@uirouter/core@6.1.1)(angular@1.8.3)
+      '@uirouter/angularjs': 1.1.1(@uirouter/core@6.1.2)(angular@1.8.3)
       axios: 1.11.0
       babel-loader: 8.4.1(@babel/core@7.28.3)(webpack@5.101.3)
       brace: 0.11.1
@@ -1932,12 +1937,12 @@ packages:
     dev: true
     optional: true
 
-  /@siedlerchr/types-ol-ext@3.6.3(jspdf@3.0.2):
-    resolution: {integrity: sha512-CBDpg1/j4boiLv7b9o0MnaKgUwPkezc5WCnlaEkhP68J3vDtrDbtUp1GUgX/9Gsncu83+SrvPi0T2+gFlOAS8w==}
+  /@siedlerchr/types-ol-ext@3.6.5(jspdf@4.0.0):
+    resolution: {integrity: sha512-Wzw+F4Elpa6XsxQkp0TvQfUnvnQfItKU5yJiBQkfd3RElXv5QYiZwClpL1i9yWd9MAxcVRIIzhaulRDlc8ktMA==}
     peerDependencies:
-      jspdf: ^3.0.1
+      jspdf: ^3.0.2
     dependencies:
-      jspdf: 3.0.2
+      jspdf: 4.0.0
     dev: true
 
   /@sinclair/typebox@0.27.8:
@@ -2202,19 +2207,19 @@ packages:
       '@types/yargs-parser': 21.0.3
     dev: true
 
-  /@uirouter/angularjs@1.1.1(@uirouter/core@6.1.1)(angular@1.8.3):
+  /@uirouter/angularjs@1.1.1(@uirouter/core@6.1.2)(angular@1.8.3):
     resolution: {integrity: sha512-Ucsf8BFeyB8xykaxzEOec6amp+x83HxuDgU79xLi5A9029RpW+Zh9jhFTwLQq+9zm/KTkxisjDWJFuypQUTCYQ==}
     engines: {node: '>=4.0.0'}
     peerDependencies:
       '@uirouter/core': ^6.1.1
       angular: '>=1.2.0'
     dependencies:
-      '@uirouter/core': 6.1.1
+      '@uirouter/core': 6.1.2
       angular: 1.8.3
     dev: true
 
-  /@uirouter/core@6.1.1:
-    resolution: {integrity: sha512-vA+OolBOe0R8dbFk5mgaj30LzYzOoGhMJzj356KVQcx+wKdZHUs0dnMPuuHbKe/CEbErTgFA3MfRAW96qVc2hA==}
+  /@uirouter/core@6.1.2:
+    resolution: {integrity: sha512-pYcg+cxVd9E9poC7AJf7ZrlQQrwAV6KVkiPvlbLJX5km+pBWrUOGQhdd87oIGc7/5iVQ7qSiAdl9QD+l55yegg==}
     engines: {node: '>=4.0.0'}
     dev: true
 
@@ -2790,6 +2795,7 @@ packages:
 
   /bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    requiresBuild: true
     dependencies:
       file-uri-to-path: 1.0.0
     dev: true
@@ -2929,9 +2935,9 @@ packages:
     engines: {node: '>=10.0.0'}
     requiresBuild: true
     dependencies:
-      '@babel/runtime': 7.28.3
+      '@babel/runtime': 7.28.4
       '@types/raf': 3.4.3
-      core-js: 3.45.1
+      core-js: 3.47.0
       raf: 3.4.1
       regenerator-runtime: 0.13.11
       rgbcolor: 1.0.1
@@ -3241,8 +3247,8 @@ packages:
       browserslist: 4.25.3
     dev: true
 
-  /core-js@3.45.1:
-    resolution: {integrity: sha512-L4NPsJlCfZsPeXukyzHFlg/i7IIVwHSItR0wg0FLNqYClJ4MQYTYLbC7EkjKYRLZF2iof2MUgN0EGy7MdQFChg==}
+  /core-js@3.47.0:
+    resolution: {integrity: sha512-c3Q2VVkGAUyupsjRnaNX6u8Dq2vAdzm9iuPj5FW0fRxzlxgq9Q39MDq10IvmQSpLgHQNyQzQmOo6bgGHmH3NNg==}
     requiresBuild: true
     optional: true
 
@@ -3491,6 +3497,18 @@ packages:
       ms: 2.1.3
     dev: true
 
+  /debug@4.4.3:
+    resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.3
+    dev: true
+
   /decode-uri-component@0.2.2:
     resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
     engines: {node: '>=0.10'}
@@ -3629,8 +3647,8 @@ packages:
       domelementtype: 2.3.0
     dev: true
 
-  /dompurify@3.2.6:
-    resolution: {integrity: sha512-/2GogDQlohXPZe6D6NOgQvXLPSYBqIWMnZ8zzOhn09REE4eyAzb+Hed3jhoM9OkuaJ8P6ZGTTVWQKAi8ieIzfQ==}
+  /dompurify@3.3.1:
+    resolution: {integrity: sha512-qkdCKzLNtrgPFP1Vo+98FRzJnBRGe4ffyCea9IwHB1fyxPOeNTHpLKYGd4Uk9xvNoH0ZoOjwZxNptyMwqrId1Q==}
     requiresBuild: true
     optionalDependencies:
       '@types/trusted-types': 2.0.7
@@ -4098,6 +4116,7 @@ packages:
 
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -4246,7 +4265,7 @@ packages:
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
-      nan: 2.23.0
+      nan: 2.24.0
     dev: true
     optional: true
 
@@ -4591,6 +4610,17 @@ packages:
       inherits: 2.0.4
       setprototypeof: 1.2.0
       statuses: 2.0.1
+      toidentifier: 1.0.1
+    dev: true
+
+  /http-errors@2.0.1:
+    resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
+    engines: {node: '>= 0.8'}
+    dependencies:
+      depd: 2.0.0
+      inherits: 2.0.4
+      setprototypeof: 1.2.0
+      statuses: 2.0.2
       toidentifier: 1.0.1
     dev: true
 
@@ -4979,16 +5009,16 @@ packages:
       graceful-fs: 4.2.11
     dev: true
 
-  /jspdf@3.0.2:
-    resolution: {integrity: sha512-G0fQDJ5fAm6UW78HG6lNXyq09l0PrA1rpNY5i+ly17Zb1fMMFSmS+3lw4cnrAPGyouv2Y0ylujbY2Ieq3DSlKA==}
+  /jspdf@4.0.0:
+    resolution: {integrity: sha512-w12U97Z6edKd2tXDn3LzTLg7C7QLJlx0BPfM3ecjK2BckUl9/81vZ+r5gK4/3KQdhAcEZhENUxRhtgYBj75MqQ==}
     dependencies:
-      '@babel/runtime': 7.28.3
+      '@babel/runtime': 7.28.4
       fast-png: 6.4.0
       fflate: 0.8.2
     optionalDependencies:
       canvg: 3.0.11
-      core-js: 3.45.1
-      dompurify: 3.2.6
+      core-js: 3.47.0
+      dompurify: 3.3.1
       html2canvas: 1.4.1
 
   /kind-of@3.2.2:
@@ -5095,7 +5125,7 @@ packages:
       object-assign: 4.1.1
       opn: 6.0.0
       proxy-middleware: 0.15.0
-      send: 1.2.0
+      send: 1.2.1
       serve-index: 1.9.1
     transitivePeerDependencies:
       - supports-color
@@ -5308,9 +5338,9 @@ packages:
       mime-db: 1.52.0
     dev: true
 
-  /mime-types@3.0.1:
-    resolution: {integrity: sha512-xRc4oEhT6eaBpU1XF7AjpOFD+xQmXNB5OVKwp4tqCuBpHLS/ZbBDrc07mYTDqVMg6PfxUjjNp85O6Cd2Z/5HWA==}
-    engines: {node: '>= 0.6'}
+  /mime-types@3.0.2:
+    resolution: {integrity: sha512-Lbgzdk0h4juoQ9fCKXW4by0UJqj+nOOrI9MJ1sSj4nI8aI2eo1qmvQEie4VD1glsS250n15LsWsYtCugiStS5A==}
+    engines: {node: '>=18'}
     dependencies:
       mime-db: 1.54.0
     dev: true
@@ -5409,8 +5439,9 @@ packages:
       queue-tick: 1.0.1
     dev: true
 
-  /nan@2.23.0:
-    resolution: {integrity: sha512-1UxuyYGdoQHcGg87Lkqm3FzefucTa0NAiOcuRsDmysep3c1LVCRK2krrUDafMWtjSG04htvAmvg96+SDknOmgQ==}
+  /nan@2.24.0:
+    resolution: {integrity: sha512-Vpf9qnVW1RaDkoNKFUvfxqAbtI8ncb8OJlqZ9wwpXzWPEsvsB1nvdUi6oYrHIkQ1Y/tMDnr1h4nczS0VB9Xykg==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -6679,17 +6710,17 @@ packages:
       - supports-color
     dev: true
 
-  /send@1.2.0:
-    resolution: {integrity: sha512-uaW0WwXKpL9blXE2o0bRhoL2EGXIrZxQ2ZQ4mgcfoBxdFmQold+qWsD2jLrfZ0trjKL6vOw0j//eAwcALFjKSw==}
+  /send@1.2.1:
+    resolution: {integrity: sha512-1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ==}
     engines: {node: '>= 18'}
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
       fresh: 2.0.0
-      http-errors: 2.0.0
-      mime-types: 3.0.1
+      http-errors: 2.0.1
+      mime-types: 3.0.2
       ms: 2.1.3
       on-finished: 2.4.1
       range-parser: 1.2.1
@@ -6945,7 +6976,7 @@ packages:
   /spdy-transport@3.0.0:
     resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==}
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       detect-node: 2.1.0
       hpack.js: 2.1.6
       obuf: 1.1.2
@@ -6959,7 +6990,7 @@ packages:
     resolution: {integrity: sha512-r46gZQZQV+Kl9oItvl1JZZqJKGr+oEkB08A6BzkiR7593/7IbtuncXHd2YoYeTsG4157ZssMu9KYvUHLcjcDoA==}
     engines: {node: '>=6.0.0'}
     dependencies:
-      debug: 4.4.1
+      debug: 4.4.3
       handle-thing: 2.0.1
       http-deceiver: 1.2.7
       select-hose: 2.0.0
