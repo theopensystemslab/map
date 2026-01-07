@@ -161,7 +161,41 @@ export class AddressAutocomplete extends LitElement {
                 // filter out "ALTERNATIVE", "HISTORIC", and "PROVISIONAL" records
                 address.LPI.LPI_LOGICAL_STATUS_CODE_DESCRIPTION === "APPROVED",
             )
+            .sort((a: Address, b: Address) => {
+              // addresses are currently in OS Places default order (API does not support sorting)
+              //  - the default order separates parent properties from flats and orders addresses like 1, 10..., 2 etc
+              //  - we want to first sort street numbers like 1, 2 ... 10, then ensure flats appear beside their parent shells in the list of options
+              const collator = new Intl.Collator([], { numeric: true });
+              if (a.LPI?.PAO_START_NUMBER && b.LPI?.PAO_START_NUMBER) {
+                collator.compare(
+                  a.LPI.PAO_START_NUMBER,
+                  b.LPI.PAO_START_NUMBER,
+                );
+              }
+              if (a.LPI?.SAO_TEXT && b.LPI?.SAO_TEXT) {
+                collator.compare(a.LPI.SAO_TEXT, b.LPI.SAO_TEXT);
+              }
+            })
             .map((address: Address) => {
+              // if a "parent" property type (via PlanX BLPU Codes mapping), then prepend to display name to distinguish from flats
+              if (
+                address.LPI?.CLASSIFICATION_CODE.includes(
+                  "RH01",
+                  "RH02",
+                  "RH03",
+                )
+              ) {
+                address.LPI.ADDRESS = "HMO, " + address.LPI.ADDRESS;
+              }
+
+              if (address.LPI?.CLASSIFICATION_CODE === "P") {
+                address.LPI.ADDRESS = "PARENT SHELL, " + address.LPI.ADDRESS;
+              }
+
+              if (address.LPI?.CLASSIFICATION_CODE === "PP") {
+                address.LPI.ADDRESS = "PROPERTY SHELL, " + address.LPI.ADDRESS;
+              }
+
               // omit the council name and postcode from the display name
               this._options.push(
                 address.LPI.ADDRESS.slice(
@@ -172,9 +206,6 @@ export class AddressAutocomplete extends LitElement {
                 ),
               );
             });
-
-          const collator = new Intl.Collator([], { numeric: true });
-          this._options.sort((a, b) => collator.compare(a, b));
         }
 
         // fetch next page of results if they exist
