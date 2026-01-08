@@ -161,6 +161,21 @@ export class AddressAutocomplete extends LitElement {
                 // filter out "ALTERNATIVE", "HISTORIC", and "PROVISIONAL" records
                 address.LPI.LPI_LOGICAL_STATUS_CODE_DESCRIPTION === "APPROVED",
             )
+            .sort((a: Address, b: Address) => {
+              // addresses are currently in OS Places default order (API does not support sorting directly)
+              //  - the default order separates parent properties from flats and orders addresses like 1, 10..., 2 etc
+              //  - we want to first sort street numbers like 1, 2 ... 10, then ensure flats appear beside their parent shells in the list of options
+              const collator = new Intl.Collator([], { numeric: true });
+              if (a.LPI?.PAO_START_NUMBER && b.LPI?.PAO_START_NUMBER) {
+                collator.compare(
+                  a.LPI.PAO_START_NUMBER,
+                  b.LPI.PAO_START_NUMBER,
+                );
+              }
+              if (a.LPI?.SAO_TEXT && b.LPI?.SAO_TEXT) {
+                collator.compare(a.LPI.SAO_TEXT, b.LPI.SAO_TEXT);
+              }
+            })
             .map((address: Address) => {
               // omit the council name and postcode from the display name
               this._options.push(
@@ -172,9 +187,6 @@ export class AddressAutocomplete extends LitElement {
                 ),
               );
             });
-
-          const collator = new Intl.Collator([], { numeric: true });
-          this._options.sort((a, b) => collator.compare(a, b));
         }
 
         // fetch next page of results if they exist
