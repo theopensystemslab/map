@@ -86,6 +86,8 @@ To create a new release:
 1. Run `npm publish` or `npm publish --tag next` if making a pre-release (requires permissions to OSL team in NPM & access to 2-factor auth method)
 1. [Draft a new release](https://github.com/theopensystemslab/map/releases) via GitHub web: tag should match version, automatically generate changenotes and link above PR, then "Publish" and set as latest version (or set as pre-release if you used `--tag next` in above command)
 
+Troubleshooting note: If any NPM permission issues, ensure you can successfully `npm login` according to the [latest authentication methods outlined here](https://github.blog/changelog/2025-12-09-npm-classic-tokens-revoked-session-based-auth-and-cli-token-management-now-available/) before running step #2 above.
+
 ## License
 
 This repository is licensed under the [Open Government License v3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
