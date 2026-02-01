@@ -31,7 +31,7 @@
     "@types/geojson": "^7946.0.14",
     "accessible-autocomplete": "^3.0.1",
     "file-saver": "^2.0.5",
-    "govuk-frontend": "^5.11.0",
+    "govuk-frontend": "^5.14.0",
     "jspdf": "^4.0.0",
     "lit": "^3.0.1",
     "ol": "^10.6.1",
