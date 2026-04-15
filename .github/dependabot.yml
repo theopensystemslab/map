@@ -4,8 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-    reviewers:
-      - "theopensystemslab/planx"
     ignore:
       - dependency-name: "ol"
         update-types: ["version-update:semver-major"]
@@ -16,5 +14,3 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-    reviewers:
-      - "theopensystemslab/planx"
