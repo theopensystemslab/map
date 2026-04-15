@@ -48,6 +48,7 @@ export function fitToData(
   bufferValue: number,
 ) {
   const extent = olSource.getExtent();
+  if (!extent) throw Error("Failed to get extent for source");
   return olMap.getView().fit(buffer(extent, bufferValue));
 }
 

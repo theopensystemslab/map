@@ -7,6 +7,7 @@ import waitForExpect from "wait-for-expect";
 import { getShadowRoot, setupMap } from "../../test-utils";
 import * as snapping from "./snapping";
 import "./index";
+import type { MockInstance } from "vitest";
 
 test("olMap is added to the global window for tests", async () => {
   await setupMap(`<my-map id="map-vitest" />`);
