@@ -1,5 +1,3 @@
-import type { IWindow } from "happy-dom";
-import { beforeEach, describe, it, expect, MockInstance } from "vitest";
 import Map from "ol/Map";
 import { Feature } from "ol";
 import Point from "ol/geom/Point";
@@ -9,10 +7,7 @@ import waitForExpect from "wait-for-expect";
 import { getShadowRoot, setupMap } from "../../test-utils";
 import * as snapping from "./snapping";
 import "./index";
-
-declare global {
-  interface Window extends IWindow {}
-}
+import type { MockInstance } from "vitest";
 
 test("olMap is added to the global window for tests", async () => {
   await setupMap(`<my-map id="map-vitest" />`);
@@ -25,10 +20,10 @@ describe("MyMap on initial render with OSM basemap", async () => {
 
   it("should render a custom element with a shadow root", () => {
     const map = document.body.querySelector("my-map");
-    expect(map).toBeTruthy;
+    expect(map).toBeTruthy();
 
     const mapShadowRoot = getShadowRoot("my-map");
-    expect(mapShadowRoot).toBeTruthy;
+    expect(mapShadowRoot).toBeTruthy();
   });
 });
 
@@ -36,14 +31,14 @@ describe("Keyboard navigation of map container, controls and attribution links",
   it("map container should be keyboard navigable by default", async () => {
     await setupMap(`<my-map id="map-vitest" />`);
     const map = getShadowRoot("my-map")?.getElementById("map-vitest");
-    expect(map).toBeTruthy;
+    expect(map).toBeTruthy();
     expect(map?.getAttribute("tabindex")).toEqual("0");
   });
 
   it("should omit map container from tab order if not interactive", async () => {
     await setupMap(`<my-map id="map-vitest" staticMode />`);
     const map = getShadowRoot("my-map")?.getElementById("map-vitest");
-    expect(map).toBeTruthy;
+    expect(map).toBeTruthy();
     expect(map?.getAttribute("tabindex")).toEqual("-1");
   });
 
@@ -52,7 +47,7 @@ describe("Keyboard navigation of map container, controls and attribution links",
       `<my-map id="map-vitest" staticMode collapseAttributions />`,
     );
     const map = getShadowRoot("my-map")?.getElementById("map-vitest");
-    expect(map).toBeTruthy;
+    expect(map).toBeTruthy();
     expect(map?.getAttribute("tabindex")).toEqual("0");
   });
 });
@@ -65,6 +60,7 @@ describe("Snap points loading behaviour", () => {
     snapping,
     "getSnapPointsFromVectorTiles",
   );
+
   afterEach(() => {
     vi.resetAllMocks();
   });

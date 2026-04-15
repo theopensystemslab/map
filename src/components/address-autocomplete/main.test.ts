@@ -1,13 +1,10 @@
-import type { IWindow } from "happy-dom";
-import { beforeEach, describe, it, expect } from "vitest";
-
-import { getShadowRoot, getShadowRootEl } from "../../test-utils";
+import {
+  getShadowRoot,
+  getShadowRootEl,
+  waitForElement,
+} from "../../test-utils";
 
 import "./index";
-
-declare global {
-  interface Window extends IWindow {}
-}
 
 test.todo(
   "Replace environment variable prop dependency with mock response. Ref https://vitest.dev/guide/mocking.html",
@@ -16,18 +13,18 @@ test.todo(
 describe("AddressAutocomplete on initial render with valid postcode", async () => {
   beforeEach(async () => {
     document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osApiKey=${import.meta.env.VITE_APP_OS_API_KEY} />`;
-    await window.happyDOM.whenAsyncComplete();
+    await waitForElement("address-autocomplete");
   }, 2500);
 
   it("should render a custom element with a shadow root", () => {
     const autocomplete = document.body.querySelector("address-autocomplete");
-    expect(autocomplete).toBeTruthy;
+    expect(autocomplete).toBeTruthy();
 
     const autocompleteShadowRoot = getShadowRoot("address-autocomplete");
-    expect(autocompleteShadowRoot).toBeTruthy;
+    expect(autocompleteShadowRoot).toBeTruthy();
   });
 
-  it("should have an input with autocomplete attributes", () => {
+  it("should render the autocomplete container", () => {
     const input = getShadowRootEl("address-autocomplete", "input");
     expect(input).toBeTruthy;
     expect(input?.getAttribute("role")).toEqual("combobox");
@@ -39,7 +36,7 @@ describe("AddressAutocomplete on initial render with valid postcode", async () =
 
   it("should have a label with the default text", () => {
     const label = getShadowRootEl("address-autocomplete", "label");
-    expect(label).toBeTruthy;
+    expect(label).toBeTruthy();
     expect(label?.className).toContain("govuk-label");
     expect(label?.innerHTML).toContain("Select an address");
   });
@@ -56,19 +53,18 @@ describe("AddressAutocomplete on initial render with valid postcode", async () =
     const error = getShadowRoot("address-autocomplete")?.getElementById(
       "error-message-container",
     );
-    expect(error).toBeTruthy;
+    expect(error).toBeTruthy();
   });
 });
 
 describe("AddressAutocomplete on initial render with empty postcode", async () => {
   beforeEach(async () => {
     document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="HP11 1BR" osApiKey=${import.meta.env.VITE_APP_OS_API_KEY} />`;
-    await window.happyDOM.whenAsyncComplete();
+    await waitForElement("address-autocomplete");
   }, 500);
 
   it.todo("renders a 'no addresses in this postcode' warning", () => {
     const autocomplete = getShadowRoot("address-autocomplete");
-    console.log(autocomplete?.innerHTML); // pnpm test:ui
     expect(autocomplete?.innerHTML).toContain(
       "No addresses found in postcode HP11 1BR",
     );
@@ -87,7 +83,7 @@ describe("External API calls", async () => {
 
   it("calls proxy when 'osProxyEndpoint' provided", async () => {
     document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osApiKey="" osProxyEndpoint="https://www.my-site.com/api/v1/os" />`;
-    await window.happyDOM.whenAsyncComplete();
+    await waitForElement("address-autocomplete");
 
     expect(fetchSpy).toHaveBeenCalled();
     expect(lastTwoCalls()).toContain(
@@ -99,7 +95,7 @@ describe("External API calls", async () => {
   it("calls OS API when 'osApiKey' provided", async () => {
     const mockAPIKey = "test-test-test";
     document.body.innerHTML = `<address-autocomplete id="autocomplete-vitest" postcode="SE5 0HU" osApiKey=${mockAPIKey} />`;
-    await window.happyDOM.whenAsyncComplete();
+    await waitForElement("address-autocomplete");
 
     expect(fetchSpy).toHaveBeenCalled();
     expect(lastTwoCalls()).toContain(

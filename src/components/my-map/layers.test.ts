@@ -1,17 +1,8 @@
 import { setupMap } from "../../test-utils";
 import "./index";
 
-import type { IWindow } from "happy-dom";
 import { OSM, XYZ } from "ol/source";
 import VectorTileSource from "ol/source/VectorTile";
-
-declare global {
-  interface Window extends IWindow {}
-}
-
-declare global {
-  interface Window extends IWindow {}
-}
 
 describe("Basemap layer loading", () => {
   afterEach(() => {

@@ -77,9 +77,9 @@ PrintDialog.prototype.paperSize = {
 };
 
 PrintDialog.prototype._labels = {
+  ...PrintDialog.prototype._labels,
   en: {
     ...PrintDialog.prototype._labels.en,
-    // @ts-ignore
     none: "None",
     small: "Small",
     large: "Large",

@@ -11,14 +11,13 @@ export function getShadowRootEl(
   return document.body.querySelector(customEl)?.shadowRoot?.querySelector(el);
 }
 
-export async function setupMap(mapElement: any) {
-  document.body.innerHTML = mapElement;
-  await window.happyDOM.whenAsyncComplete();
-  window.olMap?.dispatchEvent("loadend");
+export async function waitForElement(customEl: string): Promise<void> {
+  const el = document.body.querySelector(customEl) as any;
+  await el?.updateComplete;
 }
 
-module.exports = {
-  getShadowRoot,
-  getShadowRootEl,
-  setupMap,
-};
+export async function setupMap(mapElement: any) {
+  document.body.innerHTML = mapElement;
+  await waitForElement("my-map");
+  window.olMap?.dispatchEvent("loadend");
+}
