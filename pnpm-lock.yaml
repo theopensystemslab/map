@@ -72,9 +72,6 @@ importers:
       '@types/ol-ext':
         specifier: npm:@siedlerchr/types-ol-ext@^3.6.3
         version: '@siedlerchr/types-ol-ext@3.6.8(jspdf@4.2.1)'
-      '@types/proj4':
-        specifier: ^2.19.0
-        version: 2.19.0
       '@vitest/ui':
         specifier: ^3.2.4
         version: 3.2.4(vitest@3.2.4)
@@ -1193,10 +1190,6 @@ packages:
 
   '@types/pako@2.0.4':
     resolution: {integrity: sha512-VWDCbrLeVXJM9fihYodcLiIv0ku+AlOa/TQ1SvYOaBuyrSKgEcro95LJyIsJ4vSo6BXIxOKxiJAat04CmST9Fw==}
-
-  '@types/proj4@2.19.0':
-    resolution: {integrity: sha512-mirdnXu5sW9+IphQ4r+ZVii2JVLDbXgMp1lxqbiCppdgL22EwMwL4Dy/cyHVaJ2y/mi7LUQHghpILd3w3j2bnA==}
-    deprecated: This is a stub types definition. proj4 provides its own type definitions, so you do not need this installed.
 
   '@types/qs@6.15.0':
     resolution: {integrity: sha512-JawvT8iBVWpzTrz3EGw9BTQFg3BQNmwERdKE22vlTxawwtbyUSlMppvZYKLZzB5zgACXdXxbD3m1bXaMqP/9ow==}
@@ -5545,10 +5538,6 @@ snapshots:
       undici-types: 7.16.0
 
   '@types/pako@2.0.4': {}
-
-  '@types/proj4@2.19.0':
-    dependencies:
-      proj4: 2.20.8
 
   '@types/qs@6.15.0': {}
 
