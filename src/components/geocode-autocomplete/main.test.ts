@@ -1,13 +1,10 @@
-import type { IWindow } from "happy-dom";
-import { beforeEach, describe, it, expect } from "vitest";
-
-import { getShadowRoot, getShadowRootEl } from "../../test-utils";
+import {
+  getShadowRoot,
+  getShadowRootEl,
+  waitForElement,
+} from "../../test-utils";
 
 import "./index";
-
-declare global {
-  interface Window extends IWindow {}
-}
 
 test.todo(
   "Replace environment variable prop dependency with mock response. Ref https://vitest.dev/guide/mocking.html",
@@ -16,15 +13,15 @@ test.todo(
 describe("GeocodeAutocomplete on initial render", async () => {
   beforeEach(async () => {
     document.body.innerHTML = `<geocode-autocomplete id="autocomplete-vitest" osApiKey=${import.meta.env.VITE_APP_OS_API_KEY} />`;
-    await window.happyDOM.whenAsyncComplete();
+    await waitForElement("geocode-autocomplete");
   }, 2500);
 
   it("should render a custom element with a shadow root", () => {
     const autocomplete = document.body.querySelector("geocode-autocomplete");
-    expect(autocomplete).toBeTruthy;
+    expect(autocomplete).toBeTruthy();
 
     const autocompleteShadowRoot = getShadowRoot("geocode-autocomplete");
-    expect(autocompleteShadowRoot).toBeTruthy;
+    expect(autocompleteShadowRoot).toBeTruthy();
   });
 
   it("should have an input with autocomplete attributes", () => {
@@ -39,7 +36,7 @@ describe("GeocodeAutocomplete on initial render", async () => {
 
   it("should have a label with the default text", () => {
     const label = getShadowRootEl("geocode-autocomplete", "label");
-    expect(label).toBeTruthy;
+    expect(label).toBeTruthy();
     expect(label?.className).toContain("govuk-label");
     expect(label?.innerHTML).toContain("Search for an address");
   });
@@ -56,6 +53,6 @@ describe("GeocodeAutocomplete on initial render", async () => {
     const error = getShadowRoot("geocode-autocomplete")?.getElementById(
       "error-message-container",
     );
-    expect(error).toBeTruthy;
+    expect(error).toBeTruthy();
   });
 });
