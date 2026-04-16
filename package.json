@@ -22,8 +22,8 @@
     "prepare": "husky install",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "docs": "NODE_ENV=development pitsby build --watch --port=7007",
-    "docsPublish": "pitsby build"
+    "storybook": "storybook dev -p 7007",
+    "storybook:build": "storybook build -o storybook-static"
   },
   "dependencies": {
     "@turf/helpers": "^7.3.4",
@@ -42,7 +42,8 @@
     "rambda": "^10.3.4"
   },
   "devDependencies": {
-    "@glorious/pitsby": "^1.37.2",
+    "@storybook/addon-docs": "^10.3.5",
+    "@storybook/web-components-vite": "^10.3.5",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/file-saver": "^2.0.7",
@@ -55,6 +56,7 @@
     "prettier": "^3.8.3",
     "rollup-plugin-postcss-lit": "^2.2.0",
     "sass": "^1.99.0",
+    "storybook": "^10.3.5",
     "typescript": "^5.8.3",
     "vite": "^6.4.1",
     "vitest": "3.2.4",
@@ -71,5 +73,6 @@
     "overrides": {
       "braces@<3.0.3": ">=3.0.3"
     }
-  }
+  },
+  "customElements": "custom-elements.json"
 }
