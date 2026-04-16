@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import "../../index";
 
+// Populated automatically when VITE_APP_OS_API_KEY is set in .env
+const osApiKey = import.meta.env.VITE_APP_OS_API_KEY ?? "";
+
 const meta: Meta = {
   title: "Components/MyMap",
   component: "my-map",
@@ -367,7 +370,7 @@ type Story = StoryObj;
  */
 export const OsVectorTiles: Story = {
   name: "Basic: OS vector tiles basemap",
-  render: () => `<my-map zoom="18" osVectorTilesApiKey=""></my-map>`,
+  render: () => `<my-map zoom="18" osVectorTilesApiKey="${osApiKey}"</my-map>`,
 };
 
 /**
@@ -387,7 +390,7 @@ export const OsRasterTiles: Story = {
 export const StaticMap: Story = {
   name: "Basic: static map",
   render: () =>
-    `<my-map zoom="20" staticMode hideResetControl osVectorTilesApiKey=""></my-map>`,
+    `<my-map zoom="20" staticMode hideResetControl osVectorTilesApiKey="${osApiKey}"</my-map>`,
 };
 
 /**
@@ -397,7 +400,7 @@ export const StaticMap: Story = {
 export const ScaleBar: Story = {
   name: "Basic: scale bar",
   render: () =>
-    `<my-map zoom="20" showScale useScaleBarStyle osVectorTilesApiKey=""></my-map>`,
+    `<my-map zoom="20" showScale useScaleBarStyle osVectorTilesApiKey="${osApiKey}"</my-map>`,
 };
 
 // ---------------------------------------------------------------------------
@@ -417,7 +420,7 @@ export const DrawMode: Story = {
       maxZoom="23"
       drawMode
       drawPointer="dot"
-      osVectorTilesApiKey="">
+      osVectorTilesApiKey="${osApiKey}"
     </my-map>`,
 };
 
@@ -468,7 +471,7 @@ export const DrawModeAreaCalculation: Story = {
       maxZoom="23"
       drawMode
       areaUnits="ha"
-      osVectorTilesApiKey="">
+      osVectorTilesApiKey="${osApiKey}"
     </my-map>`,
   play: async ({ canvasElement }) => {
     const map = canvasElement.querySelector("my-map");
@@ -490,7 +493,7 @@ export const DrawModeGeoJSONOutput: Story = {
       zoom="19"
       maxZoom="23"
       drawMode
-      osVectorTilesApiKey="">
+      osVectorTilesApiKey="${osApiKey}"
     </my-map>`,
   play: async ({ canvasElement }) => {
     const map = canvasElement.querySelector("my-map");
@@ -558,8 +561,8 @@ export const ShowFeaturesAtPoint: Story = {
       latitude="51.4858363"
       longitude="-0.0761246"
       featureColor="#8a2be2"
-      osFeaturesApiKey=""
-      osVectorTilesApiKey="">
+      osFeaturesApiKey="${osApiKey}"
+      osVectorTilesApiKey="${osApiKey}"
     </my-map>`,
 };
 
@@ -576,8 +579,8 @@ export const ClickToSelectFeatures: Story = {
       latitude="51.4854329"
       longitude="-0.0761992"
       featureColor="Magenta"
-      osFeaturesApiKey=""
-      osVectorTilesApiKey="">
+      osFeaturesApiKey="${osApiKey}"
+      osVectorTilesApiKey="${osApiKey}"
     </my-map>`,
 };
 

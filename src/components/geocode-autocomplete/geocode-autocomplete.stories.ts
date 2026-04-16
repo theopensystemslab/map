@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import "../../index";
 
+// Populated automatically when VITE_APP_OS_API_KEY is set in .env
+const osApiKey = import.meta.env.VITE_APP_OS_API_KEY ?? "";
+
 const meta: Meta = {
   title: "Components/GeocodeAutocomplete",
   component: "geocode-autocomplete",
@@ -97,7 +100,8 @@ type Story = StoryObj;
  */
 export const DirectApiKey: Story = {
   name: "Search for an address (direct API key)",
-  render: () => `<geocode-autocomplete osApiKey=""></geocode-autocomplete>`,
+  render: () =>
+    `<geocode-autocomplete osApiKey="${osApiKey}"></geocode-autocomplete>`,
   play: async ({ canvasElement }) => {
     const autocomplete = canvasElement.querySelector("geocode-autocomplete");
     autocomplete?.addEventListener(

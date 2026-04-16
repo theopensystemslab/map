@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import "../../index";
 
+// Populated automatically when VITE_APP_OS_API_KEY is set in .env
+const osApiKey = import.meta.env.VITE_APP_OS_API_KEY ?? "";
+
 const meta: Meta = {
   title: "Components/AddressAutocomplete",
   component: "address-autocomplete",
@@ -114,7 +117,7 @@ type Story = StoryObj;
 export const DirectApiKey: Story = {
   name: "Select an address (direct API key)",
   render: () =>
-    `<address-autocomplete postcode="SE19 1NT" osPlacesApiKey=""></address-autocomplete>`,
+    `<address-autocomplete postcode="SE19 1NT" osPlacesApiKey="${osApiKey}"></address-autocomplete>`,
   play: async ({ canvasElement }) => {
     const autocomplete = canvasElement.querySelector("address-autocomplete");
     autocomplete?.addEventListener("ready", ({ detail: data }: CustomEvent) => {

@@ -5,4 +5,5 @@ storybook-static
 types
 *.local
 *.log
+.env
 /.vscode
