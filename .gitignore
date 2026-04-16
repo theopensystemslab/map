@@ -1,7 +1,7 @@
 node_modules
 .DS_Store
 dist
-pitsby
+storybook-static
 types
 *.local
 *.log

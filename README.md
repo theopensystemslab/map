@@ -71,10 +71,10 @@ Unit tests are written with [Vitest](https://vitest.dev/), [Happy Dom](https://w
 
 ### Docs
 
-We use [Pitsby](https://pitsby.com/) for documenting our web components. It's simple to configure (`pitsby.config.js` plus a `*.doc.js` per component), has good support for vanilla web components, and an interactive playground.
+We use [Storybook](https://storybook.js.org/) for documenting our web components. Each component has a `*.stories.ts` file with interactive examples.
 
-- `pnpm run docs` starts Pitsby in watch mode for local development
-- `pnpm run docsPublish` builds the site so Netlify can serve it from `pitsby/`
+- `pnpm storybook` starts Storybook in watch mode for local development (port 7007)
+- `pnpm storybook:build` builds the static site to `storybook-static/` for Netlify
 
 ### Deployments
 
