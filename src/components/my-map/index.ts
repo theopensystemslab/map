@@ -72,6 +72,9 @@ export class MyMap extends LitElement {
   @property({ type: String })
   id = "map";
 
+  @property({ type: Boolean })
+  showOSSearch = false;
+
   @property({ type: String })
   dataTestId = "map-test-id";
 
@@ -288,7 +291,7 @@ export class MyMap extends LitElement {
   }
 
   // runs after the initial render
-  firstUpdated() {
+  async firstUpdated() {
     const target = this.renderRoot.querySelector(`#${this.id}`) as HTMLElement;
 
     const isUsingOS = Boolean(this.osApiKey || this.osProxyEndpoint);
@@ -785,6 +788,41 @@ export class MyMap extends LitElement {
       });
     }
 
+    // Duplicated logic in render()
+    const showSearch =
+      this.showOSSearch &&
+      this.drawMode &&
+      ["OSVectorTile", "OSRaster"].includes(this.basemap) &&
+      (Boolean(this.osApiKey) || Boolean(this.osProxyEndpoint));
+
+    if (showSearch) {
+      const search = this.renderRoot?.querySelector("geocode-autocomplete");
+      if (search) {
+        // Give the browser a chance to paint
+        //  Ref https://lit.dev/docs/v1/components/events/#add-event-listeners-after-first-paint
+        await new Promise((r) => setTimeout(r, 0));
+
+        search.addEventListener(
+          "addressSelection",
+          ({ detail: address }: any) => {
+            console.debug("searched", { detail: address });
+            const searchedAddress = address?.address?.LPI;
+            const newCenterCoordinate = transform(
+              [searchedAddress.LNG, searchedAddress.LAT],
+              "EPSG:4326", // LPI output srs
+              "EPSG:3857",
+            );
+
+            // TODO handle validation here before recentering (eg is searched point within clip extent)
+            //   error wrapper on geocode autocomplete?? or popup/toast on map?
+
+            map.getView().setCenter(newCenterCoordinate);
+            map.getView().setZoom(20);
+          },
+        );
+      }
+    }
+
     // Add an aria-label to the overlay canvas for accessibility
     const olCanvas = this.renderRoot?.querySelector("canvas.ol-fixedoverlay");
     olCanvas?.setAttribute("aria-label", this.ariaLabelOlFixedOverlay);
@@ -799,19 +837,50 @@ export class MyMap extends LitElement {
 
   // render the map
   render() {
-    return html`<link
-        rel="stylesheet"
-        href="https://cdn.skypack.dev/ol@^6.6.1/ol.css"
-      />
-      <div
-        id="${this.id}"
-        class="map"
-        role="${this.staticMode && !this.collapseAttributions
-          ? "presentation"
-          : "application"}"
-        tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
-        data-testid="${this.dataTestId}"
-      />`;
+    // Duplicated logic in firstUpdated()
+    const showSearch =
+      this.showOSSearch &&
+      this.drawMode &&
+      ["OSVectorTile", "OSRaster"].includes(this.basemap) &&
+      (Boolean(this.osApiKey) || Boolean(this.osProxyEndpoint));
+
+    return showSearch
+      ? html` <div style="margin-bottom: 1em; background-color: white">
+            <geocode-autocomplete
+              id="geocode-autocomplete"
+              arrowStyle="light"
+              labelStyle="static"
+              label="Search for an address to position the map"
+              osApiKey="${this.osApiKey}"
+              osProxyEndpoint="${this.osProxyEndpoint}"
+            />
+          </div>
+          <link
+            rel="stylesheet"
+            href="https://cdn.skypack.dev/ol@^6.6.1/ol.css"
+          />
+          <div
+            id="${this.id}"
+            class="map"
+            role="${this.staticMode && !this.collapseAttributions
+              ? "presentation"
+              : "application"}"
+            tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
+            data-testid="${this.dataTestId}"
+          />`
+      : html` <link
+            rel="stylesheet"
+            href="https://cdn.skypack.dev/ol@^6.6.1/ol.css"
+          />
+          <div
+            id="${this.id}"
+            class="map"
+            role="${this.staticMode && !this.collapseAttributions
+              ? "presentation"
+              : "application"}"
+            tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
+            data-testid="${this.dataTestId}"
+          />`;
   }
 
   // unmount the map
