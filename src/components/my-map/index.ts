@@ -2,8 +2,10 @@ import { html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import apply from "ol-mapbox-style";
 import { defaults as defaultControls, ScaleLine } from "ol/control";
+import { containsCoordinate } from "ol/extent";
 import { FeatureLike } from "ol/Feature";
 import { GeoJSON } from "ol/format";
+import { GeoJSONFeature, GeoJSONFeatureCollection } from "ol/format/GeoJSON";
 import { Geometry, Point } from "ol/geom";
 import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
@@ -58,7 +60,6 @@ import {
   hexToRgba,
   makeGeoJSON,
 } from "./utils";
-import { GeoJSONFeatureCollection } from "ol/format/GeoJSON";
 
 type MarkerImageEnum = "circle" | "pin";
 type ResetControlImageEnum = "unicode" | "trash";
@@ -272,11 +273,13 @@ export class MyMap extends LitElement {
   collapseAttributions = false;
 
   @property({ type: Object })
-  clipGeojsonData = {
+  clipGeojsonData: GeoJSONFeature = {
     type: "Feature",
     geometry: {
+      type: "Polygon",
       coordinates: [],
     },
+    properties: {},
   };
 
   @property({ type: String })
@@ -340,11 +343,9 @@ export class MyMap extends LitElement {
       "EPSG:3857",
     );
 
-    const clipFeature =
-      this.clipGeojsonData.geometry?.coordinates?.length > 0 &&
-      new GeoJSON().readFeature(this.clipGeojsonData, {
-        featureProjection: "EPSG:3857",
-      });
+    const clipFeature = new GeoJSON().readFeature(this.clipGeojsonData, {
+      featureProjection: "EPSG:3857",
+    });
     const clipExtent =
       clipFeature &&
       !Array.isArray(clipFeature) &&
@@ -813,11 +814,24 @@ export class MyMap extends LitElement {
               "EPSG:3857",
             );
 
-            // TODO handle validation here before recentering (eg is searched point within clip extent)
-            //   error wrapper on geocode autocomplete?? or popup/toast on map?
+            // Validate that the searched point is within the clip extent of the map viewport
+            const searchedPointWithinClip =
+              clipExtent && containsCoordinate(clipExtent, newCenterCoordinate);
+            let searchedPointNotWithinClipError: string | undefined;
 
-            map.getView().setCenter(newCenterCoordinate);
-            map.getView().setZoom(20);
+            if (searchedPointWithinClip) {
+              map.getView().setCenter(newCenterCoordinate);
+              map.getView().setZoom(20);
+            } else {
+              searchedPointNotWithinClipError =
+                "Selected address not within map view extent, try another.";
+            }
+
+            // TODO render autcomplete error message
+            console.log(
+              searchedPointWithinClip,
+              searchedPointNotWithinClipError,
+            );
           },
         );
       }
