@@ -39,7 +39,7 @@
     "ol-mapbox-style": "^12.6.1",
     "postcode": "^5.1.0",
     "proj4": "^2.20.8",
-    "rambda": "^10.3.4"
+    "rambda": "^11.1.0"
   },
   "devDependencies": {
     "@storybook/addon-docs": "^10.3.5",
