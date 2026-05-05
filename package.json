@@ -39,7 +39,7 @@
     "ol-mapbox-style": "^12.6.1",
     "postcode": "^5.1.0",
     "proj4": "^2.20.8",
-    "rambda": "^10.3.4"
+    "rambda": "^11.1.0"
   },
   "devDependencies": {
     "@storybook/addon-docs": "^10.3.5",
@@ -47,7 +47,7 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/file-saver": "^2.0.7",
-    "@types/node": "~24.10.15",
+    "@types/node": "~25.6.0",
     "@types/ol-ext": "npm:@siedlerchr/types-ol-ext@^3.6.3",
     "@vitest/ui": "^3.2.4",
     "happy-dom": "^20.9.0",
@@ -56,7 +56,7 @@
     "prettier": "^3.8.3",
     "rollup-plugin-postcss-lit": "^2.2.0",
     "sass": "^1.99.0",
-    "storybook": "^10.3.5",
+    "storybook": "^10.3.6",
     "typescript": "^5.8.3",
     "vite": "^6.4.1",
     "vitest": "3.2.4",
