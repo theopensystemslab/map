@@ -2,7 +2,7 @@ import { html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import apply from "ol-mapbox-style";
 import { defaults as defaultControls, ScaleLine } from "ol/control";
-import { containsCoordinate } from "ol/extent";
+import { containsCoordinate, Extent } from "ol/extent";
 import { FeatureLike } from "ol/Feature";
 import { GeoJSON } from "ol/format";
 import { GeoJSONFeature, GeoJSONFeatureCollection } from "ol/format/GeoJSON";
@@ -273,14 +273,7 @@ export class MyMap extends LitElement {
   collapseAttributions = false;
 
   @property({ type: Object })
-  clipGeojsonData: GeoJSONFeature = {
-    type: "Feature",
-    geometry: {
-      type: "Polygon",
-      coordinates: [],
-    },
-    properties: {},
-  };
+  clipGeojsonData: GeoJSONFeature | undefined = undefined;
 
   @property({ type: String })
   ariaLabelOlFixedOverlay = "";
@@ -343,27 +336,30 @@ export class MyMap extends LitElement {
       "EPSG:3857",
     );
 
-    const clipFeature = new GeoJSON().readFeature(this.clipGeojsonData, {
-      featureProjection: "EPSG:3857",
-    });
-    const clipExtent =
-      clipFeature &&
-      !Array.isArray(clipFeature) &&
-      clipFeature.getGeometry()?.getExtent();
+    // Define a clip extent for the map viewport
+    let clipExtent: Extent | undefined;
+    if (this.clipGeojsonData) {
+      const clipFeature = new GeoJSON().readFeature(this.clipGeojsonData, {
+        featureProjection: "EPSG:3857",
+      });
+      if (clipFeature && !Array.isArray(clipFeature)) {
+        clipExtent = clipFeature.getGeometry()?.getExtent();
+      }
+    } else {
+      // Fallback to UK boundary if no user prop
+      clipExtent = transformExtent(
+        [-10.76418, 49.528423, 1.9134116, 61.331151],
+        "EPSG:4326",
+        "EPSG:3857",
+      );
+    }
 
     const map = new Map({
       target,
       layers: basemapLayers,
       view: new View({
         projection: "EPSG:3857",
-        extent: clipExtent
-          ? clipExtent
-          : transformExtent(
-              // UK Boundary
-              [-10.76418, 49.528423, 1.9134116, 61.331151],
-              "EPSG:4326",
-              "EPSG:3857",
-            ),
+        extent: clipExtent,
         minZoom: this.minZoom,
         maxZoom: this.maxZoom,
         center: centerCoordinate,
