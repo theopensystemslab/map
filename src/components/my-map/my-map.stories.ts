@@ -521,15 +521,15 @@ export const DrawModeGeoJSONOutput: Story = {
  */
 export const DrawModeWithSearch: Story = {
   name: "Drawing: draw mode with search",
-  // TOOD ! Mock realistic "propose a new address" props
   render: () => `
-      <my-map
-      id="draw-mode"
+    <my-map
+      id="draw-mode-with-search"
       zoom="20"
       maxZoom="23"
       drawMode
-      showOSSearch
       drawPointer="dot"
+      showOSSearch
+      basemap="OSVectorTile"
       osVectorTilesApiKey="${osApiKey}"
     </my-map>`,
 };

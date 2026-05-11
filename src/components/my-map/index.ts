@@ -1,5 +1,5 @@
 import { html, LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import apply from "ol-mapbox-style";
 import { defaults as defaultControls, ScaleLine } from "ol/control";
 import { containsCoordinate, Extent } from "ol/extent";
@@ -277,6 +277,13 @@ export class MyMap extends LitElement {
 
   @property({ type: String })
   ariaLabelOlFixedOverlay = "";
+
+  // internal reactive state
+  @state()
+  private _showSearch: boolean = false;
+
+  @state()
+  private _searchError: string | undefined = undefined;
 
   // set class property (map doesn't require any reactivity using @state)
   map?: Map;
@@ -785,14 +792,7 @@ export class MyMap extends LitElement {
       });
     }
 
-    // Duplicated logic in render()
-    const showSearch =
-      this.showOSSearch &&
-      this.drawMode &&
-      ["OSVectorTile", "OSRaster"].includes(this.basemap) &&
-      (Boolean(this.osApiKey) || Boolean(this.osProxyEndpoint));
-
-    if (showSearch) {
+    if (this._showSearch) {
       const search = this.renderRoot?.querySelector("geocode-autocomplete");
       if (search) {
         // Give the browser a chance to paint
@@ -813,21 +813,16 @@ export class MyMap extends LitElement {
             // Validate that the searched point is within the clip extent of the map viewport
             const searchedPointWithinClip =
               clipExtent && containsCoordinate(clipExtent, newCenterCoordinate);
-            let searchedPointNotWithinClipError: string | undefined;
-
             if (searchedPointWithinClip) {
+              // Navigate to the searched address point
               map.getView().setCenter(newCenterCoordinate);
               map.getView().setZoom(20);
             } else {
-              searchedPointNotWithinClipError =
+              // Show an error
+              this._searchError =
                 "Selected address not within map view extent, try another.";
+              this._showSearchError();
             }
-
-            // TODO render autcomplete error message
-            console.log(
-              searchedPointWithinClip,
-              searchedPointNotWithinClipError,
-            );
           },
         );
       }
@@ -845,25 +840,48 @@ export class MyMap extends LitElement {
     }, 500);
   }
 
+  _showSearchError() {
+    const errorEl: HTMLElement | null | undefined =
+      this.shadowRoot?.querySelector(`#geocode-autocomplete-error`);
+
+    // display "none" ensures always present in DOM, which means role="status" will work for screenreaders
+    if (errorEl) errorEl.style.display = "none";
+    if (errorEl && this._searchError) errorEl.style.display = "";
+  }
+
   // render the map
   render() {
-    // Duplicated logic in firstUpdated()
-    const showSearch =
+    this._showSearch =
       this.showOSSearch &&
       this.drawMode &&
       ["OSVectorTile", "OSRaster"].includes(this.basemap) &&
       (Boolean(this.osApiKey) || Boolean(this.osProxyEndpoint));
 
-    return showSearch
-      ? html` <div style="margin-bottom: 1em; background-color: white">
-            <geocode-autocomplete
-              id="geocode-autocomplete"
-              arrowStyle="light"
-              labelStyle="static"
-              label="Search for an address to position the map"
-              osApiKey="${this.osApiKey}"
-              osProxyEndpoint="${this.osProxyEndpoint}"
-            />
+    return this._showSearch
+      ? html` <div
+            id="error-message-container"
+            class="${this._searchError ? "govuk-warning-text" : ""}"
+            role="status"
+          >
+            <div
+              id="geocode-autocomplete-error"
+              class="govuk-error-message"
+              style="display:none"
+              role="status"
+            >
+              <span class="govuk-visually-hidden">Error:</span>
+              ${this._searchError}
+            </div>
+            <div style="margin-bottom: 1em; background-color: white">
+              <geocode-autocomplete
+                id="geocode-autocomplete"
+                arrowStyle="light"
+                labelStyle="static"
+                label="Search for an address to position the map"
+                osApiKey="${this.osApiKey}"
+                osProxyEndpoint="${this.osProxyEndpoint}"
+              />
+            </div>
           </div>
           <link
             rel="stylesheet"
