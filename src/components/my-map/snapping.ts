@@ -1,4 +1,5 @@
 import { Feature } from "ol";
+import { Extent } from "ol/extent";
 import { Geometry } from "ol/geom";
 import Point from "ol/geom/Point";
 import { Vector as VectorLayer } from "ol/layer";
@@ -36,7 +37,7 @@ export const pointsLayer = new VectorLayer({
  */
 export function getSnapPointsFromVectorTiles(
   basemap: VectorTileLayer,
-  extent: number[],
+  extent: Extent,
 ) {
   const points: number[] =
     basemap &&

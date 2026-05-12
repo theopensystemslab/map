@@ -1,9 +1,11 @@
 import { html, LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import apply from "ol-mapbox-style";
 import { defaults as defaultControls, ScaleLine } from "ol/control";
+import { containsCoordinate, Extent } from "ol/extent";
 import { FeatureLike } from "ol/Feature";
 import { GeoJSON } from "ol/format";
+import { GeoJSONFeature, GeoJSONFeatureCollection } from "ol/format/GeoJSON";
 import { Geometry, Point } from "ol/geom";
 import { Feature } from "ol/index";
 import { defaults as defaultInteractions } from "ol/interaction";
@@ -58,7 +60,6 @@ import {
   hexToRgba,
   makeGeoJSON,
 } from "./utils";
-import { GeoJSONFeatureCollection } from "ol/format/GeoJSON";
 
 type MarkerImageEnum = "circle" | "pin";
 type ResetControlImageEnum = "unicode" | "trash";
@@ -71,6 +72,9 @@ export class MyMap extends LitElement {
   // configurable component properties
   @property({ type: String })
   id = "map";
+
+  @property({ type: Boolean })
+  showOSSearch = false;
 
   @property({ type: String })
   dataTestId = "map-test-id";
@@ -269,15 +273,17 @@ export class MyMap extends LitElement {
   collapseAttributions = false;
 
   @property({ type: Object })
-  clipGeojsonData = {
-    type: "Feature",
-    geometry: {
-      coordinates: [],
-    },
-  };
+  clipGeojsonData: GeoJSONFeature | undefined = undefined;
 
   @property({ type: String })
   ariaLabelOlFixedOverlay = "";
+
+  // internal reactive state
+  @state()
+  private _showSearch: boolean = false;
+
+  @state()
+  private _searchError: string | undefined = undefined;
 
   // set class property (map doesn't require any reactivity using @state)
   map?: Map;
@@ -288,7 +294,7 @@ export class MyMap extends LitElement {
   }
 
   // runs after the initial render
-  firstUpdated() {
+  async firstUpdated() {
     const target = this.renderRoot.querySelector(`#${this.id}`) as HTMLElement;
 
     const isUsingOS = Boolean(this.osApiKey || this.osProxyEndpoint);
@@ -337,29 +343,30 @@ export class MyMap extends LitElement {
       "EPSG:3857",
     );
 
-    const clipFeature =
-      this.clipGeojsonData.geometry?.coordinates?.length > 0 &&
-      new GeoJSON().readFeature(this.clipGeojsonData, {
+    // Define a clip extent for the map viewport
+    let clipExtent: Extent | undefined;
+    if (this.clipGeojsonData) {
+      const clipFeature = new GeoJSON().readFeature(this.clipGeojsonData, {
         featureProjection: "EPSG:3857",
       });
-    const clipExtent =
-      clipFeature &&
-      !Array.isArray(clipFeature) &&
-      clipFeature.getGeometry()?.getExtent();
+      if (clipFeature && !Array.isArray(clipFeature)) {
+        clipExtent = clipFeature.getGeometry()?.getExtent();
+      }
+    } else {
+      // Fallback to UK boundary if no user prop
+      clipExtent = transformExtent(
+        [-10.76418, 49.528423, 1.9134116, 61.331151],
+        "EPSG:4326",
+        "EPSG:3857",
+      );
+    }
 
     const map = new Map({
       target,
       layers: basemapLayers,
       view: new View({
         projection: "EPSG:3857",
-        extent: clipExtent
-          ? clipExtent
-          : transformExtent(
-              // UK Boundary
-              [-10.76418, 49.528423, 1.9134116, 61.331151],
-              "EPSG:4326",
-              "EPSG:3857",
-            ),
+        extent: clipExtent,
         minZoom: this.minZoom,
         maxZoom: this.maxZoom,
         center: centerCoordinate,
@@ -785,6 +792,42 @@ export class MyMap extends LitElement {
       });
     }
 
+    if (this._showSearch) {
+      const search = this.renderRoot?.querySelector("geocode-autocomplete");
+      if (search) {
+        // Give the browser a chance to paint
+        //  Ref https://lit.dev/docs/v1/components/events/#add-event-listeners-after-first-paint
+        await new Promise((r) => setTimeout(r, 0));
+
+        search.addEventListener(
+          "addressSelection",
+          ({ detail: address }: any) => {
+            console.debug("searched", { detail: address });
+            const searchedAddress = address?.address?.LPI;
+            const newCenterCoordinate = transform(
+              [searchedAddress.LNG, searchedAddress.LAT],
+              "EPSG:4326", // LPI output srs
+              "EPSG:3857",
+            );
+
+            // Validate that the searched point is within the clip extent of the map viewport
+            const searchedPointWithinClip =
+              clipExtent && containsCoordinate(clipExtent, newCenterCoordinate);
+            if (searchedPointWithinClip) {
+              // Navigate to the searched address point
+              map.getView().setCenter(newCenterCoordinate);
+              map.getView().setZoom(20);
+            } else {
+              // Show an error
+              this._searchError =
+                "Selected address not within map view extent, try another.";
+              this._showSearchError();
+            }
+          },
+        );
+      }
+    }
+
     // Add an aria-label to the overlay canvas for accessibility
     const olCanvas = this.renderRoot?.querySelector("canvas.ol-fixedoverlay");
     olCanvas?.setAttribute("aria-label", this.ariaLabelOlFixedOverlay);
@@ -797,21 +840,75 @@ export class MyMap extends LitElement {
     }, 500);
   }
 
+  _showSearchError() {
+    const errorEl: HTMLElement | null | undefined =
+      this.shadowRoot?.querySelector(`#geocode-autocomplete-error`);
+
+    // display "none" ensures always present in DOM, which means role="status" will work for screenreaders
+    if (errorEl) errorEl.style.display = "none";
+    if (errorEl && this._searchError) errorEl.style.display = "";
+  }
+
   // render the map
   render() {
-    return html`<link
-        rel="stylesheet"
-        href="https://cdn.skypack.dev/ol@^6.6.1/ol.css"
-      />
-      <div
-        id="${this.id}"
-        class="map"
-        role="${this.staticMode && !this.collapseAttributions
-          ? "presentation"
-          : "application"}"
-        tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
-        data-testid="${this.dataTestId}"
-      />`;
+    this._showSearch =
+      this.showOSSearch &&
+      this.drawMode &&
+      ["OSVectorTile", "OSRaster"].includes(this.basemap) &&
+      (Boolean(this.osApiKey) || Boolean(this.osProxyEndpoint));
+
+    return this._showSearch
+      ? html` <div
+            id="error-message-container"
+            class="${this._searchError ? "govuk-warning-text" : ""}"
+            role="status"
+          >
+            <div
+              id="geocode-autocomplete-error"
+              class="govuk-error-message"
+              style="display:none"
+              role="status"
+            >
+              <span class="govuk-visually-hidden">Error:</span>
+              ${this._searchError}
+            </div>
+            <div style="margin-bottom: 1em; background-color: white">
+              <geocode-autocomplete
+                id="geocode-autocomplete"
+                arrowStyle="light"
+                labelStyle="static"
+                label="Search for an address to position the map"
+                osApiKey="${this.osApiKey}"
+                osProxyEndpoint="${this.osProxyEndpoint}"
+              />
+            </div>
+          </div>
+          <link
+            rel="stylesheet"
+            href="https://cdn.skypack.dev/ol@^6.6.1/ol.css"
+          />
+          <div
+            id="${this.id}"
+            class="map"
+            role="${this.staticMode && !this.collapseAttributions
+              ? "presentation"
+              : "application"}"
+            tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
+            data-testid="${this.dataTestId}"
+          />`
+      : html` <link
+            rel="stylesheet"
+            href="https://cdn.skypack.dev/ol@^6.6.1/ol.css"
+          />
+          <div
+            id="${this.id}"
+            class="map"
+            role="${this.staticMode && !this.collapseAttributions
+              ? "presentation"
+              : "application"}"
+            tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
+            data-testid="${this.dataTestId}"
+          />`;
   }
 
   // unmount the map

@@ -234,6 +234,16 @@ const meta: Meta = {
         defaultValue: { summary: '"m2"' },
       },
     },
+    showOSSearch: {
+      description:
+        "Show a search bar (<geocode-autocomplete />) to position (re-center) the map at a known address when drawing on an OS Basemap",
+      control: "boolean",
+      table: {
+        category: "Drawing",
+        type: { summary: "Boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
     // ── GeoJSON ──────────────────────────────────────────────────
     geojsonData: {
       description:
@@ -504,6 +514,24 @@ export const DrawModeGeoJSONOutput: Story = {
       },
     );
   },
+};
+
+/**
+ * Show a search bar to position (re-center) the map when drawing on an OS basemap.
+ */
+export const DrawModeWithSearch: Story = {
+  name: "Drawing: draw mode with search",
+  render: () => `
+    <my-map
+      id="draw-mode-with-search"
+      zoom="20"
+      maxZoom="23"
+      drawMode
+      drawPointer="dot"
+      showOSSearch
+      basemap="OSVectorTile"
+      osVectorTilesApiKey="${osApiKey}"
+    </my-map>`,
 };
 
 // ---------------------------------------------------------------------------
