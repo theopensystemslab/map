@@ -69,10 +69,5 @@
     "startCommand": "npm run test:ui"
   },
   "packageManager": "pnpm@10.30.2",
-  "pnpm": {
-    "overrides": {
-      "braces@<3.0.3": ">=3.0.3"
-    }
-  },
   "customElements": "custom-elements.json"
 }
