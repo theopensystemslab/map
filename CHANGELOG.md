@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.12] - 2026-05-12
+
+### Added
+- feat: Added composite draw-mode map + geocode autocomplete search option for positioning the viewport via `showOSSearch` prop ([#618](https://github.com/theopensystemslab/map/pull/618))
+
+### Changed
+- docs: Migrated from Pitsby to Storybook ([#617](https://github.com/theopensystemslab/map/pull/617))
+
 ### [1.0.0-alpha.11] - 2026-01-09
 
 ### Changed
