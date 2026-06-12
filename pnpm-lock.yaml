@@ -48,8 +48,8 @@ importers:
         specifier: ^2.20.8
         version: 2.20.8
       rambda:
-        specifier: ^11.1.0
-        version: 11.1.0
+        specifier: ^11.2.0
+        version: 11.2.0
     devDependencies:
       '@storybook/addon-docs':
         specifier: ^10.3.5
@@ -1499,8 +1499,8 @@ packages:
   raf@3.4.1:
     resolution: {integrity: sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==}
 
-  rambda@11.1.0:
-    resolution: {integrity: sha512-trnSijNtQHw8QecCZR31nLAa1Ixg6QJPsUIx2iqy5ZH5jdY1Z7/DvH9bMTS4rSGJW5Tza0ST9eG6RRqAbQaohQ==}
+  rambda@11.2.0:
+    resolution: {integrity: sha512-Shzc8LTC+rhgDYddMEaTYhAo/U6kdp25/6dOymrCRyK3R9vVmt4a0Rl6zFtGEzh0dWYxTgrH3uff53RTzn1Rwg==}
 
   rbush@4.0.1:
     resolution: {integrity: sha512-IP0UpfeWQujYC8Jg162rMNc01Rf0gWMMAb2Uxus/Q0qOFw4lCcq6ZnQEZwUoJqWyUGJ9th7JjwI4yIWo+uvoAQ==}
@@ -3085,7 +3085,7 @@ snapshots:
       performance-now: 2.1.0
     optional: true
 
-  rambda@11.1.0: {}
+  rambda@11.2.0: {}
 
   rbush@4.0.1:
     dependencies:
