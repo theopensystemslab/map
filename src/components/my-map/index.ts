@@ -803,6 +803,10 @@ export class MyMap extends LitElement {
           "addressSelection",
           ({ detail: address }: any) => {
             console.debug("searched", { detail: address });
+            // Clear any pre-existing errors on new search
+            this._searchError = "";
+            this._showSearchError();
+
             const searchedAddress = address?.address?.LPI;
             const newCenterCoordinate = transform(
               [searchedAddress.LNG, searchedAddress.LAT],
@@ -820,7 +824,7 @@ export class MyMap extends LitElement {
             } else {
               // Show an error
               this._searchError =
-                "Selected address not within map view extent, try another.";
+                "Selected address not within map view extent, try another";
               this._showSearchError();
             }
           },
@@ -847,6 +851,15 @@ export class MyMap extends LitElement {
     // display "none" ensures always present in DOM, which means role="status" will work for screenreaders
     if (errorEl) errorEl.style.display = "none";
     if (errorEl && this._searchError) errorEl.style.display = "";
+    if (errorEl && !this._searchError) errorEl.style.display = "none";
+
+    // additionally set error style on outer div to match govuk style
+    const errorWrapperEl: HTMLElement | null | undefined =
+      this.shadowRoot?.querySelector(`.govuk-form-group`);
+    if (errorWrapperEl && this._searchError)
+      errorWrapperEl.classList.add("govuk-form-group--error");
+    if (errorWrapperEl && !this._searchError)
+      errorWrapperEl.classList.remove("govuk-form-group--error");
   }
 
   // render the map
@@ -858,35 +871,37 @@ export class MyMap extends LitElement {
       (Boolean(this.osApiKey) || Boolean(this.osProxyEndpoint));
 
     return this._showSearch
-      ? html` <div
-            id="error-message-container"
-            class="${this._searchError ? "govuk-warning-text" : ""}"
-            role="status"
-          >
-            <div
-              id="geocode-autocomplete-error"
-              class="govuk-error-message"
-              style="display:none"
-              role="status"
-            >
-              <span class="govuk-visually-hidden">Error:</span>
-              ${this._searchError}
-            </div>
-            <div style="margin-bottom: 1em; background-color: white">
-              <geocode-autocomplete
-                id="geocode-autocomplete"
-                arrowStyle="light"
-                labelStyle="static"
-                label="Search for an address to position the map"
-                osApiKey="${this.osApiKey}"
-                osProxyEndpoint="${this.osProxyEndpoint}"
-              />
-            </div>
-          </div>
-          <link
+      ? html` <link
             rel="stylesheet"
             href="https://cdn.skypack.dev/ol@^6.6.1/ol.css"
           />
+          <div class="govuk-form-group">
+            <div
+              id="error-message-container"
+              class="${this._searchError ? "govuk-warning-text" : ""}"
+              role="status"
+            >
+              <div
+                id="geocode-autocomplete-error"
+                class="govuk-error-message"
+                style="display:none"
+                role="status"
+              >
+                <span class="govuk-visually-hidden">Error:</span>
+                ${this._searchError}
+              </div>
+              <div style="background-color: white">
+                <geocode-autocomplete
+                  id="geocode-autocomplete"
+                  arrowStyle="light"
+                  labelStyle="static"
+                  label="Search for an address to position the map (optional)"
+                  osApiKey="${this.osApiKey}"
+                  osProxyEndpoint="${this.osProxyEndpoint}"
+                />
+              </div>
+            </div>
+          </div>
           <div
             id="${this.id}"
             class="map"

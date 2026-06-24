@@ -6,20 +6,21 @@ $planx-dark-grey: #2c2c2c;
 
 // default map size, can be overwritten with CSS
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 650px;
-  height: 650px;
+  height: auto;
   position: relative;
 }
 
 .map {
-  height: 100%;
+  width: 100%;
+  height: 650px;
   opacity: 0;
   transition: opacity 0.25s;
   overflow: hidden;
   border: #000000 solid 0.15em;
 }
-
 .map:focus {
   outline: $gov-uk-yellow solid 0.25em;
 }
