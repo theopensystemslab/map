@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.14] - 2026-06-25
+
+### Fixed
+
+- feat: Improve styling options for Geocode component ([#637](https://github.com/theopensystemslab/map/pull/637))
+
 ### [1.0.0-alpha.13] - 2026-06-24
 
 ### Fixed
