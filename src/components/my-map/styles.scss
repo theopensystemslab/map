@@ -25,6 +25,17 @@ $planx-dark-grey: #2c2c2c;
   outline: $gov-uk-yellow solid 0.25em;
 }
 
+.govuk-warning-text {
+  margin-bottom: 0px;
+  max-width: var(--autocomplete__input__max-width);
+  padding-bottom: 0px;
+}
+
+.govuk-error-message {
+  font-family: var(--autocomplete__font-family);
+  font-weight: var(--autocomplete__font-weight);
+}
+
 .ol-control button {
   border-radius: 0 !important;
   background-color: $planx-dark-grey !important;

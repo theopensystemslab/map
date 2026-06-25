@@ -19,6 +19,7 @@
     font-family: $font-family;
     font-size: $label-font-size;
     margin-bottom: $label-margin-bottom;
+    max-width: $input-max-width;
   }
 
   .autocomplete__input {
@@ -51,5 +52,6 @@
 
   .autocomplete__menu {
     max-height: var(--autocomplete__menu__max-height, 342px);
+    max-width: calc($input-max-width - 4px);
   }
 }
