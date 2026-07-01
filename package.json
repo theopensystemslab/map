@@ -47,7 +47,7 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/file-saver": "^2.0.7",
-    "@types/node": "~25.6.0",
+    "@types/node": "~26.0.1",
     "@types/ol-ext": "npm:@siedlerchr/types-ol-ext@^3.6.3",
     "@vitest/ui": "^3.2.4",
     "happy-dom": "^20.9.0",
