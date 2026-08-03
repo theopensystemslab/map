@@ -49,8 +49,8 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0
       proj4:
-        specifier: ^2.20.8
-        version: 2.20.9(geotiff@3.0.5)
+        specifier: ^2.21.0
+        version: 2.21.0(geotiff@3.0.5)
       rambda:
         specifier: ^11.2.0
         version: 11.2.0
@@ -1764,8 +1764,8 @@ packages:
     resolution: {integrity: sha512-66hKPCr+72mlfiSjlEB1+45IjXSqvVAIy6mocupoww4tBFE9R9IhwwUGoI4G++Tc9Aq+2rxOt0RFU6gPcrte0A==}
     engines: {node: '>= 0.8'}
 
-  proj4@2.20.9:
-    resolution: {integrity: sha512-GLBGqXaTcdWnppre3o1sMmy4DcMGSGq/ng+9k2MTNddarRK6SveINqlqYzi3xEXuy06ljY1TTrC6H9C4f360IQ==}
+  proj4@2.21.0:
+    resolution: {integrity: sha512-33HfDftqw8kY+Cl1dcL16SJuqTSzYxmz4re7Nmhk+fs1/N1fFrAkkF579msQTR/4fLeJVSNne8/gpoCz0fk1uw==}
     peerDependencies:
       geotiff: '*'
     peerDependenciesMeta:
@@ -2138,8 +2138,8 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  wkt-parser@1.5.5:
-    resolution: {integrity: sha512-/zMYi94/7D7fxcOSlVmWn6vnOMj3Gq5d1xvVjaYOS9n6h0qOJ4I7YYVxBWYcH1vq9+suhqzXkn05Yx47zQNUIA==}
+  wkt-parser@1.5.6:
+    resolution: {integrity: sha512-cqHU3lzGt/gt2OqIORP0uVy5yeOX43WABmgFkmJsmcqH3HhQo9PiJG6ftytwGKmpQUbegeX7+pQc2BuNCRfcrw==}
 
   wrap-ansi@9.0.2:
     resolution: {integrity: sha512-42AtmgqjV+X1VpdOfyTGOYRi0/zsoLqtXQckTmqTeybT+BDIbM/Guxo7x3pE2vtpr1ok6xRqM9OpBe+Jyoqyww==}
@@ -3599,10 +3599,10 @@ snapshots:
 
   pretty-hrtime@1.0.3: {}
 
-  proj4@2.20.9(geotiff@3.0.5):
+  proj4@2.21.0(geotiff@3.0.5):
     dependencies:
       mgrs: 1.0.0
-      wkt-parser: 1.5.5
+      wkt-parser: 1.5.6
     optionalDependencies:
       geotiff: 3.0.5
 
@@ -3982,7 +3982,7 @@ snapshots:
       siginfo: 2.0.0
       stackback: 0.0.2
 
-  wkt-parser@1.5.5: {}
+  wkt-parser@1.5.6: {}
 
   wrap-ansi@9.0.2:
     dependencies:
