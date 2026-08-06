@@ -824,7 +824,7 @@ export class MyMap extends LitElement {
             } else {
               // Show an error
               this._searchError =
-                "Selected address not within map view extent, try another";
+                "This address falls outside the map's coverage area. Please try another";
               this._showSearchError();
             }
           },
