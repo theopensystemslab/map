@@ -105,6 +105,8 @@ export class GeocodeAutocomplete extends LitElement {
       displayMenu: "overlay",
       minLength: 3,
       tNoResults: () => (this._isLoading ? `Loading...` : `No results found`),
+      tStatusNoResults: () =>
+        this._isLoading ? "Loading results" : "No results found",
       tStatusQueryTooShort: (minQueryLength: number) =>
         `Type at least ${minQueryLength} characters for search results`,
       onConfirm: (option: string) => {

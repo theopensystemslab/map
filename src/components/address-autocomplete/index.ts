@@ -94,6 +94,10 @@ export class AddressAutocomplete extends LitElement {
       dropdownArrow:
         this.arrowStyle === "light" ? this._getLightDropdownArrow : undefined,
       tNoResults: () => "No addresses found",
+      tStatusNoResults: () =>
+        this._options.length > 0
+          ? `${this._options.length} addresses available`
+          : "No addresses found",
       onConfirm: (option: string) => {
         this._selectedAddress = this._addressesInPostcode.filter(
           (address) =>
