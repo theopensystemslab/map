@@ -153,3 +153,55 @@ export const ViaProxy: Story = {
     );
   },
 };
+
+/**
+ * Mimics the PlanX FindProperty component
+ * The user enters a postcode, clicks "Find addresses", and the autocomplete is created dynamically
+ *
+ * Useful for a11y testing without publish -> PlanX import loop
+ */
+export const FindProperty: Story = {
+  name: "2-step postcode lookup (PlanX FindProperty)",
+  render: () => `
+    <div>
+      <label for="postcode-input" style="display: block; margin-bottom: 4px; font-weight: bold;">Enter a postcode</label>
+      <div style="display: flex; gap: 8px; align-items: start;">
+        <input id="postcode-input" type="text" value="SE5 0HU" style="padding: 8px; font-size: 16px;" />
+        <button id="find-addresses-btn" style="padding: 8px 16px; font-size: 16px; cursor: pointer;">Find addresses</button>
+      </div>
+      <div id="autocomplete-step" style="margin-top: 1em;"></div>
+    </div>
+  `,
+  play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+    const btn = canvasElement.querySelector("#find-addresses-btn");
+    const input = canvasElement.querySelector(
+      "#postcode-input",
+    ) as HTMLInputElement | null;
+    const container = canvasElement.querySelector("#autocomplete-step");
+
+    btn?.addEventListener("click", () => {
+      const postcode = input?.value.trim();
+      if (!postcode || !container) return;
+
+      container.innerHTML = "";
+
+      const el = document.createElement("address-autocomplete");
+      el.id = "a11y-test-autocomplete";
+      el.setAttribute("postcode", postcode);
+      el.setAttribute("arrowStyle", "light");
+      el.setAttribute("labelStyle", "static");
+      el.setAttribute(
+        "osProxyEndpoint",
+        "https://api.editor.planx.dev/proxy/ordnance-survey",
+      );
+      container.appendChild(el);
+
+      el.addEventListener("ready", ((e: CustomEvent) => {
+        console.debug("autocomplete ready", { data: e.detail });
+      }) as EventListener);
+      el.addEventListener("addressSelection", ((e: CustomEvent) => {
+        console.debug({ detail: e.detail });
+      }) as EventListener);
+    });
+  },
+};
