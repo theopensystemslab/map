@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.15] - 2026-08-24
+
+### Fixed
+
+- fix(a11y): Solve bleedthrough issue by use of `tStatusNoResults` property ([#652](https://github.com/theopensystemslab/map/pull/653))
+- refactor: Update map bounds error text copy ([#646](https://github.com/theopensystemslab/map/pull/646))
+
+### Changed
+
+- deps: Package updates via Dependabot
+
 ### [1.0.0-alpha.14] - 2026-06-25
 
 ### Fixed
