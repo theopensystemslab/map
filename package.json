@@ -49,7 +49,7 @@
     "@types/file-saver": "^2.0.7",
     "@types/node": "~25.9.5",
     "@types/ol-ext": "npm:@siedlerchr/types-ol-ext@^3.6.3",
-    "@vitest/ui": "^3.2.4",
+    "@vitest/ui": "^4.1.11",
     "happy-dom": "^20.11.1",
     "husky": "^8.0.3",
     "lint-staged": "^15.5.2",
