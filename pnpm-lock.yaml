@@ -28,8 +28,8 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5
       govuk-frontend:
-        specifier: ^6.3.0
-        version: 6.4.0
+        specifier: ^6.5.0
+        version: 6.5.0
       jspdf:
         specifier: ^4.2.1
         version: 4.2.1
@@ -1477,8 +1477,8 @@ packages:
     resolution: {integrity: sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==}
     engines: {node: '>=16'}
 
-  govuk-frontend@6.4.0:
-    resolution: {integrity: sha512-jU3oaVFXqK1yDVIdZs1YZ6JD7YDB4PFUHF3rFMWJye9ArImp42F9wCsFzzB1+udjuzGCryJGcHHbBQ5HY+8rqQ==}
+  govuk-frontend@6.5.0:
+    resolution: {integrity: sha512-yWZZCvv99Q0WzPC3+YszHk65Op1yowXpvbGGPi2bsoZiHKfwQGRxOoCaYBWTIOAiphp4QRTFgbGI3fpiFTfZww==}
     engines: {node: '>= 4.2.0'}
 
   happy-dom@20.11.6:
@@ -3275,7 +3275,7 @@ snapshots:
 
   get-stream@8.0.1: {}
 
-  govuk-frontend@6.4.0: {}
+  govuk-frontend@6.5.0: {}
 
   happy-dom@20.11.6:
     dependencies:
