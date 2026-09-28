@@ -19,10 +19,14 @@ import { Vector as VectorSource, XYZ } from "ol/source";
 import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
 import View from "ol/View";
 import {
+  attributionLabels,
+  deleteControl,
   northArrowControl,
   PrintControl,
   resetControl,
   scaleControl,
+  UndoControl,
+  ZoomWithResetControl,
 } from "./controls";
 import {
   configureDraw,
@@ -239,11 +243,23 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   hideResetControl = false;
 
+  /**
+   * @deprecated - the reset control now always resets the view only, use `hideDeleteControl` to control deleting drawings
+   */
   @property({ type: Boolean })
   resetViewOnly = false;
 
+  /**
+   * @deprecated - the reset control always uses the replay icon now, and deleting drawings is handled by the separate delete control
+   */
   @property({ type: String })
   resetControlImage: ResetControlImageEnum = "unicode";
+
+  @property({ type: Boolean })
+  hideDeleteControl = false;
+
+  @property({ type: Boolean })
+  hideUndoControl = false;
 
   @property({ type: Boolean })
   staticMode = false;
@@ -377,8 +393,9 @@ export class MyMap extends LitElement {
         attribution: true,
         attributionOptions: {
           collapsed: this.collapseAttributions,
+          ...attributionLabels(),
         },
-        zoom: !this.staticMode,
+        zoom: false, // added below with a custom reset button
         rotate: false, // alternatively uses custom prop `showNorthArrow`
       }),
       interactions: defaultInteractions({
@@ -404,31 +421,115 @@ export class MyMap extends LitElement {
     const draw = configureDraw(this.drawType, this.drawPointer, this.drawColor);
     const modify = configureModify(this.drawPointer, this.drawColor);
 
-    // Add a custom 'reset' control to the map
+    // Ensure the draw interaction is active, keeping snap as the last interaction added
+    const enableDraw = () => {
+      if (map.getInteractions().getArray().includes(draw)) return;
+      map.addInteraction(draw);
+      map.removeInteraction(snap);
+      map.addInteraction(snap);
+    };
+
+    // Undo history of the drawing source, stored as serialised GeoJSON snapshots
+    const history: string[] = [];
+    let isSketching = false;
+    let undoControl: UndoControl | undefined;
+
+    const snapshotDrawing = () =>
+      new GeoJSON().writeFeatures(drawingSource.getFeatures());
+
+    const pushHistory = (snapshot: string) => {
+      history.push(snapshot);
+      undoControl?.setDisabled(false);
+    };
+
+    const restoreDrawing = (snapshot: string) => {
+      drawingSource.clear();
+      drawingSource.addFeatures(new GeoJSON().readFeatures(snapshot));
+
+      if (drawingSource.getFeatures().length === 0) {
+        this.dispatch("geojsonChange", {});
+      }
+      if (this.drawMany || drawingSource.getFeatures().length === 0) {
+        enableDraw();
+      }
+    };
+
+    // 'drawend' fires before the new feature is added to the source
+    draw.on("drawstart", () => {
+      isSketching = true;
+      undoControl?.setDisabled(false);
+    });
+    draw.on("drawend", () => {
+      isSketching = false;
+      pushHistory(snapshotDrawing());
+    });
+    draw.on("drawabort", () => {
+      isSketching = false;
+      undoControl?.setDisabled(history.length === 0);
+    });
+
+    // Only record a modification if the geometry actually changed
+    let beforeModify: string | undefined;
+    modify.on("modifystart", () => {
+      beforeModify = snapshotDrawing();
+    });
+    modify.on("modifyend", () => {
+      if (beforeModify && beforeModify !== snapshotDrawing()) {
+        pushHistory(beforeModify);
+      }
+      beforeModify = undefined;
+    });
+
+    const handleUndo = () => {
+      if (isSketching) {
+        // Remove the last vertex of an in-progress sketch, aborting it if too few remain
+        draw.removeLastPoint();
+        return;
+      }
+      const snapshot = history.pop();
+      if (snapshot !== undefined) restoreDrawing(snapshot);
+      undoControl?.setDisabled(history.length === 0);
+    };
+
+    const handleDelete = () => {
+      if (isSketching) draw.abortDrawing();
+      if (drawingSource.getFeatures().length === 0) return;
+
+      pushHistory(snapshotDrawing());
+      drawingSource.clear();
+      this.dispatch("geojsonChange", {});
+      enableDraw();
+    };
+
+    // Reset the view port of the map based on available data or center/zoom by default
     const handleReset = () => {
-      // Reset the view port of the map based on available data or center/zoom by default
       if (this.showFeaturesAtPoint) {
         fitToData(map, outlineSource, this.featureBuffer);
       } else if (geojsonSource.getFeatures().length > 0) {
         fitToData(map, geojsonSource, this.geojsonBuffer);
-      } else if (this.resetViewOnly && drawingSource.getFeatures().length > 0) {
+      } else if (this.drawMode && drawingSource.getFeatures().length > 0) {
         fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
       } else {
         map.getView().setCenter(centerCoordinate);
         map.getView().setZoom(this.zoom);
       }
-
-      // If in drawMode, also clear features from the drawingSource by default
-      if (this.drawMode && !this.resetViewOnly) {
-        drawingSource.clear();
-        this.dispatch("geojsonChange", {});
-        map.addInteraction(draw);
-        map.addInteraction(snap);
-      }
     };
 
-    if (!this.hideResetControl) {
-      map.addControl(resetControl(handleReset, this.resetControlImage));
+    if (!this.staticMode) {
+      map.addControl(
+        new ZoomWithResetControl(handleReset, !this.hideResetControl),
+      );
+    } else if (!this.hideResetControl) {
+      map.addControl(resetControl(handleReset));
+    }
+
+    if (this.drawMode && !this.hideDeleteControl) {
+      map.addControl(deleteControl(handleDelete));
+    }
+
+    if (this.drawMode && !this.hideUndoControl) {
+      undoControl = new UndoControl(handleUndo);
+      map.addControl(undoControl);
     }
 
     // add custom scale line and north arrow controls to the map
@@ -905,9 +1006,11 @@ export class MyMap extends LitElement {
           <div
             id="${this.id}"
             class="map"
-            role="${this.staticMode && !this.collapseAttributions
-              ? "presentation"
-              : "application"}"
+            role="${
+              this.staticMode && !this.collapseAttributions
+                ? "presentation"
+                : "application"
+            }"
             tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
             data-testid="${this.dataTestId}"
           />`
@@ -918,9 +1021,11 @@ export class MyMap extends LitElement {
           <div
             id="${this.id}"
             class="map"
-            role="${this.staticMode && !this.collapseAttributions
-              ? "presentation"
-              : "application"}"
+            role="${
+              this.staticMode && !this.collapseAttributions
+                ? "presentation"
+                : "application"
+            }"
             tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
             data-testid="${this.dataTestId}"
           />`;
