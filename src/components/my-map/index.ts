@@ -31,6 +31,7 @@ import {
   drawingSource,
   DrawPointerEnum,
   DrawTypeEnum,
+  modifyPixelTolerance,
   snap,
 } from "./drawing";
 import pinIcon from "./icons/poi-alt.svg";
@@ -607,6 +608,63 @@ export class MyMap extends LitElement {
       // Snap must be added after draw and modify
       map.addInteraction(snap);
 
+      // Track whether a polygon is part-way through being drawn
+      let isDrawing = false;
+      draw.on("drawstart", () => (isDrawing = true));
+      draw.on(["drawend", "drawabort"], () => (isDrawing = false));
+
+      // Right-click to undo the last vertex while drawing, or delete the point/vertex under the draw pointer
+      map.getViewport().addEventListener("contextmenu", (event) => {
+        if (isDrawing) {
+          event.preventDefault();
+          draw.removeLastPoint();
+          return;
+        }
+
+        const pixel = map.getEventPixel(event);
+
+        if (this.drawType !== "Point") {
+          // Modify only removes a vertex within its pixelTolerance, and won't reduce a polygon below a triangle
+          if (modify.removePoint(map.getCoordinateFromPixel(pixel))) {
+            event.preventDefault();
+          }
+          return;
+        }
+
+        // Only delete when close enough to the point's centre for Modify to show the draw pointer
+        const feature = drawingSource.getClosestFeatureToCoordinate(
+          map.getCoordinateFromPixel(pixel),
+        );
+        const geom = feature?.getGeometry();
+        if (!feature || !(geom instanceof Point)) return;
+        const pointPixel = map.getPixelFromCoordinate(geom.getCoordinates());
+        if (
+          Math.hypot(pointPixel[0] - pixel[0], pointPixel[1] - pixel[1]) >
+          modifyPixelTolerance
+        )
+          return;
+
+        event.preventDefault();
+        drawingSource.removeFeature(feature);
+
+        // Re-number remaining labels so the next drawn point doesn't duplicate an existing label
+        drawingSource
+          .getFeatures()
+          .forEach((sketch, i) => sketch.set("label", `${i + 1}`));
+
+        // The 'change' listener below only dispatches when features remain
+        if (drawingSource.getFeatures().length === 0) {
+          this.dispatch("geojsonChange", {});
+
+          // If limited to a single point, allow drawing again (snap must be added after draw)
+          if (!this.drawMany) {
+            map.removeInteraction(snap);
+            map.addInteraction(draw);
+            map.addInteraction(snap);
+          }
+        }
+      });
+
       // 'change' listens for 'drawend' and modifications
       drawingSource.on("change", () => {
         const sketches = drawingSource.getFeatures();
@@ -905,9 +963,11 @@ export class MyMap extends LitElement {
           <div
             id="${this.id}"
             class="map"
-            role="${this.staticMode && !this.collapseAttributions
-              ? "presentation"
-              : "application"}"
+            role="${
+              this.staticMode && !this.collapseAttributions
+                ? "presentation"
+                : "application"
+            }"
             tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
             data-testid="${this.dataTestId}"
           />`
@@ -918,9 +978,11 @@ export class MyMap extends LitElement {
           <div
             id="${this.id}"
             class="map"
-            role="${this.staticMode && !this.collapseAttributions
-              ? "presentation"
-              : "application"}"
+            role="${
+              this.staticMode && !this.collapseAttributions
+                ? "presentation"
+                : "application"
+            }"
             tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
             data-testid="${this.dataTestId}"
           />`;

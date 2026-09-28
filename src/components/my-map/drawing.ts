@@ -1,6 +1,7 @@
 import { FeatureLike } from "ol/Feature";
 import { MultiPoint, MultiPolygon, Polygon } from "ol/geom";
 import { Type } from "ol/geom/Geometry";
+import { noModifierKeys, primaryAction } from "ol/events/condition";
 import { Draw, Modify, Snap } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
@@ -176,6 +177,8 @@ export function configureDraw(
   return new Draw({
     source: drawingSource,
     type: drawType,
+    // Reserve right-click for undoing and deleting, rather than drawing
+    condition: (event) => noModifierKeys(event) && primaryAction(event),
     style: configureDrawInteractionStyle(drawType, drawPointer, drawColor),
   });
 }
@@ -185,12 +188,16 @@ export const snap = new Snap({
   pixelTolerance: 15,
 });
 
+// Distance (px) from a vertex within which Modify shows the draw pointer, also used for right-click deletion
+export const modifyPixelTolerance = 10;
+
 export function configureModify(
   drawPointer: DrawPointerEnum,
   drawColor: string,
 ) {
   return new Modify({
     source: drawingSource,
+    pixelTolerance: modifyPixelTolerance,
     style: new Style({
       image: configureDrawPointerImage(drawPointer, drawColor),
     }),
