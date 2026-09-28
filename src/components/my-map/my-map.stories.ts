@@ -102,16 +102,6 @@ const meta: Meta = {
         defaultValue: { summary: "false" },
       },
     },
-    hideUndoControl: {
-      description:
-        "Hides the undo last action button (above delete, drawMode only).",
-      control: "boolean",
-      table: {
-        category: "Drawing",
-        type: { summary: "Boolean" },
-        defaultValue: { summary: "false" },
-      },
-    },
     showScale: {
       description: "Shows a scale bar on the map.",
       control: "boolean",
@@ -456,7 +446,7 @@ export const DrawMode: Story = {
 
 /**
  * Load a polygon onto the drawing canvas with the ability to continue
- * modifying it. Click 'delete' to erase and draw fresh, or 'undo' to step back.
+ * modifying it. Click 'delete' to erase and draw fresh.
  */
 export const DrawModeWithInitialShape: Story = {
   name: "Drawing: load initial shape",

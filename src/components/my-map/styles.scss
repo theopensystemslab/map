@@ -67,11 +67,6 @@ $planx-dark-grey: #2c2c2c;
   height: 24px;
 }
 
-.ol-control button.reset-button img {
-  width: 19.2px; // 80% of standard icon size
-  height: 19.2px;
-}
-
 .ol-control button:hover {
   background-color: rgba(44, 44, 44, 0.85) !important;
 }
@@ -96,41 +91,25 @@ $planx-dark-grey: #2c2c2c;
   display: flex;
 }
 
-.ol-control button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
 .reset-control {
   top: 0.5em;
   left: 0.5em;
 }
 
-// Bottom-left stack: delete, then undo (with a gap), then print
+// Delete sits beneath the zoom/reset stack with a gap
 $control-size: 38px; // 36px button + 1px margin either side
 $control-gap: 12px;
+$zoom-stack-top: calc(0.5em + #{3 * $control-size + $control-gap});
 
-.delete-control,
-.undo-control {
+.delete-control {
+  top: $zoom-stack-top;
   left: 0.5em;
 }
 
-.delete-control {
-  bottom: 0.5em;
-}
-
-.undo-control {
-  bottom: calc(0.5em + #{$control-size + $control-gap});
-}
-
-// Make room for the scale line beneath the draw controls when shown
-.ol-overlaycontainer-stopevent:has(.ol-scale-line) {
+// Zoom stack is one button shorter without reset
+.ol-overlaycontainer-stopevent:not(:has(.reset-button)) {
   .delete-control {
-    bottom: 50px;
-  }
-
-  .undo-control {
-    bottom: calc(50px + #{$control-size + $control-gap});
+    top: calc(0.5em + #{2 * $control-size + $control-gap});
   }
 }
 
@@ -161,28 +140,6 @@ $control-gap: 12px;
 .ol-print {
   bottom: 50px;
   left: 0.5em;
-}
-
-// Stack print above the draw controls when shown
-.ol-overlaycontainer-stopevent:has(.undo-control) .ol-print {
-  bottom: calc(0.5em + #{2 * $control-size + 2 * $control-gap});
-}
-
-.ol-overlaycontainer-stopevent:has(.ol-scale-line):has(.undo-control)
-  .ol-print {
-  bottom: calc(50px + #{2 * $control-size + 2 * $control-gap});
-}
-
-.ol-overlaycontainer-stopevent:has(.delete-control):not(:has(.undo-control))
-  .ol-print {
-  bottom: calc(0.5em + #{$control-size + $control-gap});
-}
-
-.ol-overlaycontainer-stopevent:has(.ol-scale-line):has(.delete-control):not(
-    :has(.undo-control)
-  )
-  .ol-print {
-  bottom: calc(50px + #{$control-size + $control-gap});
 }
 
 .ol-attribution ul {

@@ -5,8 +5,7 @@ import "ol-ext/dist/ol-ext.css";
 import northArrowIcon from "./icons/north-arrow-n.svg";
 import addIcon from "./icons/add.svg";
 import removeIcon from "./icons/remove.svg";
-import replayIcon from "./icons/replay.svg";
-import undoIcon from "./icons/undo.svg";
+import filterCenterFocusIcon from "./icons/filter-center-focus.svg";
 import deleteIcon from "./icons/delete.svg";
 import infoIcon from "./icons/info.svg";
 import closeIcon from "./icons/close.svg";
@@ -69,7 +68,7 @@ function makeButtonControl(className: string, button: HTMLButtonElement) {
 }
 
 function makeResetButton(listener: () => void) {
-  const button = makeButton("Reset map view", listener, replayIcon);
+  const button = makeButton("Reset map view", listener, filterCenterFocusIcon);
   button.classList.add("reset-button");
   return button;
 }
@@ -114,25 +113,6 @@ export function deleteControl(listener: () => void) {
     "delete-control",
     makeButton("Delete all points", listener, deleteIcon),
   );
-}
-
-export class UndoControl extends Control {
-  private button: HTMLButtonElement;
-
-  constructor(listener: () => void) {
-    const button = makeButton("Undo last action", listener, undoIcon);
-    const element = document.createElement("div");
-    element.className = "undo-control ol-unselectable ol-control";
-    element.appendChild(button);
-
-    super({ element });
-    this.button = button;
-    this.setDisabled(true);
-  }
-
-  setDisabled(disabled: boolean) {
-    this.button.disabled = disabled;
-  }
 }
 
 PrintDialog.prototype.scales = {

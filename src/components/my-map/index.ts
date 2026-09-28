@@ -25,7 +25,6 @@ import {
   PrintControl,
   resetControl,
   scaleControl,
-  UndoControl,
   ZoomWithResetControl,
 } from "./controls";
 import {
@@ -250,16 +249,13 @@ export class MyMap extends LitElement {
   resetViewOnly = false;
 
   /**
-   * @deprecated - the reset control always uses the replay icon now, and deleting drawings is handled by the separate delete control
+   * @deprecated - the reset control always uses the "filter center focus" icon now, and deleting drawings is handled by the separate delete control
    */
   @property({ type: String })
   resetControlImage: ResetControlImageEnum = "unicode";
 
   @property({ type: Boolean })
   hideDeleteControl = false;
-
-  @property({ type: Boolean })
-  hideUndoControl = false;
 
   @property({ type: Boolean })
   staticMode = false;
@@ -429,73 +425,15 @@ export class MyMap extends LitElement {
       map.addInteraction(snap);
     };
 
-    // Undo history of the drawing source, stored as serialised GeoJSON snapshots
-    const history: string[] = [];
+    // Track whether a shape is part-way through being drawn
     let isSketching = false;
-    let undoControl: UndoControl | undefined;
-
-    const snapshotDrawing = () =>
-      new GeoJSON().writeFeatures(drawingSource.getFeatures());
-
-    const pushHistory = (snapshot: string) => {
-      history.push(snapshot);
-      undoControl?.setDisabled(false);
-    };
-
-    const restoreDrawing = (snapshot: string) => {
-      drawingSource.clear();
-      drawingSource.addFeatures(new GeoJSON().readFeatures(snapshot));
-
-      if (drawingSource.getFeatures().length === 0) {
-        this.dispatch("geojsonChange", {});
-      }
-      if (this.drawMany || drawingSource.getFeatures().length === 0) {
-        enableDraw();
-      }
-    };
-
-    // 'drawend' fires before the new feature is added to the source
-    draw.on("drawstart", () => {
-      isSketching = true;
-      undoControl?.setDisabled(false);
-    });
-    draw.on("drawend", () => {
-      isSketching = false;
-      pushHistory(snapshotDrawing());
-    });
-    draw.on("drawabort", () => {
-      isSketching = false;
-      undoControl?.setDisabled(history.length === 0);
-    });
-
-    // Only record a modification if the geometry actually changed
-    let beforeModify: string | undefined;
-    modify.on("modifystart", () => {
-      beforeModify = snapshotDrawing();
-    });
-    modify.on("modifyend", () => {
-      if (beforeModify && beforeModify !== snapshotDrawing()) {
-        pushHistory(beforeModify);
-      }
-      beforeModify = undefined;
-    });
-
-    const handleUndo = () => {
-      if (isSketching) {
-        // Remove the last vertex of an in-progress sketch, aborting it if too few remain
-        draw.removeLastPoint();
-        return;
-      }
-      const snapshot = history.pop();
-      if (snapshot !== undefined) restoreDrawing(snapshot);
-      undoControl?.setDisabled(history.length === 0);
-    };
+    draw.on("drawstart", () => (isSketching = true));
+    draw.on(["drawend", "drawabort"], () => (isSketching = false));
 
     const handleDelete = () => {
       if (isSketching) draw.abortDrawing();
       if (drawingSource.getFeatures().length === 0) return;
 
-      pushHistory(snapshotDrawing());
       drawingSource.clear();
       this.dispatch("geojsonChange", {});
       enableDraw();
@@ -525,11 +463,6 @@ export class MyMap extends LitElement {
 
     if (this.drawMode && !this.hideDeleteControl) {
       map.addControl(deleteControl(handleDelete));
-    }
-
-    if (this.drawMode && !this.hideUndoControl) {
-      undoControl = new UndoControl(handleUndo);
-      map.addControl(undoControl);
     }
 
     // add custom scale line and north arrow controls to the map
