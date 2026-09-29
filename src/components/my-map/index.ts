@@ -4,6 +4,7 @@ import apply from "ol-mapbox-style";
 import { defaults as defaultControls, ScaleLine } from "ol/control";
 import { containsCoordinate, Extent } from "ol/extent";
 import { FeatureLike } from "ol/Feature";
+import { altKeyOnly } from "ol/events/condition";
 import { GeoJSON } from "ol/format";
 import { GeoJSONFeature, GeoJSONFeatureCollection } from "ol/format/GeoJSON";
 import { Geometry, Point } from "ol/geom";
@@ -613,38 +614,21 @@ export class MyMap extends LitElement {
       draw.on("drawstart", () => (isDrawing = true));
       draw.on(["drawend", "drawabort"], () => (isDrawing = false));
 
-      // Right-click to undo the last vertex while drawing, or delete the point/vertex under the draw pointer
-      map.getViewport().addEventListener("contextmenu", (event) => {
-        if (isDrawing) {
-          event.preventDefault();
-          draw.removeLastPoint();
-          return;
-        }
-
-        const pixel = map.getEventPixel(event);
-
-        if (this.drawType !== "Point") {
-          // Modify only removes a vertex within its pixelTolerance, and won't reduce a polygon below a triangle
-          if (modify.removePoint(map.getCoordinateFromPixel(pixel))) {
-            event.preventDefault();
-          }
-          return;
-        }
-
+      // Delete the point under the draw pointer, returning whether one was deleted
+      const deletePointAtPixel = (pixel: number[]): boolean => {
         // Only delete when close enough to the point's centre for Modify to show the draw pointer
         const feature = drawingSource.getClosestFeatureToCoordinate(
           map.getCoordinateFromPixel(pixel),
         );
         const geom = feature?.getGeometry();
-        if (!feature || !(geom instanceof Point)) return;
+        if (!feature || !(geom instanceof Point)) return false;
         const pointPixel = map.getPixelFromCoordinate(geom.getCoordinates());
         if (
           Math.hypot(pointPixel[0] - pixel[0], pointPixel[1] - pixel[1]) >
           modifyPixelTolerance
         )
-          return;
+          return false;
 
-        event.preventDefault();
         drawingSource.removeFeature(feature);
 
         // Re-number remaining labels so the next drawn point doesn't duplicate an existing label
@@ -663,7 +647,32 @@ export class MyMap extends LitElement {
             map.addInteraction(snap);
           }
         }
+        return true;
+      };
+
+      // Right-click to undo the last vertex while drawing, or delete the point/vertex under the draw pointer
+      map.getViewport().addEventListener("contextmenu", (event) => {
+        if (isDrawing) {
+          event.preventDefault();
+          draw.removeLastPoint();
+          return;
+        }
+
+        const pixel = map.getEventPixel(event);
+        const deleted =
+          this.drawType === "Point"
+            ? deletePointAtPixel(pixel)
+            : // Modify only removes a vertex within its pixelTolerance, and won't reduce a polygon below a triangle
+              modify.removePoint(map.getCoordinateFromPixel(pixel));
+        if (deleted) event.preventDefault();
       });
+
+      // Alt-click (Option-click on Mac) to delete a point, matching Modify's built-in vertex deletion for polygons
+      if (this.drawType === "Point") {
+        map.on("singleclick", (event) => {
+          if (altKeyOnly(event)) deletePointAtPixel(event.pixel);
+        });
+      }
 
       // 'change' listens for 'drawend' and modifications
       drawingSource.on("change", () => {
