@@ -1,9 +1,14 @@
 import Map from "ol/Map";
-import { Control, ScaleLine } from "ol/control";
+import { Control, ScaleLine, Zoom } from "ol/control";
 import "ol/ol.css";
 import "ol-ext/dist/ol-ext.css";
 import northArrowIcon from "./icons/north-arrow-n.svg";
-import trashCanIcon from "./icons/trash-can.svg";
+import addIcon from "./icons/add.svg";
+import removeIcon from "./icons/remove.svg";
+import filterCenterFocusIcon from "./icons/filter-center-focus.svg";
+import deleteIcon from "./icons/delete.svg";
+import infoIcon from "./icons/info.svg";
+import closeIcon from "./icons/close.svg";
 import printIcon from "./icons/printer.svg";
 import PrintDialog from "ol-ext/control/PrintDialog";
 import { Options } from "ol-ext/control/PrintDialog";
@@ -33,28 +38,81 @@ export function northArrowControl() {
   return new Control({ element: element });
 }
 
-export function resetControl(listener: any, icon: string) {
-  const button = document.createElement("button");
-  button.title = "Reset map view";
+function makeIcon(src: string) {
+  const image = document.createElement("img");
+  image.src = src;
+  image.alt = "";
+  return image;
+}
 
-  if (icon === "unicode") {
-    button.innerHTML = "↺";
-  } else {
-    const image = document.createElement("img");
-    image.className = "reset-icon";
-    image.src = trashCanIcon;
-    button.appendChild(image);
-  }
+function makeButton(title: string, listener: () => void, icon?: string) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.title = title;
+
+  if (icon) button.appendChild(makeIcon(icon));
 
   // this is an internal event listener, so doesn't need to be removed later
   // ref https://lit.dev/docs/components/lifecycle/#disconnectedcallback
   button.addEventListener("click", listener, false);
 
+  return button;
+}
+
+function makeButtonControl(className: string, button: HTMLButtonElement) {
   const element = document.createElement("div");
-  element.className = "reset-control ol-unselectable ol-control";
+  element.className = `${className} ol-unselectable ol-control`;
   element.appendChild(button);
 
   return new Control({ element: element });
+}
+
+function makeResetButton(listener: () => void) {
+  const button = makeButton("Reset map view", listener, filterCenterFocusIcon);
+  button.classList.add("reset-button");
+  return button;
+}
+
+/**
+ * Icons for the default OL attribution control's expand & collapse button
+ */
+export function attributionLabels() {
+  return {
+    label: makeIcon(infoIcon),
+    collapseLabel: makeIcon(closeIcon),
+  };
+}
+
+/**
+ * Default OL zoom control with a 'reset view' button between zoom in & out
+ */
+export class ZoomWithResetControl extends Zoom {
+  constructor(listener: () => void, showReset = true) {
+    super({
+      zoomInLabel: makeIcon(addIcon),
+      zoomOutLabel: makeIcon(removeIcon),
+    });
+    if (showReset) {
+      this.element.insertBefore(
+        makeResetButton(listener),
+        this.element.lastElementChild,
+      );
+    }
+  }
+}
+
+/**
+ * Standalone 'reset view' control, used when the zoom control is disabled
+ */
+export function resetControl(listener: () => void) {
+  return makeButtonControl("reset-control", makeResetButton(listener));
+}
+
+export function deleteControl(listener: () => void) {
+  return makeButtonControl(
+    "delete-control",
+    makeButton("Delete all points", listener, deleteIcon),
+  );
 }
 
 PrintDialog.prototype.scales = {

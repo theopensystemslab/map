@@ -19,10 +19,13 @@ import { Vector as VectorSource, XYZ } from "ol/source";
 import { Circle, Fill, Icon, Stroke, Style, Text } from "ol/style";
 import View from "ol/View";
 import {
+  attributionLabels,
+  deleteControl,
   northArrowControl,
   PrintControl,
   resetControl,
   scaleControl,
+  ZoomWithResetControl,
 } from "./controls";
 import {
   configureDraw,
@@ -239,11 +242,20 @@ export class MyMap extends LitElement {
   @property({ type: Boolean })
   hideResetControl = false;
 
+  /**
+   * @deprecated - the reset control now always resets the view only, use `hideDeleteControl` to control deleting drawings
+   */
   @property({ type: Boolean })
   resetViewOnly = false;
 
+  /**
+   * @deprecated - the reset control always uses the "filter center focus" icon now, and deleting drawings is handled by the separate delete control
+   */
   @property({ type: String })
   resetControlImage: ResetControlImageEnum = "unicode";
+
+  @property({ type: Boolean })
+  hideDeleteControl = false;
 
   @property({ type: Boolean })
   staticMode = false;
@@ -377,8 +389,9 @@ export class MyMap extends LitElement {
         attribution: true,
         attributionOptions: {
           collapsed: this.collapseAttributions,
+          ...attributionLabels(),
         },
-        zoom: !this.staticMode,
+        zoom: false, // added below with a custom reset button
         rotate: false, // alternatively uses custom prop `showNorthArrow`
       }),
       interactions: defaultInteractions({
@@ -404,31 +417,52 @@ export class MyMap extends LitElement {
     const draw = configureDraw(this.drawType, this.drawPointer, this.drawColor);
     const modify = configureModify(this.drawPointer, this.drawColor);
 
-    // Add a custom 'reset' control to the map
+    // Ensure the draw interaction is active, keeping snap as the last interaction added
+    const enableDraw = () => {
+      if (map.getInteractions().getArray().includes(draw)) return;
+      map.addInteraction(draw);
+      map.removeInteraction(snap);
+      map.addInteraction(snap);
+    };
+
+    // Track whether a shape is part-way through being drawn
+    let isSketching = false;
+    draw.on("drawstart", () => (isSketching = true));
+    draw.on(["drawend", "drawabort"], () => (isSketching = false));
+
+    const handleDelete = () => {
+      if (isSketching) draw.abortDrawing();
+      if (drawingSource.getFeatures().length === 0) return;
+
+      drawingSource.clear();
+      this.dispatch("geojsonChange", {});
+      enableDraw();
+    };
+
+    // Reset the view port of the map based on available data or center/zoom by default
     const handleReset = () => {
-      // Reset the view port of the map based on available data or center/zoom by default
       if (this.showFeaturesAtPoint) {
         fitToData(map, outlineSource, this.featureBuffer);
       } else if (geojsonSource.getFeatures().length > 0) {
         fitToData(map, geojsonSource, this.geojsonBuffer);
-      } else if (this.resetViewOnly && drawingSource.getFeatures().length > 0) {
+      } else if (this.drawMode && drawingSource.getFeatures().length > 0) {
         fitToData(map, drawingSource, this.drawGeojsonDataBuffer);
       } else {
         map.getView().setCenter(centerCoordinate);
         map.getView().setZoom(this.zoom);
       }
-
-      // If in drawMode, also clear features from the drawingSource by default
-      if (this.drawMode && !this.resetViewOnly) {
-        drawingSource.clear();
-        this.dispatch("geojsonChange", {});
-        map.addInteraction(draw);
-        map.addInteraction(snap);
-      }
     };
 
-    if (!this.hideResetControl) {
-      map.addControl(resetControl(handleReset, this.resetControlImage));
+    if (!this.staticMode) {
+      map.addControl(
+        new ZoomWithResetControl(handleReset, !this.hideResetControl),
+      );
+    } else if (!this.hideResetControl) {
+      map.addControl(resetControl(handleReset));
+    }
+
+    if (this.drawMode && !this.hideDeleteControl) {
+      map.addControl(deleteControl(handleDelete));
     }
 
     // add custom scale line and north arrow controls to the map
@@ -905,9 +939,11 @@ export class MyMap extends LitElement {
           <div
             id="${this.id}"
             class="map"
-            role="${this.staticMode && !this.collapseAttributions
-              ? "presentation"
-              : "application"}"
+            role="${
+              this.staticMode && !this.collapseAttributions
+                ? "presentation"
+                : "application"
+            }"
             tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
             data-testid="${this.dataTestId}"
           />`
@@ -918,9 +954,11 @@ export class MyMap extends LitElement {
           <div
             id="${this.id}"
             class="map"
-            role="${this.staticMode && !this.collapseAttributions
-              ? "presentation"
-              : "application"}"
+            role="${
+              this.staticMode && !this.collapseAttributions
+                ? "presentation"
+                : "application"
+            }"
             tabindex="${this.staticMode && !this.collapseAttributions ? -1 : 0}"
             data-testid="${this.dataTestId}"
           />`;

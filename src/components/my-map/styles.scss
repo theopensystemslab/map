@@ -37,12 +37,34 @@ $planx-dark-grey: #2c2c2c;
 }
 
 .ol-control button {
-  border-radius: 0 !important;
+  border-radius: 2px !important;
   background-color: $planx-dark-grey !important;
   cursor: pointer;
-  min-width: 44px;
-  min-height: 44px;
-  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 1.5rem;
+}
+
+// Zoom in, reset & zoom out are one group, only rounded at its outer corners
+.ol-zoom button {
+  border-radius: 0 !important;
+}
+
+.ol-zoom button:first-child {
+  border-radius: 2px 2px 0 0 !important;
+}
+
+.ol-zoom button:last-child {
+  border-radius: 0 0 2px 2px !important;
+}
+
+.ol-control button img {
+  width: 24px;
+  height: 24px;
 }
 
 .ol-control button:hover {
@@ -70,13 +92,25 @@ $planx-dark-grey: #2c2c2c;
 }
 
 .reset-control {
-  top: 114px;
+  top: 0.5em;
   left: 0.5em;
 }
 
-.reset-control img {
-  width: 30px;
-  height: auto;
+// Delete sits beneath the zoom/reset stack with a gap
+$control-size: 38px; // 36px button + 1px margin either side
+$control-gap: 12px;
+$zoom-stack-top: calc(0.5em + #{3 * $control-size + $control-gap});
+
+.delete-control {
+  top: $zoom-stack-top;
+  left: 0.5em;
+}
+
+// Zoom stack is one button shorter without reset
+.ol-overlaycontainer-stopevent:not(:has(.reset-button)) {
+  .delete-control {
+    top: calc(0.5em + #{2 * $control-size + $control-gap});
+  }
 }
 
 .north-arrow-control img {
@@ -106,11 +140,6 @@ $planx-dark-grey: #2c2c2c;
 .ol-print {
   bottom: 50px;
   left: 0.5em;
-}
-
-.ol-print img {
-  width: 30px;
-  height: auto;
 }
 
 .ol-attribution ul {

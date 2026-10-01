@@ -84,10 +84,20 @@ const meta: Meta = {
       },
     },
     hideResetControl: {
-      description: "Hides the reset/re-centre control button.",
+      description: "Hides the reset view button (between zoom in & out).",
       control: "boolean",
       table: {
         category: "Basic",
+        type: { summary: "Boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    hideDeleteControl: {
+      description:
+        "Hides the delete all drawings button (bottom left, drawMode only).",
+      control: "boolean",
+      table: {
+        category: "Drawing",
         type: { summary: "Boolean" },
         defaultValue: { summary: "false" },
       },
@@ -436,7 +446,7 @@ export const DrawMode: Story = {
 
 /**
  * Load a polygon onto the drawing canvas with the ability to continue
- * modifying it. Click 'reset' to erase and draw fresh.
+ * modifying it. Click 'delete' to erase and draw fresh.
  */
 export const DrawModeWithInitialShape: Story = {
   name: "Drawing: load initial shape",

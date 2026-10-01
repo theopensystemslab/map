@@ -1,1 +1,1 @@
-Icons are sourced from [Font-GIS](https://viglino.github.io/font-gis/?fg=arrow-o) and [Carbon Design System](https://carbondesignsystem.com/guidelines/icons/library)
+Icons are sourced from [Font-GIS](https://viglino.github.io/font-gis/?fg=arrow-o), [Carbon Design System](https://carbondesignsystem.com/guidelines/icons/library) and [Material Icons](https://mui.com/material-ui/material-icons/) (Apache 2.0)
