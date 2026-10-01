@@ -429,8 +429,12 @@ export class MyMap extends LitElement {
 
     // Track whether a shape is part-way through being drawn
     let isSketching = false;
-    draw.on("drawstart", () => (isSketching = true));
-    draw.on(["drawend", "drawabort"], () => (isSketching = false));
+    draw.on("drawstart", () => {
+      isSketching = true;
+    });
+    draw.on(["drawend", "drawabort"], () => {
+      isSketching = false;
+    });
 
     const handleDelete = () => {
       if (isSketching) draw.abortDrawing();
@@ -643,11 +647,6 @@ export class MyMap extends LitElement {
       // Snap must be added after draw and modify
       map.addInteraction(snap);
 
-      // Track whether a polygon is part-way through being drawn
-      let isDrawing = false;
-      draw.on("drawstart", () => (isDrawing = true));
-      draw.on(["drawend", "drawabort"], () => (isDrawing = false));
-
       // Delete the point under the draw pointer, returning whether one was deleted
       const deletePointAtPixel = (pixel: number[]): boolean => {
         // Only delete when close enough to the point's centre for Modify to show the draw pointer
@@ -686,7 +685,7 @@ export class MyMap extends LitElement {
 
       // Right-click to undo the last vertex while drawing, or delete the point/vertex under the draw pointer
       map.getViewport().addEventListener("contextmenu", (event) => {
-        if (isDrawing) {
+        if (isSketching) {
           event.preventDefault();
           draw.removeLastPoint();
           return;
