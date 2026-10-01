@@ -4,6 +4,7 @@ import apply from "ol-mapbox-style";
 import { defaults as defaultControls, ScaleLine } from "ol/control";
 import { containsCoordinate, Extent } from "ol/extent";
 import { FeatureLike } from "ol/Feature";
+import { altKeyOnly } from "ol/events/condition";
 import { GeoJSON } from "ol/format";
 import { GeoJSONFeature, GeoJSONFeatureCollection } from "ol/format/GeoJSON";
 import { Geometry, Point } from "ol/geom";
@@ -34,6 +35,7 @@ import {
   drawingSource,
   DrawPointerEnum,
   DrawTypeEnum,
+  modifyPixelTolerance,
   snap,
 } from "./drawing";
 import pinIcon from "./icons/poi-alt.svg";
@@ -640,6 +642,71 @@ export class MyMap extends LitElement {
 
       // Snap must be added after draw and modify
       map.addInteraction(snap);
+
+      // Track whether a polygon is part-way through being drawn
+      let isDrawing = false;
+      draw.on("drawstart", () => (isDrawing = true));
+      draw.on(["drawend", "drawabort"], () => (isDrawing = false));
+
+      // Delete the point under the draw pointer, returning whether one was deleted
+      const deletePointAtPixel = (pixel: number[]): boolean => {
+        // Only delete when close enough to the point's centre for Modify to show the draw pointer
+        const feature = drawingSource.getClosestFeatureToCoordinate(
+          map.getCoordinateFromPixel(pixel),
+        );
+        const geom = feature?.getGeometry();
+        if (!feature || !(geom instanceof Point)) return false;
+        const pointPixel = map.getPixelFromCoordinate(geom.getCoordinates());
+        if (
+          Math.hypot(pointPixel[0] - pixel[0], pointPixel[1] - pixel[1]) >
+          modifyPixelTolerance
+        )
+          return false;
+
+        drawingSource.removeFeature(feature);
+
+        // Re-number remaining labels so the next drawn point doesn't duplicate an existing label
+        drawingSource
+          .getFeatures()
+          .forEach((sketch, i) => sketch.set("label", `${i + 1}`));
+
+        // The 'change' listener below only dispatches when features remain
+        if (drawingSource.getFeatures().length === 0) {
+          this.dispatch("geojsonChange", {});
+
+          // If limited to a single point, allow drawing again (snap must be added after draw)
+          if (!this.drawMany) {
+            map.removeInteraction(snap);
+            map.addInteraction(draw);
+            map.addInteraction(snap);
+          }
+        }
+        return true;
+      };
+
+      // Right-click to undo the last vertex while drawing, or delete the point/vertex under the draw pointer
+      map.getViewport().addEventListener("contextmenu", (event) => {
+        if (isDrawing) {
+          event.preventDefault();
+          draw.removeLastPoint();
+          return;
+        }
+
+        const pixel = map.getEventPixel(event);
+        const deleted =
+          this.drawType === "Point"
+            ? deletePointAtPixel(pixel)
+            : // Modify only removes a vertex within its pixelTolerance, and won't reduce a polygon below a triangle
+              modify.removePoint(map.getCoordinateFromPixel(pixel));
+        if (deleted) event.preventDefault();
+      });
+
+      // Alt-click (Option-click on Mac) to delete a point, matching Modify's built-in vertex deletion for polygons
+      if (this.drawType === "Point") {
+        map.on("singleclick", (event) => {
+          if (altKeyOnly(event)) deletePointAtPixel(event.pixel);
+        });
+      }
 
       // 'change' listens for 'drawend' and modifications
       drawingSource.on("change", () => {
