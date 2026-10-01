@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.16] - 2026-10-01
+
+### Added
+- feat: Right-click binding to delete point or polygon node ([#663](https://github.com/theopensystemslab/map/pull/663))
+
+### Changed
+- feat: Dedicated reset view, undo and delete drawing buttons ([#664](https://github.com/theopensystemslab/map/pull/664))
+- deps: Package updates via Dependabot
+
 ### [1.0.0-alpha.15] - 2026-08-24
 
 ### Fixed
