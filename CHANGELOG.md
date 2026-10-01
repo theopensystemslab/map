@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 The minor version will be incremented upon a breaking change and the patch version will be
 incremented for features.
 
+### [1.0.0-alpha.17] - 2026-10-01
+
+### Fixed
+- fix: Reconcile right-click delete with updated undo/delete controls ([#672](https://github.com/theopensystemslab/map/pull/672))
+
 ### [1.0.0-alpha.16] - 2026-10-01
 
 ### Added
