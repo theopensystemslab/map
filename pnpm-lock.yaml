@@ -50,8 +50,8 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0
       proj4:
-        specifier: ^2.21.0
-        version: 2.21.0
+        specifier: ^2.22.0
+        version: 2.22.0
       rambda:
         specifier: ^11.3.0
         version: 11.3.0
@@ -1616,8 +1616,8 @@ packages:
     resolution: {integrity: sha512-66hKPCr+72mlfiSjlEB1+45IjXSqvVAIy6mocupoww4tBFE9R9IhwwUGoI4G++Tc9Aq+2rxOt0RFU6gPcrte0A==}
     engines: {node: '>= 0.8'}
 
-  proj4@2.21.0:
-    resolution: {integrity: sha512-33HfDftqw8kY+Cl1dcL16SJuqTSzYxmz4re7Nmhk+fs1/N1fFrAkkF579msQTR/4fLeJVSNne8/gpoCz0fk1uw==}
+  proj4@2.22.0:
+    resolution: {integrity: sha512-MVvH09QrYm3A235rcX39WDiCKanrBiblu28l0KYIn/B2DofmYhvP/LLS43kE66jNDfx/P1l/nah3JmsAq8UgbQ==}
     peerDependencies:
       geotiff: '*'
     peerDependenciesMeta:
@@ -1943,8 +1943,8 @@ packages:
     engines: {node: '>=20.11'}
     hasBin: true
 
-  wkt-parser@1.5.6:
-    resolution: {integrity: sha512-cqHU3lzGt/gt2OqIORP0uVy5yeOX43WABmgFkmJsmcqH3HhQo9PiJG6ftytwGKmpQUbegeX7+pQc2BuNCRfcrw==}
+  wkt-parser@1.6.0:
+    resolution: {integrity: sha512-O2WMUagkdOKkgcfqZBUauysHVeifCwcs+zUd2QG7UIzVljLwK9g5xHUfL/TkQFwmQ3eF7oHFKGnMcb/kZdvbaw==}
 
   ws@8.22.0:
     resolution: {integrity: sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==}
@@ -3238,10 +3238,10 @@ snapshots:
 
   pretty-hrtime@1.0.3: {}
 
-  proj4@2.21.0:
+  proj4@2.22.0:
     dependencies:
       mgrs: 1.0.0
-      wkt-parser: 1.5.6
+      wkt-parser: 1.6.0
 
   protocol-buffers-schema@3.6.1: {}
 
@@ -3523,7 +3523,7 @@ snapshots:
 
   why-is-node-running@3.2.1: {}
 
-  wkt-parser@1.5.6: {}
+  wkt-parser@1.6.0: {}
 
   ws@8.22.0: {}
 
