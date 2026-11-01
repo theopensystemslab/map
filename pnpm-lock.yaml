@@ -29,8 +29,8 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5
       govuk-frontend:
-        specifier: ^6.5.0
-        version: 6.5.0
+        specifier: ^6.6.0
+        version: 6.6.0
       jspdf:
         specifier: ^4.2.1
         version: 4.2.1
@@ -1400,8 +1400,8 @@ packages:
     resolution: {integrity: sha512-wbVwOaQYuN+ywly5NoMXn37nHslwkQg5EFHqMeUTtjDACrSag0EEVlFsc+2DK3Pzmmp6XzJW2RTZOamPsBM6ng==}
     engines: {node: '>=10.19'}
 
-  govuk-frontend@6.5.0:
-    resolution: {integrity: sha512-yWZZCvv99Q0WzPC3+YszHk65Op1yowXpvbGGPi2bsoZiHKfwQGRxOoCaYBWTIOAiphp4QRTFgbGI3fpiFTfZww==}
+  govuk-frontend@6.6.0:
+    resolution: {integrity: sha512-xctkWrQvLnvQt7fyjQ3MGX9S0wz0x0RQuLxCeoXF+s8EjGICG81/DYQGKN5qgO+0KVT12UAaRwUsGY6fulRcRg==}
     engines: {node: '>= 4.2.0'}
 
   happy-dom@21.0.4:
@@ -1945,18 +1945,6 @@ packages:
 
   wkt-parser@1.5.6:
     resolution: {integrity: sha512-cqHU3lzGt/gt2OqIORP0uVy5yeOX43WABmgFkmJsmcqH3HhQo9PiJG6ftytwGKmpQUbegeX7+pQc2BuNCRfcrw==}
-
-  ws@8.21.3:
-    resolution: {integrity: sha512-201TZ/kPWxoPr/OKWjquZR1SWKXcvxdH+e1xrx89b3YbmzLMFCLfnaG1HFIgWzJOEWZ7MvpK++odZufgYR50Rw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
 
   ws@8.22.0:
     resolution: {integrity: sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==}
@@ -2991,7 +2979,7 @@ snapshots:
       xml-utils: 1.10.2
       zstddec: 0.2.0
 
-  govuk-frontend@6.5.0: {}
+  govuk-frontend@6.6.0: {}
 
   happy-dom@21.0.4:
     dependencies:
@@ -3536,8 +3524,6 @@ snapshots:
   why-is-node-running@3.2.1: {}
 
   wkt-parser@1.5.6: {}
-
-  ws@8.21.3: {}
 
   ws@8.22.0: {}
 
