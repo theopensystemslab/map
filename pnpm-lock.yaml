@@ -44,8 +44,8 @@ importers:
         specifier: ^4.0.38
         version: 4.0.38(ol@10.10.0)
       ol-mapbox-style:
-        specifier: ^13.4.3
-        version: 13.4.3(ol@10.10.0)
+        specifier: ^13.8.0
+        version: 13.8.0(ol@10.10.0)
       postcode:
         specifier: ^5.1.0
         version: 5.1.0
@@ -493,8 +493,8 @@ packages:
   '@mapbox/unitbezier@1.0.0':
     resolution: {integrity: sha512-fqd515fjBmANKGGsQ286E2Wvj/XvDFpGzwJxq4CI6jMQue6Oy04uCKp+JWKF00xRTmk6cEu1jPJ9p3xqH8YWqQ==}
 
-  '@maplibre/maplibre-gl-style-spec@26.4.1':
-    resolution: {integrity: sha512-I/qcIKVFHFSg1Meu/eqHrkSTjIez0gCsSaK56TNPutM3TkE61aSq6F1cZ4Kg4KiNs3cpViLtubDjfyRcQCdEJQ==}
+  '@maplibre/maplibre-gl-style-spec@26.5.0':
+    resolution: {integrity: sha512-Tli0Mi9rF3117uVFkqsysXu9TPLx3AODPmWklUjbDhR4jJ849vGT5/EqWM3dBjIQgU6xxj5SZQ9ONjibqjEP+Q==}
     hasBin: true
 
   '@mdx-js/react@3.1.1':
@@ -1499,8 +1499,8 @@ packages:
   magic-string@1.4.3:
     resolution: {integrity: sha512-z12OxmaPGE0F4xlpGdjuAUckipLpQlTAuAmyGhNoD7ODpYUzvDfvtxUbjM/jwznyP178oju/KDdyi220wNJ0RQ==}
 
-  mapbox-to-css-font@3.2.0:
-    resolution: {integrity: sha512-kvsEfzvLik34BiFj+S19bv5d70l9qSdkUzrq99dvZ9d5POaLyB4vJMQmq3BoJ5D6lFG1GYnMM7o7cm5Jh8YEEg==}
+  mapbox-to-css-font@3.3.0:
+    resolution: {integrity: sha512-ZZBIPdxHF2Lte55vK/I0cR6mpMKeNHeFuVv07gqBuXmVqUtWHPThQuqR0eRhpLKO76Xt/r9ytanvSRIS/GmyAA==}
 
   merge-source-map@1.0.4:
     resolution: {integrity: sha512-PGSmS0kfnTnMJCzJ16BLLCEe6oeYCamKFFdQKshi4BmM6FUwipjVOcBFGxqtQtirtAG4iZvHlqST9CpZKqlRjA==}
@@ -1546,8 +1546,8 @@ packages:
     peerDependencies:
       ol: '>= 5.3.0'
 
-  ol-mapbox-style@13.4.3:
-    resolution: {integrity: sha512-fqoYg2AncNlLwtR2cj86WqsKOtYEyNsJg+jqC6TkrBEc8Mi9elOkdyU7X60ZDv4AohhwuH29UKkegIYZLM6qOQ==}
+  ol-mapbox-style@13.8.0:
+    resolution: {integrity: sha512-Nanc5OvMnK4SgGPISMkmZ99EKP4OeGVMpP/kkqCmVirD67yeBnQXvDbXAhh1pRB4Ww3DlwagSyoj4viwr5PYUg==}
     peerDependencies:
       ol: '*'
 
@@ -1946,18 +1946,6 @@ packages:
   wkt-parser@1.5.6:
     resolution: {integrity: sha512-cqHU3lzGt/gt2OqIORP0uVy5yeOX43WABmgFkmJsmcqH3HhQo9PiJG6ftytwGKmpQUbegeX7+pQc2BuNCRfcrw==}
 
-  ws@8.21.3:
-    resolution: {integrity: sha512-201TZ/kPWxoPr/OKWjquZR1SWKXcvxdH+e1xrx89b3YbmzLMFCLfnaG1HFIgWzJOEWZ7MvpK++odZufgYR50Rw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.22.0:
     resolution: {integrity: sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==}
     engines: {node: '>=10.0.0'}
@@ -2225,7 +2213,7 @@ snapshots:
 
   '@mapbox/unitbezier@1.0.0': {}
 
-  '@maplibre/maplibre-gl-style-spec@26.4.1':
+  '@maplibre/maplibre-gl-style-spec@26.5.0':
     dependencies:
       '@mapbox/jsonlint-lines-primitives': 2.0.3
       '@mapbox/unitbezier': 1.0.0
@@ -3099,7 +3087,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  mapbox-to-css-font@3.2.0: {}
+  mapbox-to-css-font@3.3.0: {}
 
   merge-source-map@1.0.4:
     dependencies:
@@ -3139,10 +3127,10 @@ snapshots:
     dependencies:
       ol: 10.10.0
 
-  ol-mapbox-style@13.4.3(ol@10.10.0):
+  ol-mapbox-style@13.8.0(ol@10.10.0):
     dependencies:
-      '@maplibre/maplibre-gl-style-spec': 26.4.1
-      mapbox-to-css-font: 3.2.0
+      '@maplibre/maplibre-gl-style-spec': 26.5.0
+      mapbox-to-css-font: 3.3.0
       ol: 10.10.0
 
   ol@10.10.0:
@@ -3536,8 +3524,6 @@ snapshots:
   why-is-node-running@3.2.1: {}
 
   wkt-parser@1.5.6: {}
-
-  ws@8.21.3: {}
 
   ws@8.22.0: {}
 
